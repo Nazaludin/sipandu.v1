@@ -29,7 +29,33 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+// $routes->get('/', 'Home::index');
+$routes->addRedirect('/', 'profil');
+// $routes->addRedirect('/', 'login');
+$routes->get('/profil', 'Pages::index');
+// $routes->get('/login', 'Pages::login');
+// $routes->group('login', static function ($routes) {
+//     $routes->post('proses',  'Pages::loginProses');
+// });
+// $routes->get('/logout', 'Pages::logout');
+// $routes->get('/registrasi', 'Pages::registrasi');
+// $routes->group('registrasi', static function ($routes) {
+//     $routes->post('proses',  'Pages::registrasiProses');
+// });
+$routes->group('service', static function ($routes) {
+    $routes->get('provinsi',  'Pages::dataProvinsi');
+    $routes->get('kabupaten/(:num)',  'Pages::dataKabupaten/$1');
+    $routes->get('kecamatan/(:segment)',  'Pages::dataKecamatan/$1');
+});
+$routes->group('profil', static function ($routes) {
+    $routes->group('upload', static function ($routes) {
+        $routes->post('foto',  'Pages::uploadFotoProfil');
+    });
+    $routes->post('update',  'Pages::updateUser');
+});
+$routes->group('pelatihan', static function ($routes) {
+    $routes->get('berlangsung', 'Pages::pelatihanBerlangsung');
+});
 
 /*
  * --------------------------------------------------------------------
