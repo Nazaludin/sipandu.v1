@@ -1,0 +1,5 @@
+
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/projec33/bapelkes.sipanduv1.project.ldp.net.id/
