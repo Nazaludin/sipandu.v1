@@ -2,4 +2,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/projec33/bapelkes.sipanduv1.project.ldp.net.id/
+    - export DEPLOYPATH=/home/projec33/public_html
+    - /bin/cp -R * $DEPLOYPATH
