@@ -39,13 +39,17 @@
                     <div class="card-body mt-4">
                         <!-- Comment Row -->
                         <div class="row px-3">
-                            <img src="<?php echo isset($data->lokasi_foto) ? base_url($data->lokasi_foto) : '../../assets/images/users/default-profil.png' ?>" class="img-fluid mb-4">
+                            <img src="<?php echo isset($data->lokasi_foto) ? base_url($data->lokasi_foto) : '../../assets/images/users/default-profil.png' ?>" class="img-fluid mb-4 mx-auto" style="width: 300px; height: 400px; object-fit: cover;">
                             <style>
                                 .card-photo {
                                     max-width: 200px;
                                     height: auto;
                                     /* margin-: auto; */
 
+                                }
+
+                                .card-round {
+                                    border-radius: 10px;
                                 }
                             </style>
                             <div class="">
@@ -63,7 +67,7 @@
                 </div>
             </div>
             <div class="col-lg-8">
-                <div class="card">
+                <div class="card card-round">
                     <div class="card-body">
                         <!-- TAB -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">

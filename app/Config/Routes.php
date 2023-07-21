@@ -30,7 +30,7 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 // $routes->get('/', 'Home::index');
-$routes->addRedirect('/', 'profil');
+// $routes->addRedirect('/', 'profil');
 // $routes->addRedirect('/', 'login');
 $routes->get('/profil', 'Pages::index');
 // $routes->get('/login', 'Pages::login');
@@ -55,6 +55,14 @@ $routes->group('profil', static function ($routes) {
 });
 $routes->group('pelatihan', static function ($routes) {
     $routes->get('berlangsung', 'Pages::pelatihanBerlangsung');
+    $routes->get('agenda', 'Pages::pelatihanAgenda');
+    $routes->group('agenda', static function ($routes) {
+        $routes->post('detail', 'Pages::detailAgendaProses');
+        // $routes->group('detail', static function ($routes) {
+        //     $routes->post('proses', 'Pages::detailAgendaProses');
+        // });
+    });
+    $routes->get('riwayat', 'Pages::pelatihanRiwayat');
 });
 
 /*

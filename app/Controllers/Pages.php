@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 // use App\Models\UsersModel;
+use CodeIgniter\I18n\Time;
 use Myth\Auth\Models\UserModel;
 use stdClass;
 
@@ -31,16 +32,122 @@ class Pages extends BaseController
             . view('profil/index')
             . view('layout/footer');
     }
+    public function pelatihanRiwayat()
+    {
+        $pengguna = session()->get('logged_in');
+        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
+        $dump = explode(" ", $data['data']->tanggal_lahir);
+        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        $client = \Config\Services::curlrequest();
+        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json');
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($response->getBody());
+        }
+        $data['pelatihan'] = json_encode($body);
+        // dd($data);
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/riwayat/index')
+            . view('layout/footer');
+    }
     public function pelatihanBerlangsung()
     {
         $pengguna = session()->get('logged_in');
         $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        $client = \Config\Services::curlrequest();
+        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json');
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($response->getBody());
+        }
+        $data['pelatihan'] = json_encode($body);
+        // dd($data);
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
-            . view('pelatihan_berlangsung/index')
+            . view('pelatihan/berlangsung/index')
+            . view('layout/footer');
+    }
+    public function pelatihanAgenda()
+    {
+        $pengguna = session()->get('logged_in');
+        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
+        $dump = explode(" ", $data['data']->tanggal_lahir);
+        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        $client = \Config\Services::curlrequest();
+        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json');
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($response->getBody());
+        }
+        $pelatihan = [];
+        $i = 0;
+
+        $now = new Time('now', 'Asia/Jakarta');
+        $year = Time::createFromFormat('j-M-Y', '15-Feb-' . $now->getYear(), 'Asia/Jakarta');
+        foreach ($body->courses as $key => $value) {
+            if ($year->getTimestamp() <= $value->enddate) {
+                $value->startdatetime = date('d-m-Y', $value->startdate);
+                $value->enddatetime = date('d-m-Y', $value->enddate);
+                $pelatihan['courses'][$i] = $value;
+                $i++;
+            }
+            // d($pelatihan[$i]);
+        }
+        // dd($pelatihan);
+        $data['pelatihan'] = json_encode($pelatihan);
+
+        // dd($data);
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/agenda/index')
+            . view('layout/footer');
+    }
+    public function detailAgendaProses()
+    {
+        $pengguna = session()->get('logged_in');
+        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
+        $dump = explode(" ", $data['data']->tanggal_lahir);
+        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        $client = \Config\Services::curlrequest();
+
+        $id_pelatihan = $this->request->getPost('id_pelatihan');
+        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . '&moodlewsrestformat=json');
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($response->getBody());
+        }
+
+        $now = new Time('now', 'Asia/Jakarta');
+        $year = Time::createFromFormat('j-M-Y', '15-Feb-' . $now->getYear(), 'Asia/Jakarta');
+        $body->courses[0]->startdatetime = date('d-m-Y', $body->courses[0]->startdate);
+        $body->courses[0]->enddatetime = date('d-m-Y', $body->courses[0]->enddate);
+
+
+        $pelatihan['courses'] = $body->courses[0];
+
+        $data['pelatihan'] = json_encode($pelatihan);
+
+        // dd($data);
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/agenda/detail')
+            . view('layout/footer');
+        // return redirect()->to(base_url('pelatihan/agenda/detail'))->with('data', $data);
+    }
+    public function detailAgenda($data)
+    {
+
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/agenda/detail')
             . view('layout/footer');
     }
     public function login()
