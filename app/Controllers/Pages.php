@@ -2,30 +2,54 @@
 
 namespace App\Controllers;
 
-// use App\Models\UsersModel;
 use CodeIgniter\I18n\Time;
 use Myth\Auth\Models\UserModel;
+use \App\Models\CourseModel;
 use stdClass;
 
 class Pages extends BaseController
 {
     protected $UsersModel;
+    protected $CourseModel;
     protected $apiKey = 'TczH6QUUVuXOoZKT2qoJ6JHfctAkD8';
     protected $apiURL = 'https://api.goapi.id/v1/regional/';
 
     public function __construct()
     {
         $this->UsersModel  = new UserModel();
+        $this->CourseModel  = new CourseModel();
+    }
+
+    public function toLocalTime($timestamp)
+    {
+        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
+        $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $tgl = $time->toLocalizedString('dd --- yyyy');
+        $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
+        return $tgl_formatted;
+    }
+    public function controlAPI($URL, $method = 'GET')
+    {
+        $body = [];
+        $client = \Config\Services::curlrequest();
+        $response = $client->request($method, $URL);
+        if (strpos($response->header('content-type'), 'application/json') !== false) {
+            $body = json_decode($response->getBody());
+        }
+        return $body;
+    }
+    public function moodleUrlAPI($function)
+    {
+        $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7' . $function . '&moodlewsrestformat=json';
+        return $url;
     }
 
     public function index()
     {
-        d($_SESSION);
         $pengguna = session()->get('logged_in');
         $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
-        d($data);
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
@@ -39,13 +63,19 @@ class Pages extends BaseController
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
 
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json');
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody());
+        $pelatihan = [];
+        $i = 0;
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+        foreach ($dataPelatihan->courses as $key => $value) {
+            $value->startdatetime = $this->toLocalTime($value->startdate);
+            $value->enddatetime = $this->toLocalTime($value->enddate);
+            $pelatihan['courses'][$i] = $value;
+            $i++;
         }
-        $data['pelatihan'] = json_encode($body);
-        // dd($data);
+
+        $data['pelatihan'] = json_encode($dataPelatihan);
+
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
@@ -59,19 +89,121 @@ class Pages extends BaseController
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
 
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json');
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody());
-        }
-        $data['pelatihan'] = json_encode($body);
-        // dd($data);
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+        $data['pelatihan'] = json_encode($dataPelatihan);
+
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
             . view('pelatihan/berlangsung/index')
             . view('layout/footer');
     }
+    public function pelatihanKelola()
+    {
+        $pengguna = session()->get('logged_in');
+        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
+        $dump = explode(" ", $data['data']->tanggal_lahir);
+        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+
+        $pelatihan = [];
+        $i = 0;
+
+        $now = new Time('now', 'Asia/Jakarta');
+        // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
+        foreach ($dataPelatihan->courses as $key => $value) {
+            if ($now->getTimestamp() < $value->startdate) {
+                $value->startdatetime = $this->toLocalTime($value->startdate);
+                $value->enddatetime = $this->toLocalTime($value->enddate);
+                $pelatihan['courses'][$i] = $value;
+                $i++;
+            }
+        }
+        $data['pelatihan'] = json_encode($pelatihan);
+
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/kelola/index')
+            . view('layout/footer');
+    }
+    public function detailKelolaProses($id_pelatihan)
+    {
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
+
+        $dataPelatihan->courses[0]->startdatetime = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
+        $dataPelatihan->courses[0]->enddatetime = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
+
+        $pelatihan['courses'] = $dataPelatihan->courses[0];
+        $data['pelatihan'] = json_encode($pelatihan);
+
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/kelola/detail')
+            . view('layout/footer');
+    }
+    public function detailKelolaEdit($id_pelatihan)
+    {
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
+
+        $courseLocal =  $this->CourseModel->find($id_pelatihan);
+
+        $dataPelatihan->courses[0]->batch                   = $courseLocal['condition'] ?? '';
+        $dataPelatihan->courses[0]->start_registration      = $courseLocal['start_registration'] ?? '';
+        $dataPelatihan->courses[0]->batend_registrationch   = $courseLocal['end_registration'] ?? '';
+        $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
+        $dataPelatihan->courses[0]->batch                   = $courseLocal['batch'] ?? '';
+        $dataPelatihan->courses[0]->quota                   = $courseLocal['quota'] ?? '';
+        $dataPelatihan->courses[0]->place                   = $courseLocal['place'] ?? '';
+        $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
+        $dataPelatihan->courses[0]->schedule_file           = $courseLocal['schedule_file'] ?? '';
+        $dataPelatihan->courses[0]->startdatetime           = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
+        $dataPelatihan->courses[0]->enddatetime             = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
+
+        $pelatihan['courses']   = $dataPelatihan->courses[0];
+        $data['pelatihan']      = json_encode($pelatihan);
+
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/kelola/edit')
+            . view('layout/footer');
+    }
+    public function detailKelolaEditProses()
+    {
+        $pengguna = session()->get('logged_in');
+        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
+        $dump = explode(" ", $data['data']->tanggal_lahir);
+        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        $data =   $id_pelatihan = $this->request->getPost();
+        // if (isset($id_pelatihan)) {
+        // $id_pelatihan = $this->request->getPost('id_pelatihan') ?? null;
+        session()->set(['id_pelatihan' => $id_pelatihan]);
+        // }
+
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
+
+        $dataPelatihan->courses[0]->startdatetime = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
+        $dataPelatihan->courses[0]->enddatetime = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
+
+        $pelatihan['courses'] = $dataPelatihan->courses[0];
+        $data['pelatihan'] = json_encode($pelatihan);
+
+        return view('layout/header', $data)
+            . view('layout/navbar')
+            . view('layout/sidebar')
+            . view('pelatihan/kelola/detail')
+            . view('layout/footer');
+    }
+
     public function pelatihanAgenda()
     {
         $pengguna = session()->get('logged_in');
@@ -79,77 +211,69 @@ class Pages extends BaseController
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
 
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json');
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody());
-        }
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+
         $pelatihan = [];
         $i = 0;
 
         $now = new Time('now', 'Asia/Jakarta');
-        $year = Time::createFromFormat('j-M-Y', '15-Feb-' . $now->getYear(), 'Asia/Jakarta');
-        foreach ($body->courses as $key => $value) {
-            if ($year->getTimestamp() <= $value->enddate) {
-                $value->startdatetime = date('d-m-Y', $value->startdate);
-                $value->enddatetime = date('d-m-Y', $value->enddate);
+
+        // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
+        foreach ($dataPelatihan->courses as $key => $value) {
+            $courseLocal = $this->CourseModel->find($value->id);
+            // if (isset($courseLocal)) {
+            $value->batch = $courseLocal['condition'] ?? '';
+            $value->start_registration = $courseLocal['start_registration'] ?? '';
+            $value->batend_registrationch = $courseLocal['end_registration'] ?? '';
+            $value->target_participant = $courseLocal['target_participant'] ?? '';
+            $value->batch = $courseLocal['batch'] ?? '';
+            $value->quota = $courseLocal['quota'] ?? '';
+            $value->place = $courseLocal['place'] ?? '';
+            $value->contact_person = $courseLocal['contact_person'] ?? '';
+            $value->schedule_file = $courseLocal['schedule_file'] ?? '';
+            // }
+            if ($now->getTimestamp() < $value->startdate) {
+                $value->startdatetime = $this->toLocalTime($value->startdate);
+                $value->enddatetime = $this->toLocalTime($value->enddate);
                 $pelatihan['courses'][$i] = $value;
                 $i++;
             }
-            // d($pelatihan[$i]);
         }
         // dd($pelatihan);
         $data['pelatihan'] = json_encode($pelatihan);
 
-        // dd($data);
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
             . view('pelatihan/agenda/index')
             . view('layout/footer');
     }
+
     public function detailAgendaProses()
     {
         $pengguna = session()->get('logged_in');
         $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
-
-        $client = \Config\Services::curlrequest();
-
         $id_pelatihan = $this->request->getPost('id_pelatihan');
-        $response = $client->request('GET', 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . '&moodlewsrestformat=json');
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody());
-        }
 
-        $now = new Time('now', 'Asia/Jakarta');
-        $year = Time::createFromFormat('j-M-Y', '15-Feb-' . $now->getYear(), 'Asia/Jakarta');
-        $body->courses[0]->startdatetime = date('d-m-Y', $body->courses[0]->startdate);
-        $body->courses[0]->enddatetime = date('d-m-Y', $body->courses[0]->enddate);
+        // Data Pelatihan API
+        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
 
+        $dataPelatihan->courses[0]->startdatetime = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
+        $dataPelatihan->courses[0]->enddatetime = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
 
-        $pelatihan['courses'] = $body->courses[0];
-
+        $pelatihan['courses'] = $dataPelatihan->courses[0];
         $data['pelatihan'] = json_encode($pelatihan);
 
-        // dd($data);
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
             . view('pelatihan/agenda/detail')
             . view('layout/footer');
-        // return redirect()->to(base_url('pelatihan/agenda/detail'))->with('data', $data);
     }
-    public function detailAgenda($data)
-    {
 
-        return view('layout/header', $data)
-            . view('layout/navbar')
-            . view('layout/sidebar')
-            . view('pelatihan/agenda/detail')
-            . view('layout/footer');
-    }
     public function login()
     {
         return view('login');

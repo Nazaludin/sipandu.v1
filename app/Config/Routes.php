@@ -62,6 +62,14 @@ $routes->group('pelatihan', static function ($routes) {
         //     $routes->post('proses', 'Pages::detailAgendaProses');
         // });
     });
+    $routes->get('kelola', 'Pages::pelatihanKelola');
+    $routes->group('kelola', static function ($routes) {
+        // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
+        $routes->get('detail/(:num)',  'Pages::detailKelolaProses/$1');
+        $routes->group('detail', static function ($routes) {
+            $routes->get('edit/(:num)',  'Pages::detailKelolaProses/$1');
+        });
+    });
     $routes->get('riwayat', 'Pages::pelatihanRiwayat');
 });
 

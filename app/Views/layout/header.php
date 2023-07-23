@@ -10,12 +10,13 @@
     <meta name="description" content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>Sipandu</title>
+    <base href="<?= base_url(); ?>">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png'); ?>">
     <!-- Custom CSS -->
-    <link href="../../assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <link href="<?= base_url('assets/libs/flot/css/float-chart.css'); ?>" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="../../dist/css/style.min.css" rel="stylesheet">
+    <link href="<?= base_url('dist/css/style.min.css'); ?>" rel="stylesheet">
     <!-- icon -->
     <script src="https://unpkg.com/feather-icons"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

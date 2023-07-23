@@ -40,10 +40,10 @@
                         <h4 class="card-title mt-4">Detail Pelatihan</h4>
                         <div class="row px-3">
                             <div class="col-6">
-                                <a href="<?= base_url('http://localhost:8080/pelatihan/agenda'); ?>" class="btn btn-outline-primary">Back</a>
+                                <a href="<?= base_url('http://localhost:8080/pelatihan/kelola'); ?>" class="btn btn-outline-primary">Back</a>
                             </div>
                             <div class="col-6">
-                                <a href="<?= base_url('http://localhost:8080/pelatihan/agenda'); ?>" class="btn btn-outline-primary">Edit</a>
+                                <a href="<?= base_url('http://localhost:8080/pelatihan/kelola/detail/' . json_decode($pelatihan)->courses->id . '/edit'); ?>" class="btn btn-outline-primary">Edit</a>
                             </div>
                         </div>
                         <!-- Comment Row -->

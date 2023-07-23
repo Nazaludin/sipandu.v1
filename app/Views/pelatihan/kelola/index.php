@@ -9,7 +9,7 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Agenda Pelatihan</h4>
+                <h4 class="page-title">Kelola Pelatihan</h4>
                 <div class="ms-auto text-end">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -63,11 +63,7 @@
                                         <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
                                         <td></td>
                                         <td></td>
-                                        <form action="<?= base_url('pelatihan/agenda/detail'); ?>" method="post">
-                                            <?= csrf_field() ?>
-                                            <input type="hidden" name="id_pelatihan" value="<?= $value->id; ?>">
-                                            <td><button class="btn btn-outline-primary"><i data-feather="info"></button></td>
-                                        </form>
+                                        <td><a href="<?= base_url('pelatihan/kelola/detail/' . $value->id); ?>" class="btn btn-outline-primary"><i data-feather="info"></a></td>
                                     </tr>
                                 <?php } ?>
 

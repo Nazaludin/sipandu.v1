@@ -55,9 +55,8 @@
 
                                     <tr>
                                         <th scope="row"><?= $key + 1; ?></th>
-                                        <td> Berlangsung</td>
-                                        <td><?= $value->fullname; ?></td>
-                                        <td><?= $value->categoryname; ?> / <?= $value->fullname; ?></td>
+                                        <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
+                                        <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
                                     </tr>
                                 <?php } ?>
 
