@@ -38,13 +38,11 @@
                 <div class="card card-round">
                     <div class="card-body">
                         <h4 class="card-title mt-4">Detail Pelatihan</h4>
-                        <div class="row px-3">
+                        <div class="row px-3 justify-content-between">
                             <div class="col-6">
-                                <a href="<?= base_url('http://localhost:8080/pelatihan/agenda'); ?>" class="btn btn-outline-primary">Back</a>
+                                <a href="<?= base_url('pelatihan/agenda'); ?>" class="btn btn-outline-primary">Back</a>
                             </div>
-                            <div class="col-6">
-                                <a href="<?= base_url('http://localhost:8080/pelatihan/agenda'); ?>" class="btn btn-outline-primary">Edit</a>
-                            </div>
+
                         </div>
                         <!-- Comment Row -->
                         <div class="row px-3">
@@ -62,10 +60,9 @@
                                         <tr class="row">
                                             <td class="col-2">Nama Pelatihan</td>
                                             <td class="col-10">: <?= json_decode($pelatihan)->courses->fullname; ?></td>
-                                        </tr>
                                         <tr class="row">
                                             <td class="col-2">Gelombang/batch</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Periode Pelatihan</td>
@@ -73,23 +70,23 @@
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Periode Pendaftaran</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Sasaran Pelatihan</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->target_participant; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Tempat Penyelenggaraan</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->place; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Kuota</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->quota; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Kontak Person</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->contact_person; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Lampiran Jadwal</td>
@@ -154,7 +151,16 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="row px-3 justify-content-end">
+
+                                <div class="col-1">
+                                    <a href="<?= base_url('pelatihan/agenda'); ?>" class="btn btn-outline-primary">Daftar Pelatihan</a>
+                                </div>
+
+                            </div>
                         </div>
+
                         <!-- END tab pane ringkasan -->
 
                     </div>

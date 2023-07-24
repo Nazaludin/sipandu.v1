@@ -40,7 +40,7 @@
                         <h4 class="card-title mt-4">Edit Pelatihan</h4>
                         <div class="row px-3">
                             <div class="col-12">
-                                <a href="<?= base_url('pelatihan/kelola'); ?>" class="btn btn-outline-primary">Back</a>
+                                <a href="<?= base_url('pelatihan/kelola/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Back</a>
                             </div>
                         </div>
                         <!-- Comment Row -->
@@ -83,7 +83,7 @@
                                     <div class="row mb-3">
                                         <div class="col-3">
                                             <label for="floatingInputStartCourse">Mulai Pelatihan</label>
-                                            <input type="date" class="form-control form-control-sm" id="floatingInputStartCourse" name="startdate" value="<?= json_decode($pelatihan)->courses->startdate; ?>" required autofocus>
+                                            <input type="date" class="form-control form-control-sm" id="floatingInputStartCourse" name="startdate" value="<?= json_decode($pelatihan)->courses->startdatetime; ?>" required autofocus>
                                         </div>
                                         <div class="col-3">
                                             <label for="floatingInputEndCourse">Akhir Pelatihan</label>

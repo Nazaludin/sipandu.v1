@@ -9,7 +9,7 @@ class CourseModel extends Model
     protected $DBGroup          = 'default';
     protected $table            = 'course';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
@@ -38,4 +38,16 @@ class CourseModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function dataInsert(array $data)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('users');
+
+        if ($builder->insert($data)) {
+            return $db->insertID();
+        } else {
+            return FALSE;
+        }
+    }
 }
