@@ -43,7 +43,7 @@
                                 <a href="<?= base_url('http://localhost:8080/pelatihan/kelola'); ?>" class="btn btn-outline-primary">Back</a>
                             </div>
                             <div class="col-6">
-                                <a href="<?= base_url('http://localhost:8080/pelatihan/kelola/detail/' . json_decode($pelatihan)->courses->id . '/edit'); ?>" class="btn btn-outline-primary">Edit</a>
+                                <a href="<?= base_url('http://localhost:8080/pelatihan/kelola/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Edit</a>
                             </div>
                         </div>
                         <!-- Comment Row -->
@@ -53,7 +53,7 @@
                                     <tbody>
                                         <tr class="row">
                                             <td class="col-2">Tahun Pelaksanaan</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->year; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Jenis Pelatihan</td>
@@ -65,7 +65,7 @@
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Gelombang/batch</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Periode Pelatihan</td>
@@ -73,23 +73,23 @@
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Periode Pendaftaran</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Sasaran Pelatihan</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->target_participant; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Tempat Penyelenggaraan</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->place; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Kuota</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->quota; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Kontak Person</td>
-                                            <td class="col-10">: </td>
+                                            <td class="col-10">: <?= json_decode($pelatihan)->courses->contact_person; ?></td>
                                         </tr>
                                         <tr class="row">
                                             <td class="col-2">Lampiran Jadwal</td>

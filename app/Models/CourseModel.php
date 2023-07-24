@@ -13,7 +13,7 @@ class CourseModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id', 'condition', 'start_registration', 'end_registration', 'target_participant', 'batch', 'quota', 'contact_person', 'schedule_file'];
 
     // Dates
     protected $useTimestamps = false;

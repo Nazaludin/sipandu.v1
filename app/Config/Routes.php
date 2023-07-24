@@ -65,9 +65,12 @@ $routes->group('pelatihan', static function ($routes) {
     $routes->get('kelola', 'Pages::pelatihanKelola');
     $routes->group('kelola', static function ($routes) {
         // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
-        $routes->get('detail/(:num)',  'Pages::detailKelolaProses/$1');
+        $routes->get('detail/(:num)',  'Pages::detailKelola/$1');
         $routes->group('detail', static function ($routes) {
-            $routes->get('edit/(:num)',  'Pages::detailKelolaProses/$1');
+            $routes->get('edit/(:num)',  'Pages::detailKelolaEdit/$1');
+            $routes->group('edit', static function ($routes) {
+                $routes->post('proses/(:num)',  'Pages::detailKelolaEditProses/$1');
+            });
         });
     });
     $routes->get('riwayat', 'Pages::pelatihanRiwayat');

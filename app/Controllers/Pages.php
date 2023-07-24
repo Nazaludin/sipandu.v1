@@ -28,6 +28,35 @@ class Pages extends BaseController
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
         return $tgl_formatted;
     }
+    public function dateToLocalTime($date)
+    {
+        $time = Time::parse($date, 'Asia/Jakarta');
+        $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $tgl = $time->toLocalizedString('dd --- yyyy');
+        $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
+        return $tgl_formatted;
+    }
+    public function convertCondition($condition)
+    {
+        $result = '';
+        switch (true) {
+            case $condition == 'coming':
+                $result = 'Pendaftaran Belum Aktif';
+                break;
+            case $condition == 'going':
+                $result = 'Pendaftaran Aktif';
+                break;
+            case $condition == 'passed':
+                $result = 'Pendaftaran Telah Berakhir';
+                break;
+
+            default:
+                $result = '';
+                break;
+        }
+        return $result;
+    }
+
     public function controlAPI($URL, $method = 'GET')
     {
         $body = [];
@@ -101,42 +130,59 @@ class Pages extends BaseController
     }
     public function pelatihanKelola()
     {
-        $pengguna = session()->get('logged_in');
-        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
-        $dump = explode(" ", $data['data']->tanggal_lahir);
-        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
-
         // Data Pelatihan API
         $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
 
         $pelatihan = [];
         $i = 0;
 
-        $now = new Time('now', 'Asia/Jakarta');
-        // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
+        // $now = new Time('now', 'Asia/Jakarta');
+        $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
         foreach ($dataPelatihan->courses as $key => $value) {
             if ($now->getTimestamp() < $value->startdate) {
-                $value->startdatetime = $this->toLocalTime($value->startdate);
-                $value->enddatetime = $this->toLocalTime($value->enddate);
+                $value->startdatetime   = $this->toLocalTime($value->startdate);
+                $value->enddatetime     = $this->toLocalTime($value->enddate);
+
+                $courseLocal =  $this->CourseModel->find($value->id);
+                $value->condition           = isset($courseLocal['condition']) ? $this->convertCondition($courseLocal['condition']) : '';
+                $value->start_registration  = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
+                $value->end_registration    = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) : '';
+                $value->batch               = $courseLocal['batch'] ?? '';
+                $value->quota               = $courseLocal['quota'] ?? '';
+
                 $pelatihan['courses'][$i] = $value;
                 $i++;
             }
         }
-        $data['pelatihan'] = json_encode($pelatihan);
 
+        $data['pelatihan'] = json_encode($pelatihan);
+        // dd($data);
         return view('layout/header', $data)
             . view('layout/navbar')
             . view('layout/sidebar')
             . view('pelatihan/kelola/index')
             . view('layout/footer');
     }
-    public function detailKelolaProses($id_pelatihan)
+    public function detailKelola($id_pelatihan)
     {
         // Data Pelatihan API
         $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
 
-        $dataPelatihan->courses[0]->startdatetime = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
-        $dataPelatihan->courses[0]->enddatetime = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
+        $dataPelatihan->courses[0]->startdatetime           = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
+        $dataPelatihan->courses[0]->enddatetime             = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
+
+        $courseLocal =  $this->CourseModel->find($id_pelatihan);
+
+        $dataPelatihan->courses[0]->condition               = $courseLocal['condition'] ?? '';
+        $dataPelatihan->courses[0]->start_registration      = $this->dateToLocalTime($courseLocal['start_registration']) ?? '';
+        $dataPelatihan->courses[0]->end_registration        = $this->dateToLocalTime($courseLocal['end_registration']) ?? '';
+        $dataPelatihan->courses[0]->year                    = Time::parse($courseLocal['end_registration'], 'Asia/Jakarta')->getYear() ?? '';
+        $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
+        $dataPelatihan->courses[0]->batch                   = $courseLocal['batch'] ?? '';
+        $dataPelatihan->courses[0]->quota                   = $courseLocal['quota'] ?? '';
+        $dataPelatihan->courses[0]->place                   = $courseLocal['place'] ?? '';
+        $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
+        $dataPelatihan->courses[0]->schedule_file           = $courseLocal['schedule_file'] ?? '';
 
         $pelatihan['courses'] = $dataPelatihan->courses[0];
         $data['pelatihan'] = json_encode($pelatihan);
@@ -156,7 +202,7 @@ class Pages extends BaseController
 
         $dataPelatihan->courses[0]->batch                   = $courseLocal['condition'] ?? '';
         $dataPelatihan->courses[0]->start_registration      = $courseLocal['start_registration'] ?? '';
-        $dataPelatihan->courses[0]->batend_registrationch   = $courseLocal['end_registration'] ?? '';
+        $dataPelatihan->courses[0]->end_registration        = $courseLocal['end_registration'] ?? '';
         $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
         $dataPelatihan->courses[0]->batch                   = $courseLocal['batch'] ?? '';
         $dataPelatihan->courses[0]->quota                   = $courseLocal['quota'] ?? '';
@@ -175,33 +221,36 @@ class Pages extends BaseController
             . view('pelatihan/kelola/edit')
             . view('layout/footer');
     }
-    public function detailKelolaEditProses()
+    public function toDateFormat($tgl)
     {
-        $pengguna = session()->get('logged_in');
-        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
-        $dump = explode(" ", $data['data']->tanggal_lahir);
-        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+        return Time::parse($tgl, 'Asia/Jakarta');
+    }
+    public function detailKelolaEditProses($id_pelatihan)
+    {
 
-        $data =   $id_pelatihan = $this->request->getPost();
-        // if (isset($id_pelatihan)) {
-        // $id_pelatihan = $this->request->getPost('id_pelatihan') ?? null;
-        session()->set(['id_pelatihan' => $id_pelatihan]);
-        // }
+        $data =  $this->request->getPost();
+        $tgl = $this->request->getPost('startdate');
+        $now = Time::parse($data['startdate'], 'Asia/Jakarta');
+        $dataLokal = [
+            'condition'             => 'coming',
+            'start_registration'    => $data['start_registration'],
+            'end_registration'      => $data['end_registration'],
+            'target_participant'    => $data['target_participant'],
+            'batch'                 => $data['batch'],
+            'quota'                 => $data['quota'],
+            'contact_person'        => $data['contact_person'],
+            'schedule_file'         => $data['schedule_file'],
+        ];
 
-        // Data Pelatihan API
-        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
-
-        $dataPelatihan->courses[0]->startdatetime = $this->toLocalTime($dataPelatihan->courses[0]->startdate);
-        $dataPelatihan->courses[0]->enddatetime = $this->toLocalTime($dataPelatihan->courses[0]->enddate);
-
-        $pelatihan['courses'] = $dataPelatihan->courses[0];
-        $data['pelatihan'] = json_encode($pelatihan);
-
-        return view('layout/header', $data)
-            . view('layout/navbar')
-            . view('layout/sidebar')
-            . view('pelatihan/kelola/detail')
-            . view('layout/footer');
+        $isSet = $this->CourseModel->find($id_pelatihan);
+        // dd($isSet, isset($isSet));
+        if (isset($isSet)) {
+            $this->CourseModel->update($id_pelatihan, $dataLokal);
+        } else {
+            $dataLokal['id'] = $id_pelatihan;
+            $this->CourseModel->insert($dataLokal);
+        }
+        return redirect()->to(base_url('pelatihan/kelola/detail/edit/' . $id_pelatihan));
     }
 
     public function pelatihanAgenda()

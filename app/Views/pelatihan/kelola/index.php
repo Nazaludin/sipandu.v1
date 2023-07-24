@@ -57,12 +57,12 @@
 
                                     <tr>
                                         <th scope="row"><?= $key + 1; ?></th>
-                                        <td> Berlangsung</td>
-                                        <td></td>
+                                        <td><?= $value->condition; ?></td>
+                                        <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
                                         <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
                                         <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><?= $value->batch; ?></td>
+                                        <td><?= $value->quota; ?></td>
                                         <td><a href="<?= base_url('pelatihan/kelola/detail/' . $value->id); ?>" class="btn btn-outline-primary"><i data-feather="info"></a></td>
                                     </tr>
                                 <?php } ?>
