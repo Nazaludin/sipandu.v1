@@ -12,8 +12,9 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('pelatihan/riwayat'); ?>" aria-expanded="false"><i data-feather="bookmark"></i><span class="hide-menu">Riwayat Pelatihan</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('pelatihan/agenda'); ?>" aria-expanded="false"><i data-feather="book-open"></i><span class="hide-menu">Agenda Pelatihan</span></a></li>
                 <br><br>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('pelatihan/kelola'); ?>" aria-expanded="false"><i data-feather="book-open"></i><span class="hide-menu">Kelola Pelatihan</span></a></li>
-                <!-- <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Forms </span></a>
+                <?php if (in_groups('admin')) { ?>
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('pelatihan/kelola'); ?>" aria-expanded="false"><i data-feather="book-open"></i><span class="hide-menu">Kelola Pelatihan</span></a></li>
+                    <!-- <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-receipt"></i><span class="hide-menu">Forms </span></a>
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item"><a href="form-basic.html" class="sidebar-link"><i class="mdi mdi-note-outline"></i><span class="hide-menu"> Form Basic
                                 </span></a></li>
@@ -21,7 +22,7 @@
                                 </span></a></li>
                     </ul>
                 </li> -->
-
+                <?php } ?>
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

@@ -51,14 +51,7 @@
                             </thead>
 
                             <tbody>
-                                <?php foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
-                                    <tr>
-                                        <th scope="row"><?= $key + 1; ?></th>
-                                        <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                        <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                    </tr>
-                                <?php } ?>
 
                             </tbody>
                         </table>

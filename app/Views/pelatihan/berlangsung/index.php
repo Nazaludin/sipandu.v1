@@ -54,15 +54,7 @@
                             </thead>
 
                             <tbody>
-                                <?php foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
-                                    <tr>
-                                        <th scope="row"><?= $key + 1; ?></th>
-                                        <td> Berlangsung</td>
-                                        <td><?= $value->fullname; ?></td>
-                                        <td><?= $value->categoryname; ?> / <?= $value->fullname; ?></td>
-                                    </tr>
-                                <?php } ?>
 
                             </tbody>
                         </table>

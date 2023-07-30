@@ -49,7 +49,7 @@ $routes->group('service', static function ($routes) {
 });
 $routes->group('profil', static function ($routes) {
     $routes->group('upload', static function ($routes) {
-        $routes->post('foto',  'Pages::uploadFotoProfil');
+        $routes->match(['get', 'post'], 'foto',  'Pages::uploadFotoProfil');
     });
     $routes->post('update',  'Pages::updateUser');
 });
@@ -63,8 +63,8 @@ $routes->group('pelatihan', static function ($routes) {
         //     $routes->post('proses', 'Pages::detailAgendaProses');
         // });
     });
-    $routes->get('kelola', 'Pages::pelatihanKelola');
-    $routes->group('kelola', static function ($routes) {
+    $routes->get('kelola', 'Pages::pelatihanKelola', ['filter' => 'role:admin']);
+    $routes->group('kelola', ['filter' => 'role:admin'], static function ($routes) {
         // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
         $routes->get('detail/(:num)',  'Pages::detailKelola/$1');
         $routes->group('detail', static function ($routes) {

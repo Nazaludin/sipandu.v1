@@ -5,12 +5,16 @@ namespace App\Controllers;
 use CodeIgniter\I18n\Time;
 use Myth\Auth\Models\UserModel;
 use \App\Models\CourseModel;
+use \App\Models\UploadDocumentModel;
+use \App\Models\DownloadDocumentModel;
 use stdClass;
 
 class Pages extends BaseController
 {
     protected $UsersModel;
     protected $CourseModel;
+    protected $UploadDocumentModel;
+    protected $DownloadDocumentModel;
     protected $apiKey = 'TczH6QUUVuXOoZKT2qoJ6JHfctAkD8';
     protected $apiURL = 'https://api.goapi.id/v1/regional/';
 
@@ -18,6 +22,8 @@ class Pages extends BaseController
     {
         $this->UsersModel  = new UserModel();
         $this->CourseModel  = new CourseModel();
+        $this->UploadDocumentModel  = new UploadDocumentModel();
+        $this->DownloadDocumentModel  = new DownloadDocumentModel();
     }
 
     public function toLocalTime($timestamp)
@@ -241,6 +247,11 @@ class Pages extends BaseController
     {
 
         $data =  $this->request->getPost();
+        $file_schedule =  $this->request->getFile('jadwal');
+        $file_download =  $this->request->getFile('downlaod_document');
+        // $file_upload =  $this->request->getFile('uplaod_document');
+
+        // dd($file_schedule, $file_upload, $file_download);
         $tgl = $this->request->getPost('startdate');
         $now = Time::parse($data['startdate'], 'Asia/Jakarta');
         $dataLokal = [
@@ -252,10 +263,29 @@ class Pages extends BaseController
             'batch'                 => intval($data['batch']),
             'quota'                 => intval($data['quota']),
             'contact_person'        => $data['contact_person'],
-            'schedule_file'         => $data['schedule_file'],
+            // 'schedule_file'         => $data['schedule_file'],
+            'name_uplaod_document'         => $data['name_uplaod_document'],
         ];
 
         $isSet = $this->CourseModel->find($id_pelatihan);
+        $dataDownDucument = [
+            'id_course' => $id_pelatihan,
+            'name'      => 'tEST',
+            'lokasi'    => '-',
+        ];
+
+        // $isSetDownDocument = ($this->DownloadDocumentModel->where('id_course', $id_pelatihan)->countAllResults() > 0) ? true : false;
+        // if ($isSetDownDocument) {
+        //     $this->CourseModel->update($id_pelatihan, $dataLokal);
+        // } else {
+        //     // $dataLokal['id'] = $id_pelatihan;
+        //     $this->CourseModel->insert($dataLokal, false);
+        // }
+        // dd($isSetDownDocument);
+        // $this->DownloadDocumentModel->insert($dataDownDucument);
+        // $isSetUpDocument = $this->UploadDocumentModel->where('id_course', $id_pelatihan)->asArray()->findAll();
+        // $isSetDownDocument = $this->DownloadDocumentModel->where('id_course', $id_pelatihan)->asArray()->findAll();
+        // dd($isSetDownDocument);
         // dd($isSet, isset($isSet), $id_pelatihan);
         if (isset($isSet)) {
             $this->CourseModel->update($id_pelatihan, $dataLokal);
@@ -263,6 +293,12 @@ class Pages extends BaseController
             // $dataLokal['id'] = $id_pelatihan;
             $this->CourseModel->insert($dataLokal, false);
         }
+        // if (isset($isSet)) {
+        //     $this->CourseModel->update($id_pelatihan, $dataLokal);
+        // } else {
+        //     // $dataLokal['id'] = $id_pelatihan;
+        //     $this->CourseModel->insert($dataLokal, false);
+        // }
         return redirect()->to(base_url('pelatihan/kelola/detail/' . $id_pelatihan));
     }
 
