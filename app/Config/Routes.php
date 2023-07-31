@@ -53,28 +53,29 @@ $routes->group('profil', static function ($routes) {
     });
     $routes->post('update',  'Pages::updateUser');
 });
-$routes->group('pelatihan', static function ($routes) {
-    $routes->get('berlangsung', 'Pages::pelatihanBerlangsung');
-    $routes->get('agenda', 'Pages::pelatihanAgenda');
-    $routes->group('agenda', static function ($routes) {
+$routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes) {
+    $routes->get('berlangsung', 'Pages::pelatihanBerlangsung', ['filter' => 'role:user']);
+    $routes->get('agenda', 'Pages::pelatihanAgenda', ['filter' => 'role:user']);
+    $routes->group('agenda', ['filter' => 'role:user'], static function ($routes) {
         // $routes->post('detail', 'Pages::detailAgendaProses');
-        $routes->get('detail/(:num)',  'Pages::detailAgendaProses/$1');
+        $routes->get('detail/(:num)',  'Pages::detailAgendaProses/$1', ['filter' => 'role:user']);
         // $routes->group('detail', static function ($routes) {
         //     $routes->post('proses', 'Pages::detailAgendaProses');
         // });
     });
-    $routes->get('kelola', 'Pages::pelatihanKelola', ['filter' => 'role:admin']);
-    $routes->group('kelola', ['filter' => 'role:admin'], static function ($routes) {
-        // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
-        $routes->get('detail/(:num)',  'Pages::detailKelola/$1');
-        $routes->group('detail', static function ($routes) {
-            $routes->get('edit/(:num)',  'Pages::detailKelolaEdit/$1');
-            $routes->group('edit', static function ($routes) {
-                $routes->post('proses/(:num)',  'Pages::detailKelolaEditProses/$1');
-            });
+
+    $routes->get('riwayat', 'Pages::pelatihanRiwayat');
+});
+$routes->get('pelatihan', 'Admin::pelatihanKelola', ['filter' => 'role:admin']);
+$routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes) {
+    // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
+    $routes->get('detail/(:num)',  'Admin::detailKelola/$1');
+    $routes->group('detail', static function ($routes) {
+        $routes->get('edit/(:num)',  'Admin::detailKelolaEdit/$1');
+        $routes->group('edit', static function ($routes) {
+            $routes->post('proses/(:num)',  'Admin::detailKelolaEditProses/$1');
         });
     });
-    $routes->get('riwayat', 'Pages::pelatihanRiwayat');
 });
 
 /*
