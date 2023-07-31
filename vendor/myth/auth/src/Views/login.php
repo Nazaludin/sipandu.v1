@@ -5,6 +5,8 @@
 	<!-- <div class="row">
 		<div class="col-sm-6 offset-sm-3"> -->
 
+	<!-- comment -->
+
 	<div class="card my-5 border-0 shadow rounded-5 overflow-hidden">
 		<h1 class="card-title text-center my-3 fw-bold fs-1"><?= lang('Auth.loginTitle') ?></h1>
 		<div class="card-body mx-3">
