@@ -15,11 +15,6 @@ class CreateDownloadDocument extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'id_course' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'unsigned' => true,
-            ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => 100,
@@ -43,7 +38,6 @@ class CreateDownloadDocument extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_course', 'course', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('download_document');
     }
 

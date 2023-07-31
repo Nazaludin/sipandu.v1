@@ -75,6 +75,9 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
         $routes->group('edit', static function ($routes) {
             $routes->post('proses/(:num)',  'Admin::detailKelolaEditProses/$1');
         });
+        $routes->group('dokumen', static function ($routes) {
+            $routes->post('download',  'Admin::insertDownloadDokument');
+        });
     });
 });
 

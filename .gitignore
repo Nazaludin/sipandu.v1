@@ -7,7 +7,7 @@
 .AppleDouble
 .LSOverride
 
-# OS X Thumbnails
+# OS X ThumbnailsinsertDownloadDokument
 ._*
 
 # Windows image file caches
@@ -84,6 +84,7 @@ phpunit
 # Composer
 #-------------------------
 vendor/
+!writable/myth
 
 #-------------------------
 # IDE / Development Files

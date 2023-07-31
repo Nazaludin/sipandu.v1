@@ -7,6 +7,8 @@ use Myth\Auth\Models\UserModel;
 use \App\Models\CourseModel;
 use \App\Models\UploadDocumentModel;
 use \App\Models\DownloadDocumentModel;
+use \App\Models\CourseUploadDocumentModel;
+use \App\Models\CourseDownloadDocumentModel;
 use stdClass;
 
 class Admin extends BaseController
@@ -15,6 +17,8 @@ class Admin extends BaseController
     protected $CourseModel;
     protected $UploadDocumentModel;
     protected $DownloadDocumentModel;
+    protected $CourseUploadDocumentModel;
+    protected $CourseDownloadDocumentModel;
     protected $apiKey = 'TczH6QUUVuXOoZKT2qoJ6JHfctAkD8';
     protected $apiURL = 'https://api.goapi.id/v1/regional/';
 
@@ -24,6 +28,8 @@ class Admin extends BaseController
         $this->CourseModel  = new CourseModel();
         $this->UploadDocumentModel  = new UploadDocumentModel();
         $this->DownloadDocumentModel  = new DownloadDocumentModel();
+        $this->CourseUploadDocumentModel  = new CourseUploadDocumentModel();
+        $this->CourseDownloadDocumentModel  = new CourseDownloadDocumentModel();
     }
 
     public function toLocalTime($timestamp)
@@ -243,5 +249,24 @@ class Admin extends BaseController
         //     $this->CourseModel->insert($dataLokal, false);
         // }
         return redirect()->to(base_url('admin/pelatihan/detail/' . $id_pelatihan));
+    }
+
+    public function insertUploadDokument()
+    {
+        $name =  $this->request->getPost('name');
+        $file_upload =  $this->request->getFile('file_upload_dokument');
+
+
+
+        dd($name, $file_upload);
+    }
+    public function insertDownloadDokument()
+    {
+        $name =  $this->request->getPost('name');
+        $file_download =  $this->request->getFile('file_download_dokument');
+
+
+
+        dd($name, $file_download);
     }
 }

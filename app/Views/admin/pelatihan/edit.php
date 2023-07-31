@@ -424,7 +424,7 @@
 <!-- Modal Tambah Dokumen Unduhan -->
 <div class="modal modal-blur fade" id="modal-download-document-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?php echo base_url('pelatihan/detail/dokumen/download'); ?>" method="POST" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Dokumen Unduhan</h5>
@@ -435,13 +435,13 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="floatingInputDownloadDocument">Berkas Uduhan Peserta</label>
-                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="downlaod_document">
+                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_dokument">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="f">Nama Dokument Unduhan</label>
-                            <input type="text" class="form-control" id="f" name="name_uplaod_document" placeholder="Nama Dokument Unduhan Administrasi" value="">
+                            <input type="text" class="form-control" id="f" name="name" placeholder="Nama Dokument Unduhan Administrasi" value="">
                         </div>
                     </div>
                 </div>
