@@ -20,7 +20,7 @@ class CreateCourseDownloadDokument extends Migration
                 'constraint' => 10,
                 'unsigned' => true,
             ],
-            'id_download_dokument' => [
+            'id_download_document' => [
                 'type' => 'INT',
                 'constraint' => 10,
                 'unsigned' => true,
@@ -29,7 +29,7 @@ class CreateCourseDownloadDokument extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_course', 'course', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_download_dokument', 'download_document', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_download_document', 'download_document', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('course_download_document');
     }
 

@@ -4,19 +4,19 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DownloadDocumentModel extends Model
+class UserCourseModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'download_document';
+    protected $table            = 'user_course';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'link'];
+    protected $allowedFields    = ['id', 'id_course', 'id_user', 'status'];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

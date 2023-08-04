@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DownloadDocumentModel extends Model
+class UserUploadDocumentModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'download_document';
+    protected $table            = 'user_upload_document';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'link'];
+    protected $allowedFields    = ['id', 'id_user_course', 'id_upload_document', 'name', 'link', 'status'];
 
     // Dates
     protected $useTimestamps = true;

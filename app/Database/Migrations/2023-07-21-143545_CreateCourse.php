@@ -52,6 +52,10 @@ class CreateCourse extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 200,
             ],
+            'status' => [
+                'type' => 'VARCHAR',
+                'constraint' => 10,
+            ],
 
 
         ]);

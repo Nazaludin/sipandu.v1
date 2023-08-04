@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -43,78 +43,60 @@
         </div>
     </div>
     <!-- Page body -->
+    <style>
+        th {
+            background-color: red;
+        }
+    </style>
     <div class="page-body">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-responsive">
-                                <thead class="text-center">
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Kondisi</th>
-                                        <th scope="col">Mulai Pendaftaran / Selesai Pendaftaran</th>
-                                        <th scope="col">Mulai Pelatihan / Selesai Pelatihan</th>
-                                        <th scope="col">Jenis Pelatihan / Nama Pelatihan</th>
-                                        <th scope="col">Gel. / Batch</th>
-                                        <th scope="col">Kuota</th>
-                                        <th scope="col">Detail</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <?php foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
-
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-hover">
+                                    <thead class="text-center bg-dark">
                                         <tr>
-                                            <th scope="row"><?= $key + 1; ?></th>
-                                            <td><?= $value->condition; ?></td>
-                                            <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
-                                            <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                            <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                            <td><?= $value->batch; ?></td>
-                                            <td><?= $value->quota; ?></td>
-                                            <td>
-                                                <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-outline-primary">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                                                        <path d="M12 9h.01"></path>
-                                                        <path d="M11 12h1v4h1"></path>
-                                                    </svg>
-                                                </a>
-                                            </td>
+                                            <th class="bg-dark" scope="col">No</th>
+                                            <th scope="col">Kondisi</th>
+                                            <th scope="col">Mulai Pendaftaran / Selesai Pendaftaran</th>
+                                            <th scope="col">Mulai Pelatihan / Selesai Pelatihan</th>
+                                            <th scope="col">Jenis Pelatihan / Nama Pelatihan</th>
+                                            <th scope="col">Gel. / Batch</th>
+                                            <th scope="col">Kuota</th>
+                                            <th scope="col">Detail</th>
                                         </tr>
-                                    <?php } ?>
+                                    </thead>
 
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                        <?php foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
+                                            <tr>
+                                                <th scope="row"><?= $key + 1; ?></th>
+                                                <td><?= $value->condition; ?></td>
+                                                <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
+                                                <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
+                                                <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
+                                                <td><?= $value->batch; ?></td>
+                                                <td><?= $value->quota; ?></td>
+                                                <td>
+                                                    <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                                            <path d="M12 9h.01"></path>
+                                                            <path d="M11 12h1v4h1"></path>
+                                                        </svg>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="modal-foto-profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="form-group">
-                                <label for="image">Upload Image</label>
-                                <input type="file" class="form-control-file" id="image" name="foto_profil">
-                            </div>
-
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>

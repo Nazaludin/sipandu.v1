@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateCourseUploadDokument extends Migration
+class CreateUserCourse extends Migration
 {
     public function up()
     {
@@ -20,21 +20,21 @@ class CreateCourseUploadDokument extends Migration
                 'constraint' => 10,
                 'unsigned' => true,
             ],
-            'id_upload_document' => [
-                'type' => 'INT',
+            'id_user'         => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'status' => [
+                'type' => 'VARCHAR',
                 'constraint' => 10,
-                'unsigned' => true,
             ],
 
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('id_course', 'course', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_upload_document', 'upload_document', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('course_upload_document');
+        $this->forge->addForeignKey('id_user', 'users', 'id', '', 'CASCADE');
+        $this->forge->createTable('user_course');
     }
 
     public function down()
     {
-        $this->forge->dropTable('course_upload_document');
+        $this->forge->dropTable('user_course');
     }
 }

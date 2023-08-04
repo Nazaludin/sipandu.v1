@@ -6,10 +6,10 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Pelatihan
+                        Kelola
                     </div>
                     <h2 class="page-title">
-                        Agenda
+                        Pelatihan
                     </h2>
                 </div>
 
@@ -26,7 +26,12 @@
                             <h4 class="card-title">Edit Pelatihan</h4>
                             <div class="row px-3">
                                 <div class="col-12">
-                                    <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Back</a>
+                                    <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
+                                        </svg>
+                                        Back</a>
                                 </div>
                             </div>
                             <!-- Comment Row -->
@@ -46,7 +51,13 @@
                                         <div class="row mb-3">
                                             <div class="col-6">
                                                 <label for="floatingInputCategoryCourse">Jenis Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputCategoryCourse" name="categoryname" placeholder="Jenis pelatihan" value="<?= json_decode($pelatihan)->courses->categoryname; ?>" required>
+                                                <select class="form-control" name="agama" id="floatingInputCategoryCourse" required>
+                                                    <?php foreach ($kategori_pelatihan as $kp => $valueKP) { ?>
+                                                        <option value="<?= $valueKP->id; ?>"><?= $valueKP->name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <!-- <label for="floatingInputCategoryCourse">Jenis Pelatihan</label>
+                                                <input type="text" class="form-control" id="floatingInputCategoryCourse" name="categoryname" placeholder="Jenis pelatihan" value="<?= json_decode($pelatihan)->courses->categoryname; ?>" required> -->
                                             </div>
                                             <div class="col-6">
                                                 <label for="floatingInputBatch">Gelombang/batch</label>
@@ -145,7 +156,7 @@
                                                                 <h3 class="card-title">Dokumen Unduhan (Template)</h3>
                                                             </div>
                                                             <div class="col-6 d-flex justify-content-end">
-                                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block mx-1 my-2" data-bs-toggle="modal" data-bs-target="#modal-download-document">
+                                                                <a href="#" onclick="getDowloadDocument()" class="btn btn-primary btn-sm d-none d-sm-inline-block mx-1 my-2" data-bs-toggle="modal" data-bs-target="#modal-download-document">
                                                                     Pilih
                                                                 </a>
 
@@ -163,26 +174,29 @@
                                                         </div>
                                                         <table class="table table-sm table-borderless">
                                                             <thead>
+
                                                                 <tr>
                                                                     <th class="text-center">No</th>
                                                                     <th>Nama</th>
-                                                                    <th class="text-end">Lihat</th>
+                                                                    <th class="text-end">File</th>
                                                                     <!-- <th class="text-center">Aksi</th> -->
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td class="text-center">
-                                                                        1
-                                                                    </td>
-                                                                    <td>
-                                                                        Surat Pernyataan Paket Data
-                                                                    </td>
-                                                                    <td class="text-end"><a href="http://"></a></td>
-                                                                    <!-- <td class="text-center"> -->
+                                                                <?php foreach ($list_course_donwload_document as $d => $doc) {  ?>
+                                                                    <tr>
+                                                                        <td class="text-center">
+                                                                            <?= $d + 1; ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?= $doc['name']; ?>
+                                                                        </td>
+                                                                        <td class="text-end"><a href="<?= base_url($doc['link']); ?>" download>Unduh</a></td>
+                                                                        <!-- <td class="text-center"> -->
 
-                                                                    </td>
-                                                                </tr>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php  } ?>
 
                                                             </tbody>
                                                         </table>
@@ -222,17 +236,22 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td class="text-center">
-                                                                        1
-                                                                    </td>
-                                                                    <td>
-                                                                        Surat Pernyataan Paket Data
-                                                                    </td>
-                                                                    <!-- <td class="text-end">
 
-                                                                    </td> -->
-                                                                </tr>
+                                                                <?php foreach ($list_course_upload_document as $d => $doc) {  ?>
+
+                                                                    <tr>
+                                                                        <td class="text-center">
+                                                                            <?= $d + 1; ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?= $doc['name']; ?>
+                                                                        </td>
+                                                                        <!-- <td class="text-end">
+                                                                            
+                                                                            </td> -->
+                                                                    </tr>
+                                                                <?php  } ?>
+
 
                                                             </tbody>
                                                         </table>
@@ -309,30 +328,7 @@
                     </div>
                 </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="modal-foto-profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
-                                <?= csrf_field() ?>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image">Upload Image</label>
-                                    <input type="file" class="form-control-file" id="image" name="foto_profil">
-                                </div>
 
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -347,84 +343,68 @@
 <!-- Modal Pilih Dokumen Unduhan -->
 <div class="modal modal-blur fade" id="modal-download-document" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pilih Dokumen Unduhan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Dokumen Unduhan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
 
-                        <table class="table table-sm table-borderless">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Pilih</th>
-                                    <th>Nama</th>
-                                    <th class="text-end">Lihat</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">
-                                        <!-- <label for="" class="form-check"> -->
-                                        <input type="checkbox" name="" id="" class="form-check-input-sm">
-                                        <!-- </label> -->
-                                    </td>
-                                    <td>
-                                        Surat Pernyataan Paket Data
-                                    </td>
-                                    <td class="text-end"><a href="<?= base_url(); ?>">Lihat</a></td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
+                            <table class="table table-sm table-borderless" id="table-download-document">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Pilih</th>
+                                        <th>Nama</th>
+                                        <th class="text-end">Lihat</th>
+                                        <th class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?= csrf_field() ?>
 
-                            </tbody>
-                        </table>
+                                    <?php foreach ($list_donwload_document as $d => $doc) { ?>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="<?= $doc['id']; ?>" value="true" id="" class="form-check-input-sm" <?= (isset($doc['check'])) ? 'checked' : ''; ?>>
+                                            </td>
+                                            <td>
+                                                <?= $doc['name']; ?>
+                                            </td>
+                                            <td class="text-end"><a href="<?= base_url($doc['link']); ?>" target="_blank">Lihat</a></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php  } ?>
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Client name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Reporting period</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div>
-                                        <label class="form-label">Additional information</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-            <div class="modal-footer">
-                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                    Batal
-                </a>
-                <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                    Simpan
-                </a>
-            </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                        Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                        Simpan
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 </div>
 <!-- Modal Tambah Dokumen Unduhan -->
 <div class="modal modal-blur fade" id="modal-download-document-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <form action="<?php echo base_url('pelatihan/detail/dokumen/download'); ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?php echo base_url('pelatihan/detail/dokumen/download/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Dokumen Unduhan</h5>
@@ -435,13 +415,13 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="floatingInputDownloadDocument">Berkas Uduhan Peserta</label>
-                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_dokument">
+                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_document">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="f">Nama Dokument Unduhan</label>
-                            <input type="text" class="form-control" id="f" name="name" placeholder="Nama Dokument Unduhan Administrasi" value="">
+                            <label for="f">Nama document Unduhan</label>
+                            <input type="text" class="form-control" id="f" name="name" placeholder="Nama document Unduhan Administrasi" value="">
                         </div>
                     </div>
                 </div>
@@ -456,82 +436,71 @@
         </form>
     </div>
 </div>
-<!-- Modal Pilih Dokumen Unduhan -->
-<div class="modal modal-blur fade" id="modal-upload-document" tabindex="-1" role="dialog" aria-hidden="true">
+</div>
+<!-- Modal Pilih Dokumen Unggahan -->
+<div class="modal modal-blur fade" id="modal-upload-document" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pilih Dokumen Uggahan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
+        <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
 
-                        <table class="table table-sm table-borderless">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Pilih</th>
-                                    <th>Nama</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Dokumen Uggahan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
 
-                                    </td>
-                                    <td>
-                                        Surat Pernyataan Paket Data
-                                    </td>
-                                    <td class="text-end">
+                            <table class="table table-sm table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Pilih</th>
+                                        <th>Nama</th>
+                                        <th class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?= csrf_field() ?>
 
-                                    </td>
-                                </tr>
+                                    <?php foreach ($list_upload_document as $d => $doc) {  ?>
+                                        <tr>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="<?= $doc['id']; ?>" value="true" id="" class="form-check-input-sm" <?= (isset($doc['check'])) ? 'checked' : ''; ?>>
+                                            </td>
+                                            <td>
+                                                <?= $doc['name']; ?>
+                                            </td>
+                                            <td class="text-end">
+                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php  } ?>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                        Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                        Simpan
+                    </button>
+                </div>
             </div>
-            <!-- <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Client name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Reporting period</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div>
-                                        <label class="form-label">Additional information</label>
-                                        <textarea class="form-control" rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-            <div class="modal-footer">
-                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                    Batal
-                </a>
-                <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                    Simpan
-                </a>
-            </div>
-        </div>
+        </form>
+
     </div>
 </div>
-<!-- Modal Tambah Dokumen Unduhan -->
-<div class="modal modal-blur fade" id="modal-upload-document-add" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Modal Tambah Dokumen Unggahan -->
+<div class="modal modal-blur fade" id="modal-upload-document-add">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST">
-            <div class="modal-content">
+        <div class="modal-content">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/' . json_decode($pelatihan)->courses->id); ?>" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Dokumen Unggahan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -541,7 +510,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="f">Nama Dokumen Unggahan</label>
-                            <input type="text" class="form-control" id="f" name="name_uplaod_document" placeholder="Nama Dokument Unduhan Administrasi" value="">
+                            <input type="text" class="form-control" id="f" name="name_uplaod_document" placeholder="Nama document Unduhan Administrasi" value="">
                         </div>
                     </div>
                 </div>
@@ -552,8 +521,8 @@
                     <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
                         Simpan
                     </button>
-                </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <!-- ============================================================== -->

@@ -60,8 +60,11 @@ $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes)
         // $routes->post('detail', 'Pages::detailAgendaProses');
         $routes->get('detail/(:num)',  'Pages::detailAgendaProses/$1', ['filter' => 'role:user']);
         // $routes->group('detail', static function ($routes) {
-        //     $routes->post('proses', 'Pages::detailAgendaProses');
         // });
+        $routes->get('registrasi/(:num)', 'Pages::pelatihanRegis/$1');
+        $routes->group('registrasi', static function ($routes) {
+            $routes->post('proses/(:num)', 'Pages::pelatihanRegisProses/$1');
+        });
     });
 
     $routes->get('riwayat', 'Pages::pelatihanRiwayat');
@@ -70,16 +73,31 @@ $routes->get('pelatihan', 'Admin::pelatihanKelola', ['filter' => 'role:admin']);
 $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes) {
     // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
     $routes->get('detail/(:num)',  'Admin::detailKelola/$1');
+
     $routes->group('detail', static function ($routes) {
         $routes->get('edit/(:num)',  'Admin::detailKelolaEdit/$1');
+        $routes->get('user/(:num)',  'Admin::pelatihanUser/$1');
+
         $routes->group('edit', static function ($routes) {
             $routes->post('proses/(:num)',  'Admin::detailKelolaEditProses/$1');
         });
+
         $routes->group('dokumen', static function ($routes) {
-            $routes->post('download',  'Admin::insertDownloadDokument');
+            $routes->post('download/(:num)',  'Admin::insertDownloadDocument/$1');
+
+            $routes->group('download', static function ($routes) {
+                $routes->post('update-to-course/(:num)',  'Admin::updateCourseDownloadDocument/$1');
+            });
+
+            $routes->post('upload/(:num)',  'Admin::insertUploadDocument/$1');
+
+            $routes->group('upload', static function ($routes) {
+                $routes->post('update-to-course/(:num)',  'Admin::updateCourseUploadDocument/$1');
+            });
         });
     });
 });
+$routes->post('list-download-document', 'Admin::listDownloadDocument', ['filter' => 'role:admin']);
 
 /*
  * --------------------------------------------------------------------

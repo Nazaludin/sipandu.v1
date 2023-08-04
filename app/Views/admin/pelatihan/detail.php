@@ -6,10 +6,10 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Pelatihan
+                        Kelola
                     </div>
                     <h2 class="page-title">
-                        Agenda
+                        Pelatihan
                     </h2>
                 </div>
 
@@ -32,6 +32,14 @@
                                             <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
                                         </svg>
                                         Back</a>
+                                </div>
+                                <div class="col-1">
+                                    <a href="<?= base_url('pelatihan/detail/user/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
+                                        </svg>
+                                        User</a>
                                 </div>
                                 <div class="col-1">
                                     <a href="<?= base_url('pelatihan/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Edit</a>
@@ -102,17 +110,25 @@
                                     <table class="table table-responsive table-bordered">
                                         <thead class="bg-success">
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Komponen Unduh</th>
-                                                <th>File</th>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-start">Komponen Unduh</th>
+                                                <th class="text-center">File</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td><a href="http://">UNDUH</a></td>
-                                            </tr>
+                                            <?php foreach ($list_course_donwload_document as $d => $doc) { ?>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <?= $d + 1; ?>
+                                                    </td>
+                                                    <td class="text-start">
+                                                        <?= $doc['name']; ?>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="<?= base_url($doc['link']); ?>" download>Unduh</a>
+                                                    </td>
+                                                </tr>
+                                            <?php  } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -120,38 +136,25 @@
                                     <table class="table table-responsive table-bordered">
                                         <thead class="bg-success">
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Komponen Kelengkapan Administrasi</th>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-start">Komponen Kelengkapan Administrasi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1.</td>
-                                                <td>Pas Photo 4x6 (background merah)</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2.</td>
-                                                <td>Surat Ijin Atasan</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3.</td>
-                                                <td>Surat Pernyataan Paket Data</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4.</td>
-                                                <td>Surat Tugas</td>
-                                            </tr>
-                                        </tbody>
+                                            <?php foreach ($list_course_upload_document as $d => $doc) { ?>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <?= $d + 1; ?>
+                                                    </td>
+                                                    <td class="text-start">
+                                                        <?= $doc['name']; ?>
+                                                    </td>
+
+                                                </tr>
+                                            <?php  } ?>
                                     </table>
                                 </div>
 
-                                <div class="row px-3 justify-content-end">
-
-                                    <div class="col-1">
-                                        <a href="<?= base_url('pelatihan/agenda'); ?>" class="btn btn-outline-primary">Daftar Pelatihan</a>
-                                    </div>
-
-                                </div>
                             </div>
 
                             <!-- END tab pane ringkasan -->
@@ -160,30 +163,6 @@
                     </div>
                 </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="modal-foto-profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
-                                <?= csrf_field() ?>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image">Upload Image</label>
-                                    <input type="file" class="form-control-file" id="image" name="foto_profil">
-                                </div>
-
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- ============================================================== -->

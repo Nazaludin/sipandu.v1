@@ -72,6 +72,21 @@
                 <?php } ?>
                 <?php if (in_groups('admin')) { ?>
                     <li class="nav-item justify-content-center">
+                        <a class="nav-link" href="<?php echo base_url('profil'); ?>">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-xbox-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M12 21a9 9 0 0 0 9 -9a9 9 0 0 0 -9 -9a9 9 0 0 0 -9 9a9 9 0 0 0 9 9z"></path>
+                                    <path d="M9 8l6 8"></path>
+                                    <path d="M15 8l-6 8"></path>
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                                Beranda
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item justify-content-center">
                         <a class="nav-link" href="<?php echo base_url('pelatihan'); ?>">
                             <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-xbox-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -82,7 +97,7 @@
                                 </svg>
                             </span>
                             <span class="nav-link-title">
-                                Kelola Pelatihan
+                                Pelatihan
                             </span>
                         </a>
                     </li>
