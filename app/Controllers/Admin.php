@@ -9,6 +9,8 @@ use \App\Models\UploadDocumentModel;
 use \App\Models\DownloadDocumentModel;
 use \App\Models\CourseUploadDocumentModel;
 use \App\Models\CourseDownloadDocumentModel;
+use \App\Models\UserCourseModel;
+use \App\Models\UserUploadDocumentModel;
 use stdClass;
 
 class Admin extends BaseController
@@ -19,6 +21,8 @@ class Admin extends BaseController
     protected $DownloadDocumentModel;
     protected $CourseUploadDocumentModel;
     protected $CourseDownloadDocumentModel;
+    protected $UserCourseModel;
+    protected $UserUploadDocumentModel;
     protected $apiKey = 'TczH6QUUVuXOoZKT2qoJ6JHfctAkD8';
     protected $apiURL = 'https://api.goapi.id/v1/regional/';
 
@@ -30,6 +34,8 @@ class Admin extends BaseController
         $this->DownloadDocumentModel  = new DownloadDocumentModel();
         $this->CourseUploadDocumentModel  = new CourseUploadDocumentModel();
         $this->CourseDownloadDocumentModel  = new CourseDownloadDocumentModel();
+        $this->UserCourseModel  = new UserCourseModel();
+        $this->UserUploadDocumentModel  = new UserUploadDocumentModel();
     }
 
     public function toLocalTime($timestamp)
@@ -449,5 +455,34 @@ class Admin extends BaseController
         $id_pelatihan =  $this->request->getPost('id_course');
         $data = $this->DownloadDocumentModel->findAll();
         return json_encode($data);
+    }
+    public function listUserCourse()
+    {
+        $id_pelatihan =  $this->request->getPost('id_course');
+        $data = $this->UserCourseModel->where('id_course', $id_pelatihan)->findAll();
+        $data_final = [];
+        foreach ($data as $key => $value) {
+            $data_user = $this->UsersModel->find($value['id_user']);
+            $data_final['user'][$key] = $data_user;
+        }
+        // Read new token and assign in $data['token']
+        $security = \Config\Services::security();
+        $security->generateHash();
+
+        $data_final['hash'] = $security->getHash();
+        $data_final['token'] = $security->getTokenName();
+        return json_encode($data_final);
+    }
+    public function listUserUploadDocument()
+    {
+        $id_pelatihan =  $this->request->getPost('id_course');
+        $id_user =  $this->request->getPost('id_user');
+        $data = $this->UserCourseModel->where('id_course', $id_pelatihan)->findAll();
+        $data_final = [];
+        foreach ($data as $key => $value) {
+            $data_user = $this->UsersModel->find($value['id_user']);
+            $data_final[$key] = $data_user;
+        }
+        return json_encode($data_final);
     }
 }

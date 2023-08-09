@@ -98,6 +98,8 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
     });
 });
 $routes->post('list-download-document', 'Admin::listDownloadDocument', ['filter' => 'role:admin']);
+$routes->post('list-user-course', 'Admin::listUserCourse', ['filter' => 'role:admin']);
+$routes->post('list-user-upload-document', 'Admin::listUserUploadDocument', ['filter' => 'role:admin']);
 
 /*
  * --------------------------------------------------------------------
