@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use CodeIgniter\I18n\Time;
 use Myth\Auth\Models\UserModel;
+use Loncat\Moody\AppFactory;
+use Loncat\Moody\Config;
 use \App\Models\CourseModel;
 use \App\Models\UploadDocumentModel;
 use \App\Models\DownloadDocumentModel;
@@ -23,6 +25,7 @@ class Admin extends BaseController
     protected $CourseDownloadDocumentModel;
     protected $UserCourseModel;
     protected $UserUploadDocumentModel;
+    protected $MoodyBest;
     protected $apiKey = 'TczH6QUUVuXOoZKT2qoJ6JHfctAkD8';
     protected $apiURL = 'https://api.goapi.id/v1/regional/';
 
@@ -36,6 +39,9 @@ class Admin extends BaseController
         $this->CourseDownloadDocumentModel  = new CourseDownloadDocumentModel();
         $this->UserCourseModel  = new UserCourseModel();
         $this->UserUploadDocumentModel  = new UserUploadDocumentModel();
+
+        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", "8d52a95d541a42e81f955536e8927e9a");
+        $this->MoodyBest = AppFactory::create($configBest);
     }
 
     public function toLocalTime($timestamp)
@@ -100,10 +106,113 @@ class Admin extends BaseController
     }
 
 
+    public function pelatihanInsert()
+    {
+        $categoryPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_categories'));
+        $data['kategori_pelatihan']      = $categoryPelatihan;
+        // dd($data);
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/pelatihan/insert')
+            . view('layout/footer');
+    }
+    public function pelatihanInsertProses()
+    {
+        $data =  $this->request->getPost();
+        $file_schedule =  $this->request->getFiles();
+        // dd($data, $file_schedule);
+
+
+        // Insert Course Moodle Best
+        $result = $this->MoodyBest->createCourse(
+            $data['fullname'],
+            $data['fullname'],
+            $data['categoryid'],
+            $data['summary'],
+            new \DateTime($data['startdate']),
+            new \DateTime($data['enddate'])
+        );
+
+        // Insert Course to Lokal Databases
+        // dd($result);
+        if (!empty($result['data'])) {
+            $dataLokal = [
+                // 'id'                    => 202,
+                'id'                    => $result['data']['courseid'],
+                'condition'             => 'coming',
+                'start_registration'    => $data['start_registration'],
+                'end_registration'      => $data['end_registration'],
+                'target_participant'    => $data['target_participant'],
+                'batch'                 => intval($data['batch']),
+                'quota'                 => intval($data['quota']),
+                'contact_person'        => $data['contact_person'],
+                // 'schedule_file'         => $data['schedule_file'],
+                // 'name_uplaod_dokument'         => $data['name_uplaod_dokument'],
+            ];
+            $status = $this->CourseModel->insert($dataLokal);
+            // dd($status);
+            return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']));
+        }
+        return redirect()->back();
+    }
+    public function pelatihanInsertRule($id_pelatihan)
+    {
+        $data['list_course_donwload_document'] = $this->listCourseDonwloadDocument($id_pelatihan);
+        $data['list_course_upload_document'] = $this->listCourseUploadDocument($id_pelatihan);
+
+        $dataDownloadDocument = $this->DownloadDocumentModel->findAll();
+        $dataUploadDocument = $this->UploadDocumentModel->findAll();
+
+        $tempDD = [];
+        if (!empty($data['list_course_donwload_document'])) {
+            foreach ($dataDownloadDocument as $keyDD => $valueDD) {
+                foreach ($data['list_course_donwload_document'] as $keyCDD => $valueCDD) {
+                    if ($valueDD['id'] == $valueCDD['id']) {
+                        $valueDD['check'] = true;
+                    }
+                }
+                array_push($tempDD, $valueDD);
+            }
+        }
+        $tempUD = [];
+        if (!empty($data['list_course_donwload_document'])) {
+            foreach ($dataUploadDocument as $keyUD => $valueUD) {
+                foreach ($data['list_course_upload_document'] as $keyCUD => $valueCUD) {
+                    if ($valueUD['id'] == $valueCUD['id']) {
+                        $valueUD['check'] = true;
+                    }
+                }
+                array_push($tempUD, $valueUD);
+            }
+        }
+
+        $data['list_donwload_document'] = (!empty($tempDD)) ? $tempDD : $dataDownloadDocument;
+        $data['list_upload_document'] = (!empty($tempUD)) ? $tempUD : $dataUploadDocument;
+        $data['pelatihan_id'] = $id_pelatihan;
+
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/pelatihan/insert_syarat')
+            . view('layout/footer');
+    }
     public function pelatihanKelola()
     {
+        $result = $this->MoodyBest->getUserByEmail("admsipandu@gmail.com");
+        // $result = $app->createCourse(
+        //     "Orizuru",
+        //     "Origami Crane or Paper Crane",
+        //     13,
+        //     "Folding paper to shape a crane",
+        //     new \DateTime(),
+        //     new \DateTime("2024-08-17 23:59:59")
+        // );
+        var_dump($result);
+
         // Data Pelatihan API
         $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+        // d($dataPelatihan);
+
+        // dd($dataPelatihan);
 
         $pelatihan = [];
         $i = 0;

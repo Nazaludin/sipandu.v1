@@ -4,10 +4,17 @@
     "description": "CodeIgniter4 starter app",
     "homepage": "https://codeigniter.com",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kassle/moody"
+        }
+    ],
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
         "enyo/dropzone": "^5.9",
+        "loncat/moody": "dev-main",
         "myth/auth": "^1.2"
     },
     "require-dev": {
@@ -38,4 +45,5 @@
         "source": "https://github.com/codeigniter4/CodeIgniter4",
         "slack": "https://codeigniterchat.slack.com"
     }
+    
 }

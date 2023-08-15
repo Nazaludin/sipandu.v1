@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62abd63dad6cb5b5cceb3b459f13b7bb",
+    "content-hash": "e9f6501f10aa5d9c0737b6bfe40059de",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -181,6 +181,89 @@
                 }
             ],
             "time": "2022-10-10T10:11:09+00:00"
+        },
+        {
+            "name": "llagerlof/moodlerest",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/llagerlof/MoodleRest.git",
+                "reference": "3fb24a0dd494d8dbbac70999b26627ce4ee63ac4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/llagerlof/MoodleRest/zipball/3fb24a0dd494d8dbbac70999b26627ce4ee63ac4",
+                "reference": "3fb24a0dd494d8dbbac70999b26627ce4ee63ac4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "MoodleRest.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lawrence Lagerlof",
+                    "email": "llagerlof@gmail.com"
+                }
+            ],
+            "description": "MoodleRest is a PHP class to query Moodle REST webservices",
+            "homepage": "https://github.com/llagerlof",
+            "support": {
+                "issues": "https://github.com/llagerlof/MoodleRest/issues",
+                "source": "https://github.com/llagerlof/MoodleRest/tree/v2.4.0"
+            },
+            "time": "2021-04-14T14:47:33+00:00"
+        },
+        {
+            "name": "loncat/moody",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kassle/moody.git",
+                "reference": "01d10ec94f523b02dcc46e2bf8883af42b0d9e84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kassle/moody/zipball/01d10ec94f523b02dcc46e2bf8883af42b0d9e84",
+                "reference": "01d10ec94f523b02dcc46e2bf8883af42b0d9e84",
+                "shasum": ""
+            },
+            "require": {
+                "llagerlof/moodlerest": "^2.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "10"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Loncat\\Moody\\": "src/"
+                }
+            },
+            "scripts": {
+                "tests": [
+                    "vendor/bin/phpunit tests/"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "kassle",
+                    "email": "kassle@krybrig.org"
+                }
+            ],
+            "description": "moody the moodle integration",
+            "support": {
+                "source": "https://github.com/kassle/moody/tree/main",
+                "issues": "https://github.com/kassle/moody/issues"
+            },
+            "time": "2023-08-09T14:50:00+00:00"
         },
         {
             "name": "myth/auth",
@@ -2281,7 +2364,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "loncat/moody": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

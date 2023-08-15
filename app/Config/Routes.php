@@ -73,6 +73,14 @@ $routes->get('pelatihan', 'Admin::pelatihanKelola', ['filter' => 'role:admin']);
 $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes) {
     // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
     $routes->get('detail/(:num)',  'Admin::detailKelola/$1');
+    $routes->get('insert',  'Admin::pelatihanInsert');
+    $routes->group('insert', static function ($routes) {
+        $routes->get('syarat/(:num)',  'Admin::pelatihanInsertRule/$1');
+        $routes->get('publis/(:num)',  'Admin::pelatihanInsertPublish/$1');
+        $routes->post('proses',  'Admin::pelatihanInsertProses');
+    });
+
+
 
     $routes->group('detail', static function ($routes) {
         $routes->get('edit/(:num)',  'Admin::detailKelolaEdit/$1');
