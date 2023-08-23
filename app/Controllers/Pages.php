@@ -118,6 +118,7 @@ class Pages extends BaseController
 
         $pelatihan = [];
         $i = 0;
+
         // Data Pelatihan API
         $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
         foreach ($dataPelatihan->courses as $key => $value) {
@@ -158,7 +159,7 @@ class Pages extends BaseController
             $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
         }
 
-        $data['pelatihan']      = json_encode($pelatihan);
+        $data['pelatihan']      = isset($pelatihan) ? json_encode($pelatihan) : json_encode([]);
 
         return view('layout/header', $data)
             . view('layout/sidebar')
@@ -174,62 +175,48 @@ class Pages extends BaseController
 
     public function pelatihanAgenda()
     {
-        $pengguna = session()->get('logged_in');
-        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
-        $dump = explode(" ", $data['data']->tanggal_lahir);
-        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+        $pelatihanPublish = model(CourseModel::class)->where('status_sistem', 'publish')->findAll();
+        $userCourse = model(UserCourseModel::class)->findAll();
+        // dd($pelatihanPublish, !empty($pelatihanPublish));
 
-        // Data Pelatihan API
-        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+        if (!empty($pelatihanPublish)) {
+            // $now = new Time('now', 'Asia/Jakarta');
+            $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
+            // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
 
-        $pelatihan = [];
-        $i = 0;
-
-        // $now = new Time('now', 'Asia/Jakarta');
-        $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
-        // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
-        $user_course = $this->UserCourseModel->findAll();
-        foreach ($dataPelatihan->courses as $key => $value) {
-            $continue = false;
-            foreach ($user_course as $keyUC => $valueUC) {
-                if ($value->id == $valueUC['id_course']) {
-                    $continue = true;
-                    unset($user_course[$keyUC]);
+            foreach ($pelatihanPublish as $key => $value) {
+                // Check apakah user sudah terdaftar di pelatihan "publish", skip jika iya
+                if (isset($userCourse)) {
+                    foreach ($userCourse as $keyUC => $valueUC) {
+                        if ($value['id'] == $valueUC['id_course']) {
+                            unset($userCourse[$keyUC]);
+                            break 2;
+                        }
+                    }
                 }
-            }
-            if ($continue) {
-                continue;
-            }
-            $courseLocal = $this->CourseModel->find($value->id);
-            // if (isset($courseLocal)) {
-            $value->batch = $courseLocal['condition'] ?? '';
-            $value->start_registration = $courseLocal['start_registration'] ?? '';
-            $value->batend_registrationch = $courseLocal['end_registration'] ?? '';
-            $value->target_participant = $courseLocal['target_participant'] ?? '';
-            $value->batch = $courseLocal['batch'] ?? '';
-            $value->quota = $courseLocal['quota'] ?? '';
-            $value->place = $courseLocal['place'] ?? '';
-            $value->contact_person = $courseLocal['contact_person'] ?? '';
-            $value->schedule_file = $courseLocal['schedule_file'] ?? '';
-            // }
-            if ($now->getTimestamp() < $value->startdate) {
-                $value->startdatetime = $this->toLocalTime($value->startdate);
-                $value->enddatetime = $this->toLocalTime($value->enddate);
 
-                $courseLocal =  $this->CourseModel->find($value->id);
-                $value->condition           = isset($courseLocal['condition']) ? $this->convertCondition($courseLocal['condition']) : '';
-                $value->start_registration  = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
-                $value->end_registration    = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) : '';
-                $value->batch               = $courseLocal['batch'] ?? '';
-                $value->quota               = $courseLocal['quota'] ?? '';
+                // Data Pelatihan API
+                $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
 
-                $pelatihan['courses'][$i] = $value;
-                $i++;
+                $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition($value['condition']) : '';
+                $dataPelatihan->courses[0]->start_registration      = isset($value['start_registration']) ? $this->dateToLocalTime($value['start_registration']) : '';
+                $dataPelatihan->courses[0]->end_registration        = isset($value['end_registration']) ? $this->dateToLocalTime($value['end_registration']) :  '';
+                $dataPelatihan->courses[0]->target_participant      = $value['target_participant'] ?? '';
+                $dataPelatihan->courses[0]->batch                   = $value['batch'] ?? '';
+                $dataPelatihan->courses[0]->quota                   = $value['quota'] ?? '';
+                $dataPelatihan->courses[0]->place                   = $value['place'] ?? '';
+                $dataPelatihan->courses[0]->contact_person          = $value['contact_person'] ?? '';
+                $dataPelatihan->courses[0]->schedule_file           = $value['schedule_file'] ?? '';
+                $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
+                $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
+
+                if ($now->getTimestamp() < $dataPelatihan->courses[0]->startdate) {
+                    $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
+                }
             }
         }
 
-        $data['pelatihan'] = json_encode($pelatihan);
-        // dd($data);
+        $data['pelatihan'] = isset($pelatihan) ? json_encode($pelatihan) : json_encode([]);
 
         return view('layout/header', $data)
             . view('layout/sidebar')
