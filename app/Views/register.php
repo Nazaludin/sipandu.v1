@@ -164,102 +164,146 @@
                                 <div class="row">
                                     <div class="col mb-3">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="password" required autofocus>
+                                        <div class="input-group input-group-flat">
+                                            <input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="password" required autofocus>
+                                            <span class="input-group-text">
+                                                <a class="link-secondary" data-bs-toggle="tooltip" onclick="showPW()" aria-label="Show password" data-bs-original-title="Show password">
+                                                    <!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <circle cx="12" cy="12" r="2"></circle>
+                                                        <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+                                                    </svg>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <div class="input-group input-group-flat">
+                                            <input type="text" class="form-control" autocomplete="off">
+                                            <span class="input-group-text">
+                                                <a href="#" class="link-secondary" title="Clear search" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/x -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M18 6l-12 12" />
+                                                        <path d="M6 6l12 12" />
+                                                    </svg>
+                                                </a>
+                                                <a href="#" class="link-secondary ms-2" title="Search settings" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/adjustments -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M4 10a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                                        <path d="M6 4v4" />
+                                                        <path d="M6 12v8" />
+                                                        <path d="M10 16a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                                        <path d="M12 4v10" />
+                                                        <path d="M12 18v2" />
+                                                        <path d="M16 7a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                                        <path d="M18 4v1" />
+                                                        <path d="M18 9v11" />
+                                                    </svg>
+                                                </a>
+                                                <a href="#" class="link-secondary ms-2 disabled" title="Add notification" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/bell -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                                                        <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                                                    </svg>
+                                                </a>
+                                            </span>
+
+                                        </div>
+                                        <div class="col mb-3">
+                                            <label for="repassword">Konfimasi Password</label>
+                                            <input type="password" class="form-control form-control-sm" id="repassword" placeholder="ketik ulang password" required autofocus>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="password">Email</label>
+                                            <input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="password" required autofocus>
+
+                                        </div>
 
                                     </div>
-                                    <div class="col mb-3">
-                                        <label for="repassword">Konfimasi Password</label>
-                                        <input type="password" class="form-control form-control-sm" id="repassword" placeholder="ketik ulang password" required autofocus>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="pendidikanTerakhir">Pendidikan Terakhir</label>
+                                            <select class="form-control form-control-sm" name="pendidikan_terakhir" id="pendidikanTerakhir" required>
+                                                <option value="sd">SD</option>
+                                                <option value="smp">SMP</option>
+                                                <option value="sma">SMA / sederajat</option>
+                                                <option value="d1">D1</option>
+                                                <option value="d2">D2</option>
+                                                <option value="d3">D3</option>
+                                                <option value="d3">D4</option>
+                                                <option value="s1" selected>S1</option>
+                                                <option value="s2">S2</option>
+                                                <option value="s3">S3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <label for="status">Status</label>
+                                            <input type="text" class="form-control form-control-sm" id="status" name="status" placeholder="" required autofocus>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <label for="spesialisasi">Spesialisasi</label>
+                                            <input type="text" class="form-control form-control-sm" id="spesialisasi" name="spesialisasi" placeholder="" required autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="jabatan">Jabatan/Pekerjaan</label>
+                                            <input type="text" class="form-control form-control-sm" id="jabatan" name="jabatan" placeholder="" required autofocus>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <label for="pangkat">Pangkat/Golongan</label>
+                                            <input type="text" class="form-control form-control-sm" id="pangkat" name="pangkat" placeholder="" required autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="namaInstansi">Nama Instansi</label>
+                                            <input type="text" class="form-control form-control-sm" id="namaInstansi" name="nama_instansi" placeholder="" required autofocus>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <label for="teleponInstansi">Telepon Instansi</label>
+                                            <input type="text" class="form-control form-control-sm" id="teleponInstansi" name="telepon_instansi" placeholder="" required autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="alamatInstansi">Alamat Instansi</label>
+                                            <textarea class="form-control form-control-sm" id="alamatInstansi" name="alamat_instansi"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- PROVINSI -->
+                                    <label for="select_provinsi" class="h1 text-style1 col-sm-4 col-form-label">Provinsi</label>
+                                    <select id="select_provinsi" class="select-control text-style1 transparent-select" value="<? old('provinsi'); ?>" placeholder="Cari Provinsi.." autocomplete="off" required oninvalid="this.setCustomValidity('Mohon pilih/cari provisi pada input ini')" oninput="this.setCustomValidity('')"></select>
 
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="password">Email</label>
-                                        <input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="password" required autofocus>
+                                    <!-- KABUPATEN -->
+                                    <label for="select_kabupaten" class="h1 text-style1 col-sm-4  col-form-label">Kabupaten</label>
+                                    <select id="select_kabupaten" class="select-control text-style1" value="<?= old('kabupaten'); ?>" placeholder="Cari Kabupaten..." autocomplete="off" required oninvalid="this.setCustomValidity('Mohon pilih/cari kabupaten pada input ini')" oninput="this.setCustomValidity('')"></select>
 
+                                    <!-- KECAMATAN -->
+                                    <label for="select_kecamatan" class="h1 text-style1 col-sm-4  col-form-label">Kecamatan</label>
+                                    <select id="select_kecamatan" class="select-control text-style1" value="<?= old('kecamatan'); ?>" placeholder="Cari Kecematan..." autocomplete="off" required oninvalid="this.setCustomValidity('Mohon pilih/cari kecamatan pada input ini')" oninput="this.setCustomValidity('')"></select>
+
+                                    <input type="hidden" id="input-provinsi" name="provinsi">
+                                    <input type="hidden" id="input-kabupaten" name="kabupaten">
+                                    <input type="hidden" id="input-kecamatan" name="kecamatan">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            <label for="alamatDomisili">Alamat Domisili</label>
+                                            <textarea class="form-control form-control-sm" id="alamatDomisili" name="alamat_domisili"></textarea>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="d-grid mb-2">
+                                        <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Daftar</button>
                                     </div>
 
-                                </div>
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="pendidikanTerakhir">Pendidikan Terakhir</label>
-                                        <select class="form-control form-control-sm" name="pendidikan_terakhir" id="pendidikanTerakhir" required>
-                                            <option value="sd">SD</option>
-                                            <option value="smp">SMP</option>
-                                            <option value="sma">SMA / sederajat</option>
-                                            <option value="d1">D1</option>
-                                            <option value="d2">D2</option>
-                                            <option value="d3">D3</option>
-                                            <option value="d3">D4</option>
-                                            <option value="s1" selected>S1</option>
-                                            <option value="s2">S2</option>
-                                            <option value="s3">S3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col mb-3">
-                                        <label for="status">Status</label>
-                                        <input type="text" class="form-control form-control-sm" id="status" name="status" placeholder="" required autofocus>
-                                    </div>
-                                    <div class="col mb-3">
-                                        <label for="spesialisasi">Spesialisasi</label>
-                                        <input type="text" class="form-control form-control-sm" id="spesialisasi" name="spesialisasi" placeholder="" required autofocus>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="jabatan">Jabatan/Pekerjaan</label>
-                                        <input type="text" class="form-control form-control-sm" id="jabatan" name="jabatan" placeholder="" required autofocus>
-                                    </div>
-                                    <div class="col mb-3">
-                                        <label for="pangkat">Pangkat/Golongan</label>
-                                        <input type="text" class="form-control form-control-sm" id="pangkat" name="pangkat" placeholder="" required autofocus>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="namaInstansi">Nama Instansi</label>
-                                        <input type="text" class="form-control form-control-sm" id="namaInstansi" name="nama_instansi" placeholder="" required autofocus>
-                                    </div>
-                                    <div class="col mb-3">
-                                        <label for="teleponInstansi">Telepon Instansi</label>
-                                        <input type="text" class="form-control form-control-sm" id="teleponInstansi" name="telepon_instansi" placeholder="" required autofocus>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="alamatInstansi">Alamat Instansi</label>
-                                        <textarea class="form-control form-control-sm" id="alamatInstansi" name="alamat_instansi"></textarea>
-                                    </div>
-                                </div>
-                                <!-- PROVINSI -->
-                                <label for="select_provinsi" class="h1 text-style1 col-sm-4 col-form-label">Provinsi</label>
-                                <select id="select_provinsi" class="select-control text-style1 transparent-select" value="<? old('provinsi'); ?>" placeholder="Cari Provinsi.." autocomplete="off" required oninvalid="this.setCustomValidity('Mohon pilih/cari provisi pada input ini')" oninput="this.setCustomValidity('')"></select>
-
-                                <!-- KABUPATEN -->
-                                <label for="select_kabupaten" class="h1 text-style1 col-sm-4  col-form-label">Kabupaten</label>
-                                <select id="select_kabupaten" class="select-control text-style1" value="<?= old('kabupaten'); ?>" placeholder="Cari Kabupaten..." autocomplete="off" required oninvalid="this.setCustomValidity('Mohon pilih/cari kabupaten pada input ini')" oninput="this.setCustomValidity('')"></select>
-
-                                <!-- KECAMATAN -->
-                                <label for="select_kecamatan" class="h1 text-style1 col-sm-4  col-form-label">Kecamatan</label>
-                                <select id="select_kecamatan" class="select-control text-style1" value="<?= old('kecamatan'); ?>" placeholder="Cari Kecematan..." autocomplete="off" required oninvalid="this.setCustomValidity('Mohon pilih/cari kecamatan pada input ini')" oninput="this.setCustomValidity('')"></select>
-
-                                <input type="hidden" id="input-provinsi" name="provinsi">
-                                <input type="hidden" id="input-kabupaten" name="kabupaten">
-                                <input type="hidden" id="input-kecamatan" name="kecamatan">
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <label for="alamatDomisili">Alamat Domisili</label>
-                                        <textarea class="form-control form-control-sm" id="alamatDomisili" name="alamat_domisili"></textarea>
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <div class="d-grid mb-2">
-                                    <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Daftar</button>
-                                </div>
-
-                                <a class="d-block text-center mt-2 small" href="<?php echo base_url('login'); ?>">Sudah punya akun? Masuk</a>
+                                    <a class="d-block text-center mt-2 small" href="<?php echo base_url('login'); ?>">Sudah punya akun? Masuk</a>
 
 
 

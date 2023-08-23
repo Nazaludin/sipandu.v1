@@ -1,5 +1,8 @@
-<script src="<?php echo base_url(); ?>assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/libs/toastr/build/toastr.min.js"></script>
+<!-- <script src="<?php echo base_url(); ?>assets/libs/jquery/dist/jquery.min.js"></script> -->
+<!-- <script src="<?php echo base_url(); ?>assets/libs/toastr/build/toastr.min.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
 	function makeToast(message, category) {
 		switch (category) {

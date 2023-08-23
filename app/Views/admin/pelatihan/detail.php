@@ -23,27 +23,24 @@
                 <div class="col-12">
                     <div class="card card-round">
                         <div class="card-body">
-                            <h4 class="card-title">Detail Pelatihan</h4>
-                            <div class="row px-3 justify-content-between mb-4">
-                                <div class="col-1">
-                                    <a href="<?= base_url('pelatihan'); ?>" class="btn btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
-                                        </svg>
-                                        Back</a>
+                            <div class="row justify-content-between">
+                                <div class="col-auto">
+                                    <div class="d-flex flex-row align-items-center">
+                                        <a href="<?= base_url('pelatihan'); ?>" class="btn btn-icon" aria-label="Button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M15 6l-6 6l6 6"></path>
+                                            </svg></a>
+
+                                        <h4 class="card-title align-middle">Detail Pelatihan</h4>
+                                    </div>
                                 </div>
-                                <div class="col-1">
-                                    <a href="<?= base_url('pelatihan/detail/user/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
-                                        </svg>
-                                        User</a>
-                                </div>
-                                <div class="col-1">
+                                <div class="col-auto">
                                     <a href="<?= base_url('pelatihan/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Edit</a>
                                 </div>
+                            </div>
+
+                            <div>
                             </div>
                             <!-- Comment Row -->
                             <div class="row px-3 mb-4">

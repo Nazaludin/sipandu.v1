@@ -15,11 +15,6 @@
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <span class="d-none d-sm-inline">
-                            <a href="#" class="btn">
-                                New view
-                            </a>
-                        </span>
                         <a href="<?= base_url('pelatihan/insert'); ?>" class="btn btn-primary d-none d-sm-inline-block">
 
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -82,11 +77,7 @@
                                                 <td><?= $value->batch; ?></td>
                                                 <td><?= $value->quota; ?></td>
                                                 <td><a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-outline-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
-                                                        </svg>
-                                                        Pengguna</a></td>
+                                                        p</a></td>
                                                 <td>
                                                     <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

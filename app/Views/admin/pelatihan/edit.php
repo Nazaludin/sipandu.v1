@@ -23,7 +23,6 @@
                 <div class="col-12">
                     <div class="card card-round">
                         <div class="card-body">
-                            <h4 class="card-title">Edit Pelatihan</h4>
                             <div class="row px-3">
                                 <div class="col-12">
                                     <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
@@ -34,6 +33,8 @@
                                         Back</a>
                                 </div>
                             </div>
+                            <h4 class="card-title">Edit Pelatihan</h4>
+
                             <!-- Comment Row -->
                             <div class="row px-3">
                                 <div class="col-12">

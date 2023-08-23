@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -11,6 +11,7 @@
                     <h2 class="page-title">
                         Profil
                     </h2>
+
                 </div>
                 <!-- Page title actions -->
                 <!-- <div class="col-auto ms-auto d-print-none">
@@ -44,7 +45,7 @@
     </div>
     <!-- Page body -->
     <div class="page-body">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <div class="col-4">
                     <div class="card">
@@ -68,7 +69,7 @@
                                     <a href="#" class="btn btn-primary" title="Upload new profile image" data-bs-toggle="modal" data-bs-target="#modal-foto-profil"> <i data-feather="edit"></i></a>
                                 </div>
 
-                                <h4 class="text-center"><?= $data->nama; ?></h4>
+                                <h4 class="text-center"><?= $data->fullname; ?></h4>
                                 <h5 class="text-center"><?= $data->jabatan; ?></h5>
 
                             </div>
@@ -121,7 +122,7 @@
                                                     <tr>
                                                         <th scope="row">3</th>
                                                         <td>Nama Lengkap</td>
-                                                        <td><?= $data->nama; ?></td>
+                                                        <td><?= $data->gelar_depan; ?> <?= $data->fullname; ?> <?= $data->gelar_belakang; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">4</th>
@@ -159,40 +160,46 @@
                                                     <td>01 Mei 2023</td>
                                                 </tr> -->
                                                     <tr>
-                                                        <th scope="row">10</th>
-                                                        <td>Status/Spesialisasi</td>
-                                                        <td><?= $data->status_kerja; ?></td>
+                                                        <th scope="row">11</th>
+                                                        <td>Pendidikan Terakhir</td>
+                                                        <td><?= $data->pendidikan_terakhir; ?> | <?= $data->jurusan; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">11</th>
+                                                        <td>Alamat Domisili</td>
+                                                        <td><?php echo isset($data->nama_jalan_domisili) ? ($data->nama_jalan_domisili . ', ' . $data->desa_domisili . ', Kec. ' . $data->kecamatan_domisili . ', ' . $data->kabupaten_domisili . ', ' . $data->provinsi_domisili . '.') : ''; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">10</th>
                                                         <td>Jabatan/Pekerjaan</td>
                                                         <td><?= $data->jabatan; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">12</th>
-                                                        <td>Pangkat/Golongan</td>
-                                                        <td><?= $data->pangkat; ?></td>
+                                                        <td>Tipe Pegawai</td>
+                                                        <td><?= $data->tipe_pegawai; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">13</th>
+                                                        <td>Jenis Nakes</td>
+                                                        <td><?= $data->jenis_nakes; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">13</th>
+                                                        <td>Pangkat/Golongan</td>
+                                                        <td><?= $data->pangkat_golongan; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">14</th>
                                                         <td>Nama Instansi</td>
                                                         <td><?= $data->nama_instansi; ?></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row">14</th>
                                                         <td>Alamat Instansi</td>
-                                                        <td><?= $data->alamat_instansi; ?></td>
+                                                        <td><?php echo isset($data->nama_jalan_instansi) ? ($data->nama_jalan_instansi . ', ' . $data->desa_instansi . ', Kec. ' . $data->kecamatan_instansi . ', ' . $data->kabupaten_instansi . ', ' . $data->provinsi_instansi . '.') : ''; ?></td>
                                                     </tr>
-                                                    <tr>
-                                                        <th scope="row">15</th>
-                                                        <td>Telepon Instansi</td>
-                                                        <td><?= $data->telepon_instansi; ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">16</th>
-                                                        <td>Alamat Domisili</td>
-                                                        <td><?= $data->alamat_domisili; ?>, Kec. <?= $data->kecamatan; ?>, <?= $data->kabupaten; ?>, <?= $data->provinsi; ?>.</td>
-                                                    </tr>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -221,7 +228,7 @@
                                             <div class="col mb-3">
 
                                                 <label for="nama">Nama Lengkap</label>
-                                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Lengkap" required autofocus>
+                                                <input type="text" class="form-control" id="nama" name="fullname" placeholder="Nama Lengkap" required autofocus>
 
                                             </div>
                                             <div class="col mb-3">
@@ -387,155 +394,669 @@
                         </div>
                     </div>
                 </div>
+                <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasBottom" role="button" aria-controls="offcanvasBottom">
+                    Trigger offcanvas
+                </a>
+                <div class="offcanvas offcanvas-bottom rounded-5 <?= (system_status() == 'incomplete') ? 'show' : ''; ?>" tabindex="-1" id="offcanvasBottom" data-bs-keyboard="false" data-bs-backdrop="static" aria-labelledby="offcanvasBottomLabel" style="height:800px !important;">
+                    <div class="offcanvas-header">
+                        <h2 class="offcanvas-title" id="offcanvasBottomLabel">Melengkapi Identitas</h2>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="nav nav-tabs steps steps-counter steps-lime" data-bs-toggle="tabs">
+                                            <span id="button-tab-identitas" href="#tabs-identitas" class="step-item active" data-bs-toggle="tab" disabled>Identitas</span>
+                                            <span id="button-tab-pekerjaan" href="#tabs-pekerjaan" class="step-item" data-bs-toggle="tab" disabled>Pekerjaan</span>
+                                            <span id="button-tab-foto-diri" href="#tabs-foto-diri" class="step-item" data-bs-toggle="tab" disabled>Foto Diri</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="<?= base_url('profil/complete'); ?>" method="post" enctype="multipart/form-data">
+                                            <?= csrf_field() ?>
 
-                <!-- Modal -->
-                <div class="modal fade" id="modal-foto-profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
-                                <?= csrf_field() ?>
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image">Upload Image</label>
-                                    <input type="file" class="form-control-file" id="image" name="foto_profil">
-                                </div>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active show" id="tabs-identitas">
+                                                    <h4>Identitas Diri</h4>
+
+                                                    <div class="row mt-4">
+                                                        <div class="col-lg-6 mb-3">
+                                                            <label for="fullnameInsert" class="form-label required">Nama Lengkap</label>
+                                                            <input type="text" class="form-control" id="fullnameInsert" name="fullname" placeholder="Nama Lengkap" required autofocus>
+                                                            <small id="fullnameHelp" class="form-text text-muted">Tulis nama lengkap <b>tanpa gelar</b> dan <b>tidak disingkat</b>.</small>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="gelarDepanInsert" class="form-label">Gelar Depan</label>
+                                                            <input type="text" class="form-control" id="gelarDepanInsert" name="gelar_depan" placeholder="Gelar Depan" autofocus>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="gelarBelakangInsert" class="form-label">Gelar Belakang</label>
+                                                            <input type="text" class="form-control" id="gelarBelakangInsert" name="gelar_belakang" placeholder="Gelar Belakang" autofocus>
+                                                        </div>
+
+                                                        <div class="col-lg-6 col-md-12 mb-3">
+                                                            <label for="nomorKTPInsert" class="form-label required">Nomor KTP</label>
+                                                            <input type="text" class="form-control" id="nomorKTPInsert" name="nik" placeholder="Nomor KTP" required autofocus>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="pendidikanTerakhirInsert" class="form-label required">Pendidikan Terakhir</label>
+                                                            <select class="select-control" name="pendidikan_terakhir" id="pendidikanTerakhirInsert" placeholder="Pilih pendidikan terakhir" required oninvalid="this.setCustomValidity('Mohon pilih pendidikan terakhir pada input ini')" oninput="this.setCustomValidity('')">
+                                                                <option value=""></option>
+                                                                <option value="SMA">SMA / sederajat</option>
+                                                                <option value="D1">D1</option>
+                                                                <option value="D2">D2</option>
+                                                                <option value="D3">D3</option>
+                                                                <option value="D4">D4</option>
+                                                                <option value="S1">S1</option>
+                                                                <option value="S2">S2</option>
+                                                                <option value="S3">S3</option>
+                                                            </select>
+                                                        </div>
+                                                        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+                                                        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+                                                        <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="jurusanInsert" class="form-label required">Jurusan</label>
+                                                            <input type="text" class="form-control" id="jurusanInsert" name="jurusan" placeholder="Jurusan" required autofocus>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="tempatLahirInsert" class="form-label required">Tempat Lahir</label>
+                                                            <input type="text" class="form-control" id="tempatLahiInsertr" name="tempat_lahir" placeholder="Tempat Lahir" required autofocus>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="tanggalLahir" class="form-label required">Tanggal Lahir</label>
+                                                            <input type="date" class="form-control" id="tanggalLahir" name="tanggal_lahir" placeholder="myusername" required autofocus>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="agamaInsert" class="form-label required">Agama</label>
+                                                            <select class="form-control" name="agama" id="agamaInsert" required>
+                                                                <option value="Islam">Islam</option>
+                                                                <option value="Kristen Protestan">Kristen Protestan</option>
+                                                                <option value="Kristen Katolik">Kristen Katolik</option>
+                                                                <option value="Hindu">Hindu</option>
+                                                                <option value="Buddha">Buddha</option>
+                                                                <option value="Konghucu">Konghucu</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <div class="form-label required">Jenis Kelamin</div>
+                                                            <div>
+                                                                <label class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="jenis_kelamin" value="L">
+                                                                    <span class="form-check-label">Laki-laki</span>
+                                                                </label>
+                                                                <label class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio" name="jenis_kelamin" value="P">
+                                                                    <span class="form-check-label">Perempuan</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="card-title">Alamat Domisili</div>
+                                                            <div class="row">
+                                                                <div class="col mb-3">
+                                                                    <label for="namaJalanInsert" class="form-label required">Nama Jalan</label>
+                                                                    <input type="text" class="form-control" id="namaJalanInsert" name="nama_jalan_domisili" placeholder="Tulis alamat dengan nama jalan beserta nomornya">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="desaInsert" class="form-label required">Desa/Kelurahan</label>
+                                                                    <input type="text" class="form-control" id="desaInsert" name="desa_domisili" placeholder="Dasa" required autofocus>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="kecamatanInsert" class="form-label required">Kecamatan</label>
+                                                                    <input type="text" class="form-control" id="kecamatanInsert" name="kecamatan_domisili" placeholder="Kecamatan" required autofocus>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="kabupatenInsert" class="form-label required">Kabupaten/Kota</label>
+                                                                    <input type="text" class="form-control" id="kabupatenInsert" name="kabupaten_domisili" placeholder="Kabupaten" required autofocus>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="provinsiInsert" class="form-label required">Provinsi</label>
+                                                                    <input type="text" class="form-control" id="provinsiInsert" name="provinsi_domisili" placeholder="Provinsi" required autofocus>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="tab-pane" id="tabs-pekerjaan">
+                                                    <h4>Pekerjaan</h4>
+                                                    <div class="row mt-4">
+                                                        <div class="col-lg-6 col-md-6 mb-3">
+                                                            <label for="tipePegawaiInsert" class="form-label required">Tipe Pegawai</label>
+                                                            <select class="select-control" name="tipe_pegawai" id="tipePegawaiInsert" placeholder="Pilih tipe pegawai" required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                <option value=""></option>
+                                                                <option value="ASN Kemenkes">ASN Kemenkes</option>
+                                                                <option value="ASN Non Kemenkes">ASN Non Kemenkes</option>
+                                                                <option value="Non ASN">Non ASN</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 mb-3">
+                                                            <label for="nomorNIPInsert" class="form-label required">Nomor Induk Pegawai (NIP)</label>
+                                                            <input type="text" class="form-control" id="nomorNIPInsert" name="nip" placeholder="Nomor Induk Pegawai (NIP)" required autofocus>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="jabatanInsert" class="form-label required">Jabatan/Pekerjaan</label>
+                                                            <input type="text" class="form-control" id="jabatanInsert" name="jabatan" placeholder="Jabatan/Pekerjaan" required autofocus>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="pangkatInsert" class="form-label required">Pangkat/Golongan</label>
+                                                            <select class="select-control" name="pangkat_golongan" id="pangkatInsert" placeholder="Cari pangkat atau golongan..." required oninvalid="this.setCustomValidity('Mohon cari/pilih pangkat pada input ini')" oninput="this.setCustomValidity('')">
+                                                                <option value=""></option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="jenisNakesInsert" class="form-label required">Jenis Nakes</label>
+                                                            <select class="select-control" name="jenis_nakes" id="jenisNakesInsert" placeholder="Cari pangkat atau golongan..." required oninvalid="this.setCustomValidity('Mohon cari/pilih jenis nakes pada input ini')" oninput="this.setCustomValidity('')">
+                                                                <option value=""></option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 mb-3">
+                                                            <label for="namaInstansiInsert" class="form-label required">Nama Instansi</label>
+                                                            <input type="text" class="form-control" id="namaInstansiInsert" name="nama_instansi" placeholder="Nama Instansi" required autofocus>
+                                                        </div>
+                                                        <script>
+                                                            let pendidikanSelect = new TomSelect('#pendidikanTerakhirInsert', {
+                                                                hideSelected: true,
+                                                                valueField: 'id',
+                                                                labelField: 'name',
+                                                                searchField: 'name',
+                                                                create: false,
+                                                            });
+                                                            let tipePegawaiSelect = new TomSelect('#tipePegawaiInsert', {
+                                                                hideSelected: true,
+                                                                valueField: 'id',
+                                                                labelField: 'name',
+                                                                searchField: 'name',
+                                                                create: false,
+                                                            });
+                                                            let pangkatSelect = new TomSelect('#pangkatInsert', {
+                                                                hideSelected: true,
+                                                                valueField: 'nama',
+                                                                labelField: 'nama',
+                                                                searchField: 'nama',
+                                                                options: convertArray(dataPangkat()),
+                                                                create: false,
+                                                            });
+                                                            let jenisNakesSelect = new TomSelect('#jenisNakesInsert', {
+                                                                hideSelected: true,
+                                                                valueField: 'nama',
+                                                                labelField: 'nama',
+                                                                searchField: 'nama',
+                                                                options: convertArray(dataJenisNakes()),
+                                                                create: false,
+                                                            });
+
+                                                            // Fungsi untuk mengambil data provinsi dari server
+                                                            function dataProvinsi() {
+                                                                var result = "";
+                                                                $.ajax({
+                                                                    url: "<?= base_url(); ?>/service/provinsi",
+                                                                    async: false,
+                                                                    success: function(data) {
+                                                                        result = data;
+                                                                        console.log(data);
+                                                                    }
+                                                                });
+                                                                return result;
+                                                            }
+
+                                                            function dataPangkat() {
+                                                                var result = "";
+                                                                $.ajax({
+                                                                    url: "<?= base_url(); ?>/service/pangkat-golongan",
+                                                                    async: false,
+                                                                    success: function(data) {
+                                                                        result = data;
+                                                                        console.log(data);
+                                                                    }
+                                                                });
+                                                                return result;
+                                                            }
+
+                                                            function dataJenisNakes() {
+                                                                var result = "";
+                                                                $.ajax({
+                                                                    url: "<?= base_url(); ?>/service/jenis-nakes",
+                                                                    async: false,
+                                                                    success: function(data) {
+                                                                        result = data;
+                                                                        console.log(data);
+                                                                    }
+                                                                });
+                                                                return result;
+                                                            }
 
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+                                                            // Fungsi untuk mengkonversi data dari string JSON ke array
+                                                            function convertArray(data) {
+                                                                return JSON.parse(data);
+                                                            }
+                                                        </script>
+                                                    </div>
+
+                                                    <div class="row">
+                                                    </div>
+
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="card-title">Alamat Instansi</div>
+                                                            <div class="row">
+                                                                <div class="col mb-3">
+                                                                    <label for="namaJalanInstansiInsert" class="form-label required">Nama Jalan</label>
+                                                                    <input type="text" class="form-control" id="namaJalanInstansiInsert" name="nama_jalan_instansi" placeholder="Tulis alamat dengan nama jalan instansi beserta nomornya">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="desaInstansiInsert" class="form-label required">Desa/Kelurahan</label>
+                                                                    <input type="text" class="form-control" id="desaInstansiInsert" name="desa_instansi" placeholder="Dasa" required autofocus>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="kecamatanInstansiInsert" class="form-label required">Kecamatan</label>
+                                                                    <input type="text" class="form-control" id="kecamatanInstansiInsert" name="kecamatan_instansi" placeholder="Kecamatan" required autofocus>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="kabupatenInstansiInsert" class="form-label required">Kabupaten/Kota</label>
+                                                                    <input type="text" class="form-control" id="kabupatenInstansiInsert" name="kabupaten_instansi" placeholder="Kabupaten" required autofocus>
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-6 mb-3">
+                                                                    <label for="provinsiInstansiInsert" class="form-label required">Provinsi</label>
+                                                                    <input type="text" class="form-control" id="provinsiInstansiInsert" name="provinsi_instansi" placeholder="Provinsi" required autofocus>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- <div class="tab-pane" id="tabs-activity-7">
+                                                <h4>Activity tab</h4>
+                                                <div>Donec ac vitae diam amet vel leo egestas consequat rhoncus in luctus amet, facilisi sit mauris accumsan nibh habitant senectus</div>
+                                            </div> -->
+                                                </div>
+                                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css">
+                                                <style>
+                                                    #previewContainer {
+                                                        width: 300px;
+                                                        height: 200px;
+                                                        border: 1px solid #ccc;
+                                                        margin-top: 20px;
+                                                        display: none;
+                                                    }
+
+                                                    #previewContainer img {
+                                                        max-width: 100%;
+                                                        max-height: 100%;
+                                                    }
+                                                </style>
+                                                <div class="tab-pane" id="tabs-foto-diri">
+                                                    <h4>Foto Diri</h4>
+                                                    <div class="card">
+                                                        <div class="row g-0">
+                                                            <div class="col-12 col-md-3 border-end">
+                                                                <div class="card-body">
+                                                                    <h4 class="subheader">Penyesuaian Foto</h4>
+                                                                    <div class="list-group list-group-flush list-group-hoverable overflow-auto" style="max-height: 50rem">
+                                                                        <div id="previewContainer">
+                                                                            <img id="previewImage" src="#" alt="Preview">
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-12 col-md-9 d-flex flex-column">
+                                                                <div class="card-body">
+                                                                    <h3 class="card-title">Foto diri</h3>
+                                                                    <p>keteranga...............</p>
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col">
+                                                                            <input class="form-control" type="file" id="fileFotoInsert">
+                                                                        </div>
+
+                                                                        <div>
+                                                                            <button class="btn btn-primary" type="button" id="cropButton">Simpan</button>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mt-4">
+
+                                                    </div>
+                                                </div>
+
+                                                <button id="submit-form" type="submit" hidden></button>
+
+
+
+
+                                                <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+                                                <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.js"></script>
+                                                <script>
+                                                    var csrfName = '<?= csrf_token() ?>';
+                                                    var csrfHash = '<?= csrf_hash() ?>';
+                                                    const fileInput = document.getElementById('fileFotoInsert');
+                                                    const previewContainer = document.getElementById('previewContainer');
+
+                                                    const previewImage = document.getElementById('previewImage');
+                                                    const cropButton = document.getElementById('cropButton');
+
+                                                    let cropper;
+
+                                                    fileInput.addEventListener('change', function() {
+                                                        const file = fileInput.files[0];
+
+                                                        if (file) {
+                                                            const reader = new FileReader();
+
+                                                            reader.onload = function(e) {
+                                                                previewImage.src = e.target.result;
+                                                                previewContainer.innerHTML = '';
+                                                                previewContainer.appendChild(previewImage);
+                                                                previewContainer.style.display = 'block';
+
+                                                                if (cropper) {
+                                                                    cropper.destroy();
+                                                                }
+
+                                                                cropper = new Cropper(previewImage, {
+                                                                    aspectRatio: 1, // Mengatur rasio aspek yang diinginkan
+                                                                    viewMode: 2, // Mengaktifkan mode pemandangan kanvas
+                                                                });
+                                                            };
+
+                                                            reader.readAsDataURL(file);
+                                                        }
+                                                    });
+
+
+                                                    cropButton.addEventListener('click', function() {
+                                                        if (cropper) {
+                                                            cropper.getCroppedCanvas().toBlob((blob) => {
+                                                                const formData = new FormData();
+
+                                                                // Pass the image file name as the third parameter if necessary.
+                                                                formData.append('croppedImage', blob /*, 'example.png' */ );
+                                                                formData.append([csrfName], csrfHash);
+
+                                                                // Use `jQuery.ajax` method for example
+                                                                $.ajax('/service/test', {
+                                                                    method: 'POST',
+                                                                    data: formData,
+                                                                    processData: false,
+                                                                    contentType: false,
+                                                                    success(data) {
+                                                                        console.log(data);
+                                                                        console.log('Upload success');
+                                                                    },
+                                                                    error() {
+                                                                        console.log('Upload error');
+                                                                    },
+                                                                });
+                                                            }, 'image/png');
+
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
+                        </div>
+                        <div class="offcanvas-footer">
+                            <div class="row justify-content-between">
+                                <div class="col">
+                                    <button id="button-sebelumnya" class="btn btn-ghost-primary" type="button" disabled onclick="controlButtonSebelumnya()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M15 6l-6 6l6 6"></path>
+                                        </svg>
+                                        Sebelumnya
+                                    </button>
+                                </div>
+                                <div class="col d-flex align-items-end flex-column">
+                                    <button id="button-selanjutnya" class="btn btn-ghost-primary" type="button" onclick="controlButtonSelanjutnya()">
+                                        Selanjutnya
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 6l6 6l-6 6"></path>
+                                        </svg>
+                                    </button>
+                                    <button id="button-selanjutnya-simpan" class="btn btn-danger" type="button" onclick="$('#submit-form').click()">
+                                        Simpan
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 6l6 6l-6 6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            var step = 1;
+                            $(document).ready(function() {
+
+                                $('#button-selanjutnya-simpan').hide();
+                            });
+
+                            function controlButtonSelanjutnya() {
+                                switch (step) {
+                                    case 2:
+                                        $('#button-selanjutnya-simpan').show();
+                                        $('#button-selanjutnya').hide();
+                                        $id = "button-tab-foto-diri";
+                                        break;
+
+                                    default:
+                                        $id = "button-tab-pekerjaan";
+                                        break;
+                                }
+                                $('#button-sebelumnya').prop('disabled', false)
+                                $('#' + $id).prop('disabled', false)
+                                $('#' + $id).click()
+                                $('#' + $id).prop('disabled', true)
+                                step++
+                            }
+
+                            function controlButtonSebelumnya() {
+                                step--
+                                console.log(step);
+                                switch (step) {
+                                    case 2:
+                                        $id = "button-tab-pekerjaan";
+                                        $('#button-selanjutnya').show();
+                                        $('#button-selanjutnya-simpan').hide();
+                                        break;
+                                    case 1:
+                                        $id = "button-tab-identitas";
+                                        $('#button-sebelumnya').prop('disabled', true)
+                                        break;
+                                    default:
+                                        $('#button-sebelumnya').prop('disabled', false)
+                                        break;
+                                }
+                                $('#' + $id).prop('disabled', false)
+                                $('#' + $id).click()
+                                $('#' + $id).prop('disabled', true)
+                            }
+                        </script>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal-foto-profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
+                                    <?= csrf_field() ?>
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">Upload Image</label>
+                                        <input type="file" class="form-control-file" id="image" name="foto_profil">
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- ============================================================== -->
+            <!-- Recent comment and chats -->
+            <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- Recent comment and chats -->
+        <!-- End Container fluid  -->
         <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Container fluid  -->
-    <!-- ============================================================== -->
-    <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
-            $('#home-tab').attr('class', 'nav-link active');
-            $('#home').attr('class', 'tab-pane fade show active');
-        });
+        <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            $(document).ready(function() {
+                $('#home-tab').attr('class', 'nav-link active');
+                $('#home').attr('class', 'tab-pane fade show active');
+            });
 
-        let provinsiSelect = new TomSelect('#select_provinsi', {
-            hideSelected: true,
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'name',
-            options: convertArray(dataProvinsi()),
-            create: false,
-            onChange: function(value) {
-                console.log(value, provinsiSelect.getItem(value).innerText);
-                $('#input-provinsi').val(provinsiSelect.getItem(value).innerText);
-                kabupatenSelect.enable();
-                // Mendapatkan daftar kabupaten berdasarkan kode provinsi yang dipilih
-                let daftarKabupaten = convertArray(dataKabupaten(value));
+            let provinsiSelect = new TomSelect('#select_provinsi', {
+                hideSelected: true,
+                valueField: 'id',
+                labelField: 'name',
+                searchField: 'name',
+                sortField: 'name',
+                options: convertArray(dataProvinsi()),
+                create: false,
+                onChange: function(value) {
+                    console.log(value, provinsiSelect.getItem(value).innerText);
+                    $('#input-provinsi').val(provinsiSelect.getItem(value).innerText);
+                    kabupatenSelect.enable();
+                    // Mendapatkan daftar kabupaten berdasarkan kode provinsi yang dipilih
+                    let daftarKabupaten = convertArray(dataKabupaten(value));
 
-                // Menghapus opsi lama di dropdown kabupaten
-                kabupatenSelect.clearOptions();
+                    // Menghapus opsi lama di dropdown kabupaten
+                    kabupatenSelect.clearOptions();
 
-                // Menambahkan opsi baru ke dropdown kabupaten
-                kabupatenSelect.addOption(daftarKabupaten);
+                    // Menambahkan opsi baru ke dropdown kabupaten
+                    kabupatenSelect.addOption(daftarKabupaten);
 
 
-                // Reset nilai dropdown kecamatan
-                kecamatanSelect.clearOptions();
-                kecamatanSelect.setValue("");
-            }
-        });
-
-
-        let kabupatenSelect = new TomSelect("#select_kabupaten", {
-            hideSelected: true,
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'name',
-            options: [],
-            create: false,
-            onChange: function(value) {
-                console.log(value, kabupatenSelect.getItem(value).innerText);
-                $('#input-kabupaten').val(kabupatenSelect.getItem(value).innerText);
-                kecamatanSelect.enable();
-                let daftarKecamatan = convertArray(dataKecamatan(value));
-
-                // Menghapus opsi lama di dropdown kecamatan
-                kecamatanSelect.clearOptions();
-
-                // Menambahkan opsi baru ke dropdown kecamatan
-                kecamatanSelect.addOption(daftarKecamatan);
-            }
-        });
-        let kecamatanSelect = new TomSelect("#select_kecamatan", {
-            hideSelected: true,
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'name',
-            options: [],
-            create: false,
-            onChange: function(value) {
-                console.log(value, kecamatanSelect.getItem(value).innerText);
-                $('#input-kecamatan').val(kecamatanSelect.getItem(value).innerText);
-            }
-        });
-
-
-        // Fungsi untuk mengambil data provinsi dari server
-        function dataProvinsi() {
-            var result = "";
-            $.ajax({
-                url: "service/provinsi",
-                async: false,
-                success: function(data) {
-                    result = data;
+                    // Reset nilai dropdown kecamatan
+                    kecamatanSelect.clearOptions();
+                    kecamatanSelect.setValue("");
                 }
             });
-            return result;
-        }
-        console.log(dataProvinsi(), convertArray(dataProvinsi()));
-        // Fungsi untuk mengambil data kabupaten dari server berdasarkan kode provinsi
-        function dataKabupaten(kodeProvinsi) {
-            var result = "";
-            $.ajax({
-                url: "service/kabupaten/" + kodeProvinsi,
-                async: false,
-                success: function(data) {
-                    result = data;
-                    console.log(kodeProvinsi, result);
+
+
+            let kabupatenSelect = new TomSelect("#select_kabupaten", {
+                hideSelected: true,
+                valueField: 'id',
+                labelField: 'name',
+                searchField: 'name',
+                sortField: 'name',
+                options: [],
+                create: false,
+                onChange: function(value) {
+                    console.log(value, kabupatenSelect.getItem(value).innerText);
+                    $('#input-kabupaten').val(kabupatenSelect.getItem(value).innerText);
+                    kecamatanSelect.enable();
+                    let daftarKecamatan = convertArray(dataKecamatan(value));
+
+                    // Menghapus opsi lama di dropdown kecamatan
+                    kecamatanSelect.clearOptions();
+
+                    // Menambahkan opsi baru ke dropdown kecamatan
+                    kecamatanSelect.addOption(daftarKecamatan);
                 }
             });
-            return result;
-        }
-
-        // Fungsi untuk mengambil data kecamatan dari server berdasarkan kode kabupaten
-        function dataKecamatan(kodeKabupaten) {
-            var result = "";
-            $.ajax({
-                url: "service/kecamatan/" + kodeKabupaten,
-                async: false,
-                success: function(data) {
-                    result = data;
+            let kecamatanSelect = new TomSelect("#select_kecamatan", {
+                hideSelected: true,
+                valueField: 'id',
+                labelField: 'name',
+                searchField: 'name',
+                sortField: 'name',
+                options: [],
+                create: false,
+                onChange: function(value) {
+                    console.log(value, kecamatanSelect.getItem(value).innerText);
+                    $('#input-kecamatan').val(kecamatanSelect.getItem(value).innerText);
                 }
             });
-            return result;
-        }
 
-        // Fungsi untuk mengkonversi data dari string JSON ke array
-        function convertArray(data) {
-            return JSON.parse(data);
-        }
-    </script>
+
+            // Fungsi untuk mengambil data provinsi dari server
+            function dataProvinsi() {
+                var result = "";
+                $.ajax({
+                    url: "service/provinsi",
+                    async: false,
+                    success: function(data) {
+                        result = data;
+                    }
+                });
+                return result;
+            }
+            console.log(dataProvinsi(), convertArray(dataProvinsi()));
+            // Fungsi untuk mengambil data kabupaten dari server berdasarkan kode provinsi
+            function dataKabupaten(kodeProvinsi) {
+                var result = "";
+                $.ajax({
+                    url: "service/kabupaten/" + kodeProvinsi,
+                    async: false,
+                    success: function(data) {
+                        result = data;
+                        console.log(kodeProvinsi, result);
+                    }
+                });
+                return result;
+            }
+
+            // Fungsi untuk mengambil data kecamatan dari server berdasarkan kode kabupaten
+            function dataKecamatan(kodeKabupaten) {
+                var result = "";
+                $.ajax({
+                    url: "service/kecamatan/" + kodeKabupaten,
+                    async: false,
+                    success: function(data) {
+                        result = data;
+                    }
+                });
+                return result;
+            }
+
+            // Fungsi untuk mengkonversi data dari string JSON ke array
+            function convertArray(data) {
+                return JSON.parse(data);
+            }
+        </script>

@@ -72,7 +72,7 @@ return [
     // Login views
     'home'                      => 'Home',
     'current'                   => 'Current',
-    'telepon'                   => 'telepon',
+    'telepon'                   => 'Telepon',
     'forgotPassword'            => 'Lupa kata sandi Anda?',
     'enterEmailForInstructions' => 'Tidak masalah! Masukkan email Anda di bawah ini dan kami akan mengirimkan instruksi untuk mengatur ulang kata sandi Anda.',
     'email'                     => 'Email',

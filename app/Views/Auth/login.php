@@ -16,27 +16,44 @@
 			<form action="<?= url_to('login') ?>" method="post">
 				<?= csrf_field() ?>
 
-				<?php if ($config->validFields === ['email']) : ?>
-					<div class="form-group ">
-						<label for="login"><?= lang('Auth.email') ?></label>
-						<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
-						<div class="invalid-feedback">
-							<?= session('errors.login') ?>
+
+				<div class="form-group ">
+					<label for="login"><?= lang('Auth.email') ?></label>
+					<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
+					<!-- <div class="invalid-feedback"> -->
+					<div class="alert alert-important alert-danger alert-dismissible" role="alert">
+						<div class="d-flex">
+							<div>
+								<!-- SVG icon from http://tabler-icons.io/i/alert-circle -->
+								<svg>...</svg>
+							</div>
+							<div>
+								<?= session('errors.login') ?>
+								Your account has been deleted and can't be restored.
+							</div>
 						</div>
+						<a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
 					</div>
-				<?php else : ?>
-					<div class="form-group">
-						<label for="login"><?= lang('Auth.emailOrUsername') ?></label>
-						<input type="text" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" placeholder="<?= lang('Auth.emailOrUsername') ?>">
-						<div class="invalid-feedback">
-							<?= session('errors.login') ?>
-						</div>
-					</div>
-				<?php endif; ?>
+					<?= session('errors.login') ?>
+					<!-- </div> -->
+				</div>
+
 
 				<div class="form-group">
 					<label for="password"><?= lang('Auth.password') ?></label>
-					<input type="password" name="password" class="form-control  <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" value="<?= old('password'); ?>" placeholder="<?= lang('Auth.password') ?>">
+					<div class="input-group input-group-flat">
+						<input id="password_login" type="password" name="password" class="form-control  <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" value="<?= old('password'); ?>" placeholder="<?= lang('Auth.password') ?>">
+						<span class="input-group-text">
+							<a class="link-secondary" data-bs-toggle="tooltip" aria-label="Show password" data-bs-original-title="Show password" onclick="if (password_login.type == 'text') password_login.type = 'password';
+  else password_login.type = 'text';">
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+									<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+									<circle cx="12" cy="12" r="2"></circle>
+									<path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path>
+								</svg>
+							</a>
+						</span>
+					</div>
 					<div class="invalid-feedback">
 						<?= session('errors.password') ?>
 					</div>

@@ -34,7 +34,7 @@ class Filters extends BaseConfig
         'before' => [
             'honeypot',
             'csrf',
-            'login',
+            'login' => ['except' => ['service/*', '/']],
             // 'invalidchars',
         ],
         'after' => [
@@ -65,6 +65,6 @@ class Filters extends BaseConfig
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
     public array $filters = [
-        'login' => ['before' => ['account/*']],
+        // 'login' => ['before' => ['account/*']],
     ];
 }

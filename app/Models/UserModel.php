@@ -17,10 +17,11 @@ class UserModel extends Model
     protected $returnType     = 'App\Entities\User';
     protected $useSoftDeletes = true;
     protected $allowedFields  = [
-        'email', 'username', 'nama', 'nip', 'nik',
-        'status_kerja', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'agama', 'telepon', 'pendidikan_terakhir',
-        'jabatan', 'pangkat', 'nama_instansi', 'telepon_instansi', 'alamat_instansi', 'alamat_domisili',
-        'provinsi', 'kabupaten', 'kecamatan', 'nama_foto', 'lokasi_foto',
+        'user_id_best', 'status_sistem', 'email', 'username', 'fullname', 'gelar_depan', 'gelar_belakang', 'firstname', 'lastname', 'nip', 'nik',
+        'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'agama', 'telepon', 'pendidikan_terakhir',
+        'jurusan', 'nama_jalan_domisili', 'desa_domisili', 'kecamatan_domisili', 'kabupaten_domisili', 'provinsi_domisili', 'nama_foto', 'lokasi_foto',
+        'tipe_pegawai', 'jabatan', 'pangkat_golongan', 'jenis_nakes', 'nama_instansi', 'nama_jalan_instansi',
+        'desa_instansi', 'kecamatan_instansi', 'kabupaten_instansi', 'provinsi_instansi',
         'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
         'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
     ];

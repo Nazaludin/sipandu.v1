@@ -38,16 +38,22 @@ $routes->get('/profil', 'Pages::index');
 //     $routes->post('proses',  'Pages::loginProses');
 // });
 // $routes->get('/logout', 'Pages::logout');
-// $routes->get('/registrasi', 'Pages::registrasi');
+$routes->get('/register', 'AuthController::register');
+$routes->post('/register', 'AuthController::attemptRegister');
 // $routes->group('registrasi', static function ($routes) {
 //     $routes->post('proses',  'Pages::registrasiProses');
 // });
 $routes->group('service', static function ($routes) {
-    $routes->get('provinsi',  'Pages::dataProvinsi');
-    $routes->get('kabupaten/(:num)',  'Pages::dataKabupaten/$1');
-    $routes->get('kecamatan/(:segment)',  'Pages::dataKecamatan/$1');
+    $routes->get('test',  'APIControl::test');
+    $routes->post('test',  'APIControl::testKoneksi');
+    $routes->get('pangkat-golongan',  'APIControl::dataPangkatGolongan');
+    $routes->get('jenis-nakes',  'APIControl::dataJenisNakes');
+    $routes->get('provinsi',  'APIControl::dataProvinsi');
+    $routes->get('kabupaten/(:num)',  'APIControl::dataKabupaten/$1');
+    $routes->get('kecamatan/(:segment)',  'APIControl::dataKecamatan/$1');
 });
 $routes->group('profil', static function ($routes) {
+    $routes->post('complete',  'Pages::completeProfil');
     $routes->group('upload', static function ($routes) {
         $routes->match(['get', 'post'], 'foto',  'Pages::uploadFotoProfil');
     });
@@ -69,25 +75,32 @@ $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes)
 
     $routes->get('riwayat', 'Pages::pelatihanRiwayat');
 });
-$routes->get('pelatihan', 'Admin::pelatihanKelola', ['filter' => 'role:admin']);
+$routes->get('pelatihan', 'Admin::pelatihan', ['filter' => 'role:admin']);
 $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes) {
-    // $routes->get('detail/(:num)', 'Pages::detailKelolaProses/$1');
-    $routes->get('detail/(:num)',  'Admin::detailKelola/$1');
+    // $routes->get('detail/(:num)', 'Pages::pelatihanDetailProses/$1');
+    $routes->get('detail/(:num)',  'Admin::pelatihanDetail/$1');
     $routes->get('insert',  'Admin::pelatihanInsert');
     $routes->group('insert', static function ($routes) {
         $routes->get('syarat/(:num)',  'Admin::pelatihanInsertRule/$1');
         $routes->get('publis/(:num)',  'Admin::pelatihanInsertPublish/$1');
+        $routes->group('publis', static function ($routes) {
+            $routes->post('proses/(:num)',  'Admin::pelatihanInsertPublishProses/$1');
+        });
         $routes->post('proses',  'Admin::pelatihanInsertProses');
     });
 
 
 
     $routes->group('detail', static function ($routes) {
-        $routes->get('edit/(:num)',  'Admin::detailKelolaEdit/$1');
+        $routes->get('edit/(:num)',  'Admin::pelatihanDetailEdit/$1');
         $routes->get('user/(:num)',  'Admin::pelatihanUser/$1');
 
+        $routes->group('user', static function ($routes) {
+            $routes->get('regis/(:num)/(:num)',  'Admin::pelatihanUserDetail/$1/$2');
+        });
+
         $routes->group('edit', static function ($routes) {
-            $routes->post('proses/(:num)',  'Admin::detailKelolaEditProses/$1');
+            $routes->post('proses/(:num)',  'Admin::pelatihanDetailEditProses/$1');
         });
 
         $routes->group('dokumen', static function ($routes) {

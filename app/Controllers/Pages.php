@@ -98,10 +98,12 @@ class Pages extends BaseController
 
     public function index()
     {
+        // dd(system_status());
         $pengguna = session()->get('logged_in');
         $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
         $dump = explode(" ", $data['data']->tanggal_lahir);
         (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+        // dd($data);
         return view('layout/header', $data)
             . view('layout/sidebar')
             . view('basic/profil/index')
@@ -344,34 +346,7 @@ class Pages extends BaseController
     {
         return view('register');
     }
-    public function dataProvinsi()
-    {
-        $client = \Config\Services::curlrequest();
 
-        $response = $client->request('GET', $this->apiURL . 'provinsi?api_key=' . $this->apiKey);
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody())->data;
-        }
-        return $this->response = json_encode($body);
-    }
-    public function dataKabupaten($provinsi_id)
-    {
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', $this->apiURL . 'kota?provinsi_id=' . strval($provinsi_id) . '&api_key=' . $this->apiKey);
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody())->data;
-        }
-        return $this->response = json_encode($body);
-    }
-    public function dataKecamatan($kota_id)
-    {
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', $this->apiURL . 'kecamatan?kota_id=' . strval($kota_id) . '&api_key=' . $this->apiKey);
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody())->data;
-        }
-        return $this->response = json_encode($body);
-    }
 
     //fungsi menyimpan dokumen multiple
     public function uploadFotoProfil()
@@ -405,6 +380,31 @@ class Pages extends BaseController
         $data = $this->request->getPost();
         d($pengguna, $data);
         $this->UsersModel->update($pengguna, $data);
+
+        return redirect()->to(base_url('profil'))->withInput();
+    }
+    public function completeProfil()
+    {
+        $pengguna = session()->get('logged_in');
+        $data = $this->request->getPost();
+        $file = $this->request->getFile('croppedImage');
+        // dd($data);
+        if (isset($file)) {
+
+            if ($file->isValid() && !($file->hasMoved())) {
+
+                $newName = $file->getRandomName();
+                $path = 'uploads/profil';
+                // dd(base_url() . $path, FCPATH, WRITEPATH);
+
+                $file->move(FCPATH . $path, $newName);
+                $data['nama_foto']      = $file->getClientName();
+                $data['lokasi_foto']    = $path . '/' . $newName;
+            }
+        }
+        // dd($pengguna, $data);
+        $data['status_sistem'] = 'complete';
+        model(UserModel::class)->update($pengguna, $data);
 
         return redirect()->to(base_url('profil'))->withInput();
     }

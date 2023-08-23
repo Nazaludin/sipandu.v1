@@ -7,6 +7,8 @@ use CodeIgniter\Session\Session;
 use Myth\Auth\Config\Auth as AuthConfig;
 use Myth\Auth\Entities\User;
 use Myth\Auth\Models\UserModel;
+use Loncat\Moody\AppFactory;
+use Loncat\Moody\Config;
 
 class AuthController extends Controller
 {
@@ -22,6 +24,9 @@ class AuthController extends Controller
      */
     protected $session;
 
+    protected $MoodyBest;
+
+
     public function __construct()
     {
         // Most services in this controller require
@@ -30,6 +35,9 @@ class AuthController extends Controller
 
         $this->config = config('Auth');
         $this->auth   = service('authentication');
+
+        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", "8d52a95d541a42e81f955536e8927e9a");
+        $this->MoodyBest = AppFactory::create($configBest);
     }
 
     //--------------------------------------------------------------------
@@ -43,6 +51,8 @@ class AuthController extends Controller
      */
     public function login()
     {
+
+
         // No need to show a login form if the user
         // is already logged in.
         if ($this->auth->check()) {
@@ -51,7 +61,6 @@ class AuthController extends Controller
 
             return redirect()->to($redirectURL);
         }
-
         // Set a return URL if none is specified
         $_SESSION['redirect_url'] = session('redirect_url') ?? previous_url() ?? site_url('/');
 
@@ -158,17 +167,41 @@ class AuthController extends Controller
 
         // Validate passwords since they can only be validated properly here
         $rules = [
-            'password'     => 'required|strong_password',
+            'password'     => 'required|regex_match[/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/]|strong_password',
             'pass_confirm' => 'required|matches[password]',
         ];
+        $message = [
+            'password' => ['regex_match' => "Penulisan password tidak sesuai"]
+        ];
 
-        if (!$this->validate($rules)) {
+        if (!$this->validate($rules, $message)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Save the user
-        $allowedPostFields = array_merge(['password', 'telepon'], $this->config->validFields, $this->config->personalFields);
-        $user              = new User($this->request->getPost($allowedPostFields));
+        // Save New user to Moodle (BEST)
+        // $dataRegis = $this->request->getPost();
+        // $result = $this->MoodyBest->createUser(
+        //     $dataRegis['username'],
+        //     $dataRegis['password'],
+        //     $dataRegis['email'],
+        //     $dataRegis['firstname'],
+        //     $dataRegis['lastname'],
+        //     $dataRegis['provinsi'],
+        //     "ID",
+        // );
+
+        // if (!empty($result['error'])) {
+        //     $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
+        //     if (!empty($akunBest['error'])) {
+        //         return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
+        //     }
+        // }
+
+        // Save new user
+        $allowedPostFields = array_merge(['password', 'telepon', 'fullname', 'firstname', 'lastname', 'provinsi'], $this->config->validFields, $this->config->personalFields);
+        $user              = new User(array_merge($this->request->getPost($allowedPostFields), ['status_sistem' => 'incomplete']));
+
+
 
         $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
 

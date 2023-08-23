@@ -43,7 +43,7 @@ class Autoload extends AutoloadConfig
         APP_NAMESPACE => APPPATH, // For custom app namespace
         'Config'      => APPPATH . 'Config',
         'App'         => APPPATH,
-        'Myth\Auth'   => APPPATH . 'vendor/myth-auth/src',
+        // 'Myth\Auth'   => APPPATH . 'vendor/myth-auth/src',
         'Loncat\Moody'   => APPPATH . 'vendor/loncat-moody/src',
     ];
 
@@ -96,5 +96,5 @@ class Autoload extends AutoloadConfig
      * @var string[]
      * @phpstan-var list<string>
      */
-    public $helpers = ['auth', 'date'];
+    public $helpers = ['auth', 'date', 'user_status'];
 }

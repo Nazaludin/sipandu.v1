@@ -63,7 +63,8 @@
                                             </div>
                                             <div class="col-4">
                                                 <label for="floatingInputCategoryCourse">Jenis Pelatihan</label>
-                                                <select class="form-control" name="categoryid" id="floatingInputCategoryCourse" required>
+                                                <select class="custom-select" name="categoryid" id="floatingInputCategoryCourse" placeholder="Pilih Jenis Pelatihan..." autocomplete="off" required>
+                                                    <option value="">Pilih Jenis Pelatihan...</option>
                                                     <?php foreach ($kategori_pelatihan as $kp => $valueKP) { ?>
                                                         <option value="<?= $valueKP->id; ?>"><?= $valueKP->name; ?></option>
                                                     <?php } ?>
@@ -72,7 +73,8 @@
 
                                             <div class="col-2">
                                                 <label for="floatingInputBatch">Gelombang/batch</label>
-                                                <select class="form-control" name="batch" id="floatingInputBatch" required>
+                                                <select class="custom-select" name="batch" id="floatingInputBatch" placeholder="Pilih Gelombang..." autocomplete="off" required>
+                                                    <option value="">Pilih Gelombang...</option>
                                                     <?php for ($i = 1; $i <= 4; $i++) { ?>
                                                         <option value="<?= $i; ?>">Batch <?= $i; ?></option>
                                                     <?php } ?>
@@ -86,6 +88,7 @@
                                                     hideSelected: true,
                                                     create: false,
                                                 });
+
                                                 let batchCourse = new TomSelect('#floatingInputBatch', {
                                                     hideSelected: true,
                                                     create: false,
@@ -122,9 +125,9 @@
                                                 <label for="floatingInputContactPerson">Kontak Person</label>
                                                 <input type="text" class="form-control" id="floatingInputContactPerson" name="contact_person" placeholder="Kontak Person" value="">
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-6 custom-file">
                                                 <label for="floatingInputSchedule">Lampiran Jadwal</label>
-                                                <input type="file" class="filepond form-control" id="floatingInputSchedule" name="jadwal">
+                                                <input type="file" class="form-control custom-file-input" id="floatingInputSchedule" name="jadwal" lang="id">
                                             </div>
 
                                         </div>
