@@ -7,13 +7,13 @@ use CodeIgniter\Model;
 class KecamatanModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'kecamatans';
-    protected $primaryKey       = 'id';
+    protected $table            = 'kecamatan';
+    protected $primaryKey       = 'kode_kecamatan';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['nama'];
 
     // Dates
     protected $useTimestamps = false;

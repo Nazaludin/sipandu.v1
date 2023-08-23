@@ -3,7 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\ClassRankModel;
+use App\Models\KabupatenModel;
+use App\Models\KecamatanModel;
 use App\Models\KindNursesModel;
+use App\Models\ProvinsiModel;
 
 class APIControl extends BaseController
 {
@@ -18,31 +21,18 @@ class APIControl extends BaseController
 
     public function dataProvinsi()
     {
-        $client = \Config\Services::curlrequest();
-
-        $response = $client->request('GET', $this->apiURL . 'provinsi?api_key=' . $this->apiKey);
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody())->data;
-        }
-        return $this->response = json_encode($body);
+        $data = model(ProvinsiModel::class)->findAll();
+        return json_encode($data);
     }
-    public function dataKabupaten($provinsi_id)
+    public function dataKabupaten()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', $this->apiURL . 'kota?provinsi_id=' . strval($provinsi_id) . '&api_key=' . $this->apiKey);
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody())->data;
-        }
-        return $this->response = json_encode($body);
+        $data = model(KabupatenModel::class)->findAll();
+        return json_encode($data);
     }
-    public function dataKecamatan($kota_id)
+    public function dataKecamatan()
     {
-        $client = \Config\Services::curlrequest();
-        $response = $client->request('GET', $this->apiURL . 'kecamatan?kota_id=' . strval($kota_id) . '&api_key=' . $this->apiKey);
-        if (strpos($response->header('content-type'), 'application/json') !== false) {
-            $body = json_decode($response->getBody())->data;
-        }
-        return $this->response = json_encode($body);
+        $data = model(KecamatanModel::class)->findAll();
+        return json_encode($data);
     }
     public function dataPangkatGolongan()
     {
@@ -70,4 +60,32 @@ class APIControl extends BaseController
         // dd($data);
         return json_encode($file_download);
     }
+    // public function dataProvinsi()
+    // {
+    //     $client = \Config\Services::curlrequest();
+
+    //     $response = $client->request('GET', $this->apiURL . 'provinsi?api_key=' . $this->apiKey);
+    //     if (strpos($response->header('content-type'), 'application/json') !== false) {
+    //         $body = json_decode($response->getBody())->data;
+    //     }
+    //     return $this->response = json_encode($body);
+    // }
+    // public function dataKabupaten($provinsi_id)
+    // {
+    //     $client = \Config\Services::curlrequest();
+    //     $response = $client->request('GET', $this->apiURL . 'kota?provinsi_id=' . strval($provinsi_id) . '&api_key=' . $this->apiKey);
+    //     if (strpos($response->header('content-type'), 'application/json') !== false) {
+    //         $body = json_decode($response->getBody())->data;
+    //     }
+    //     return $this->response = json_encode($body);
+    // }
+    // public function dataKecamatan($kota_id)
+    // {
+    //     $client = \Config\Services::curlrequest();
+    //     $response = $client->request('GET', $this->apiURL . 'kecamatan?kota_id=' . strval($kota_id) . '&api_key=' . $this->apiKey);
+    //     if (strpos($response->header('content-type'), 'application/json') !== false) {
+    //         $body = json_decode($response->getBody())->data;
+    //     }
+    //     return $this->response = json_encode($body);
+    // }
 }

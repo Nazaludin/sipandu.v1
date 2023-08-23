@@ -475,7 +475,8 @@
                                                         </div>
                                                         <div class="col-lg-3 col-md-6 mb-3">
                                                             <label for="agamaInsert" class="form-label required">Agama</label>
-                                                            <select class="form-control" name="agama" id="agamaInsert" required>
+                                                            <select class="select-control" name="agama" id="agamaInsert" placeholder="Pilih Agama..." required oninvalid="this.setCustomValidity('Mohon pilih agama pada input ini')" oninput="this.setCustomValidity('')">
+                                                                <option value=""></option>
                                                                 <option value="Islam">Islam</option>
                                                                 <option value="Kristen Protestan">Kristen Protestan</option>
                                                                 <option value="Kristen Katolik">Kristen Katolik</option>
@@ -516,15 +517,22 @@
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 mb-3">
                                                                     <label for="kecamatanInsert" class="form-label required">Kecamatan</label>
-                                                                    <input type="text" class="form-control" id="kecamatanInsert" name="kecamatan_domisili" placeholder="Kecamatan" required autofocus>
+                                                                    <select class="select-control" name="kecamatan_domisili" id="kecamatanInsert" placeholder="Pilih/tulis kecamatan domisili..." required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                        <option value=""></option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 mb-3">
                                                                     <label for="kabupatenInsert" class="form-label required">Kabupaten/Kota</label>
-                                                                    <input type="text" class="form-control" id="kabupatenInsert" name="kabupaten_domisili" placeholder="Kabupaten" required autofocus>
+                                                                    <select class="select-control" name="kabupaten_domisili" id="kabupatenInsert" placeholder="Pilih/tulis kabupaten domisili..." required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                        <option value=""></option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 mb-3">
                                                                     <label for="provinsiInsert" class="form-label required">Provinsi</label>
-                                                                    <input type="text" class="form-control" id="provinsiInsert" name="provinsi_domisili" placeholder="Provinsi" required autofocus>
+                                                                    <select class="select-control" name="provinsi_domisili" id="provinsiInsert" placeholder="Pilih/tulis provinsi domisili..." required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                        <option value=""></option>
+                                                                    </select>
+                                                                    <!-- <input type="text" class="form-control" id="provinsiInsert" name="provinsi_domisili" placeholder="Provinsi" required autofocus> -->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -572,85 +580,6 @@
                                                             <label for="namaInstansiInsert" class="form-label required">Nama Instansi</label>
                                                             <input type="text" class="form-control" id="namaInstansiInsert" name="nama_instansi" placeholder="Nama Instansi" required autofocus>
                                                         </div>
-                                                        <script>
-                                                            let pendidikanSelect = new TomSelect('#pendidikanTerakhirInsert', {
-                                                                hideSelected: true,
-                                                                valueField: 'id',
-                                                                labelField: 'name',
-                                                                searchField: 'name',
-                                                                create: false,
-                                                            });
-                                                            let tipePegawaiSelect = new TomSelect('#tipePegawaiInsert', {
-                                                                hideSelected: true,
-                                                                valueField: 'id',
-                                                                labelField: 'name',
-                                                                searchField: 'name',
-                                                                create: false,
-                                                            });
-                                                            let pangkatSelect = new TomSelect('#pangkatInsert', {
-                                                                hideSelected: true,
-                                                                valueField: 'nama',
-                                                                labelField: 'nama',
-                                                                searchField: 'nama',
-                                                                options: convertArray(dataPangkat()),
-                                                                create: false,
-                                                            });
-                                                            let jenisNakesSelect = new TomSelect('#jenisNakesInsert', {
-                                                                hideSelected: true,
-                                                                valueField: 'nama',
-                                                                labelField: 'nama',
-                                                                searchField: 'nama',
-                                                                options: convertArray(dataJenisNakes()),
-                                                                create: false,
-                                                            });
-
-                                                            // Fungsi untuk mengambil data provinsi dari server
-                                                            function dataProvinsi() {
-                                                                var result = "";
-                                                                $.ajax({
-                                                                    url: "<?= base_url(); ?>/service/provinsi",
-                                                                    async: false,
-                                                                    success: function(data) {
-                                                                        result = data;
-                                                                        console.log(data);
-                                                                    }
-                                                                });
-                                                                return result;
-                                                            }
-
-                                                            function dataPangkat() {
-                                                                var result = "";
-                                                                $.ajax({
-                                                                    url: "<?= base_url(); ?>/service/pangkat-golongan",
-                                                                    async: false,
-                                                                    success: function(data) {
-                                                                        result = data;
-                                                                        console.log(data);
-                                                                    }
-                                                                });
-                                                                return result;
-                                                            }
-
-                                                            function dataJenisNakes() {
-                                                                var result = "";
-                                                                $.ajax({
-                                                                    url: "<?= base_url(); ?>/service/jenis-nakes",
-                                                                    async: false,
-                                                                    success: function(data) {
-                                                                        result = data;
-                                                                        console.log(data);
-                                                                    }
-                                                                });
-                                                                return result;
-                                                            }
-
-
-
-                                                            // Fungsi untuk mengkonversi data dari string JSON ke array
-                                                            function convertArray(data) {
-                                                                return JSON.parse(data);
-                                                            }
-                                                        </script>
                                                     </div>
 
                                                     <div class="row">
@@ -673,20 +602,192 @@
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 mb-3">
                                                                     <label for="kecamatanInstansiInsert" class="form-label required">Kecamatan</label>
-                                                                    <input type="text" class="form-control" id="kecamatanInstansiInsert" name="kecamatan_instansi" placeholder="Kecamatan" required autofocus>
+                                                                    <select class="select-control" name="kecamatan_instansi" id="kecamatanInstansiInsert" placeholder="Pilih/tulis kecamatan instansi..." required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                        <option value=""></option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 mb-3">
                                                                     <label for="kabupatenInstansiInsert" class="form-label required">Kabupaten/Kota</label>
-                                                                    <input type="text" class="form-control" id="kabupatenInstansiInsert" name="kabupaten_instansi" placeholder="Kabupaten" required autofocus>
+                                                                    <select class="select-control" name="kabupaten_instansi" id="kabupatenInstansiInsert" placeholder="Pilih/tulis kabupaten instansi..." required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                        <option value=""></option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-6 mb-3">
                                                                     <label for="provinsiInstansiInsert" class="form-label required">Provinsi</label>
-                                                                    <input type="text" class="form-control" id="provinsiInstansiInsert" name="provinsi_instansi" placeholder="Provinsi" required autofocus>
+                                                                    <select class="select-control" name="provinsi_instansi" id="provinsiInstansiInsert" placeholder="Pilih/tulis provinsi instansi..." required oninvalid="this.setCustomValidity('Mohon pilih tipe pegawai pada input ini')" oninput="this.setCustomValidity('')">
+                                                                        <option value=""></option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            $('#home-tab').attr('class', 'nav-link active');
+                                                            $('#home').attr('class', 'tab-pane fade show active');
+                                                        });
+
+                                                        let agamaSelect = new TomSelect('#agamaInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'id',
+                                                            labelField: 'name',
+                                                            searchField: 'name',
+                                                            create: false,
+                                                        });
+                                                        let pendidikanSelect = new TomSelect('#pendidikanTerakhirInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'id',
+                                                            labelField: 'name',
+                                                            searchField: 'name',
+                                                            create: false,
+                                                        });
+                                                        let tipePegawaiSelect = new TomSelect('#tipePegawaiInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'id',
+                                                            labelField: 'name',
+                                                            searchField: 'name',
+                                                            create: false,
+                                                        });
+                                                        let pangkatSelect = new TomSelect('#pangkatInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataPangkat()),
+                                                            create: false,
+                                                        });
+                                                        let jenisNakesSelect = new TomSelect('#jenisNakesInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataJenisNakes()),
+                                                            create: false,
+                                                        });
+                                                        let provinsiSelect = new TomSelect('#provinsiInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataProvinsi()),
+                                                            create: true,
+                                                        });
+                                                        let KabupatenSelect = new TomSelect('#kabupatenInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataKabupaten()),
+                                                            create: true,
+                                                        });
+                                                        let kecamatanSelect = new TomSelect('#kecamatanInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataKecamatan()),
+                                                            create: true,
+                                                        });
+                                                        let provinsiInstansiSelect = new TomSelect('#provinsiInstansiInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataProvinsi()),
+                                                            create: true,
+                                                        });
+                                                        let KabupatenInstansiSelect = new TomSelect('#kabupatenInstansiInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataKabupaten()),
+                                                            create: true,
+                                                        });
+                                                        let kecamatanInstansiSelect = new TomSelect('#kecamatanInstansiInsert', {
+                                                            hideSelected: true,
+                                                            valueField: 'nama',
+                                                            labelField: 'nama',
+                                                            searchField: 'nama',
+                                                            options: convertArray(dataKecamatan()),
+                                                            create: true,
+                                                        });
+
+
+                                                        // Fungsi untuk mengambil data provinsi dari server
+                                                        function dataProvinsi() {
+                                                            var result = "";
+                                                            $.ajax({
+                                                                url: "<?= base_url(); ?>/service/provinsi",
+                                                                async: false,
+                                                                success: function(data) {
+                                                                    result = data;
+                                                                    console.log(data);
+                                                                }
+                                                            });
+                                                            return result;
+                                                        }
+
+                                                        function dataKabupaten() {
+                                                            var result = "";
+                                                            $.ajax({
+                                                                url: "<?= base_url(); ?>/service/kabupaten",
+                                                                async: false,
+                                                                success: function(data) {
+                                                                    result = data;
+                                                                    console.log(data);
+                                                                }
+                                                            });
+                                                            return result;
+                                                        }
+
+                                                        function dataKecamatan() {
+                                                            var result = "";
+                                                            $.ajax({
+                                                                url: "<?= base_url(); ?>/service/kecamatan",
+                                                                async: false,
+                                                                success: function(data) {
+                                                                    result = data;
+                                                                    console.log(data);
+                                                                }
+                                                            });
+                                                            return result;
+                                                        }
+
+                                                        function dataPangkat() {
+                                                            var result = "";
+                                                            $.ajax({
+                                                                url: "<?= base_url(); ?>/service/pangkat-golongan",
+                                                                async: false,
+                                                                success: function(data) {
+                                                                    result = data;
+                                                                    console.log(data);
+                                                                }
+                                                            });
+                                                            return result;
+                                                        }
+
+                                                        function dataJenisNakes() {
+                                                            var result = "";
+                                                            $.ajax({
+                                                                url: "<?= base_url(); ?>/service/jenis-nakes",
+                                                                async: false,
+                                                                success: function(data) {
+                                                                    result = data;
+                                                                    console.log(data);
+                                                                }
+                                                            });
+                                                            return result;
+                                                        }
+
+
+
+                                                        // Fungsi untuk mengkonversi data dari string JSON ke array
+                                                        function convertArray(data) {
+                                                            return JSON.parse(data);
+                                                        }
+                                                    </script>
 
                                                     <!-- <div class="tab-pane" id="tabs-activity-7">
                                                 <h4>Activity tab</h4>
@@ -942,121 +1043,4 @@
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
-        <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script>
-            $(document).ready(function() {
-                $('#home-tab').attr('class', 'nav-link active');
-                $('#home').attr('class', 'tab-pane fade show active');
-            });
-
-            let provinsiSelect = new TomSelect('#select_provinsi', {
-                hideSelected: true,
-                valueField: 'id',
-                labelField: 'name',
-                searchField: 'name',
-                sortField: 'name',
-                options: convertArray(dataProvinsi()),
-                create: false,
-                onChange: function(value) {
-                    console.log(value, provinsiSelect.getItem(value).innerText);
-                    $('#input-provinsi').val(provinsiSelect.getItem(value).innerText);
-                    kabupatenSelect.enable();
-                    // Mendapatkan daftar kabupaten berdasarkan kode provinsi yang dipilih
-                    let daftarKabupaten = convertArray(dataKabupaten(value));
-
-                    // Menghapus opsi lama di dropdown kabupaten
-                    kabupatenSelect.clearOptions();
-
-                    // Menambahkan opsi baru ke dropdown kabupaten
-                    kabupatenSelect.addOption(daftarKabupaten);
-
-
-                    // Reset nilai dropdown kecamatan
-                    kecamatanSelect.clearOptions();
-                    kecamatanSelect.setValue("");
-                }
-            });
-
-
-            let kabupatenSelect = new TomSelect("#select_kabupaten", {
-                hideSelected: true,
-                valueField: 'id',
-                labelField: 'name',
-                searchField: 'name',
-                sortField: 'name',
-                options: [],
-                create: false,
-                onChange: function(value) {
-                    console.log(value, kabupatenSelect.getItem(value).innerText);
-                    $('#input-kabupaten').val(kabupatenSelect.getItem(value).innerText);
-                    kecamatanSelect.enable();
-                    let daftarKecamatan = convertArray(dataKecamatan(value));
-
-                    // Menghapus opsi lama di dropdown kecamatan
-                    kecamatanSelect.clearOptions();
-
-                    // Menambahkan opsi baru ke dropdown kecamatan
-                    kecamatanSelect.addOption(daftarKecamatan);
-                }
-            });
-            let kecamatanSelect = new TomSelect("#select_kecamatan", {
-                hideSelected: true,
-                valueField: 'id',
-                labelField: 'name',
-                searchField: 'name',
-                sortField: 'name',
-                options: [],
-                create: false,
-                onChange: function(value) {
-                    console.log(value, kecamatanSelect.getItem(value).innerText);
-                    $('#input-kecamatan').val(kecamatanSelect.getItem(value).innerText);
-                }
-            });
-
-
-            // Fungsi untuk mengambil data provinsi dari server
-            function dataProvinsi() {
-                var result = "";
-                $.ajax({
-                    url: "service/provinsi",
-                    async: false,
-                    success: function(data) {
-                        result = data;
-                    }
-                });
-                return result;
-            }
-            console.log(dataProvinsi(), convertArray(dataProvinsi()));
-            // Fungsi untuk mengambil data kabupaten dari server berdasarkan kode provinsi
-            function dataKabupaten(kodeProvinsi) {
-                var result = "";
-                $.ajax({
-                    url: "service/kabupaten/" + kodeProvinsi,
-                    async: false,
-                    success: function(data) {
-                        result = data;
-                        console.log(kodeProvinsi, result);
-                    }
-                });
-                return result;
-            }
-
-            // Fungsi untuk mengambil data kecamatan dari server berdasarkan kode kabupaten
-            function dataKecamatan(kodeKabupaten) {
-                var result = "";
-                $.ajax({
-                    url: "service/kecamatan/" + kodeKabupaten,
-                    async: false,
-                    success: function(data) {
-                        result = data;
-                    }
-                });
-                return result;
-            }
-
-            // Fungsi untuk mengkonversi data dari string JSON ke array
-            function convertArray(data) {
-                return JSON.parse(data);
-            }
-        </script>

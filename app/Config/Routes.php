@@ -49,8 +49,8 @@ $routes->group('service', static function ($routes) {
     $routes->get('pangkat-golongan',  'APIControl::dataPangkatGolongan');
     $routes->get('jenis-nakes',  'APIControl::dataJenisNakes');
     $routes->get('provinsi',  'APIControl::dataProvinsi');
-    $routes->get('kabupaten/(:num)',  'APIControl::dataKabupaten/$1');
-    $routes->get('kecamatan/(:segment)',  'APIControl::dataKecamatan/$1');
+    $routes->get('kabupaten',  'APIControl::dataKabupaten');
+    $routes->get('kecamatan',  'APIControl::dataKecamatan');
 });
 $routes->group('profil', static function ($routes) {
     $routes->post('complete',  'Pages::completeProfil');
