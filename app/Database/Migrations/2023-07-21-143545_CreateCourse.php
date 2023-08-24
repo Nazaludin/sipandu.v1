@@ -16,7 +16,7 @@ class CreateCourse extends Migration
             ],
             'condition' => [
                 'type' => 'VARCHAR',
-                'constraint' => 10,
+                'constraint' => 255,
             ],
             'start_registration' => [
                 'type' => 'datetime',
@@ -28,7 +28,19 @@ class CreateCourse extends Migration
             ],
             'target_participant' => [
                 'type' => 'VARCHAR',
-                'constraint' => 50,
+                'constraint' => 255,
+            ],
+            'place' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'schedule_file_name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'schedule_file_location' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
             ],
             'batch' => [
                 'type' => 'INT',
@@ -42,16 +54,13 @@ class CreateCourse extends Migration
             ],
             'target_participant' => [
                 'type' => 'VARCHAR',
-                'constraint' => 100,
+                'constraint' => 255,
             ],
             'contact_person' => [
                 'type' => 'VARCHAR',
-                'constraint' => 100,
+                'constraint' => 255,
             ],
-            'schedule_file' => [
-                'type' => 'VARCHAR',
-                'constraint' => 200,
-            ],
+
             'status_sistem' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,

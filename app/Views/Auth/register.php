@@ -82,9 +82,7 @@
                     <label for="telepon" class="form-label required"><?= lang('Auth.telepon') ?></label>
                     <input type="text" name="telepon" class="form-control <?php if (session('errors.telepon')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.telepon') ?>" value="<?= old('telepon') ?>">
                 </div>
-                <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
-                <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-                <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
 
 
                 <div class="form-group mb-3">
@@ -93,13 +91,16 @@
                     <select id="select_provinsi" class="select-control text-style1 transparent-select" value="<? old('provinsi'); ?>" placeholder="Cari Provinsi.." required oninvalid="this.setCustomValidity('Mohon pilih/cari provisi pada input ini')" oninput="this.setCustomValidity('')">
                         <option value=""></option>
                     </select>
+                    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+                    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
                     <script>
                         let provinsiSelect = new TomSelect('#select_provinsi', {
                             hideSelected: true,
-                            valueField: 'id',
-                            labelField: 'name',
-                            searchField: 'name',
-                            sortField: 'name',
+                            valueField: 'nama',
+                            labelField: 'nama',
+                            searchField: 'nama',
+                            sortField: 'nama',
                             options: convertArray(dataProvinsi()),
                             create: true,
                             onChange: function(value) {

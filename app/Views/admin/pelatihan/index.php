@@ -49,19 +49,27 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Semua</a>
+                                <div class="dropdown-menu " style="">
+                                    <a class="dropdown-item" href="#">Draft</a>
+                                    <a class="dropdown-item" href="#">Publis</a>
+                                    <a class="dropdown-item active" href="#">Semua</a>
+                                </div>
+                            </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered  table-hover">
+                                <table class="table table-bordered table-hover">
                                     <thead class="text-center bg-dark">
                                         <tr>
-                                            <th class="bg-dark" scope="col">No</th>
-                                            <th scope="col">Kondisi</th>
-                                            <th scope="col">Mulai Pendaftaran / Selesai Pendaftaran</th>
-                                            <th scope="col">Mulai Pelatihan / Selesai Pelatihan</th>
-                                            <th scope="col">Jenis Pelatihan / Nama Pelatihan</th>
-                                            <th scope="col">Gel. / Batch</th>
-                                            <th scope="col">Kuota</th>
-                                            <th scope="col">Pendaftar</th>
-                                            <th scope="col">Detail</th>
+                                            <th class="align-middle  bg-dark" scope="col">No</th>
+                                            <th class="align-middle " scope="col">Kondisi</th>
+                                            <th class="align-middle " scope="col">Mulai Pendaftaran / <br>Selesai Pendaftaran</th>
+                                            <th class="align-middle " scope="col">Mulai Pelatihan / <br>Selesai Pelatihan</th>
+                                            <th class="align-middle " scope="col">Jenis Pelatihan / Nama Pelatihan</th>
+                                            <th class="align-middle " scope="col">Gel. / Batch</th>
+                                            <th class="align-middle " scope="col">Pendaftar / <br> Kuota</th>
+                                            <th class="align-middle " scope="col">Aksi</th>
+                                            <!-- <th class="align-middle " scope="col">Detail</th> -->
                                         </tr>
                                     </thead>
 
@@ -69,17 +77,30 @@
                                         <?php foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
                                             <tr>
-                                                <th scope="row"><?= $key + 1; ?></th>
-                                                <td><?= $value->condition; ?></td>
+                                                <th><?= $key + 1; ?></th>
+                                                <td style="width: 5%;"><?= $value->condition; ?></td>
                                                 <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
                                                 <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                                <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                <td><?= $value->batch; ?></td>
-                                                <td><?= $value->quota; ?></td>
-                                                <td><a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-outline-primary">
-                                                        p</a></td>
-                                                <td>
-                                                    <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
+                                                <td style="width: 10%;"><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
+                                                <td class="text-center"><?= $value->batch; ?></td>
+                                                <td class="text-center">
+                                                    <?php if (!empty($value->quota)) {   ?>
+                                                        <button class="btn btn-pill btn-outline-green"><?= $value->participant; ?> / <?= $value->quota; ?>
+                                                        </button>
+                                                    <?php } ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                                        </svg>
+                                                        <?php if (!empty($value->registrar)) {   ?>
+                                                            <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value->registrar; ?></span>
+                                                        <?php } ?>
+                                                    </a>
+                                                    <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Detail">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
@@ -88,6 +109,7 @@
                                                         </svg>
                                                     </a>
                                                 </td>
+
                                             </tr>
                                         <?php } ?>
 
@@ -107,121 +129,3 @@
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->
-<script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    $(document).ready(function() {
-        $('#home-tab').attr('class', 'nav-link active');
-        $('#home').attr('class', 'tab-pane fade show active');
-    });
-
-    let provinsiSelect = new TomSelect('#select_provinsi', {
-        hideSelected: true,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: 'name',
-        sortField: 'name',
-        options: convertArray(dataProvinsi()),
-        create: false,
-        onChange: function(value) {
-            console.log(value, provinsiSelect.getItem(value).innerText);
-            $('#input-provinsi').val(provinsiSelect.getItem(value).innerText);
-            kabupatenSelect.enable();
-            // Mendapatkan daftar kabupaten berdasarkan kode provinsi yang dipilih
-            let daftarKabupaten = convertArray(dataKabupaten(value));
-
-            // Menghapus opsi lama di dropdown kabupaten
-            kabupatenSelect.clearOptions();
-
-            // Menambahkan opsi baru ke dropdown kabupaten
-            kabupatenSelect.addOption(daftarKabupaten);
-
-
-            // Reset nilai dropdown kecamatan
-            kecamatanSelect.clearOptions();
-            kecamatanSelect.setValue("");
-        }
-    });
-
-
-    let kabupatenSelect = new TomSelect("#select_kabupaten", {
-        hideSelected: true,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: 'name',
-        sortField: 'name',
-        options: [],
-        create: false,
-        onChange: function(value) {
-            console.log(value, kabupatenSelect.getItem(value).innerText);
-            $('#input-kabupaten').val(kabupatenSelect.getItem(value).innerText);
-            kecamatanSelect.enable();
-            let daftarKecamatan = convertArray(dataKecamatan(value));
-
-            // Menghapus opsi lama di dropdown kecamatan
-            kecamatanSelect.clearOptions();
-
-            // Menambahkan opsi baru ke dropdown kecamatan
-            kecamatanSelect.addOption(daftarKecamatan);
-        }
-    });
-    let kecamatanSelect = new TomSelect("#select_kecamatan", {
-        hideSelected: true,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: 'name',
-        sortField: 'name',
-        options: [],
-        create: false,
-        onChange: function(value) {
-            console.log(value, kecamatanSelect.getItem(value).innerText);
-            $('#input-kecamatan').val(kecamatanSelect.getItem(value).innerText);
-        }
-    });
-
-
-    // Fungsi untuk mengambil data provinsi dari server
-    function dataProvinsi() {
-        var result = "";
-        $.ajax({
-            url: "service/provinsi",
-            async: false,
-            success: function(data) {
-                result = data;
-            }
-        });
-        return result;
-    }
-    console.log(dataProvinsi(), convertArray(dataProvinsi()));
-    // Fungsi untuk mengambil data kabupaten dari server berdasarkan kode provinsi
-    function dataKabupaten(kodeProvinsi) {
-        var result = "";
-        $.ajax({
-            url: "service/kabupaten/" + kodeProvinsi,
-            async: false,
-            success: function(data) {
-                result = data;
-                console.log(kodeProvinsi, result);
-            }
-        });
-        return result;
-    }
-
-    // Fungsi untuk mengambil data kecamatan dari server berdasarkan kode kabupaten
-    function dataKecamatan(kodeKabupaten) {
-        var result = "";
-        $.ajax({
-            url: "service/kecamatan/" + kodeKabupaten,
-            async: false,
-            success: function(data) {
-                result = data;
-            }
-        });
-        return result;
-    }
-
-    // Fungsi untuk mengkonversi data dari string JSON ke array
-    function convertArray(data) {
-        return JSON.parse(data);
-    }
-</script>

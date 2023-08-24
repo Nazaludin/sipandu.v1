@@ -394,6 +394,7 @@
                         </div>
                     </div>
                 </div>
+
                 <a class="btn" data-bs-toggle="offcanvas" href="#offcanvasBottom" role="button" aria-controls="offcanvasBottom">
                     Trigger offcanvas
                 </a>
@@ -1036,10 +1037,12 @@
                     </div>
                 </div>
             </div>
+
             <!-- ============================================================== -->
             <!-- Recent comment and chats -->
             <!-- ============================================================== -->
         </div>
+
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->

@@ -136,6 +136,8 @@ class Admin extends BaseController
                 $value->end_registration    = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) : '';
                 $value->batch               = $courseLocal['batch'] ?? '';
                 $value->quota               = $courseLocal['quota'] ?? '';
+                $value->registrar           = model(UserCourseModel::class)->where('id_course', $value->id)->where('status', 'register')->countAllResults();
+                $value->participant         = model(UserCourseModel::class)->where('id_course', $value->id)->countAllResults();
 
                 $pelatihan['courses'][$i] = $value;
                 $i++;
@@ -340,18 +342,20 @@ class Admin extends BaseController
         $courseLocal =  $this->CourseModel->find($id_pelatihan);
         // dd($dataPelatihan);
         $dataPelatihan->courses[0]->batch                   = $courseLocal['condition'] ?? '';
-        $dataPelatihan->courses[0]->start_registration      = $courseLocal['start_registration'] ?? '';
-        $dataPelatihan->courses[0]->end_registration        = $courseLocal['end_registration'] ?? '';
+        $dataPelatihan->courses[0]->start_registration      = $courseLocal['start_registration'] ? Time::parse($courseLocal['start_registration'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+        $dataPelatihan->courses[0]->end_registration        = $courseLocal['end_registration'] ? Time::parse($courseLocal['end_registration'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
         $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
         $dataPelatihan->courses[0]->batch                   = $courseLocal['batch'] ?? '';
         $dataPelatihan->courses[0]->quota                   = $courseLocal['quota'] ?? '';
         $dataPelatihan->courses[0]->place                   = $courseLocal['place'] ?? '';
         $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
-        $dataPelatihan->courses[0]->schedule_file           = $courseLocal['schedule_file'] ?? '';
+        $dataPelatihan->courses[0]->schedule_file_name      = $courseLocal['schedule_file_name'] ?? '';
+        $dataPelatihan->courses[0]->schedule_file_location  = $courseLocal['schedule_file_location'] ?? '';
         $dataPelatihan->courses[0]->startdatetime           = $this->toDMY($dataPelatihan->courses[0]->startdate);
         $dataPelatihan->courses[0]->enddatetime             = $this->toDMY($dataPelatihan->courses[0]->enddate);
 
         $pelatihan['courses']   = $dataPelatihan->courses[0];
+        // dd($pelatihan);
         $data['pelatihan']      = json_encode($pelatihan);
         $data['kategori_pelatihan']      = $categoryPelatihan;
 
@@ -395,6 +399,47 @@ class Admin extends BaseController
             . view('admin/pelatihan/edit')
             . view('layout/footer');
     }
+    public function pelatihanDetailEditProses($id_pelatihan)
+    {
+        $data =  $this->request->getPost();
+        $file_schedule =  $this->request->getFile('jadwal');
+
+        $dataLokal = [
+            'id'                    => $id_pelatihan,
+            'condition'             => 'coming',
+            'start_registration'    => $data['start_registration'],
+            'end_registration'      => $data['end_registration'],
+            'target_participant'    => $data['target_participant'],
+            'batch'                 => intval($data['batch']),
+            'quota'                 => intval($data['quota']),
+            'place'                 => $data['place'],
+            'contact_person'        => $data['contact_person'],
+            'status_sistem'         => $data['publish'] == 'true' ? 'publish' : 'draft',
+        ];
+
+        if (isset($file_schedule)) {
+            if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
+
+                $newName = $file_schedule->getRandomName();
+                $path = 'uploads/dokumen';
+                // dd(base_url() . $path, FCPATH, WRITEPATH);
+                $file_schedule->move(FCPATH . $path, $newName);
+
+                $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
+                $dataLokal['schedule_file_location'] = $path . '/' . $newName;
+            }
+        }
+
+        if (null !=  $this->CourseModel->find($id_pelatihan)) {
+            $this->CourseModel->update($id_pelatihan, $dataLokal);
+        } else {
+            $this->CourseModel->insert($dataLokal, false);
+        }
+
+        return redirect()->to(base_url('pelatihan/detail/' . $id_pelatihan));
+    }
+
+
     public function listCourseDonwloadDocument($id_pelatihan)
     {
         $temp = [];
@@ -419,64 +464,7 @@ class Admin extends BaseController
     {
         return Time::parse($tgl, 'Asia/Jakarta');
     }
-    public function pelatihanDetailEditProses($id_pelatihan)
-    {
 
-        $data =  $this->request->getPost();
-        $file_schedule =  $this->request->getFile('jadwal');
-        $file_download =  $this->request->getFile('downlaod_document');
-        // $file_upload =  $this->request->getFile('uplaod_document');
-
-        // dd($file_schedule, $file_upload, $file_download);
-        $tgl = $this->request->getPost('startdate');
-        $now = Time::parse($data['startdate'], 'Asia/Jakarta');
-        $dataLokal = [
-            'id'                    => $id_pelatihan,
-            'condition'             => 'coming',
-            'start_registration'    => $data['start_registration'],
-            'end_registration'      => $data['end_registration'],
-            'target_participant'    => $data['target_participant'],
-            'batch'                 => intval($data['batch']),
-            'quota'                 => intval($data['quota']),
-            'contact_person'        => $data['contact_person'],
-            // 'schedule_file'         => $data['schedule_file'],
-            // 'name_uplaod_dokument'         => $data['name_uplaod_dokument'],
-        ];
-
-        $isSet = $this->CourseModel->find($id_pelatihan);
-        $dataDownDucument = [
-            'id_course' => $id_pelatihan,
-            'name'      => 'tEST',
-            'lokasi'    => '-',
-        ];
-
-        // $isSetDownDocument = ($this->DownloadDocumentModel->where('id_course', $id_pelatihan)->countAllResults() > 0) ? true : false;
-        // if ($isSetDownDocument) {
-        //     $this->CourseModel->update($id_pelatihan, $dataLokal);
-        // } else {
-        //     // $dataLokal['id'] = $id_pelatihan;
-        //     $this->CourseModel->insert($dataLokal, false);
-        // }
-        // dd($isSetDownDocument);
-        // $this->DownloadDocumentModel->insert($dataDownDucument);
-        // $isSetUpDocument = $this->UploadDocumentModel->where('id_course', $id_pelatihan)->asArray()->findAll();
-        // $isSetDownDocument = $this->DownloadDocumentModel->where('id_course', $id_pelatihan)->asArray()->findAll();
-        // dd($isSetDownDocument);
-        // dd($isSet, isset($isSet), $id_pelatihan);
-        if (isset($isSet)) {
-            $this->CourseModel->update($id_pelatihan, $dataLokal);
-        } else {
-            // $dataLokal['id'] = $id_pelatihan;
-            $this->CourseModel->insert($dataLokal, false);
-        }
-        // if (isset($isSet)) {
-        //     $this->CourseModel->update($id_pelatihan, $dataLokal);
-        // } else {
-        //     // $dataLokal['id'] = $id_pelatihan;
-        //     $this->CourseModel->insert($dataLokal, false);
-        // }
-        return redirect()->to(base_url('admin/pelatihan/detail/' . $id_pelatihan));
-    }
 
 
     public function insertDownloadDocument($id_pelatihan)

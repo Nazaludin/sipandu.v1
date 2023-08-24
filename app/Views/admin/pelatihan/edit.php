@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -18,132 +18,148 @@
     </div>
     <!-- Page body -->
     <div class="page-body">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card card-round">
                         <div class="card-body">
-                            <div class="row px-3">
-                                <div class="col-12">
-                                    <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <div class="row justify-content-start mb-2">
+                                <div class="col-auto">
+                                    <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M20 15h-8v3.586a1 1 0 0 1 -1.707 .707l-6.586 -6.586a1 1 0 0 1 0 -1.414l6.586 -6.586a1 1 0 0 1 1.707 .707v3.586h8a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1z"></path>
+                                            <path d="M15 6l-6 6l6 6"></path>
                                         </svg>
                                         Back</a>
                                 </div>
                             </div>
-                            <h4 class="card-title">Edit Pelatihan</h4>
-
+                            <div class="row px-2">
+                                <div class="col-auto">
+                                    <h3 class="card-title pt-3">Edit Pelatihan</h3>
+                                </div>
+                            </div>
                             <!-- Comment Row -->
-                            <div class="row px-3">
+                            <div class="row px-2">
                                 <div class="col-12">
                                     <!-- <table class="table">
                                     <tbody> -->
                                     <form action="<?= base_url('pelatihan/detail/edit/proses/' . json_decode($pelatihan)->courses->id); ?>" method="post" enctype='multipart/form-data'>
                                         <?= csrf_field() ?>
+                                        <div class="hr-text hr-text-left mb-3 mt-1">Data Pelatihan</div>
                                         <div class="row mb-3">
                                             <div class="col-12">
-                                                <label for="floatingInputNameCourse">Nama Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputNameCourse" name="fullname" placeholder="Nama pelatihan" value="<?= json_decode($pelatihan)->courses->fullname; ?>" required>
+                                                <label for="floatingInputFullnameCourse" class="form-label mb-0">Nama Lengkap Pelatihan</label>
+                                                <input type="text" class="form-control" id="floatingInputFullnameCourse" name="fullname" placeholder="Nama lengkap pelatihan" value="<?= json_decode($pelatihan)->courses->fullname; ?>" required>
                                             </div>
                                         </div>
-
                                         <div class="row mb-3">
                                             <div class="col-6">
-                                                <label for="floatingInputCategoryCourse">Jenis Pelatihan</label>
-                                                <select class="form-control" name="agama" id="floatingInputCategoryCourse" required>
+                                                <label for="floatingInputShortnameCourse" class="form-label mb-0">Nama Singkat Pelatihan</label>
+                                                <input type="text" class="form-control" id="floatingInputShortnameCourse" name="fullname" placeholder="Nama singkat pelatihan" value="<?= json_decode($pelatihan)->courses->shortname; ?>" required>
+                                            </div>
+                                            <div class="col-4">
+                                                <label for="floatingInputCategoryCourse" class="form-label mb-0">Jenis Pelatihan</label>
+                                                <select class="select-control" name="catgoryid" id="floatingInputCategoryCourse" placeholder="Pilih/tulis kategori pelatihan..." required oninvalid="this.setCustomValidity('Mohon pilih kategori pelatihan ada input ini')" oninput="this.setCustomValidity('')">
+                                                    <option value=""></option>
                                                     <?php foreach ($kategori_pelatihan as $kp => $valueKP) { ?>
-                                                        <option value="<?= $valueKP->id; ?>"><?= $valueKP->name; ?></option>
+                                                        <option value="<?= $valueKP->id; ?>" <?= (json_decode($pelatihan)->courses->categoryid == $valueKP->id) ? 'selected' : '' ?>><?= $valueKP->name; ?></option>
                                                     <?php } ?>
                                                 </select>
-                                                <!-- <label for="floatingInputCategoryCourse">Jenis Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputCategoryCourse" name="categoryname" placeholder="Jenis pelatihan" value="<?= json_decode($pelatihan)->courses->categoryname; ?>" required> -->
                                             </div>
-                                            <div class="col-6">
-                                                <label for="floatingInputBatch">Gelombang/batch</label>
-                                                <select class="form-control" name="batch" id="floatingInputBatch" required>
+
+                                            <div class="col-2">
+                                                <label for="floatingInputBatch" class="form-label mb-0">Gelombang/batch</label>
+                                                <select class="select-control" name="batch" id="floatingInputBatch" placeholder="Pilih/tulis gelombang..." required oninvalid="this.setCustomValidity('Mohon pilih gelombang ada input ini')" oninput="this.setCustomValidity('')">
+                                                    <option value=""></option>
                                                     <?php for ($i = 1; $i <= 4; $i++) { ?>
-                                                        <option value="<?= $i; ?>">Gelombang <?= $i; ?></option>
+                                                        <option value="<?= $i; ?>" <?= (json_decode($pelatihan)->courses->batch == $i) ? 'selected' : '' ?>>Gelombang <?= $i; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label for="floatingInputStartCourse">Periode Pelatihan</label>
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="tanggalLahir">Periode Pendaftaran</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-3">
-                                                <label for="floatingInputStartCourse">Mulai Pelatihan</label>
-                                                <input type="date" class="form-control" id="floatingInputStartCourse" name="startdate" value="<?= json_decode($pelatihan)->courses->startdatetime; ?>" required autofocus>
-                                            </div>
-                                            <div class="col-3">
-                                                <label for="floatingInputEndCourse">Akhir Pelatihan</label>
-                                                <input type="date" class="form-control" id="floatingInputEndCourse" name="enddate" value="<?= json_decode($pelatihan)->courses->enddatetime; ?>" required autofocus>
-                                            </div>
-                                            <div class="col-3">
-                                                <label for="floatingInputStartRegistration">Mulai Pendaftaran</label>
-                                                <input type="date" class="form-control" id="floatingInputStartRegistration" name="start_registration" value="<?= json_decode($pelatihan)->courses->start_registration; ?>" required autofocus>
-                                            </div>
-                                            <div class="col-3">
-                                                <label for="floatingInputEndRegistration">Akhir Pendaftaran</label>
-                                                <input type="date" class="form-control" id="floatingInputEndRegistration" name="end_registration" value="<?= json_decode($pelatihan)->courses->end_registration; ?>" required autofocus>
-                                            </div>
-                                        </div>
 
                                         <div class="row mb-3">
                                             <div class="col-6">
-                                                <label for="floatingInputTargetParticipant">Sasaran Pelatihan</label>
+                                                <label for="floatingInputTargetParticipant" class="form-label mb-0">Sasaran Pelatihan</label>
                                                 <input type="text" class="form-control" id="floatingInputTargetParticipant" name="target_participant" placeholder="Sasaran Pelatihan" value="<?= json_decode($pelatihan)->courses->target_participant; ?>">
                                             </div>
-                                            <div class="col-6">
-                                                <label for="floatingInputPlace">Tempat Pelatihan</label>
+                                            <div class="col-4">
+                                                <label for="floatingInputPlace" class="form-label mb-0">Tempat Pelatihan</label>
                                                 <input type="text" class="form-control" id="floatingInputPlace" name="place" placeholder="Tempat Pelatihan" value="<?= json_decode($pelatihan)->courses->place; ?>">
                                             </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <!-- <div class="col-4"> -->
-
-                                            <!-- <div class="row"> -->
-                                            <div class="col-6">
-                                                <label for="floatingInputQuota">Kuota</label>
+                                            <div class="col-2">
+                                                <label for="floatingInputQuota" class="form-label mb-0">Kuota</label>
                                                 <input type="number" class="form-control" id="floatingInputQuota" name="quota" placeholder="Kuota" value="<?= json_decode($pelatihan)->courses->quota; ?>">
                                             </div>
-                                            <!-- </div>
-                                                <div class="row"> -->
-                                            <div class="col-6">
-                                                <label for="floatingInputContactPerson">Kontak Person</label>
+                                        </div>
 
+                                        <div class="row mb-5">
+                                            <div class="col-6">
+                                                <label for="floatingInputContactPerson" class="form-label mb-0">Kontak Person</label>
                                                 <input type="text" class="form-control" id="floatingInputContactPerson" name="contact_person" placeholder="Kontak Person" value="<?= json_decode($pelatihan)->courses->contact_person; ?>">
                                             </div>
-                                            <!-- </div> -->
-                                            <!-- </div> -->
+                                            <div class="col-6 custom-file">
+                                                <label for="floatingInputSchedule" class="form-label mb-0">Lampiran Jadwal</label>
+                                                <input type="file" class="form-control custom-file-input" id="floatingInputSchedule" name="jadwal" lang="id">
+                                            </div>
+
                                         </div>
-                                        <div class="row mb-3">
+
+                                        <div class="hr-text hr-text-left my-3">Waktu Pelaksanaan</div>
+                                        <div class="row mb-5">
                                             <div class="col-6">
-                                                <label for="floatingInputSchedule">Lampiran Jadwal</label>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <h3 class="card-title">Periode Pendaftaran</h3>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-6">
+                                                                <label for="floatingInputStartRegistration" class="form-label mb-0">Mulai Pendaftaran</label>
+                                                                <input type="date" class="form-control" id="floatingInputStartRegistration" name="start_registration" value="<?= json_decode($pelatihan)->courses->startdatetime; ?>" required autofocus>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label for="floatingInputEndRegistration" class="form-label mb-0">Akhir Pendaftaran</label>
+                                                                <input type="date" class="form-control" id="floatingInputEndRegistration" name="end_registration" value="<?= json_decode($pelatihan)->courses->enddatetime; ?>" required autofocus>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                <h3 class="card-title">Periode Pelatihan</h3>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
 
-                                                <input type="file" class="filepond form-control" id="floatingInputSchedule" name="jadwal">
-
-                                                <!-- <script>
-                                            // Get a reference to the file input element
-                                            const inputElement = document.querySelector('input[type="file"]');
-
-                                            // Create a FilePond instance
-                                            const pond = FilePond.create(inputElement);
-                                        </script> -->
+                                                            <div class="col-6">
+                                                                <label for="floatingInputStartCourse" class="form-label mb-0">Mulai Pelatihan</label>
+                                                                <input type="date" class="form-control" id="floatingInputStartCourse" name="startdate" value="<?= json_decode($pelatihan)->courses->start_registration; ?>" required autofocus>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label for="floatingInputEndCourse" class="form-label mb-0">Akhir Pelatihan</label>
+                                                                <input type="date" class="form-control" id="floatingInputEndCourse" name="enddate" value="<?= json_decode($pelatihan)->courses->end_registration; ?>" required autofocus>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+
+                                        <div class="hr-text hr-text-left my-3">Detail Pelatihan</div>
+
+                                        <div class="row mb-5">
                                             <div class="col-12">
-                                                <label for="floatingInputSummary">Ringkasan</label>
+                                                <label for="floatingInputSummary" class="form-label mb-0">
+                                                    <h3> Ringkasan </h3>
+                                                </label>
                                                 <textarea class="form-control" name="summary" id="floatingInputSummary" cols="30" rows="10"><?= json_decode($pelatihan)->courses->summary; ?></textarea>
                                             </div>
                                         </div>
@@ -173,32 +189,61 @@
                                                 tinyMCE.init(options);
                                             })
                                         </script>
-                                        <br><br>
-                                        <div class="row mb-3">
+                                        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+                                        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+                                        <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+                                        <script>
+                                            let catgeoryCourseSelect = new TomSelect('#floatingInputCategoryCourse', {
+                                                hideSelected: true,
+                                                valueField: 'value',
+                                                labelField: 'name',
+                                                searchField: 'name',
+                                                create: false,
+                                            });
+                                            let batchSelect = new TomSelect('#floatingInputBatch', {
+                                                hideSelected: true,
+                                                valueField: 'value',
+                                                labelField: 'name',
+                                                searchField: 'name',
+                                                create: false,
+                                            });
+                                        </script>
+                                        <div class="hr-text hr-text-left my-3">Dokumen Persyaratan</div>
+
+                                        <div class="row mb-5">
                                             <div class="col-6">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <h3 class="card-title">Dokumen Unduhan (Template)</h3>
-                                                            </div>
-                                                            <div class="col-6 d-flex justify-content-end">
-                                                                <a href="#" onclick="getDowloadDocument()" class="btn btn-primary btn-sm d-none d-sm-inline-block mx-1 my-2" data-bs-toggle="modal" data-bs-target="#modal-download-document">
-                                                                    Pilih
-                                                                </a>
-
-                                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block mx-1 my-2" data-bs-toggle="modal" data-bs-target="#modal-download-document-add">
-
-                                                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                        <path d="M12 5l0 14" />
-                                                                        <path d="M5 12l14 0" />
-                                                                    </svg> -->
-                                                                    Baru
-                                                                </a>
-                                                            </div>
-
+                                                <div class="card row">
+                                                    <div class="card-header">
+                                                        <div class="col-9">
+                                                            <h3 class="card-title">Dokumen Unduhan (Template)</h3>
                                                         </div>
+
+                                                        <div class="col-3 d-flex justify-content-end">
+                                                            <a class="btn my-0 py-1 mx-2" data-bs-toggle="modal" data-bs-target="#modal-download-document">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M3 12l3 0"></path>
+                                                                    <path d="M12 3l0 3"></path>
+                                                                    <path d="M7.8 7.8l-2.2 -2.2"></path>
+                                                                    <path d="M16.2 7.8l2.2 -2.2"></path>
+                                                                    <path d="M7.8 16.2l-2.2 2.2"></path>
+                                                                    <path d="M12 12l9 3l-4 2l-2 4l-3 -9"></path>
+                                                                </svg>
+                                                                Pilih
+                                                            </a>
+                                                            <a class="btn my-0 py-1" data-bs-toggle="modal" data-bs-target="#modal-download-document-add">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                                    <path d="M16 5l3 3"></path>
+                                                                </svg>
+                                                                Edit
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+
                                                         <table class="table table-sm table-borderless">
                                                             <thead>
 
@@ -232,28 +277,36 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                            <div class="col-4">
-                                                                <h3 class="card-title">Dokumen Unggahan</h3>
-                                                            </div>
-                                                            <div class="col-8 d-flex justify-content-end">
-                                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block mx-1 my-2" data-bs-toggle="modal" data-bs-target="#modal-upload-document">
-                                                                    Pilih
-                                                                </a>
-
-                                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block mx-1 my-2" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
-
-                                                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                        <path d="M12 5l0 14" />
-                                                                        <path d="M5 12l14 0" />
-                                                                    </svg> -->
-                                                                    Baru
-                                                                </a>
-                                                            </div>
-
+                                                    <div class="card-header">
+                                                        <div class="col-9">
+                                                            <h3 class="card-title">Dokumen Unggahan</h3>
                                                         </div>
+
+                                                        <div class="col-3 d-flex justify-content-end">
+                                                            <a class="btn my-0 py-1 mx-2" data-bs-toggle="modal" data-bs-target="#modal-upload-document">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M3 12l3 0"></path>
+                                                                    <path d="M12 3l0 3"></path>
+                                                                    <path d="M7.8 7.8l-2.2 -2.2"></path>
+                                                                    <path d="M16.2 7.8l2.2 -2.2"></path>
+                                                                    <path d="M7.8 16.2l-2.2 2.2"></path>
+                                                                    <path d="M12 12l9 3l-4 2l-2 4l-3 -9"></path>
+                                                                </svg>
+                                                                Pilih
+                                                            </a>
+                                                            <a class="btn my-0 py-1" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                                    <path d="M16 5l3 3"></path>
+                                                                </svg>
+                                                                Edit
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
                                                         <table class="table table-sm table-borderless">
                                                             <thead>
                                                                 <tr>
@@ -287,69 +340,25 @@
                                             </div>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <input type="hidden" name="publish" id="input-publis" value="false">
+                                        <button type="submit" id="button-submit" class="btn btn-primary" hidden></button>
+                                        <div class="row">
+                                            <div class="col-6 d-flex justify-content-start">
+                                                <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Batal</a>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-end">
+                                                <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirm-publish">
+                                                    Simpan & Publish
+                                                </a>
+                                                <button type="button" class="btn btn-success mx-2" onclick="$('#button-submit').click()">Simpan</button>
+                                                <!-- <button type="button" class="btn btn-danger" onclick="savePublish()">Simpan & Publish</button> -->
+                                            </div>
+                                        </div>
 
                                     </form>
-                                    <!-- </tbody>
-                                </table> -->
-                                    <!-- RINGKASAN -->
-                                    <!-- <div class="card card-round">
-                                    <div class="card-body bg-green">
-                                        <h4 class="card-title mt-4">Ringkasan :</h4>
 
-                                    </div>
-                                </div> -->
                                 </div>
                             </div>
-                            <!-- <div class="row px-3">
-                            <div class="col-6">
-                                <table class="table table-responsive table-bordered">
-                                    <thead class="bg-success">
-                                        <div>
-                                            <th class="text-light fw-bold" scope="col">No.</th>
-                                            <th class="text-light fw-bold" scope="col">Komponen Unduh</th>
-                                            <th class="text-light fw-bold" scope="col">File</th>
-                                        </div>
-                                    </thead>
-                                    <tbody>
-                                        <div>
-                                            <div></div>
-                                            <div></div>
-                                            <div><a href="http://">UNDUH</a></div>
-                                        </div>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-6">
-                                <table class="table table-responsive table-bordered">
-                                    <thead class="bg-success">
-                                        <div>
-                                            <th class="text-light fw-bold" scope="col">No.</th>
-                                            <th class="text-light fw-bold" scope="col">Komponen Kelengkapan Administrasi</th>
-                                        </div>
-                                    </thead>
-                                    <tbody>
-                                        <div>
-                                            <div>1.</div>
-                                            <div>Pas Photo 4x6 (background merah)</div>
-                                        </div>
-                                        <div>
-                                            <div>2.</div>
-                                            <div>Surat Ijin Atasan</div>
-                                        </div>
-                                        <div>
-                                            <div>3.</div>
-                                            <div>Surat Pernyataan Paket Data</div>
-                                        </div>
-                                        <div>
-                                            <div>4.</div>
-                                            <div>Surat Tugas</div>
-                                        </div>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> -->
-                            <!-- END tab pane ringkasan -->
 
                         </div>
                     </div>
@@ -366,7 +375,44 @@
 
 
 </div>
-
+<!-- Modal Konfrimasi Publish -->
+<div class="modal modal-blur fade" id="modal-confirm-publish" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
+                </svg>
+                <h3>Apakah anda yakin?</h3>
+                <div class="text-secondary">Dengan melakukan publis maka data pelatihan akan muncul di semua laman pengguna pelatihan.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
+                                Batal
+                            </a></div>
+                        <div class="col"><button type="button" class="btn btn-danger w-100" onclick="savePublish()">
+                                Lanjut
+                            </button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function savePublish() {
+        $('#input-publis').val('true');
+        $('#button-submit').click();
+    }
+</script>
 <!-- Modal Pilih Dokumen Unduhan -->
 <div class="modal modal-blur fade" id="modal-download-document" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -555,121 +601,3 @@
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->
-<script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    $(document).ready(function() {
-        $('#home-tab').attr('class', 'nav-link active');
-        $('#home').attr('class', 'tab-pane fade show active');
-    });
-
-    let provinsiSelect = new TomSelect('#select_provinsi', {
-        hideSelected: true,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: 'name',
-        sortField: 'name',
-        options: convertArray(dataProvinsi()),
-        create: false,
-        onChange: function(value) {
-            console.log(value, provinsiSelect.getItem(value).innerText);
-            $('#input-provinsi').val(provinsiSelect.getItem(value).innerText);
-            kabupatenSelect.enable();
-            // Mendapatkan daftar kabupaten berdasarkan kode provinsi yang dipilih
-            let daftarKabupaten = convertArray(dataKabupaten(value));
-
-            // Menghapus opsi lama di dropdown kabupaten
-            kabupatenSelect.clearOptions();
-
-            // Menambahkan opsi baru ke dropdown kabupaten
-            kabupatenSelect.addOption(daftarKabupaten);
-
-
-            // Reset nilai dropdown kecamatan
-            kecamatanSelect.clearOptions();
-            kecamatanSelect.setValue("");
-        }
-    });
-
-
-    let kabupatenSelect = new TomSelect("#select_kabupaten", {
-        hideSelected: true,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: 'name',
-        sortField: 'name',
-        options: [],
-        create: false,
-        onChange: function(value) {
-            console.log(value, kabupatenSelect.getItem(value).innerText);
-            $('#input-kabupaten').val(kabupatenSelect.getItem(value).innerText);
-            kecamatanSelect.enable();
-            let daftarKecamatan = convertArray(dataKecamatan(value));
-
-            // Menghapus opsi lama di dropdown kecamatan
-            kecamatanSelect.clearOptions();
-
-            // Menambahkan opsi baru ke dropdown kecamatan
-            kecamatanSelect.addOption(daftarKecamatan);
-        }
-    });
-    let kecamatanSelect = new TomSelect("#select_kecamatan", {
-        hideSelected: true,
-        valueField: 'id',
-        labelField: 'name',
-        searchField: 'name',
-        sortField: 'name',
-        options: [],
-        create: false,
-        onChange: function(value) {
-            console.log(value, kecamatanSelect.getItem(value).innerText);
-            $('#input-kecamatan').val(kecamatanSelect.getItem(value).innerText);
-        }
-    });
-
-
-    // Fungsi untuk mengambil data provinsi dari server
-    function dataProvinsi() {
-        var result = "";
-        $.ajax({
-            url: "service/provinsi",
-            async: false,
-            success: function(data) {
-                result = data;
-            }
-        });
-        return result;
-    }
-    console.log(dataProvinsi(), convertArray(dataProvinsi()));
-    // Fungsi untuk mengambil data kabupaten dari server berdasarkan kode provinsi
-    function dataKabupaten(kodeProvinsi) {
-        var result = "";
-        $.ajax({
-            url: "service/kabupaten/" + kodeProvinsi,
-            async: false,
-            success: function(data) {
-                result = data;
-                console.log(kodeProvinsi, result);
-            }
-        });
-        return result;
-    }
-
-    // Fungsi untuk mengambil data kecamatan dari server berdasarkan kode kabupaten
-    function dataKecamatan(kodeKabupaten) {
-        var result = "";
-        $.ajax({
-            url: "service/kecamatan/" + kodeKabupaten,
-            async: false,
-            success: function(data) {
-                result = data;
-            }
-        });
-        return result;
-    }
-
-    // Fungsi untuk mengkonversi data dari string JSON ke array
-    function convertArray(data) {
-        return JSON.parse(data);
-    }
-</script>

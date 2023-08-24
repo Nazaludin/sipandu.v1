@@ -107,7 +107,7 @@
 
 <!-- HEADER -->
 <header class="navbar navbar-expand-md d-none d-lg-flex d-print-none">
-    <div class="container-xl">
+    <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

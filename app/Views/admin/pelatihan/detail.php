@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -18,30 +18,38 @@
     </div>
     <!-- Page body -->
     <div class="page-body">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card card-round">
                         <div class="card-body">
-                            <div class="row justify-content-between">
+                            <div class="row justify-content-between mb-2 ">
                                 <div class="col-auto">
-                                    <div class="d-flex flex-row align-items-center">
-                                        <a href="<?= base_url('pelatihan'); ?>" class="btn btn-icon" aria-label="Button">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M15 6l-6 6l6 6"></path>
-                                            </svg></a>
-
-                                        <h4 class="card-title align-middle">Detail Pelatihan</h4>
-                                    </div>
+                                    <a href="<?= base_url('pelatihan'); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M15 6l-6 6l6 6"></path>
+                                        </svg>
+                                        Back</a>
                                 </div>
                                 <div class="col-auto">
-                                    <a href="<?= base_url('pelatihan/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Edit</a>
+                                    <a href="<?= base_url('pelatihan/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                            <path d="M16 5l3 3"></path>
+                                        </svg>
+                                        Edit</a>
                                 </div>
                             </div>
 
-                            <div>
+                            <div class="row px-2">
+                                <div class="col-auto">
+                                    <h3 class="card-title  pt-3">Detail Pelatihan</h3>
+                                </div>
                             </div>
+
                             <!-- Comment Row -->
                             <div class="row px-3 mb-4">
                                 <div class="col-12">
@@ -49,7 +57,7 @@
                                         <tbody>
                                             <tr class="row">
                                                 <td class="col-2">Tahun Pelaksanaan</td>
-                                                <td class="col-10">: </td>
+                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->year; ?></td>
                                             </tr>
                                             <tr class="row">
                                                 <td class="col-2">Jenis Pelatihan</td>
@@ -88,7 +96,7 @@
                                             </tr>
                                             <tr class="row">
                                                 <td class="col-2">Lampiran Jadwal</td>
-                                                <td class="col-10">: </td>
+                                                <td class="col-10">:<a href=" <?= json_decode($pelatihan)->courses->contact_person; ?>" download> Unduh</a> </td>
                                             </tr>
 
                                         </tbody>
@@ -165,6 +173,7 @@
         <!-- ============================================================== -->
         <!-- Recent comment and chats -->
         <!-- ============================================================== -->
+
     </div>
     <!-- ============================================================== -->
     <!-- End Container fluid  -->
