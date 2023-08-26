@@ -80,6 +80,11 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
     // $routes->get('detail/(:num)', 'Pages::pelatihanDetailProses/$1');
     $routes->get('detail/(:num)',  'Admin::pelatihanDetail/$1');
     $routes->get('insert',  'Admin::pelatihanInsert');
+
+    $routes->group('status', static function ($routes) {
+        $routes->get('edit/(:num)/(:num)',  'Admin::pelatihanEditStatus/$1/$2');
+    });
+
     $routes->group('insert', static function ($routes) {
         $routes->get('syarat/(:num)',  'Admin::pelatihanInsertRule/$1');
         $routes->get('publis/(:num)',  'Admin::pelatihanInsertPublish/$1');

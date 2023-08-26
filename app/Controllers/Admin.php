@@ -14,33 +14,13 @@ use \App\Models\CourseUploadDocumentModel;
 use \App\Models\CourseDownloadDocumentModel;
 use \App\Models\UserCourseModel;
 use \App\Models\UserUploadDocumentModel;
-use stdClass;
 
 class Admin extends BaseController
 {
-    protected $UsersModel;
-    protected $CourseModel;
-    protected $UploadDocumentModel;
-    protected $DownloadDocumentModel;
-    protected $CourseUploadDocumentModel;
-    protected $CourseDownloadDocumentModel;
-    protected $UserCourseModel;
-    protected $UserUploadDocumentModel;
     protected $MoodyBest;
-    protected $apiKey = 'TczH6QUUVuXOoZKT2qoJ6JHfctAkD8';
-    protected $apiURL = 'https://api.goapi.id/v1/regional/';
 
     public function __construct()
     {
-        $this->UsersModel  = new UserModel();
-        $this->CourseModel  = new CourseModel();
-        $this->UploadDocumentModel  = new UploadDocumentModel();
-        $this->DownloadDocumentModel  = new DownloadDocumentModel();
-        $this->CourseUploadDocumentModel  = new CourseUploadDocumentModel();
-        $this->CourseDownloadDocumentModel  = new CourseDownloadDocumentModel();
-        $this->UserCourseModel  = new UserCourseModel();
-        $this->UserUploadDocumentModel  = new UserUploadDocumentModel();
-
         $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", "8d52a95d541a42e81f955536e8927e9a");
         $this->MoodyBest = AppFactory::create($configBest);
     }
@@ -54,6 +34,7 @@ class Admin extends BaseController
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
         return $tgl_formatted;
     }
+
     public function dateToLocalTime($date)
     {
         $time = Time::parse($date, 'Asia/Jakarta');
@@ -62,12 +43,14 @@ class Admin extends BaseController
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
         return $tgl_formatted;
     }
+
     public function toDMY($timestamp)
     {
         $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
         $tgl = $time->toDateString('Y-m-d');
         return $tgl;
     }
+
     public function convertCondition($condition)
     {
         $result = '';
@@ -130,7 +113,7 @@ class Admin extends BaseController
                 $value->startdatetime   = $this->toLocalTime($value->startdate);
                 $value->enddatetime     = $this->toLocalTime($value->enddate);
 
-                $courseLocal =  $this->CourseModel->find($value->id);
+                $courseLocal = model(CourseModel::class)->find($value->id);
                 $value->condition           = isset($courseLocal['condition']) ? $this->convertCondition($courseLocal['condition']) : '';
                 $value->start_registration  = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
                 $value->end_registration    = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) : '';
@@ -162,10 +145,12 @@ class Admin extends BaseController
             . view('admin/pelatihan/insert')
             . view('layout/footer');
     }
+
+
     public function pelatihanInsertProses()
     {
         $data =  $this->request->getPost();
-        $file_schedule =  $this->request->getFiles();
+        $file_schedule =  $this->request->getFile('jadwal');
 
         // Insert Course Moodle Best
         $result = $this->MoodyBest->createCourse(
@@ -190,22 +175,35 @@ class Admin extends BaseController
                 'quota'                 => intval($data['quota']),
                 'contact_person'        => $data['contact_person'],
                 'status'                => 'create',
-                // 'schedule_file'         => $data['schedule_file'],
-                // 'name_uplaod_dokument'         => $data['name_uplaod_dokument'],
             ];
-            $status = $this->CourseModel->insert($dataLokal);
+
+            if (isset($file_schedule)) {
+                if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
+
+                    $newName = $file_schedule->getRandomName();
+                    $path = 'uploads/dokumen';
+
+                    $file_schedule->move(FCPATH . $path, $newName);
+
+                    $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
+                    $dataLokal['schedule_file_location'] = $path . '/' . $newName;
+                }
+            }
+            $status = model(CourseModel::class)->insert($dataLokal);
             // dd($status);
             return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']));
         }
         return redirect()->back();
     }
+
+
     public function pelatihanInsertRule($id_pelatihan)
     {
         $data['list_course_donwload_document'] = $this->listCourseDonwloadDocument($id_pelatihan);
         $data['list_course_upload_document'] = $this->listCourseUploadDocument($id_pelatihan);
 
-        $dataDownloadDocument = $this->DownloadDocumentModel->findAll();
-        $dataUploadDocument = $this->UploadDocumentModel->findAll();
+        $dataDownloadDocument = model(DownloadDocumentModel::class)->findAll();
+        $dataUploadDocument = model(UploadDocumentModel::class)->findAll();
 
         $tempDD = [];
         if (!empty($data['list_course_donwload_document'])) {
@@ -239,9 +237,10 @@ class Admin extends BaseController
             . view('admin/pelatihan/insert_syarat')
             . view('layout/footer');
     }
+
+
     public function pelatihanInsertPublish($id_pelatihan)
     {
-
         $data['id_pelatihan'] = $id_pelatihan;
 
         return view('layout/header', $data)
@@ -266,10 +265,10 @@ class Admin extends BaseController
     // Menu User
     public function pelatihanUser($id_pelatihan)
     {
-        $data = $this->UserCourseModel->where('id_course', $id_pelatihan)->findAll();
+        $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->findAll();
         $data_final = [];
         foreach ($data as $key => $value) {
-            $data_user = $this->UsersModel->find($value['id_user']);
+            $data_user = model(UserModel::class)->find($value['id_user']);
             $data_final['user'][$key] = $data_user->toArray();
         }
 
@@ -281,11 +280,11 @@ class Admin extends BaseController
     }
     public function pelatihanUserDetail($id_pelatihan, $id_user)
     {
-        $dataUserCourse = $this->UserCourseModel->where('id_course', $id_pelatihan)->where('id_user', $id_user)->findColumn('id');
+        $dataUserCourse = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->where('id_user', $id_user)->findColumn('id');
         $dataCourseUploadDocument = $this->listCourseUploadDocument($id_pelatihan);
         $dataFinal = [];
         foreach ($dataCourseUploadDocument as $key => $value) {
-            $UserUploadDocument = $this->UserUploadDocumentModel->where('id_user_course', $dataUserCourse[0])->where('id_upload_document', $value['id'])->findAll();
+            $UserUploadDocument = model(UserUploadDocumentModel::class)->where('id_user_course', $dataUserCourse[0])->where('id_upload_document', $value['id'])->findAll();
             $dataFinal['document'][$key] = $UserUploadDocument[0];
             $dataFinal['document'][$key]['name_upload_document'] = $value['name'];
         }
@@ -307,7 +306,7 @@ class Admin extends BaseController
         // $dataPelatihan->courses[0]->startdatetime           = $dataPelatihan->courses[0]->startdate ?? '';
         // $dataPelatihan->courses[0]->enddatetime             = $dataPelatihan->courses[0]->enddate ?? '';
 
-        $courseLocal =  $this->CourseModel->find($id_pelatihan);
+        $courseLocal = model(CourseModel::class)->find($id_pelatihan);
 
         $dataPelatihan->courses[0]->condition               = $courseLocal['condition'] ?? '';
         $dataPelatihan->courses[0]->start_registration      = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
@@ -339,7 +338,7 @@ class Admin extends BaseController
         // $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toDMY($dataPelatihan->courses[0]->startdate) : '';
         // $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toDMY($dataPelatihan->courses[0]->enddate) : '';
 
-        $courseLocal =  $this->CourseModel->find($id_pelatihan);
+        $courseLocal = model(CourseModel::class)->find($id_pelatihan);
         // dd($dataPelatihan);
         $dataPelatihan->courses[0]->batch                   = $courseLocal['condition'] ?? '';
         $dataPelatihan->courses[0]->start_registration      = $courseLocal['start_registration'] ? Time::parse($courseLocal['start_registration'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
@@ -362,8 +361,8 @@ class Admin extends BaseController
         $data['list_course_donwload_document'] = $this->listCourseDonwloadDocument($id_pelatihan);
         $data['list_course_upload_document'] = $this->listCourseUploadDocument($id_pelatihan);
 
-        $dataDownloadDocument = $this->DownloadDocumentModel->findAll();
-        $dataUploadDocument = $this->UploadDocumentModel->findAll();
+        $dataDownloadDocument = model(DownloadDocumentModel::class)->findAll();
+        $dataUploadDocument = model(UploadDocumentModel::class)->findAll();
 
         $tempDD = [];
         if (!empty($data['list_course_donwload_document'])) {
@@ -399,6 +398,7 @@ class Admin extends BaseController
             . view('admin/pelatihan/edit')
             . view('layout/footer');
     }
+
     public function pelatihanDetailEditProses($id_pelatihan)
     {
         $data =  $this->request->getPost();
@@ -430,22 +430,55 @@ class Admin extends BaseController
             }
         }
 
-        if (null !=  $this->CourseModel->find($id_pelatihan)) {
-            $this->CourseModel->update($id_pelatihan, $dataLokal);
+        if (null != model(CourseModel::class)->find($id_pelatihan)) {
+            model(CourseModel::class)->update($id_pelatihan, $dataLokal);
         } else {
-            $this->CourseModel->insert($dataLokal, false);
+            model(CourseModel::class)->insert($dataLokal, false);
         }
 
         return redirect()->to(base_url('pelatihan/detail/' . $id_pelatihan));
+    }
+
+    public function convertStatusPelatihan($status)
+    {
+        $temp =  '';
+        switch ($status) {
+            case 1:
+                $temp = 'create';
+                break;
+            case 2:
+                $temp = 'draft';
+                break;
+            case 3:
+                $temp = 'publish';
+                break;
+
+            default:
+                $temp = '';
+                break;
+        }
+
+        return $temp;
+    }
+    public function pelatihanEditStatus($id_pelatihan, $status)
+    {
+
+        if (null != model(CourseModel::class)->find($id_pelatihan)) {
+            model(CourseModel::class)->update($id_pelatihan, ['status_sistem' => $this->convertStatusPelatihan($status)]);
+        } else {
+            dd('Terjadi Error');
+        }
+
+        return redirect()->to(base_url('pelatihan'));
     }
 
 
     public function listCourseDonwloadDocument($id_pelatihan)
     {
         $temp = [];
-        $dataCourseDownloadDocument = $this->CourseDownloadDocumentModel->where('id_course', $id_pelatihan)->findAll();
+        $dataCourseDownloadDocument = model(CourseDownloadDocumentModel::class)->where('id_course', $id_pelatihan)->findAll();
         foreach ($dataCourseDownloadDocument as $key => $value) {
-            $result = $this->DownloadDocumentModel->where('id', $value['id_download_document'])->find();
+            $result = model(DownloadDocumentModel::class)->where('id', $value['id_download_document'])->find();
             array_push($temp, $result[0]);
         }
         return $temp;
@@ -453,9 +486,9 @@ class Admin extends BaseController
     public function listCourseUploadDocument($id_pelatihan)
     {
         $temp = [];
-        $dataCourseUploadDocument = $this->CourseUploadDocumentModel->where('id_course', $id_pelatihan)->findAll();
+        $dataCourseUploadDocument = model(CourseUploadDocumentModel::class)->where('id_course', $id_pelatihan)->findAll();
         foreach ($dataCourseUploadDocument as $key => $value) {
-            $result = $this->UploadDocumentModel->where('id', $value['id_upload_document'])->find();
+            $result = model(UploadDocumentModel::class)->where('id', $value['id_upload_document'])->find();
             array_push($temp, $result[0]);
         }
         return $temp;
@@ -484,7 +517,7 @@ class Admin extends BaseController
                     'link'          => $path . '/' . $newName,
 
                 ];
-                $this->DownloadDocumentModel->save($data);
+                model(DownloadDocumentModel::class)->save($data);
                 $succes = true;
             }
         }
@@ -494,8 +527,8 @@ class Admin extends BaseController
     public function updateCourseDownloadDocument($id_pelatihan)
     {
         $document =  $this->request->getPost();
-        $countCourseDocument = $this->CourseDownloadDocumentModel->where('id_course', $id_pelatihan)->countAllResults();
-        $idDocumentAll = $this->DownloadDocumentModel->findColumn('id');
+        $countCourseDocument = model(CourseDownloadDocumentModel::class)->where('id_course', $id_pelatihan)->countAllResults();
+        $idDocumentAll = model(DownloadDocumentModel::class)->findColumn('id');
         foreach ($idDocumentAll as $key => $value) {
             $idLastDocument = $value;
         }
@@ -505,16 +538,16 @@ class Admin extends BaseController
                 if (isset($document[$i])) {
                     // dd($document[$i], $i, $idLastDocument);
                     $data = ['id_course' => $id_pelatihan, 'id_download_document' => $i];
-                    $this->CourseDownloadDocumentModel->insert($data);
+                    model(CourseDownloadDocumentModel::class)->insert($data);
                 }
             }
         } else {
-            $this->CourseDownloadDocumentModel->where('id_course', $id_pelatihan)->delete();
+            model(CourseDownloadDocumentModel::class)->where('id_course', $id_pelatihan)->delete();
             for ($i = 1; $i <= $idLastDocument; $i++) {
                 if (isset($document[$i])) {
 
                     $data = ['id_course' => $id_pelatihan, 'id_download_document' => $i];
-                    $this->CourseDownloadDocumentModel->insert($data);
+                    model(CourseDownloadDocumentModel::class)->insert($data);
                 }
             }
         }
@@ -524,13 +557,13 @@ class Admin extends BaseController
     public function listDownloadDocument()
     {
         $id_pelatihan =  $this->request->getPost('id_course');
-        $data = $this->DownloadDocumentModel->findAll();
+        $data = model(DownloadDocumentModel::class)->findAll();
         return json_encode($data);
     }
     public function insertUploadDocument($id_pelatihan)
     {
         $name =  $this->request->getPost('name_uplaod_document');
-        $this->UploadDocumentModel->save(['name' => $name]);
+        model(UploadDocumentModel::class)->save(['name' => $name]);
 
         return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
     }
@@ -538,8 +571,8 @@ class Admin extends BaseController
     {
         $document =  $this->request->getPost();
         // dd($document);
-        $countCourseDocument = $this->CourseUploadDocumentModel->where('id_course', $id_pelatihan)->countAllResults();
-        $idDocumentAll = $this->UploadDocumentModel->findColumn('id');
+        $countCourseDocument = model(CourseUploadDocumentModel::class)->where('id_course', $id_pelatihan)->countAllResults();
+        $idDocumentAll = model(UploadDocumentModel::class)->findColumn('id');
         foreach ($idDocumentAll as $key => $value) {
             $idLastDocument = $value;
         }
@@ -549,16 +582,16 @@ class Admin extends BaseController
                 if (isset($document[$i])) {
                     // dd($document[$i], $i, $idLastDocument);
                     $data = ['id_course' => $id_pelatihan, 'id_upload_document' => $i];
-                    $this->CourseUploadDocumentModel->insert($data);
+                    model(CourseUploadDocumentModel::class)->insert($data);
                 }
             }
         } else {
-            $this->CourseUploadDocumentModel->where('id_course', $id_pelatihan)->delete();
+            model(CourseUploadDocumentModel::class)->where('id_course', $id_pelatihan)->delete();
             for ($i = 1; $i <= $idLastDocument; $i++) {
                 if (isset($document[$i])) {
 
                     $data = ['id_course' => $id_pelatihan, 'id_upload_document' => $i];
-                    $this->CourseUploadDocumentModel->insert($data);
+                    model(CourseUploadDocumentModel::class)->insert($data);
                 }
             }
         }
@@ -568,16 +601,16 @@ class Admin extends BaseController
     public function listUploadDocument()
     {
         $id_pelatihan =  $this->request->getPost('id_course');
-        $data = $this->DownloadDocumentModel->findAll();
+        $data = model(DownloadDocumentModel::class)->findAll();
         return json_encode($data);
     }
     public function listUserCourse()
     {
         $id_pelatihan =  $this->request->getPost('id_course');
-        $data = $this->UserCourseModel->where('id_course', $id_pelatihan)->findAll();
+        $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->findAll();
         $data_final = [];
         foreach ($data as $key => $value) {
-            $data_user = $this->UsersModel->find($value['id_user']);
+            $data_user = model(UserModel::class)->find($value['id_user']);
             $data_final['user'][$key] = $data_user;
         }
         // Read new token and assign in $data['token']
@@ -592,10 +625,10 @@ class Admin extends BaseController
     {
         $id_pelatihan =  $this->request->getPost('id_course');
         $id_user =  $this->request->getPost('id_user');
-        $data = $this->UserCourseModel->where('id_course', $id_pelatihan)->findAll();
+        $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->findAll();
         $data_final = [];
         foreach ($data as $key => $value) {
-            $data_user = $this->UsersModel->find($value['id_user']);
+            $data_user = model(UserModel::class)->find($value['id_user']);
             $data_final[$key] = $data_user;
         }
         return json_encode($data_final);

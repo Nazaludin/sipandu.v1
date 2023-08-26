@@ -33,6 +33,26 @@
                                         Back</a>
                                 </div>
                                 <div class="col-auto">
+                                    <a href="<?= base_url('pelatihan/detail/user/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-warning position-relative" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                        </svg>
+                                        Pendaftar
+                                        <?php if (!empty(json_decode($pelatihan)->courses->registrar)) {   ?>
+                                            <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= json_decode($pelatihan)->courses->registrar; ?></span>
+                                        <?php } ?>
+                                    </a>
+                                    <a class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#modal-confirm-publish">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-share-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M8 9h-1a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-8a2 2 0 0 0 -2 -2h-1"></path>
+                                            <path d="M12 14v-11"></path>
+                                            <path d="M9 6l3 -3l3 3"></path>
+                                        </svg>
+                                        Publish
+                                    </a>
                                     <a href="<?= base_url('pelatihan/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -178,121 +198,33 @@
     <!-- ============================================================== -->
     <!-- End Container fluid  -->
     <!-- ============================================================== -->
-    <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
-            $('#home-tab').attr('class', 'nav-link active');
-            $('#home').attr('class', 'tab-pane fade show active');
-        });
-
-        let provinsiSelect = new TomSelect('#select_provinsi', {
-            hideSelected: true,
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'name',
-            options: convertArray(dataProvinsi()),
-            create: false,
-            onChange: function(value) {
-                console.log(value, provinsiSelect.getItem(value).innerText);
-                $('#input-provinsi').val(provinsiSelect.getItem(value).innerText);
-                kabupatenSelect.enable();
-                // Mendapatkan daftar kabupaten berdasarkan kode provinsi yang dipilih
-                let daftarKabupaten = convertArray(dataKabupaten(value));
-
-                // Menghapus opsi lama di dropdown kabupaten
-                kabupatenSelect.clearOptions();
-
-                // Menambahkan opsi baru ke dropdown kabupaten
-                kabupatenSelect.addOption(daftarKabupaten);
-
-
-                // Reset nilai dropdown kecamatan
-                kecamatanSelect.clearOptions();
-                kecamatanSelect.setValue("");
-            }
-        });
-
-
-        let kabupatenSelect = new TomSelect("#select_kabupaten", {
-            hideSelected: true,
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'name',
-            options: [],
-            create: false,
-            onChange: function(value) {
-                console.log(value, kabupatenSelect.getItem(value).innerText);
-                $('#input-kabupaten').val(kabupatenSelect.getItem(value).innerText);
-                kecamatanSelect.enable();
-                let daftarKecamatan = convertArray(dataKecamatan(value));
-
-                // Menghapus opsi lama di dropdown kecamatan
-                kecamatanSelect.clearOptions();
-
-                // Menambahkan opsi baru ke dropdown kecamatan
-                kecamatanSelect.addOption(daftarKecamatan);
-            }
-        });
-        let kecamatanSelect = new TomSelect("#select_kecamatan", {
-            hideSelected: true,
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'name',
-            options: [],
-            create: false,
-            onChange: function(value) {
-                console.log(value, kecamatanSelect.getItem(value).innerText);
-                $('#input-kecamatan').val(kecamatanSelect.getItem(value).innerText);
-            }
-        });
-
-
-        // Fungsi untuk mengambil data provinsi dari server
-        function dataProvinsi() {
-            var result = "";
-            $.ajax({
-                url: "service/provinsi",
-                async: false,
-                success: function(data) {
-                    result = data;
-                }
-            });
-            return result;
-        }
-        console.log(dataProvinsi(), convertArray(dataProvinsi()));
-        // Fungsi untuk mengambil data kabupaten dari server berdasarkan kode provinsi
-        function dataKabupaten(kodeProvinsi) {
-            var result = "";
-            $.ajax({
-                url: "service/kabupaten/" + kodeProvinsi,
-                async: false,
-                success: function(data) {
-                    result = data;
-                    console.log(kodeProvinsi, result);
-                }
-            });
-            return result;
-        }
-
-        // Fungsi untuk mengambil data kecamatan dari server berdasarkan kode kabupaten
-        function dataKecamatan(kodeKabupaten) {
-            var result = "";
-            $.ajax({
-                url: "service/kecamatan/" + kodeKabupaten,
-                async: false,
-                success: function(data) {
-                    result = data;
-                }
-            });
-            return result;
-        }
-
-        // Fungsi untuk mengkonversi data dari string JSON ke array
-        function convertArray(data) {
-            return JSON.parse(data);
-        }
-    </script>
+    <!-- Modal Konfrimasi Publish -->
+    <div class="modal modal-blur fade" id="modal-confirm-publish" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+                        <path d="M12 9v4" />
+                        <path d="M12 17h.01" />
+                    </svg>
+                    <h3>Apakah anda yakin?</h3>
+                    <div class="text-secondary">Dengan melakukan publis maka data pelatihan akan muncul di semua laman pengguna pelatihan.</div>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col"><a class="btn w-100" data-bs-dismiss="modal">
+                                    Batal
+                                </a></div>
+                            <div class="col"><a href="<?= base_url('pelatihan/status/edit/' . json_decode($pelatihan)->courses->id . '/3'); ?>" class="btn btn-danger w-100"> Lanjut</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

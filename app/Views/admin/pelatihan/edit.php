@@ -205,7 +205,7 @@
                                                 valueField: 'value',
                                                 labelField: 'name',
                                                 searchField: 'name',
-                                                create: false,
+                                                create: true,
                                             });
                                         </script>
                                         <div class="hr-text hr-text-left my-3">Dokumen Persyaratan</div>
@@ -232,13 +232,14 @@
                                                                 Pilih
                                                             </a>
                                                             <a class="btn my-0 py-1" data-bs-toggle="modal" data-bs-target="#modal-download-document-add">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                                    <path d="M16 5l3 3"></path>
+                                                                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
+                                                                    <path d="M13.5 6.5l4 4"></path>
+                                                                    <path d="M16 19h6"></path>
+                                                                    <path d="M19 16v6"></path>
                                                                 </svg>
-                                                                Edit
+                                                                Tambah
                                                             </a>
                                                         </div>
                                                     </div>
@@ -263,7 +264,7 @@
                                                                         <td>
                                                                             <?= $doc['name']; ?>
                                                                         </td>
-                                                                        <td class="text-end"><a href="<?= base_url($doc['link']); ?>" download>Unduh</a></td>
+                                                                        <td class="text-end"><a href="<?= base_url($doc['link']); ?>" download="<?= $doc['name']; ?>">Unduh</a></td>
                                                                         <!-- <td class="text-center"> -->
 
                                                                         </td>
@@ -296,13 +297,14 @@
                                                                 Pilih
                                                             </a>
                                                             <a class="btn my-0 py-1" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                                    <path d="M16 5l3 3"></path>
+                                                                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
+                                                                    <path d="M13.5 6.5l4 4"></path>
+                                                                    <path d="M16 19h6"></path>
+                                                                    <path d="M19 16v6"></path>
                                                                 </svg>
-                                                                Edit
+                                                                Tambah
                                                             </a>
                                                         </div>
                                                     </div>
