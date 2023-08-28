@@ -51,14 +51,16 @@ class APIControl extends BaseController
     public function testKoneksi()
     {
         $data = $this->request->getPost();
-        dd($data);
+        // dd($data);
+        // unlink(WRITEPATH . 'uploads/temp/1693243619_078fd040c49a2c5344a9.png');
+        // dd('strop');
         $file_download = $this->request->getFile('croppedImage');
         $newName = $file_download->getRandomName();
-        $path = 'uploads/dokumen';
+        $path = WRITEPATH . 'uploads/temp';
         // dd(base_url() . $path, FCPATH, WRITEPATH);
-        $file_download->move(FCPATH . $path, $newName);
+        $file_download->move($path, $newName);
         // dd($data);
-        return json_encode($file_download);
+        return json_encode(['temp-dir' => 'uploads/temp' . $newName]);
     }
     // public function dataProvinsi()
     // {

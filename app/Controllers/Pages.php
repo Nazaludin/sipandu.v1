@@ -375,7 +375,7 @@ class Pages extends BaseController
         $pengguna = session()->get('logged_in');
         $data = $this->request->getPost();
         $file = $this->request->getFile('croppedImage');
-        // dd($data);
+        dd($data, $file);
         if (isset($file)) {
 
             if ($file->isValid() && !($file->hasMoved())) {
@@ -395,81 +395,81 @@ class Pages extends BaseController
 
         return redirect()->to(base_url('profil'))->withInput();
     }
-    public function registrasiProses()
-    {
-        $data = $this->request->getPost();
-        // dd($data);
-        // dd($data);
-        $this->UsersModel->save($data);
-        $user_id = $this->UsersModel->getInsertID();
-        $data_pengguna          = new stdClass;
-        $data_pengguna->id      = $user_id;
-        $data_pengguna->nama    = $data['nama'];
+    // public function registrasiProses()
+    // {
+    //     $data = $this->request->getPost();
+    //     // dd($data);
+    //     // dd($data);
+    //     $this->UsersModel->save($data);
+    //     $user_id = $this->UsersModel->getInsertID();
+    //     $data_pengguna          = new stdClass;
+    //     $data_pengguna->id      = $user_id;
+    //     $data_pengguna->nama    = $data['nama'];
 
-        $data_sess = [
-            'pengguna'  => $data_pengguna,
-            // 'sistem'    => $data_sistem,
-        ];
-        session()->set($data_sess);
-        return redirect()->to(base_url('profil'))->withInput();
-    }
-    public function loginProses()
-    {
-        $email       = $this->request->getPost('email');
-        $password   = $this->request->getPost('password');
-        // dd($email, $password);
-        $input = $this->validate([
-            'email' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required'    => 'Nama harus diisi!'
-                ]
-            ],
-            'password' => [
-                'rules' => 'min_length[6]|required',
-                'errors' => [
-                    'required'      => 'Kode akses harus diisi!',
-                    'min_length'    => 'Password terlalu pendek!'
-                ]
-            ]
-        ]);
+    //     $data_sess = [
+    //         'pengguna'  => $data_pengguna,
+    //         // 'sistem'    => $data_sistem,
+    //     ];
+    //     session()->set($data_sess);
+    //     return redirect()->to(base_url('profil'))->withInput();
+    // }
+    // public function loginProses()
+    // {
+    //     $email       = $this->request->getPost('email');
+    //     $password   = $this->request->getPost('password');
+    //     // dd($email, $password);
+    //     $input = $this->validate([
+    //         'email' => [
+    //             'rules' => 'required',
+    //             'errors' => [
+    //                 'required'    => 'Nama harus diisi!'
+    //             ]
+    //         ],
+    //         'password' => [
+    //             'rules' => 'min_length[6]|required',
+    //             'errors' => [
+    //                 'required'      => 'Kode akses harus diisi!',
+    //                 'min_length'    => 'Password terlalu pendek!'
+    //             ]
+    //         ]
+    //     ]);
 
-        if (!$input) {
-            session()->setFlashdata('error', 'Isian yang Anda masukkan tidak sesuai!');
-            return redirect()->back()->withInput();
-        }
+    //     if (!$input) {
+    //         session()->setFlashdata('error', 'Isian yang Anda masukkan tidak sesuai!');
+    //         return redirect()->back()->withInput();
+    //     }
 
-        $pengguna = $this->UsersModel->where('email', $email)->get()->getRow();
+    //     $pengguna = $this->UsersModel->where('email', $email)->get()->getRow();
 
-        if (is_null($pengguna)) {
-            session()->setFlashdata('error', 'Akun Anda tidak terdaftar!');
-            return redirect()->back()->withInput();
-        }
+    //     if (is_null($pengguna)) {
+    //         session()->setFlashdata('error', 'Akun Anda tidak terdaftar!');
+    //         return redirect()->back()->withInput();
+    //     }
 
-        if ($password == $pengguna->password) {
+    //     if ($password == $pengguna->password) {
 
-            $data_pengguna          = new stdClass;
-            $data_pengguna->id      = $pengguna;
-            $data_pengguna->nama    = $pengguna->nama;
+    //         $data_pengguna          = new stdClass;
+    //         $data_pengguna->id      = $pengguna;
+    //         $data_pengguna->nama    = $pengguna->nama;
 
-            $data_sistem            = new stdClass;
-            $data_sistem->logged_in = true;
+    //         $data_sistem            = new stdClass;
+    //         $data_sistem->logged_in = true;
 
-            $data = [
-                'pengguna'  => $data_pengguna,
-                'sistem'    => $data_sistem,
-            ];
-            session()->set($data);
-            return redirect()->to(base_url('profil'))->withInput();
-        }
-        session()->setFlashdata('error', 'Nama atau Kode Akses salah!');
-        return redirect()->back()->withInput();
-    }
-    public function logout()
-    {
-        session()->remove('pengguna');
-        session()->remove('sistem');
-        session()->destroy();
-        return redirect()->to(base_url());
-    }
+    //         $data = [
+    //             'pengguna'  => $data_pengguna,
+    //             'sistem'    => $data_sistem,
+    //         ];
+    //         session()->set($data);
+    //         return redirect()->to(base_url('profil'))->withInput();
+    //     }
+    //     session()->setFlashdata('error', 'Nama atau Kode Akses salah!');
+    //     return redirect()->back()->withInput();
+    // }
+    // public function logout()
+    // {
+    //     session()->remove('pengguna');
+    //     session()->remove('sistem');
+    //     session()->destroy();
+    //     return redirect()->to(base_url());
+    // }
 }
