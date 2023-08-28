@@ -102,6 +102,7 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
 
         $routes->group('user', static function ($routes) {
             $routes->get('regis/(:num)/(:num)',  'Admin::pelatihanUserDetail/$1/$2');
+            $routes->get('regis/(:num)/(:num)/(:num)',  'Admin::pelatihanUserRegis/$1/$2/$3');
         });
 
         $routes->group('edit', static function ($routes) {

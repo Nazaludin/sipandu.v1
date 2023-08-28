@@ -6,34 +6,14 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Kelola
+                        Pelatihan
                     </div>
                     <h2 class="page-title">
-                        Pelatihan
+                        User
                     </h2>
                 </div>
                 <!-- Page title actions -->
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">
-                        <a href="<?= base_url(); ?>" class="btn btn-primary d-none d-sm-inline-block">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-
-                        </a>
-                        <a href="" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -50,7 +30,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered  table-hover">
+                                <table class="table table-bordered table-hover text-center align-middle">
                                     <thead class="text-center bg-dark">
                                         <tr>
                                             <th scope="col">No</th>
@@ -67,8 +47,25 @@
 
                                                 <tr>
                                                     <th scope="row"><?= $key + 1; ?></th>
-                                                    <td><?= $value['fullname']; ?> <br> <?= $value['jabatan']; ?></td>
-                                                    <td> status </td>
+                                                    <td><b><?= $value['fullname']; ?></b> <br> <?= $value['jabatan']; ?></td>
+                                                    <td>
+                                                        <?php switch ($value['status_pelatihan']) {
+                                                            case 'register':
+                                                                echo '<span class="badge bg-orange-lt">Baru</span>';
+                                                                break;
+                                                            case 'accept':
+                                                                echo '<span class="badge bg-green-lt">Diterima</span>';
+                                                                break;
+                                                            case 'reject':
+                                                                echo '<span class="badge bg-red-lt">Ditolak</span>';
+                                                                break;
+                                                            case 'revisi':
+                                                                echo '<span class="badge bg-yellow-lt">Revisi</span>';
+                                                                break;
+                                                            default:
+                                                                echo '';
+                                                                break;
+                                                        } ?></td>
 
                                                     <td>
                                                         <a href="<?= base_url('pelatihan/detail/user/regis/' . $id_pelatihan . '/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary">

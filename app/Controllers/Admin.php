@@ -71,6 +71,29 @@ class Admin extends BaseController
         }
         return $result;
     }
+    public function convertStatusUserPelatihan($condition)
+    {
+        $result = '';
+        switch (true) {
+            case $condition == 'register':
+                $result = 'Baru';
+                break;
+            case $condition == 'accept':
+                $result = 'Diterima';
+                break;
+            case $condition == 'reject':
+                $result = 'Ditolak';
+                break;
+            case $condition == 'revisi':
+                $result = 'Revisi';
+                break;
+
+            default:
+                $result = '';
+                break;
+        }
+        return $result;
+    }
 
     public function controlAPI($URL, $method = 'GET')
     {
@@ -270,14 +293,60 @@ class Admin extends BaseController
         foreach ($data as $key => $value) {
             $data_user = model(UserModel::class)->find($value['id_user']);
             $data_final['user'][$key] = $data_user->toArray();
+            $data_final['user'][$key]['status_pelatihan'] = $value['status'];
         }
 
         $data_final['id_pelatihan'] = $id_pelatihan;
+        // dd($data_final, $data);
         return view('layout/header', $data_final)
             . view('layout/sidebar')
             . view('admin/pelatihan/user')
             . view('layout/footer');
     }
+    public function pelatihanUserRegis($id_pelatihan, $id_user, $status)
+    {
+        $id_user_coruse = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->where('id_user', $id_user)->findColumn('id');
+        $user = model(UserModel::class)->find($id_user)->toArray();
+
+        $MoodyUser = $this->MoodyBest->getUserByEmail($user['email']); // Check user in moodle
+        // $MoodyUser = $this->MoodyBest->getUserByEmail('admsipandu@gmail.com');
+        // dd($MoodyUser, $user['email'], empty($MoodyUser['error']), $MoodyUser['data']['userid']);
+
+        if (empty($MoodyUser['error'])) {
+            switch ($status) {
+                case 1:
+                    $statusUpdate = 'accept';
+                    // Enroll user to course in moodle
+                    $MoodyEnroll = $this->MoodyBest->enrolUserToCourse($id_pelatihan, $MoodyUser['data']['userid'], Contract::ROLE_ID_STUDENT);
+                    if ($MoodyEnroll['data']['code'] != 200) {
+                        dd('Error Enrol');
+                    }
+                    break;
+                case 2:
+                    $statusUpdate = 'reject';
+                    break;
+                case 3:
+                    $statusUpdate = 'revisi';
+                    break;
+
+                default:
+                    $statusUpdate = 'register';
+                    break;
+            }
+        } else {
+            dd('Error Moodle User');
+        }
+
+        // Update status User Course
+        $proses = model(UserCourseModel::class)->update($id_user_coruse[0], ['status' => $statusUpdate]);
+        if ($proses) {
+            return redirect()->back()->to(base_url('pelatihan/detail/user/' . $id_pelatihan));
+        } else {
+            dd('Terjadi Kesalahan');
+        }
+    }
+
+
     public function pelatihanUserDetail($id_pelatihan, $id_user)
     {
         $dataUserCourse = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->where('id_user', $id_user)->findColumn('id');
@@ -289,6 +358,8 @@ class Admin extends BaseController
             $dataFinal['document'][$key]['name_upload_document'] = $value['name'];
         }
         $dataFinal['id_pelatihan'] = $id_pelatihan;
+        $dataFinal['user'] = model(UserModel::class)->find($id_user)->toArray();
+        // dd($dataFinal);
         return view('layout/header', $dataFinal)
             . view('layout/sidebar')
             . view('admin/pelatihan/user_detail')

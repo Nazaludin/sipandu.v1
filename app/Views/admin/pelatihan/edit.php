@@ -349,7 +349,7 @@
                                                 <a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Batal</a>
                                             </div>
                                             <div class="col-6 d-flex justify-content-end">
-                                                <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-confirm-publish">
+                                                <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-confirm-publish">
                                                     Simpan & Publish
                                                 </a>
                                                 <button type="button" class="btn btn-success mx-2" onclick="$('#button-submit').click()">Simpan</button>
