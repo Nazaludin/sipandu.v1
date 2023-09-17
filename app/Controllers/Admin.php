@@ -123,40 +123,93 @@ class Admin extends BaseController
         var_dump($result);
 
         // Data Pelatihan API
-        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
-        // dd($dataPelatihan);
+        $pelatihan = model(CourseModel::class)->findAll();
 
-        $pelatihan = [];
-        $i = 0;
+        if (!empty($pelatihan)) {
+            $now = new Time('now', 'Asia/Jakarta');
+            // $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
+            // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
+            foreach ($pelatihan as $key => $value) {
+                // Data Pelatihan API
+                $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
 
-        // $now = new Time('now', 'Asia/Jakarta');
-        $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
-        foreach ($dataPelatihan->courses as $key => $value) {
-            if ($now->getTimestamp() < $value->startdate) {
-                $value->startdatetime   = $this->toLocalTime($value->startdate);
-                $value->enddatetime     = $this->toLocalTime($value->enddate);
-
-                $courseLocal = model(CourseModel::class)->find($value->id);
-                $value->condition           = isset($courseLocal['condition']) ? $this->convertCondition($courseLocal['condition']) : '';
-                $value->start_registration  = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
-                $value->end_registration    = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) : '';
-                $value->batch               = $courseLocal['batch'] ?? '';
-                $value->quota               = $courseLocal['quota'] ?? '';
-                $value->registrar           = model(UserCourseModel::class)->where('id_course', $value->id)->where('status', 'register')->countAllResults();
-                $value->participant         = model(UserCourseModel::class)->where('id_course', $value->id)->countAllResults();
-
-                $pelatihan['courses'][$i] = $value;
-                $i++;
+                $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
+                    $value['condition'],
+                    $value['id'],
+                    isset($value['start_registration']) ? $value['start_registration'] : null,
+                    isset($value['end_registration']) ? $value['end_registration'] : null,
+                    isset($dataPelatihan->courses[0]->startdate) ? $dataPelatihan->courses[0]->startdate : null,
+                    isset($dataPelatihan->courses[0]->enddate) ? $dataPelatihan->courses[0]->enddate : null,
+                ) : '';
+                $dataPelatihan->courses[0]->start_registration      = isset($value['start_registration']) ? $this->dateToLocalTime($value['start_registration']) : '';
+                $dataPelatihan->courses[0]->end_registration        = isset($value['end_registration']) ? $this->dateToLocalTime($value['end_registration']) :  '';
+                $dataPelatihan->courses[0]->target_participant      = $value['target_participant'] ?? '';
+                $dataPelatihan->courses[0]->batch                   = $value['batch'] ?? '';
+                $dataPelatihan->courses[0]->quota                   = $value['quota'] ?? '';
+                $dataPelatihan->courses[0]->place                   = $value['place'] ?? '';
+                $dataPelatihan->courses[0]->contact_person          = $value['contact_person'] ?? '';
+                $dataPelatihan->courses[0]->schedule_file           = $value['schedule_file'] ?? '';
+                $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
+                $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
+                $dataPelatihan->courses[0]->registrar           = model(UserCourseModel::class)->where('id_course', $value['id'])->where('status', 'register')->countAllResults();
+                $dataPelatihan->courses[0]->participant         = model(UserCourseModel::class)->where('id_course', $value['id'])->countAllResults();
+                $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
             }
         }
 
-        $data['pelatihan'] = json_encode($pelatihan);
-        // dd($data);
+        $data['pelatihan'] = isset($pelatihan) ? json_encode($pelatihan) : json_encode([]);
+        // dd($data, empty(json_decode($data['pelatihan'])));
         return view('layout/header', $data)
             . view('layout/sidebar')
             . view('admin/pelatihan/index')
             . view('layout/footer');
     }
+    // BACKUP PELATIHAN
+    // public function pelatihan()
+    // {
+    //     // dd();
+    //     $result = $this->MoodyBest->getUserByEmail("admsipandu@gmail.com");
+    //     var_dump($result);
+    //     // dd($result);
+    //     // $result = $this->MoodyBest->enrolUserToCourse("203", "2821", Contract::ROLE_ID_STUDENT);
+    //     $result = $this->MoodyBest->getEnroledUsersByCourseId("203");
+    //     var_dump($result);
+
+    //     // Data Pelatihan API
+    //     $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
+    //     // dd($dataPelatihan);
+
+    //     $pelatihan = [];
+    //     $i = 0;
+
+    //     // $now = new Time('now', 'Asia/Jakarta');
+    //     $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
+    //     foreach ($dataPelatihan->courses as $key => $value) {
+    //         if ($now->getTimestamp() < $value->startdate) {
+    //             $value->startdatetime   = $this->toLocalTime($value->startdate);
+    //             $value->enddatetime     = $this->toLocalTime($value->enddate);
+
+    //             $courseLocal = model(CourseModel::class)->find($value->id);
+    //             $value->condition           = isset($courseLocal['condition']) ? $this->convertCondition($courseLocal['condition']) : '';
+    //             $value->start_registration  = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
+    //             $value->end_registration    = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) : '';
+    //             $value->batch               = $courseLocal['batch'] ?? '';
+    //             $value->quota               = $courseLocal['quota'] ?? '';
+    //             $value->registrar           = model(UserCourseModel::class)->where('id_course', $value->id)->where('status', 'register')->countAllResults();
+    //             $value->participant         = model(UserCourseModel::class)->where('id_course', $value->id)->countAllResults();
+
+    //             $pelatihan['courses'][$i] = $value;
+    //             $i++;
+    //         }
+    //     }
+
+    //     $data['pelatihan'] = json_encode($pelatihan);
+    //     // dd($data);
+    //     return view('layout/header', $data)
+    //         . view('layout/sidebar')
+    //         . view('admin/pelatihan/index')
+    //         . view('layout/footer');
+    // }
 
     // Menu Insert
     public function pelatihanInsert()
@@ -214,7 +267,9 @@ class Admin extends BaseController
             }
             $status = model(CourseModel::class)->insert($dataLokal);
             // dd($status);
-            return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']));
+            return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']))->withInput();
+        } else {
+            return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']))->withInput()->with('error', $result['error']['message']);;
         }
         return redirect()->back();
     }
@@ -278,10 +333,11 @@ class Admin extends BaseController
         if (null != model(CourseModel::class)->find($id_pelatihan)) {
             model(CourseModel::class)->update($id_pelatihan, ['status_sistem' => $publis ? 'publish' : 'draft']);
         } else {
+            return redirect()->to(base_url('pelatihan'))->with('error', 'Terjadi kesalahan saat membuat pelatihan');
             dd('Terjadi Error');
         }
 
-        return redirect()->to(base_url('pelatihan'));
+        return redirect()->to(base_url('pelatihan'))->with('message', 'Pelatihan baru berhasil ditambahkan');
     }
 
 
@@ -319,6 +375,7 @@ class Admin extends BaseController
                     // Enroll user to course in moodle
                     $MoodyEnroll = $this->MoodyBest->enrolUserToCourse($id_pelatihan, $MoodyUser['data']['userid'], Contract::ROLE_ID_STUDENT);
                     if ($MoodyEnroll['data']['code'] != 200) {
+
                         dd('Error Enrol');
                     }
                     break;
@@ -334,13 +391,15 @@ class Admin extends BaseController
                     break;
             }
         } else {
+            return redirect()->back()->to(base_url('pelatihan/detail/user/' . $id_pelatihan))->withInput()->with('error', 'User Moodle ' . $MoodyUser['error']['message']);
+
             dd('Error Moodle User');
         }
 
         // Update status User Course
         $proses = model(UserCourseModel::class)->update($id_user_coruse[0], ['status' => $statusUpdate]);
         if ($proses) {
-            return redirect()->back()->to(base_url('pelatihan/detail/user/' . $id_pelatihan));
+            return redirect()->back()->to(base_url('pelatihan/detail/user/' . $id_pelatihan))->withInput()->with('message', 'Setatus User Diperbaharui');
         } else {
             dd('Terjadi Kesalahan');
         }
@@ -507,7 +566,7 @@ class Admin extends BaseController
             model(CourseModel::class)->insert($dataLokal, false);
         }
 
-        return redirect()->to(base_url('pelatihan/detail/' . $id_pelatihan));
+        return redirect()->to(base_url('pelatihan'))->with('message', 'Data pelatihan berhasil diperbarui');
     }
 
     public function convertStatusPelatihan($status)
@@ -540,7 +599,7 @@ class Admin extends BaseController
             dd('Terjadi Error');
         }
 
-        return redirect()->to(base_url('pelatihan'));
+        return redirect()->to(base_url('pelatihan'))->with('message', 'Status pelatihan berhasil diperbarui');
     }
 
 

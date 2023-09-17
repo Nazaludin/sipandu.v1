@@ -130,6 +130,7 @@ class AuthController extends Controller
     public function register()
     {
         // check if already logged in.
+        // dd("TESTING ATUTH ");
         if ($this->auth->check()) {
             return redirect()->back();
         }
@@ -147,6 +148,7 @@ class AuthController extends Controller
      */
     public function attemptRegister()
     {
+        // dd('regis');
         // Check if registration is allowed
         if (!$this->config->allowRegistration) {
             return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
@@ -167,7 +169,7 @@ class AuthController extends Controller
 
         // Validate passwords since they can only be validated properly here
         $rules = [
-            'password'     => 'required|regex_match[/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/]|strong_password',
+            'password'     => 'required|regex_match[/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/]',
             'pass_confirm' => 'required|matches[password]',
         ];
         $message = [
@@ -179,23 +181,41 @@ class AuthController extends Controller
         }
 
         // Save New user to Moodle (BEST)
-        // $dataRegis = $this->request->getPost();
-        // $result = $this->MoodyBest->createUser(
-        //     $dataRegis['username'],
-        //     $dataRegis['password'],
-        //     $dataRegis['email'],
-        //     $dataRegis['firstname'],
-        //     $dataRegis['lastname'],
-        //     $dataRegis['provinsi'],
-        //     "ID",
-        // );
+        $dataRegis = $this->request->getPost();
+        $result = $this->MoodyBest->createUser(
+            $dataRegis['username'],
+            $dataRegis['password'],
+            $dataRegis['email'],
+            $dataRegis['firstname'],
+            $dataRegis['lastname'],
+            $dataRegis['provinsi'],
+            "ID",
+        );
+        // dd($result);
 
-        // if (!empty($result['error'])) {
-        //     $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
-        //     if (!empty($akunBest['error'])) {
-        //         return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
-        //     }
-        // }
+        if (!empty($result['error'])) {
+            $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
+            if (!empty($akunBest['error'])) {
+                return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
+            } else {
+                // d($akunBest['data']);
+                // updateUser(string $id, string $password, string $email, string $firstname, string $lastname, string $city, string $country)
+                $updateakunBest = $this->MoodyBest->updateUser(
+                    $akunBest['data']['userid'],
+                    $dataRegis['password'],
+                    $dataRegis['email'],
+                    $dataRegis['firstname'],
+                    $dataRegis['lastname'],
+                    $dataRegis['provinsi'],
+                    "ID",
+                );
+
+                if (!empty($updateakunBest['error'])) {
+                    return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam singkronisasi akun Sipandu dan akun Best.");
+                }
+                // dd($updateakunBest);
+            }
+        }
 
         // Save new user
         $allowedPostFields = array_merge(['password', 'telepon', 'fullname', 'firstname', 'lastname', 'provinsi'], $this->config->validFields, $this->config->personalFields);

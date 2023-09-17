@@ -31,15 +31,28 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 // $routes->get('/', 'Home::index');
 $routes->addRedirect('/', 'profil');
-// $routes->addRedirect('/', 'login');
 $routes->get('/profil', 'Pages::index');
-// $routes->get('/login', 'Pages::login');
-// $routes->group('login', static function ($routes) {
-//     $routes->post('proses',  'Pages::loginProses');
-// });
-// $routes->get('/logout', 'Pages::logout');
+
+// AUTH ROUTES
+$routes->get('/login', 'AuthController::login');
+$routes->post('/login', 'AuthController::attemptLogin');
+$routes->get('/logout', 'AuthController::logout');
+
+// Registration
 $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::attemptRegister');
+
+// Activation
+$routes->get('activate-account', 'AuthController::activateAccount');
+$routes->get('/resend-activate-account', 'AuthController::resendActivateAccount',);
+
+// Forgot/Resets
+$routes->get('/forgot', 'AuthController::forgotPassword');
+$routes->post('/forgot', 'AuthController::attemptForgot');
+$routes->get('/reset-password', 'AuthController::resetPassword');
+$routes->post('/reset-password', 'AuthController::attemptReset');
+
+
 // $routes->group('registrasi', static function ($routes) {
 //     $routes->post('proses',  'Pages::registrasiProses');
 // });
@@ -60,7 +73,8 @@ $routes->group('profil', static function ($routes) {
     $routes->post('update',  'Pages::updateUser');
 });
 $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes) {
-    $routes->get('berlangsung', 'Pages::pelatihanBerlangsung', ['filter' => 'role:user']);
+    $routes->get('batal/(:num)', 'Pages::pelatihanBatal/$1', ['filter' => 'role:user']);
+
     $routes->get('agenda', 'Pages::pelatihanAgenda', ['filter' => 'role:user']);
     $routes->group('agenda', ['filter' => 'role:user'], static function ($routes) {
         // $routes->post('detail', 'Pages::detailAgendaProses');
@@ -73,6 +87,15 @@ $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes)
         });
     });
 
+    $routes->get('daftar', 'Pages::pelatihanDaftar', ['filter' => 'role:user']);
+    $routes->group('daftar', ['filter' => 'role:user'], static function ($routes) {
+        $routes->get('detail/(:num)',  'Pages::detailDaftarProses/$1', ['filter' => 'role:user']);
+    });
+
+    $routes->get('berlangsung', 'Pages::pelatihanBerlangsung', ['filter' => 'role:user']);
+    $routes->group('berlangsung', ['filter' => 'role:user'], static function ($routes) {
+        $routes->get('detail/(:num)',  'Pages::detailBerlangsungProses/$1', ['filter' => 'role:user']);
+    });
     $routes->get('riwayat', 'Pages::pelatihanRiwayat');
 });
 $routes->get('pelatihan', 'Admin::pelatihan', ['filter' => 'role:admin']);

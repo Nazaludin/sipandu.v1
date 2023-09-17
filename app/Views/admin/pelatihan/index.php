@@ -2,6 +2,44 @@
     <!-- Page header -->
     <div class="page-header d-print-none">
         <div class="container-fluid">
+            <?php if (session()->has('message')) : ?>
+                <div class="alert alert-important alert-success alert-dismissible" role="alert">
+                    <div class="d-flex">
+                        <div>
+                            <!-- Download SVG icon from http://tabler-icons.io/i/check -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l5 5l10 -10"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <?= session('message') ?>
+                        </div>
+                    </div>
+                    <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                </div>
+            <?php endif ?>
+
+            <?php if (session()->has('error')) : ?>
+                <div class="alert alert-important alert-danger alert-dismissible" role="alert">
+                    <div class="d-flex">
+                        <div>
+                            <!-- Download SVG icon from http://tabler-icons.io/i/alert-circle -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <?= session('error') ?>
+                        </div>
+                    </div>
+                    <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                </div>
+            <?php endif ?>
+
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -74,44 +112,65 @@
                                     </thead>
 
                                     <tbody>
-                                        <?php foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
+                                        <?php
+                                        if (!empty(json_decode($pelatihan))) {
+                                            foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
-                                            <tr>
-                                                <th><?= $key + 1; ?></th>
-                                                <td style="width: 5%;"><?= $value->condition; ?></td>
-                                                <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
-                                                <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                                <td style="width: 10%;"><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                <td class="text-center"><?= $value->batch; ?></td>
-                                                <td class="text-center">
-                                                    <?php if (!empty($value->quota)) {   ?>
-                                                        <button class="btn btn-pill btn-outline-green"><?= $value->participant; ?> / <?= $value->quota; ?>
-                                                        </button>
-                                                    <?php } ?>
-                                                </td>
-                                                <td class="text-center">
-                                                    <a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                                                        </svg>
-                                                        <?php if (!empty($value->registrar)) {   ?>
-                                                            <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value->registrar; ?></span>
+                                                <tr>
+                                                    <th><?= $key + 1; ?></th>
+                                                    <td style="width: 5%;"><?= $value->condition; ?></td>
+                                                    <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
+                                                    <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
+                                                    <td style="width: 10%;"><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
+                                                    <td class="text-center"><?= $value->batch; ?></td>
+                                                    <td class="text-center">
+                                                        <?php if (!empty($value->quota)) {   ?>
+                                                            <button class="btn btn-pill btn-outline-green"><?= $value->participant; ?> / <?= $value->quota; ?>
+                                                            </button>
                                                         <?php } ?>
-                                                    </a>
-                                                    <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Detail">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                                                            <path d="M12 9h.01"></path>
-                                                            <path d="M11 12h1v4h1"></path>
-                                                        </svg>
-                                                    </a>
-                                                </td>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                                            </svg>
+                                                            <?php if (!empty($value->registrar)) {   ?>
+                                                                <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value->registrar; ?></span>
+                                                            <?php } ?>
+                                                        </a>
+                                                        <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Detail">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                                                <path d="M12 9h.01"></path>
+                                                                <path d="M11 12h1v4h1"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <a class="btn btn-icon btn-outline-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <div class="dropdown-menu ">
+                                                            <a class="dropdown-item text-danger btn" href="<?= base_url('pelatihan/batal/' . $value->id); ?>">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                    <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                    <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                </svg>
+                                                                Batal Mengikuti</a>
+                                                        </div>
+                                                    </td>
 
-                                            </tr>
-                                        <?php } ?>
+                                                </tr>
+                                        <?php }
+                                        } ?>
 
                                     </tbody>
                                 </table>

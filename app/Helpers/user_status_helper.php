@@ -25,3 +25,24 @@ if (!function_exists('system_status')) {
         return false;
     }
 }
+
+if (!function_exists('user_email')) {
+    /**
+     * Returns the User ID for the current logged in user.
+     *
+     * @return int|null
+     */
+    function user_email()
+    {
+        $authenticate = service('authentication');
+        $authorize    = service('authorization');
+
+        if ($authenticate->check()) {
+            if ($authorize->inGroup('user', $authenticate->id())) {
+                return model(UserModel::class)->where('id', $authenticate->id())->findColumn('email')[0];
+            }
+        }
+
+        return false;
+    }
+}

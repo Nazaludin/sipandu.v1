@@ -55,6 +55,9 @@
                                 <a class="dropdown-item" href="<?= base_url('pelatihan/agenda'); ?>">
                                     Agenda
                                 </a>
+                                <a class="dropdown-item" href="<?= base_url('pelatihan/daftar'); ?>">
+                                    Daftar
+                                </a>
                                 <a class="dropdown-item" href="<?= base_url('pelatihan/berlangsung'); ?>">
                                     Berlangsung
                                 </a>

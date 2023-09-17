@@ -70,7 +70,7 @@ class Modules extends BaseModules
         'events',
         'filters',
         'registrars',
-        'routes',
+        // 'routes',
         'services',
     ];
 }

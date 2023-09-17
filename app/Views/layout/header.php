@@ -42,10 +42,10 @@
     <meta property="og:description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!">
     <!-- CSS files -->
     <link href="<?= base_url('dist/css/tabler.min.css?1685973381'); ?>" rel="stylesheet" />
-    <link href="<?= base_url('dist/css/tabler-flags.min.css?1685973381'); ?>" rel="stylesheet" />
+    <!-- <link href="<?= base_url('dist/css/tabler-flags.min.css?1685973381'); ?>" rel="stylesheet" />
     <link href="<?= base_url('dist/css/tabler-payments.min.css?1685973381'); ?>" rel="stylesheet" />
     <link href="<?= base_url('dist/css/tabler-vendors.min.css?1685973381'); ?>" rel="stylesheet" />
-    <link href="<?= base_url('dist/css/demo.min.css?1685973381'); ?>" rel="stylesheet" />
+    <link href="<?= base_url('dist/css/demo.min.css?1685973381'); ?>" rel="stylesheet" /> -->
     <style>
         @import url('https://rsms.me/inter/inter.css');
 

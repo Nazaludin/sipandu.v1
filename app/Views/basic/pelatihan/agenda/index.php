@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <!-- Page header -->
     <div class="page-header d-print-none">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -44,7 +44,7 @@
     </div>
     <!-- Page body -->
     <div class="page-body">
-        <div class="container-xl">
+        <div class="container-fluid">
             <div class="row row-deck row-cards">
                 <div class="col-12">
                     <div class="card">
@@ -65,10 +65,11 @@
 
                                 <tbody>
                                     <?php if (isset(json_decode($pelatihan)->courses)) {
+                                        $num = 0;
                                         foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
                                             <tr>
-                                                <th scope="row"><?= $key + 1; ?></th>
+                                                <th scope="row"><?= ++$num; ?></th>
                                                 <td><?= $value->condition; ?></td>
                                                 <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td>
                                                 <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
@@ -76,7 +77,7 @@
                                                 <td><?= $value->batch; ?></td>
                                                 <td><?= $value->quota; ?></td>
                                                 <td>
-                                                    <a href="<?= base_url('pelatihan/agenda/detail/' . $value->id); ?>" class="btn btn-outline-primary">
+                                                    <a href="<?= base_url('pelatihan/agenda/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>

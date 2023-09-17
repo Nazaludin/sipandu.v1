@@ -9,7 +9,7 @@
                         Pelatihan
                     </div>
                     <h2 class="page-title">
-                        Berlangsung
+                        Proses Daftar
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -71,7 +71,22 @@
 
                                             <tr>
                                                 <th scope="row"><?= $key + 1; ?></th>
-                                                <td></td>
+                                                <td><?php switch ($value->status) {
+                                                        case 'register':
+                                                            echo '<button class="btn btn-pill text-blue m-0 px-3 py-1"><span class="badge bg-blue badge-blink badge-pill me-2"></span>Daftar</button>';
+                                                            break;
+                                                        case 'revisi':
+                                                            echo '<button class="btn btn-pill text-orange m-0 px-3 py-1"><span class="badge bg-orange badge-blink badge-pill me-2"></span>Revisi</button>';
+                                                            break;
+                                                        case 'reject':
+                                                            echo '<button class="btn btn-pill text-red m-0 px-3 py-1"><span class="badge bg-red badge-blink badge-pill me-2"></span>Ditolak</button>';
+                                                            break;
+
+                                                        default:
+                                                            echo '';
+                                                            break;
+                                                    }; ?>
+                                                </td>
 
                                                 <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
                                                 <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
@@ -80,7 +95,7 @@
                                                 <td><?= $value->batch; ?></td>
                                                 <td><?= $value->quota; ?></td>
                                                 <td>
-                                                    <a href="<?= base_url('pelatihan/berlangsung/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
+                                                    <a href="<?= base_url('pelatihan/daftar/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
@@ -163,7 +178,7 @@
                     <path d="M12 17h.01" />
                 </svg>
                 <h3>Apakah anda yakin?</h3>
-                <div class="text-secondary">Dengan membatalkan pelatihan brarti Anda tidak dapat mengikuti pelatihan dan semua persyaratan yang anda kirim akan terhapus dari sistem.</div>
+                <div class="text-secondary">Dengan membatalkan pelatihan, Anda <strong>tidak dapat mengikuti pelatihan</strong> dan semua <strong>persyaratan</strong> yang anda kirim akan <strong>terhapus</strong> dari sistem.</div>
             </div>
             <div class="modal-footer">
                 <div class="w-100">
