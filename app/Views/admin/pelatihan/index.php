@@ -49,6 +49,12 @@
                     <h2 class="page-title">
                         Pelatihan
                     </h2>
+                    <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
+                        <li class="breadcrumb-item"><a>Home</a></li>
+                        <li class="breadcrumb-item"><a>Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                    </ol>
+
                 </div>
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
@@ -87,8 +93,8 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="dropdown">
-                                <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Semua</a>
+                            <div class="dropdown mb-2">
+                                <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Semua</strong></a>
                                 <div class="dropdown-menu " style="">
                                     <a class="dropdown-item" href="#">Draft</a>
                                     <a class="dropdown-item" href="#">Publis</a>
@@ -97,16 +103,16 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
-                                    <thead class="text-center bg-dark">
+                                    <thead class="text-center text-light bg-dark ">
                                         <tr>
-                                            <th class="align-middle  bg-dark" scope="col">No</th>
-                                            <th class="align-middle " scope="col">Kondisi</th>
-                                            <th class="align-middle " scope="col">Mulai Pendaftaran / <br>Selesai Pendaftaran</th>
-                                            <th class="align-middle " scope="col">Mulai Pelatihan / <br>Selesai Pelatihan</th>
-                                            <th class="align-middle " scope="col">Jenis Pelatihan / Nama Pelatihan</th>
-                                            <th class="align-middle " scope="col">Gel. / Batch</th>
-                                            <th class="align-middle " scope="col">Pendaftar / <br> Kuota</th>
-                                            <th class="align-middle " scope="col">Aksi</th>
+                                            <th class="align-middle" scope="col">No</th>
+                                            <th class="align-middle" scope="col">Kondisi</th>
+                                            <th class="align-middle" scope="col">Mulai Pendaftaran / <br>Selesai Pendaftaran</th>
+                                            <th class="align-middle" scope="col">Mulai Pelatihan / <br>Selesai Pelatihan</th>
+                                            <th class="align-middle" scope="col">Jenis Pelatihan / Nama Pelatihan</th>
+                                            <th class="align-middle" scope="col">Gel. / Batch</th>
+                                            <th class="align-middle" scope="col">Pendaftar / <br> Kuota</th>
+                                            <th class="align-middle" scope="col">Aksi</th>
                                             <!-- <th class="align-middle " scope="col">Detail</th> -->
                                         </tr>
                                     </thead>

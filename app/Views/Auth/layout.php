@@ -69,112 +69,121 @@
         } */
 
         .bg {
+            background-image: linear-gradient(rgba(76, 182, 140, 0.1), rgba(0, 30, 18, 0.6)), url(assets/images/bg-auth.png);
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* .bg {
 
             background-image: url('../../assets/images/img-depan-invert.png');
             background-repeat: no-repeat;
             background-size: contain;
             height: 100%;
             width: 100%;
-        }
+        } */
     </style>
 </head>
 
 <?= $this->renderSection('pageStyles') ?>
 
-<body class="bg-transparent bg">
+<body class="bg">
     <script src="<?= base_url('dist/js/demo-theme.min.js?1685973381'); ?>"></script>
-    <div class="page">
+    <!-- <div class="page">
 
-        <div class="main-wrapper">
-            <!-- ============================================================== -->
-            <!-- Preloader - style you can find in spinners.css -->
-            <!-- ============================================================== -->
-            <div class="preloader">
-                <div class="lds-ripple">
-                    <div class="lds-pos"></div>
-                    <div class="lds-pos"></div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Preloader - style you can find in spinners.css -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Login box.scss -->
-            <!-- ============================================================== -->
-            <div class="page-wrapper bg-transparent">
-
-                <div class="row">
-
-                    <!-- <div id="loginform"> -->
-                    <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
-                    <div class="col-6"></div>
-                    <div class="col-5 card flex-row my-5 border-0 rounded-5 overflow-hidden bg-transparent">
-
-                        <main role="main" class="container">
-                            <?= $this->renderSection('main') ?>
-                        </main><!-- /.container -->
-                    </div>
-
-                    <div class="col-1"></div>
-
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- Login box.scss -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Page wrapper scss in scafholding.scss -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Page wrapper scss in scafholding.scss -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Right Sidebar -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Right Sidebar -->
-            <!-- ============================================================== -->
+        <div class="main-wrapper"> -->
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
         </div>
-        <!-- ============================================================== -->
-        <!-- All Required js -->
-        <!-- ============================================================== -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper h-100">
 
-        <!-- Bootstrap tether Core JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <!-- <script src="../../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
-        <!-- ============================================================== -->
-        <!-- This page plugin js -->
-        <!-- ============================================================== -->
-        <script>
-            $(".preloader").fadeOut();
-            // ============================================================== 
-            // Login and Recover Password 
-            // ============================================================== 
-            $('#to-recover').on("click", function() {
-                $("#loginform").slideUp();
-                $("#recoverform").fadeIn();
-            });
-            $('#to-login').click(function() {
+        <div class="row d-flex align-items-center h-100">
 
-                $("#recoverform").hide();
-                $("#loginform").fadeIn();
-            });
-        </script>
+            <!-- <div id="loginform"> -->
+            <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+            <!-- <div class="col-6"></div> -->
+            <div class="col-lg-6 col-md-8 col-sm-10 card flex-row m-auto border-0 rounded-5 overflow-hidden bg-transparent d-flex align-items-center justify-content-center">
+
+                <main role="main" class="container">
+                    <?= $this->renderSection('main') ?>
+                </main><!-- /.container -->
+            </div>
+
+            <!-- <div class="col-1"></div> -->
+
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Login box.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper scss in scafholding.scss -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right Sidebar -->
+    <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- <script src="../../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script>
+        $(".preloader").fadeOut();
+        // ============================================================== 
+        // Login and Recover Password 
+        // ============================================================== 
+        $('#to-recover').on("click", function() {
+            $("#loginform").slideUp();
+            $("#recoverform").fadeIn();
+        });
+        $('#to-login').click(function() {
+
+            $("#recoverform").hide();
+            $("#loginform").fadeIn();
+        });
+    </script>
 
 
-        <?= $this->renderSection('pageScripts') ?>
+    <?= $this->renderSection('pageScripts') ?>
 
-        <!-- Libs JS -->
-        <script src="<?= base_url('dist/libs/apexcharts/dist/apexcharts.min.js?1685973381'); ?>" defer></script>
-        <script src="<?= base_url('dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1685973381'); ?>" defer></script>
-        <script src="<?= base_url('dist/libs/jsvectormap/dist/maps/world.js?1685973381'); ?>" defer></script>
-        <script src="<?= base_url('dist/libs/jsvectormap/dist/maps/world-merc.js?1685973381'); ?>" defer></script>
-        <!-- Tabler Core -->
-        <script src="<?= base_url('dist/js/tabler.min.js?1685973381'); ?>" defer></script>
-        <script src="<?= base_url('dist/js/demo.min.js?1685973381'); ?>" defer></script>
+    <!-- Libs JS -->
+    <script src="<?= base_url('dist/libs/apexcharts/dist/apexcharts.min.js?1685973381'); ?>" defer></script>
+    <script src="<?= base_url('dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1685973381'); ?>" defer></script>
+    <script src="<?= base_url('dist/libs/jsvectormap/dist/maps/world.js?1685973381'); ?>" defer></script>
+    <script src="<?= base_url('dist/libs/jsvectormap/dist/maps/world-merc.js?1685973381'); ?>" defer></script>
+    <!-- Tabler Core -->
+    <script src="<?= base_url('dist/js/tabler.min.js?1685973381'); ?>" defer></script>
+    <script src="<?= base_url('dist/js/demo.min.js?1685973381'); ?>" defer></script>
 
 </body>
 

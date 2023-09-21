@@ -2,6 +2,43 @@
     <!-- Page header -->
     <div class="page-header d-print-none">
         <div class="container-fluid">
+            <?php if (session()->has('message')) : ?>
+                <div class="alert alert-important alert-success alert-dismissible" role="alert">
+                    <div class="d-flex">
+                        <div>
+                            <!-- Download SVG icon from http://tabler-icons.io/i/check -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l5 5l10 -10"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <?= session('message') ?>
+                        </div>
+                    </div>
+                    <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                </div>
+            <?php endif ?>
+
+            <?php if (session()->has('error')) : ?>
+                <div class="alert alert-important alert-danger alert-dismissible" role="alert">
+                    <div class="d-flex">
+                        <div>
+                            <!-- Download SVG icon from http://tabler-icons.io/i/alert-circle -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                <path d="M12 8v4"></path>
+                                <path d="M12 16h.01"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <?= session('error') ?>
+                        </div>
+                    </div>
+                    <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                </div>
+            <?php endif ?>
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <!-- Page pre-title -->
@@ -11,6 +48,11 @@
                     <h2 class="page-title">
                         Proses Daftar
                     </h2>
+                    <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
+                        <li class="breadcrumb-item"><a>Home</a></li>
+                        <li class="breadcrumb-item"><a>Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                    </ol>
                 </div>
                 <!-- Page title actions -->
                 <!-- <div class="col-auto ms-auto d-print-none">
@@ -49,83 +91,84 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered table-responsive">
-                                <thead class="text-center">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Status</th>
-                                        <th>Periode Pelatihan</th>
-                                        <th>Jenis Pelatihan/Nama Pelatihan</th>
-                                        <th>Sasaran Peserta</th>
-                                        <th>Tempat Penyelenggara</th>
-                                        <th>Gel. / Batch</th>
-                                        <th>Kuota</th>
-                                        <th>Detail</th>
-                                    </tr>
-                                </thead>
+                            <div class="table-responsive">
+                                <table class="table table-bordered  table-hover">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th class="align-middle">No</th>
+                                            <th class="align-middle">Status</th>
+                                            <th class="align-middle">Periode Pelatihan</th>
+                                            <th class="align-middle">Jenis Pelatihan/Nama Pelatihan</th>
+                                            <th class="align-middle">Sasaran Peserta</th>
+                                            <th class="align-middle">Tempat Penyelenggara</th>
+                                            <th class="align-middle">Gel. / Batch</th>
+                                            <th class="align-middle">Kuota</th>
+                                            <th class="align-middle">Detail</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
+                                    <tbody>
 
-                                    <?php if (isset(json_decode($pelatihan)->courses)) {
-                                        foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
+                                        <?php if (isset(json_decode($pelatihan)->courses)) {
+                                            foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
-                                            <tr>
-                                                <th scope="row"><?= $key + 1; ?></th>
-                                                <td><?php switch ($value->status) {
-                                                        case 'register':
-                                                            echo '<button class="btn btn-pill text-blue m-0 px-3 py-1"><span class="badge bg-blue badge-blink badge-pill me-2"></span>Daftar</button>';
-                                                            break;
-                                                        case 'revisi':
-                                                            echo '<button class="btn btn-pill text-orange m-0 px-3 py-1"><span class="badge bg-orange badge-blink badge-pill me-2"></span>Revisi</button>';
-                                                            break;
-                                                        case 'reject':
-                                                            echo '<button class="btn btn-pill text-red m-0 px-3 py-1"><span class="badge bg-red badge-blink badge-pill me-2"></span>Ditolak</button>';
-                                                            break;
+                                                <tr>
+                                                    <th scope="row"><?= $key + 1; ?></th>
+                                                    <td><?php switch ($value->status) {
+                                                            case 'register':
+                                                                echo '<button class="btn btn-pill text-blue m-0 px-3 py-1"><span class="badge bg-blue badge-blink badge-pill me-2"></span>Daftar</button>';
+                                                                break;
+                                                            case 'revisi':
+                                                                echo '<button class="btn btn-pill text-orange m-0 px-3 py-1"><span class="badge bg-orange badge-blink badge-pill me-2"></span>Revisi</button>';
+                                                                break;
+                                                            case 'reject':
+                                                                echo '<button class="btn btn-pill text-red m-0 px-3 py-1"><span class="badge bg-red badge-blink badge-pill me-2"></span>Ditolak</button>';
+                                                                break;
 
-                                                        default:
-                                                            echo '';
-                                                            break;
-                                                    }; ?>
-                                                </td>
+                                                            default:
+                                                                echo '';
+                                                                break;
+                                                        }; ?>
+                                                    </td>
 
-                                                <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                                <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><?= $value->batch; ?></td>
-                                                <td><?= $value->quota; ?></td>
-                                                <td>
-                                                    <a href="<?= base_url('pelatihan/daftar/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-                                                            <path d="M12 9h.01"></path>
-                                                            <path d="M11 12h1v4h1"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <a class="btn btn-icon btn-outline-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                            <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                            <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <div class="dropdown-menu ">
-                                                        <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modal-confirm-cancel" onclick="sendValuesCancel(<?= $value->id; ?>)">Batal Mengikuti</a>
-                                                        <!-- <a class="dropdown-item text-danger" href="<?= base_url('pelatihan/batal/' . $value->id); ?>" data-bs-toggle="modal" data-bs-target="#modal-confirm-cancel">Batal Mengikuti</a> -->
-                                                        <!-- <a class="dropdown-item" href="#">Publis</a> -->
-                                                        <!-- <a class="dropdown-item active" href="#">Semua</a> -->
-                                                    </div>
+                                                    <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
+                                                    <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><?= $value->batch; ?></td>
+                                                    <td><?= $value->quota; ?></td>
+                                                    <td>
+                                                        <a href="<?= base_url('pelatihan/daftar/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                                                <path d="M12 9h.01"></path>
+                                                                <path d="M11 12h1v4h1"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <a class="btn btn-icon btn-outline-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <div class="dropdown-menu ">
+                                                            <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modal-confirm-cancel" onclick="sendValuesCancel(<?= $value->id; ?>)">Batal Mengikuti</a>
+                                                            <!-- <a class="dropdown-item text-danger" href="<?= base_url('pelatihan/batal/' . $value->id); ?>" data-bs-toggle="modal" data-bs-target="#modal-confirm-cancel">Batal Mengikuti</a> -->
+                                                            <!-- <a class="dropdown-item" href="#">Publis</a> -->
+                                                            <!-- <a class="dropdown-item active" href="#">Semua</a> -->
+                                                        </div>
 
-                                                </td>
-                                            </tr>
-                                    <?php }
-                                    } ?>
+                                                    </td>
+                                                </tr>
+                                        <?php }
+                                        } ?>
 
-                                </tbody>
-                            </table>
-
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

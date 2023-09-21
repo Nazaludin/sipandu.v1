@@ -213,6 +213,7 @@ class Pages extends BaseController
     private function dataPelatihan($page)
     {
         $user_course = $this->UserCourseModel->dataCourseUserByPage(user_id(), $page);
+        // dd($user_course);
         // $user_course = $this->UserCourseModel->where('id_user', user_id())->where('status', 'register')->findAll();
         // dd($user_course);
         foreach ($user_course as $key => $value) {
@@ -324,7 +325,7 @@ class Pages extends BaseController
         $pelatihanPublish = model(CourseModel::class)->where('status_sistem', 'publish')->findAll();
         $userCourse = model(UserCourseModel::class)->where('id_user', user_id())->findAll();
         d($pelatihanPublish, !empty($pelatihanPublish));
-
+        // dd($userCourse);
         if (!empty($pelatihanPublish)) {
             $now = new Time('now', 'Asia/Jakarta');
             // $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');

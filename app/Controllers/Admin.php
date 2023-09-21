@@ -244,6 +244,7 @@ class Admin extends BaseController
                 // 'id'                    => 202,
                 'id'                    => $result['data']['courseid'],
                 'condition'             => 'coming',
+                'place'    => $data['place'],
                 'start_registration'    => $data['start_registration'],
                 'end_registration'      => $data['end_registration'],
                 'target_participant'    => $data['target_participant'],

@@ -49,7 +49,13 @@
                     <h2 class="page-title">
                         Pelatihan
                     </h2>
+                    <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
+                        <li class="breadcrumb-item"><a>Home</a></li>
+                        <li class="breadcrumb-item"><a>Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                    </ol>
                 </div>
+
 
             </div>
         </div>
@@ -546,12 +552,13 @@
                         Simpan
                     </button>
                 </div>
+            </div>
         </form>
     </div>
 </div>
-</div>
+<!-- </div> -->
 <!-- Modal Pilih Dokumen Unggahan -->
-<div class="modal modal-blur fade" id="modal-upload-document" role="dialog">
+<div class="modal modal-blur fade" id="modal-upload-document" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
 
@@ -588,6 +595,11 @@
                                                     Edit
                                                 </a>
                                             </td>
+                                            <td class="text-end">
+                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
+                                                    Editgggggggggggggggggggggggggggggggg
+                                                </a>
+                                            </td>
                                         </tr>
                                     <?php  } ?>
 
@@ -610,7 +622,7 @@
     </div>
 </div>
 <!-- Modal Tambah Dokumen Unggahan -->
-<div class="modal modal-blur fade" id="modal-upload-document-add">
+<div class="modal modal-blur fade" id="modal-upload-document-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/' . json_decode($pelatihan)->courses->id); ?>" method="POST">

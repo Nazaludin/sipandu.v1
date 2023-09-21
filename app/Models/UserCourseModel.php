@@ -43,14 +43,17 @@ class UserCourseModel extends Model
     {
         $db      = \Config\Database::connect();
         $builder = $db->table('user_course');
-        $builder->where('id_user', $user_id);
         if ($page == 'daftar') {
-            $builder->where('status', 'register');
-            $builder->orWhere('status', 'revisi');
-            $builder->orWhere('status', 'reject');
+            $where = "id_user = '{$user_id}' AND (status = 'register' OR status = 'revisi' OR status = 'reject')";
+            // $builder->where(['status' => 'register', 'id_user' => $user_id]);
+            // $builder->orWhere(['status' => 'revisi', 'id_user' => $user_id]);
+            // $builder->orWhere(['status' => 'reject', 'id_user' => $user_id]);
         } else if ($page = 'berlangsung') {
-            $builder->where('status', 'accept');
+            $where = "id_user='{$user_id}' AND status='accept'";
+            // $builder->where(['status' => 'accept', 'id_user' => $user_id]);
         }
+        $builder->where($where);
+        // $builder->where('id_user', $user_id);
         $query   = $builder->get();
         return $query->getResultArray();
     }

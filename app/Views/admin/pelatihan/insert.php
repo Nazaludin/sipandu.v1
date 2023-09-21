@@ -49,6 +49,11 @@
                     <h2 class="page-title">
                         Pelatihan
                     </h2>
+                    <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
+                        <li class="breadcrumb-item"><a>Home</a></li>
+                        <li class="breadcrumb-item"><a>Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                    </ol>
                 </div>
 
             </div>
