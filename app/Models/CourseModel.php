@@ -13,7 +13,7 @@ class CourseModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'status_sistem', 'condition', 'start_registration', 'end_registration', 'target_participant', 'place', 'batch', 'quota', 'contact_person', 'schedule_file_name', 'schedule_file_location'];
+    protected $allowedFields    = ['id', 'status_sistem', 'condition', 'start_registration', 'end_registration', 'startdate', 'enddate', 'target_participant', 'place', 'batch', 'quota', 'contact_person', 'schedule_file_name', 'schedule_file_location'];
 
     // Dates
     protected $useTimestamps = false;
@@ -49,5 +49,23 @@ class CourseModel extends Model
         } else {
             return FALSE;
         }
+    }
+    public function getDataCourseMonth()
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('course');
+        $builder->where('MONTH(DATE(startdate))', date('m'));
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
+    public function getDataCourseYear()
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('course');
+        $builder->where('YEAR(DATE(startdate))', date('Y'));
+        $query = $builder->get();
+
+        return $query->getResultArray();
     }
 }

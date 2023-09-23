@@ -101,6 +101,7 @@ $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes)
 $routes->get('pelatihan', 'Admin::pelatihan', ['filter' => 'role:admin']);
 $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes) {
     // $routes->get('detail/(:num)', 'Pages::pelatihanDetailProses/$1');
+    $routes->get('rekap/(:num)', 'Admin::rekap/$1');
     $routes->get('detail/(:num)',  'Admin::pelatihanDetail/$1');
     $routes->get('insert',  'Admin::pelatihanInsert');
 

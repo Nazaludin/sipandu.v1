@@ -7,14 +7,16 @@
 
 	<!-- comment -->
 
-	<div class="card my-0 border-0 shadow-lg rounded-5 overflow-hidden" style="height: 500px;">
+	<div class="card my-0 border-0 shadow-lg rounded-5 overflow-hidden" style="height: 600px;">
 		<div class="row h-100">
-			<div class="col d-flex">
+			<div class="col-5 d-flex">
 				<img class="flex-fill" src="<?= base_url('assets/images/image_login.png'); ?>" alt="" style="height: 100%; width: 100%; object-fit: cover;">
 			</div>
-			<div class="col mb-3">
-				<h1 class="card-title text-center my-3 fw-bold fs-1 text-green"><?= lang('Auth.loginTitle') ?></h1>
-				<div class="card-body ps-0 overflow-auto" style="height: 58%; width: 100%;">
+			<div class="col-7 mb-3 p-0">
+				<div class="card-header m-0 p-0 shadow">
+					<h1 class="card-title text-center my-3 fw-bold fs-1 text-green"><?= lang('Auth.loginTitle') ?></h1>
+				</div>
+				<div class="card-body ms-2 ps-0 pe-5 overflow-auto" style="height: 70%; width: 100%;">
 
 					<?= view('App\Views\Auth\_message_block') ?>
 
@@ -22,30 +24,6 @@
 						<?= csrf_field() ?>
 
 
-						<div class="form-group mb-3">
-							<label for="login"><?= lang('Auth.email') ?></label>
-							<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
-							<!-- <div class="invalid-feedback"> -->
-
-							<?= session('errors.login') ?>
-							<!-- </div> -->
-						</div>
-						<div class="form-group mb-3">
-							<label for="login"><?= lang('Auth.email') ?></label>
-							<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
-							<!-- <div class="invalid-feedback"> -->
-
-							<?= session('errors.login') ?>
-							<!-- </div> -->
-						</div>
-						<div class="form-group mb-3">
-							<label for="login"><?= lang('Auth.email') ?></label>
-							<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
-							<!-- <div class="invalid-feedback"> -->
-
-							<?= session('errors.login') ?>
-							<!-- </div> -->
-						</div>
 						<div class="form-group mb-3">
 							<label for="login"><?= lang('Auth.email') ?></label>
 							<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
@@ -79,36 +57,38 @@ else password_login.type = 'text';">
 
 				</div>
 
+				<div class="card-footer shadow p-0 pt-2 ps-2">
 
-				<hr class="mx-4 my-1">
+					<!-- <hr class=" my-1"> -->
 
 
-				<div class="d-flex flex-row justify-content-between">
-					<div class="" style="font-size: 0.8rem;">
-						<?php if ($config->allowRemembering) : ?>
-							<div class="form-check">
-								<label class="form-check-label">
-									<input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')) : ?> checked <?php endif ?>>
-									<?= lang('Auth.rememberMe') ?>
-								</label>
-							</div>
+					<div class="d-flex flex-row justify-content-between me-5 ">
+						<div class="m-0 p-0" style="font-size: 0.8rem;">
+							<?php if ($config->allowRemembering) : ?>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')) : ?> checked <?php endif ?>>
+										<?= lang('Auth.rememberMe') ?>
+									</label>
+								</div>
+							<?php endif; ?>
+						</div>
+						<div class="" style="font-size: 0.8rem;">
+							<?php if ($config->activeResetter) : ?>
+								<p><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
+							<?php endif; ?>
+						</div>
+					</div>
+
+
+					<div class="d-grid  me-5 mb-2">
+						<button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.loginAction') ?></button>
+					</div>
+					<div class="d-flex justify-content-center me-5">
+						<?php if ($config->allowRegistration) : ?>
+							<p><a href="<?= url_to('register') ?>"><?= lang('Auth.needAnAccount') ?></a></p>
 						<?php endif; ?>
 					</div>
-					<div class="" style="font-size: 0.8rem;">
-						<?php if ($config->activeResetter) : ?>
-							<p><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
-						<?php endif; ?>
-					</div>
-				</div>
-
-
-				<div class="d-grid mb-2">
-					<button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.loginAction') ?></button>
-				</div>
-				<div class="d-flex justify-content-center">
-					<?php if ($config->allowRegistration) : ?>
-						<p><a href="<?= url_to('register') ?>"><?= lang('Auth.needAnAccount') ?></a></p>
-					<?php endif; ?>
 				</div>
 			</div>
 			</form>

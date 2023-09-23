@@ -93,12 +93,26 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="dropdown mb-2">
-                                <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Semua</strong></a>
-                                <div class="dropdown-menu " style="">
-                                    <a class="dropdown-item" href="#">Draft</a>
-                                    <a class="dropdown-item" href="#">Publis</a>
-                                    <a class="dropdown-item active" href="#">Semua</a>
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-between mb-2">
+
+                                    <div class="align-self-end dropdown mb-2">
+                                        <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Semua</strong></a>
+                                        <div class="dropdown-menu " style="">
+                                            <a class="dropdown-item" href="#">Draft</a>
+                                            <a class="dropdown-item" href="#">Publis</a>
+                                            <a class="dropdown-item active" href="#">Semua</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="btn dropdown-toggle btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Rekap
+                                    </div>
+                                    <div class="dropdown-menu" style="width:fit-content;">
+                                        <a class="dropdown-item" href="<?= base_url('pelatihan/rekap/1'); ?>">Bulan Ini</a>
+                                        <a class="dropdown-item" href="<?= base_url('pelatihan/rekap/2'); ?>">Tahun Ini</a>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="table-responsive">

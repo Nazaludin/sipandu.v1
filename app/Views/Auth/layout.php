@@ -110,14 +110,14 @@
     <!-- ============================================================== -->
     <!-- Login box.scss -->
     <!-- ============================================================== -->
-    <div class="page-wrapper h-100">
+    <div class="page-wrapper h-100 overflow-hidden">
 
         <div class="row d-flex align-items-center h-100">
 
             <!-- <div id="loginform"> -->
             <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
             <!-- <div class="col-6"></div> -->
-            <div class="col-lg-6 col-md-8 col-sm-10 card flex-row m-auto border-0 rounded-5 overflow-hidden bg-transparent d-flex align-items-center justify-content-center">
+            <div class="col-lg-7 col-md-8 col-sm-10 card flex-row m-auto border-0 rounded-5 overflow-hidden bg-transparent d-flex align-items-center justify-content-center">
 
                 <main role="main" class="container">
                     <?= $this->renderSection('main') ?>

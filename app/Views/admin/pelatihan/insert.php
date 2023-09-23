@@ -102,7 +102,7 @@
                                         <div class="row mb-3">
                                             <div class="col-6">
                                                 <label for="floatingInputShortnameCourse">Nama Singkat Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputShortnameCourse" name="fullname" placeholder="Nama singkat pelatihan" required>
+                                                <input type="text" class="form-control" id="floatingInputShortnameCourse" name="shortname" placeholder="Nama singkat pelatihan" required>
                                             </div>
                                             <div class="col-4">
                                                 <label for="floatingInputCategoryCourse">Jenis Pelatihan</label>
@@ -115,11 +115,11 @@
                                             </div>
 
                                             <div class="col-2">
-                                                <label for="floatingInputBatch">Gelombang/batch</label>
-                                                <select class="custom-select" name="batch" id="floatingInputBatch" placeholder="Pilih Gelombang..." autocomplete="off" required>
+                                                <label for="floatingInputBatch">Angkatan/batch</label>
+                                                <select class="custom-select" name="batch" id="floatingInputBatch" placeholder="Pilih Angkatan..." autocomplete="off" required>
                                                     <option value="">Pilih Gelombang...</option>
                                                     <?php for ($i = 1; $i <= 4; $i++) { ?>
-                                                        <option value="<?= $i; ?>">Batch <?= $i; ?></option>
+                                                        <option value="<?= $i; ?>"><?= $i; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -154,8 +154,8 @@
                                                 <input type="text" class="form-control" id="floatingInputTargetParticipant" name="target_participant" placeholder="Sasaran Pelatihan" value="">
                                             </div>
                                             <div class="col-4">
-                                                <label for="floatingInputPlace">Tempat Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputPlace" name="place" placeholder="Tempat Pelatihan" value="">
+                                                <label for="floatingInputPlace">Tempat Pelaksanaan</label>
+                                                <input type="text" class="form-control" id="floatingInputPlace" name="place" placeholder="Tempat Pelaksanaan" value="">
                                             </div>
                                             <div class="col-2">
                                                 <label for="floatingInputQuota">Kuota</label>
@@ -170,7 +170,7 @@
                                             </div>
                                             <div class="col-6 custom-file">
                                                 <label for="floatingInputSchedule">Lampiran Jadwal</label>
-                                                <input type="file" class="form-control custom-file-input" id="floatingInputSchedule" name="jadwal" lang="id">
+                                                <input type="file" class="form-control custom-file-input" id="floatingInputSchedule" name="jadwal" lang="id" accept="application/pdf">
                                             </div>
 
                                         </div>

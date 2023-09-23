@@ -680,6 +680,7 @@
                                                             searchField: 'name',
                                                             create: false,
                                                         });
+                                                        // agamaSelect.setValue(['Islam']);
                                                         let pendidikanSelect = new TomSelect('#pendidikanTerakhirInsert', {
                                                             hideSelected: true,
                                                             valueField: 'id',
