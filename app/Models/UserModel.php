@@ -19,7 +19,7 @@ class UserModel extends Model
     protected $allowedFields  = [
         'user_id_best', 'status_sistem', 'email', 'username', 'fullname', 'gelar_depan', 'gelar_belakang', 'firstname', 'lastname', 'nip', 'nik',
         'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'agama', 'telepon', 'pendidikan_terakhir',
-        'jurusan', 'nama_jalan_domisili', 'desa_domisili', 'kecamatan_domisili', 'kabupaten_domisili', 'provinsi_domisili', 'nama_foto', 'lokasi_foto',
+        'nrp', 'nomor_str', 'jurusan', 'nama_jalan_domisili', 'desa_domisili', 'kecamatan_domisili', 'kabupaten_domisili', 'provinsi_domisili', 'nama_foto', 'lokasi_foto',
         'tipe_pegawai', 'jabatan', 'pangkat_golongan', 'jenis_nakes', 'nama_instansi', 'nama_jalan_instansi',
         'desa_instansi', 'kecamatan_instansi', 'kabupaten_instansi', 'provinsi_instansi',
         'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
@@ -125,5 +125,15 @@ class UserModel extends Model
             'username' => $faker->userName,
             'password' => bin2hex(random_bytes(16)),
         ]);
+    }
+
+    public function getUserPelatihan($id_pelatihan)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('course_user');
+        $builder->where('YEAR(DATE(startdate))', date('Y'));
+        $query = $builder->get();
+
+        return $query->getResultArray();
     }
 }

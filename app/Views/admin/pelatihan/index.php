@@ -109,8 +109,8 @@
                                         Rekap
                                     </div>
                                     <div class="dropdown-menu" style="width:fit-content;">
-                                        <a class="dropdown-item" href="<?= base_url('pelatihan/rekap/1'); ?>">Bulan Ini</a>
-                                        <a class="dropdown-item" href="<?= base_url('pelatihan/rekap/2'); ?>">Tahun Ini</a>
+                                        <a class="dropdown-item" href="<?= base_url('pelatihan/pengguna/rekap/1'); ?>">Bulan Ini</a>
+                                        <a class="dropdown-item" href="<?= base_url('pelatihan/pengguna/rekap/2'); ?>">Tahun Ini</a>
                                     </div>
 
                                 </div>

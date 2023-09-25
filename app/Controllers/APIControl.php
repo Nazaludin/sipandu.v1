@@ -60,7 +60,29 @@ class APIControl extends BaseController
         // dd(base_url() . $path, FCPATH, WRITEPATH);
         $file_download->move($path, $newName);
         // dd($data);
-        return json_encode(['temp-dir' => 'uploads/temp' . $newName]);
+        $security = \Config\Services::security();
+        $hash = $security->generateHash();
+        $returnData = [
+            'temp_dir' => 'uploads/temp/' . $newName,
+            'csrf_name' => $hash,
+        ];
+        return json_encode($returnData);
+    }
+    public function storeProfilImage()
+    {
+        $img = $this->request->getFile('croppedImage');
+        $newName = $img->getRandomName();
+        $path = WRITEPATH . 'uploads/temp';
+
+        $img->move($path, $newName);
+
+        $security = \Config\Services::security();
+        $hash = $security->generateHash();
+        $returnData = [
+            'temp_dir' => 'uploads/temp/' . $newName,
+            'csrf_name' => $hash,
+        ];
+        return json_encode($returnData);
     }
     // public function dataProvinsi()
     // {
