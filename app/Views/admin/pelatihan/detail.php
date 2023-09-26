@@ -45,15 +45,15 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Kelola
+                        Pelatihan
                     </div>
                     <h2 class="page-title">
-                        Pelatihan
+                        Detail
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan'); ?>">Pelatihan</a></li>
+                        <li class="breadcrumb-item active"><a>Detail</a></li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
                     </ol>
                 </div>
 
@@ -118,58 +118,92 @@
                             <!-- Comment Row -->
                             <div class="row px-3 mb-4">
                                 <div class="col-12">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr class="row">
-                                                <td class="col-2">Tahun Pelaksanaan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->year; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Jenis Pelatihan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->categoryname; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Nama Pelatihan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->fullname; ?></td>
-                                            <tr class="row">
-                                                <td class="col-2">Gelombang/batch</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Periode Pelatihan</td>
-                                                <td class="col-10">: <b><?= json_decode($pelatihan)->courses->startdatetime; ?></b> s/d <b><?= json_decode($pelatihan)->courses->enddatetime; ?></b></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Periode Pendaftaran</td>
-                                                <td class="col-10">: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Sasaran Pelatihan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->target_participant; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Tempat Penyelenggaraan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->place; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Kuota</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->quota; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Kontak Person</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->contact_person; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Lampiran Jadwal</td>
-                                                <td class="col-10">:<a href=" <?= json_decode($pelatihan)->courses->contact_person; ?>" download> Unduh</a> </td>
-                                            </tr>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <table class="table table-light">
+                                                <colgroup>
+                                                    <col style="width: 30%;">
+                                                    <col style="width: 70%;">
+                                                    <col>
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Tahun Pelaksanaan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->year; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jenis Pelatihan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->categoryname; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nama Pelatihan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->fullname; ?></td>
+                                                    <tr>
+                                                    <tr>
+                                                        <td>Nama Singkat</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->shortname; ?></td>
+                                                    <tr>
+                                                        <td>Gelombang/batch</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Periode Pelatihan</td>
+                                                        <td>: <b><?= json_decode($pelatihan)->courses->startdatetime; ?></b> s/d <b><?= json_decode($pelatihan)->courses->enddatetime; ?></b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Periode Pendaftaran</td>
+                                                        <td>: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <table class="table table-light">
+                                                <colgroup>
+                                                    <col style="width: 30%;">
+                                                    <col style="width: 70%;">
+                                                    <col>
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Sasaran Pelatihan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->target_participant; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tempat Penyelenggaraan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->place; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kuota</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->quota; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Metode</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->method; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sumber Dana</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->source_funds; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kontak Person</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->contact_person; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lampiran Jadwal</td>
+                                                        <td>:<a href=" <?= json_decode($pelatihan)->courses->contact_person; ?>" download> Unduh</a> </td>
+                                                    </tr>
 
-                                        </tbody>
-                                    </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
                                     <!-- RINGKASAN -->
-                                    <div class="card card-round">
+                                    <div class="card card-round mt-3">
                                         <div class="card-body">
-                                            <h4 class="card-title mt-4">Ringkasan :</h4>
+                                            <h4 class="card-title mt-0">Ringkasan :</h4>
                                             <?= json_decode($pelatihan)->courses->summary; ?>
                                         </div>
                                     </div>

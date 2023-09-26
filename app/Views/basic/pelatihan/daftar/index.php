@@ -133,8 +133,8 @@
 
                                                     <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
                                                     <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td><?= $value->target_participant; ?></td>
+                                                    <td><?= $value->place; ?></td>
                                                     <td><?= $value->batch; ?></td>
                                                     <td><?= $value->quota; ?></td>
                                                     <td>

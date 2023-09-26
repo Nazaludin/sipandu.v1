@@ -69,52 +69,53 @@ class Pelatihan extends BaseController
     }
     public function convertCondition($condition, $id_pelatihan = null, $startregis = null, $endregis = null, $startdate = null, $enddate = null)
     {
-        $now = new Time('now', 'Asia/Jakarta');
-        $nowTimestamp = $now->getTimestamp();
+        $now = now('Asia/Jakarta');
+        // dd($now);
+        // $nowTimestamp = $now->getTimestamp();
         $result = '';
+
         if (isset($id_pelatihan)) {
             switch (true) {
-                case $enddate <= $nowTimestamp:
+                case ($enddate <= $now):
                     $condition = 'passed';
                     $result = 'Pelatihan Berakhir';
                     break;
-                case $startdate <= $nowTimestamp:
+                case ($startdate <= $now):
                     $condition = 'begin';
                     $result = 'Pelatihan Dimulai';
                     break;
-                case $endregis <= $nowTimestamp:
+                case ($endregis <= $now):
                     $condition = 'end';
                     $result = 'Pendaftaran Berkahir';
                     break;
-                case $startregis <= $nowTimestamp:
+                case ($startregis <= $now):
                     $condition = 'going';
                     $result = 'Pendaftaran Aktif';
                     break;
-
                 default:
                     $condition = 'coming';
                     $result = 'Pendaftaran Belum Aktif';
                     break;
             }
+
             model(CourseModel::class)->update($id_pelatihan, ['condition' => $condition]);
         } else {
-            switch (true) {
-                case $condition == 'coming':
+            switch ($condition) {
+                case 'coming':
                     $result = 'Pendaftaran Belum Aktif';
                     break;
-                case $condition == 'going':
+                case 'going':
                     $result = 'Pendaftaran Aktif';
                     break;
-                case $condition == 'end':
+                case 'end':
                     $result = 'Pendaftaran Berkahir';
                     break;
-                case $condition == 'begin':
+                case 'begin':
                     $result = 'Pelatihan Dimulai';
                     break;
-                case $condition == 'passed':
+                case 'passed':
                     $result = 'Pelatihan Berakhir';
                     break;
-
                 default:
                     $result = '';
                     break;
@@ -123,6 +124,7 @@ class Pelatihan extends BaseController
 
         return $result;
     }
+
 
     public function controlAPI($URL, $method = 'GET')
     {
@@ -173,32 +175,7 @@ class Pelatihan extends BaseController
 
         return redirect()->to(base_url('/pelatihan/berlangsung'))->with('message', 'Berhasil membatalkan pendaftaran.');
     }
-    public function pelatihanRiwayat()
-    {
-        $pengguna = session()->get('logged_in');
-        $data['data'] = $this->UsersModel->where('id', $pengguna)->get()->getRow();
-        $dump = explode(" ", $data['data']->tanggal_lahir);
-        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
 
-        $pelatihan = [];
-        $i = 0;
-
-        // Data Pelatihan API
-        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field'));
-        foreach ($dataPelatihan->courses as $key => $value) {
-            $value->startdatetime = $this->toLocalTime($value->startdate);
-            $value->enddatetime = $this->toLocalTime($value->enddate);
-            $pelatihan['courses'][$i] = $value;
-            $i++;
-        }
-
-        $data['pelatihan'] = json_encode($dataPelatihan);
-
-        return view('layout/header', $data)
-            . view('layout/sidebar')
-            . view('basic/pelatihan/riwayat/index')
-            . view('layout/footer');
-    }
 
     private function dataPelatihan($page)
     {
@@ -217,8 +194,8 @@ class Pelatihan extends BaseController
             $dataPelatihan->courses[0]->condition               = isset($courseLocal['condition']) ? $this->convertCondition(
                 $courseLocal['condition'],
                 $courseLocal['id'],
-                isset($value['start_registration']) ? Time::parse($courseLocal['start_registration'], 'Asia/Jakarta')->getTimestamp() : null,
-                isset($value['end_registration']) ? Time::parse($courseLocal['end_registration'], 'Asia/Jakarta')->getTimestamp() : null,
+                isset($value['start_registration']) ? strtotime($courseLocal['start_registration']) : null,
+                isset($value['end_registration']) ? strtotime($courseLocal['end_registration']) : null,
                 isset($dataPelatihan->courses[0]->startdate) ? $dataPelatihan->courses[0]->startdate : null,
                 isset($dataPelatihan->courses[0]->enddate) ? $dataPelatihan->courses[0]->enddate : null,
             ) : '';
@@ -304,6 +281,16 @@ class Pelatihan extends BaseController
             . view('layout/footer');
     }
 
+    public function pelatihanRiwayat()
+    {
+        $data['pelatihan'] = $this->dataPelatihan('riwayat');
+
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('basic/pelatihan/riwayat/index')
+            . view('layout/footer');
+    }
+
     public function toDateFormat($tgl)
     {
         return Time::parse($tgl, 'Asia/Jakarta');
@@ -344,8 +331,8 @@ class Pelatihan extends BaseController
                 $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
                     $value['condition'],
                     $value['id'],
-                    isset($value['start_registration']) ? Time::parse($value['start_registration'], 'Asia/Jakarta')->getTimestamp() : null,
-                    isset($value['end_registration']) ? Time::parse($value['end_registration'], 'Asia/Jakarta')->getTimestamp() : null,
+                    isset($value['start_registration']) ? strtotime($value['start_registration']) : null,
+                    isset($value['end_registration']) ? strtotime($value['end_registration']) : null,
                     isset($dataPelatihan->courses[0]->startdate) ? $dataPelatihan->courses[0]->startdate : null,
                     isset($dataPelatihan->courses[0]->enddate) ? $dataPelatihan->courses[0]->enddate : null,
                 ) : '';
@@ -360,6 +347,7 @@ class Pelatihan extends BaseController
                 $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
                 $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
                 // d($now->getTimestamp(), $dataPelatihan->courses[0]->startdate);
+                d(isset($dataPelatihan->courses[0]->startdate) ?? null);
                 if ($now->getTimestamp() < $dataPelatihan->courses[0]->startdate) {
                     $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
                     // d($pelatihan);
@@ -488,41 +476,41 @@ class Pelatihan extends BaseController
         return redirect()->to(base_url('pelatihan/agenda/detail/' . $id_pelatihan));
     }
 
-    public function login()
-    {
-        return view('login');
-    }
-    public function registrasi()
-    {
-        return view('register');
-    }
+    // public function login()
+    // {
+    //     return view('login');
+    // }
+    // public function registrasi()
+    // {
+    //     return view('register');
+    // }
 
 
     //fungsi menyimpan dokumen multiple
-    public function uploadFotoProfil()
-    {
-        $pengguna = session()->get('logged_in');
-        $file = $this->request->getFile('foto_profil');
-        // d($file);
-        if (isset($file)) {
+    // public function uploadFotoProfil()
+    // {
+    //     $pengguna = session()->get('logged_in');
+    //     $file = $this->request->getFile('foto_profil');
+    //     // d($file);
+    //     if (isset($file)) {
 
-            if ($file->isValid() && !($file->hasMoved())) {
+    //         if ($file->isValid() && !($file->hasMoved())) {
 
-                $newName = $file->getRandomName();
-                $path = 'uploads/profil';
-                // dd(base_url() . $path, FCPATH, WRITEPATH);
-                $file->move(FCPATH . $path, $newName);
-                $data = [
-                    'nama_foto'          => $file->getClientName(),
-                    'lokasi_foto'      => $path . '/' . $newName,
-                ];
-                $this->UsersModel->update($pengguna, $data);
-                $succes = true;
-            }
-        }
+    //             $newName = $file->getRandomName();
+    //             $path = 'uploads/profil';
+    //             // dd(base_url() . $path, FCPATH, WRITEPATH);
+    //             $file->move(FCPATH . $path, $newName);
+    //             $data = [
+    //                 'nama_foto'          => $file->getClientName(),
+    //                 'lokasi_foto'      => $path . '/' . $newName,
+    //             ];
+    //             $this->UsersModel->update($pengguna, $data);
+    //             $succes = true;
+    //         }
+    //     }
 
-        return redirect()->to(base_url('profil'))->withInput();
-    }
+    //     return redirect()->to(base_url('profil'))->withInput();
+    // }
     //fungsi menyimpan dokumen multiple
     // public function updateUser()
     // {

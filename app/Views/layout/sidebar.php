@@ -15,11 +15,11 @@
                 <!-- <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image"> -->
             </a>
         </h1>
-        <div class="nav-item dropdown  d-xl-none d-sm-block">
+        <div class="nav-item dropdown  d-xl-none  d-md-none d-sm-block">
             <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" style="background-image: url(<?php echo isset(user()->toArray()['lokasi_foto']) ? user()->toArray()['lokasi_foto'] : base_url('assets/images/users/default-profil.png'); ?>)"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow bg-light text-dark">
                 <a href="<?php echo base_url('logout'); ?>" class="dropdown-item">Logout</a>
             </div>
         </div>
@@ -105,6 +105,18 @@
                         </a>
                     </li>
                 <?php } ?>
+                <li class="d-none d-xl-none d-md-block d-sm-none nav-item justify-content-center">
+                    <a href="<?php echo base_url('logout'); ?>" class="nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout-2 me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2"></path>
+                            <path d="M15 12h-12l3 -3"></path>
+                            <path d="M6 15l-3 -3"></path>
+                        </svg>
+                        <span class="nav-link-title">
+                            Logout
+                        </span></a>
+                </li>
 
 
             </ul>

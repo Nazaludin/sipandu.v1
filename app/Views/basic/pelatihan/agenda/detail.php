@@ -232,10 +232,6 @@
                                         </div>
 
                                     <?php } ?>
-
-                                    <div class="col-12 d-flex justify-content-end">
-                                        <a href="<?= base_url('pelatihan/agenda/registrasi/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Daftar Pelatihan</a>
-                                    </div>
                                 </div>
                             </div>
 

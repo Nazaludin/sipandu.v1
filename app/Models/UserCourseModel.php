@@ -51,6 +51,8 @@ class UserCourseModel extends Model
         } else if ($page = 'berlangsung') {
             $where = "id_user='{$user_id}' AND status='accept'";
             // $builder->where(['status' => 'accept', 'id_user' => $user_id]);
+        } else if ($page = 'riwayat') {
+            $where = "id_user='{$user_id}' AND status='passed'";
         }
         $builder->where($where);
         // $builder->where('id_user', $user_id);

@@ -54,24 +54,81 @@ class Pelatihan extends BaseController
         return $tgl;
     }
 
-    public function convertCondition($condition)
-    {
-        $result = '';
-        switch (true) {
-            case $condition == 'coming':
-                $result = 'Pendaftaran Belum Aktif';
-                break;
-            case $condition == 'going':
-                $result = 'Pendaftaran Aktif';
-                break;
-            case $condition == 'passed':
-                $result = 'Pendaftaran Telah Berakhir';
-                break;
+    // public function convertCondition($condition)
+    // {
+    //     $result = '';
+    //     switch (true) {
+    //         case $condition == 'coming':
+    //             $result = 'Pendaftaran Belum Aktif';
+    //             break;
+    //         case $condition == 'going':
+    //             $result = 'Pendaftaran Aktif';
+    //             break;
+    //         case $condition == 'passed':
+    //             $result = 'Pendaftaran Telah Berakhir';
+    //             break;
 
-            default:
-                $result = '';
-                break;
+    //         default:
+    //             $result = '';
+    //             break;
+    //     }
+    //     return $result;
+    // }
+    public function convertCondition($condition, $id_pelatihan = null, $startregis = null, $endregis = null, $startdate = null, $enddate = null)
+    {
+        $now = now('Asia/Jakarta');
+        // dd($now);
+        // $nowTimestamp = $now->getTimestamp();
+        $result = '';
+
+        if (isset($id_pelatihan)) {
+            switch (true) {
+                case ($enddate <= $now):
+                    $condition = 'passed';
+                    $result = 'Pelatihan Berakhir';
+                    break;
+                case ($startdate <= $now):
+                    $condition = 'begin';
+                    $result = 'Pelatihan Dimulai';
+                    break;
+                case ($endregis <= $now):
+                    $condition = 'end';
+                    $result = 'Pendaftaran Berkahir';
+                    break;
+                case ($startregis <= $now):
+                    $condition = 'going';
+                    $result = 'Pendaftaran Aktif';
+                    break;
+                default:
+                    $condition = 'coming';
+                    $result = 'Pendaftaran Belum Aktif';
+                    break;
+            }
+
+            model(CourseModel::class)->update($id_pelatihan, ['condition' => $condition]);
+        } else {
+            switch ($condition) {
+                case 'coming':
+                    $result = 'Pendaftaran Belum Aktif';
+                    break;
+                case 'going':
+                    $result = 'Pendaftaran Aktif';
+                    break;
+                case 'end':
+                    $result = 'Pendaftaran Berkahir';
+                    break;
+                case 'begin':
+                    $result = 'Pelatihan Dimulai';
+                    break;
+                case 'passed':
+                    $result = 'Pelatihan Berakhir';
+                    break;
+                default:
+                    $result = '';
+                    break;
+            }
         }
+
         return $result;
     }
     public function convertStatusUserPelatihan($condition)
@@ -201,7 +258,7 @@ class Pelatihan extends BaseController
         //judul
         $title = $tipe == 1 ? 'Rekap Pelatihan ' . $bulan[date('n')] . ' Tahun ' . date('Y') : 'Rekap Pelatihan Tahun ' . date('Y');
         $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan tulisan "DATA SISWA"
-        $activeSheet->mergeCells('A2:L2'); // Set Merge Cell pada kolom A1 sampai F1
+        $activeSheet->mergeCells('A2:N2'); // Set Merge Cell pada kolom A1 sampai F1
         $activeSheet->getStyle('A2')->applyFromArray($style_title);
 
         $activeSheet->setCellValue('A4', 'No');
@@ -228,6 +285,10 @@ class Pelatihan extends BaseController
         $activeSheet->mergeCells('K4:K5');
         $activeSheet->setCellValue('L4', 'Kuota');
         $activeSheet->mergeCells('L4:L5');
+        $activeSheet->setCellValue('M4', 'Metode');
+        $activeSheet->mergeCells('M4:M5');
+        $activeSheet->setCellValue('N4', 'Sumber Dana');
+        $activeSheet->mergeCells('N4:N5');
 
 
         for ($i = 4; $i <= 5; $i++) {
@@ -243,6 +304,8 @@ class Pelatihan extends BaseController
             $activeSheet->getStyle('J' . $i)->applyFromArray($style_col);
             $activeSheet->getStyle('K' . $i)->applyFromArray($style_col);
             $activeSheet->getStyle('L' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('M' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('N' . $i)->applyFromArray($style_col);
         }
 
         // DATA
@@ -268,6 +331,8 @@ class Pelatihan extends BaseController
             $activeSheet->setCellValue('J' . $index, $value['place']);
             $activeSheet->setCellValue('K' . $index, $value['contact_person']);
             $activeSheet->setCellValue('L' . $index, $value['quota']);
+            $activeSheet->setCellValue('M' . $index, $value['method']);
+            $activeSheet->setCellValue('N' . $index, $value['source_funds']);
 
             $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
             $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
@@ -281,6 +346,8 @@ class Pelatihan extends BaseController
             $activeSheet->getStyle('J' . $index)->applyFromArray($style_row_left);
             $activeSheet->getStyle('K' . $index)->applyFromArray($style_row_left);
             $activeSheet->getStyle('L' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('M' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('N' . $index)->applyFromArray($style_row_center);
             $index++;
         }
 
@@ -300,6 +367,8 @@ class Pelatihan extends BaseController
         $activeSheet->getColumnDimension('J')->setWidth(25);
         $activeSheet->getColumnDimension('K')->setWidth(25);
         $activeSheet->getColumnDimension('L')->setWidth(15);
+        $activeSheet->getColumnDimension('M')->setWidth(15);
+        $activeSheet->getColumnDimension('N')->setWidth(15);
 
         $filename = $title . '.xlsx';
 
@@ -540,8 +609,8 @@ class Pelatihan extends BaseController
                 $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
                     $value['condition'],
                     $value['id'],
-                    isset($value['start_registration']) ? $value['start_registration'] : null,
-                    isset($value['end_registration']) ? $value['end_registration'] : null,
+                    isset($value['start_registration']) ? strtotime($value['start_registration']) : null,
+                    isset($value['end_registration']) ? strtotime($value['end_registration']) : null,
                     isset($dataPelatihan->courses[0]->startdate) ? $dataPelatihan->courses[0]->startdate : null,
                     isset($dataPelatihan->courses[0]->enddate) ? $dataPelatihan->courses[0]->enddate : null,
                 ) : '';
@@ -555,8 +624,9 @@ class Pelatihan extends BaseController
                 $dataPelatihan->courses[0]->schedule_file           = $value['schedule_file'] ?? '';
                 $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
                 $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
-                $dataPelatihan->courses[0]->registrar           = model(UserCourseModel::class)->where('id_course', $value['id'])->where('status', 'register')->countAllResults();
-                $dataPelatihan->courses[0]->participant         = model(UserCourseModel::class)->where('id_course', $value['id'])->countAllResults();
+                $dataPelatihan->courses[0]->registrar               = model(UserCourseModel::class)->where('id_course', $value['id'])->where('status', 'register')->countAllResults();
+                $dataPelatihan->courses[0]->accepted_participant    = model(UserCourseModel::class)->where('id_course', $value['id'])->where('status', 'accept')->countAllResults();
+                $dataPelatihan->courses[0]->participant             = model(UserCourseModel::class)->where('id_course', $value['id'])->countAllResults();
                 $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
             }
         }
@@ -657,7 +727,9 @@ class Pelatihan extends BaseController
                 'batch'                 => intval($data['batch']),
                 'quota'                 => intval($data['quota']),
                 'contact_person'        => $data['contact_person'],
-                'status'                => 'create',
+                'source_funds'          => $data['source_funds'],
+                'method'                => $data['method'],
+                'status_sistem'         => 'create',
             ];
 
             if (isset($file_schedule)) {
@@ -852,6 +924,8 @@ class Pelatihan extends BaseController
         $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
         $dataPelatihan->courses[0]->batch                   = $courseLocal['batch'] ?? '';
         $dataPelatihan->courses[0]->quota                   = $courseLocal['quota'] ?? '';
+        $dataPelatihan->courses[0]->source_funds            = $courseLocal['source_funds'] ?? '';
+        $dataPelatihan->courses[0]->method                  = $courseLocal['method'] ?? '';
         $dataPelatihan->courses[0]->place                   = $courseLocal['place'] ?? '';
         $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
         $dataPelatihan->courses[0]->schedule_file           = $courseLocal['schedule_file'] ?? '';

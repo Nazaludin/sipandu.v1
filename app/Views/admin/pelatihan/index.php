@@ -50,9 +50,9 @@
                         Pelatihan
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item active"><a>Pelatihan</a></li>
+                        <!-- <li class="breadcrumb-item"><a>Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
                     </ol>
 
                 </div>
@@ -105,12 +105,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="btn dropdown-toggle btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
+                                            <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
+                                            <path d="M9 12l.01 0"></path>
+                                            <path d="M13 12l2 0"></path>
+                                            <path d="M9 16l.01 0"></path>
+                                            <path d="M13 16l2 0"></path>
+                                        </svg>
                                         Rekap
                                     </div>
                                     <div class="dropdown-menu" style="width:fit-content;">
-                                        <a class="dropdown-item" href="<?= base_url('pelatihan/pengguna/rekap/1'); ?>">Bulan Ini</a>
-                                        <a class="dropdown-item" href="<?= base_url('pelatihan/pengguna/rekap/2'); ?>">Tahun Ini</a>
+                                        <a class="dropdown-item" href="<?= base_url('pelatihan/rekap/1'); ?>">Bulan Ini</a>
+                                        <a class="dropdown-item" href="<?= base_url('pelatihan/rekap/2'); ?>">Tahun Ini</a>
                                     </div>
 
                                 </div>
@@ -145,8 +154,9 @@
                                                     <td class="text-center"><?= $value->batch; ?></td>
                                                     <td class="text-center">
                                                         <?php if (!empty($value->quota)) {   ?>
-                                                            <button class="btn btn-pill btn-outline-green"><?= $value->participant; ?> / <?= $value->quota; ?>
-                                                            </button>
+                                                            <button class="btn btn-pill btn-outline-green my-0 py-2"><?= $value->participant; ?> / <?= $value->quota; ?>
+                                                            </button><br>
+                                                            <span class="mt-2 badge bg-green-lt">Diterima : <?= $value->accepted_participant; ?></span>
                                                         <?php } ?>
                                                     </td>
                                                     <td class="text-center">
@@ -190,7 +200,8 @@
 
                                                 </tr>
                                         <?php }
-                                        } ?>
+                                        }
+                                        ?>
 
                                     </tbody>
                                 </table>

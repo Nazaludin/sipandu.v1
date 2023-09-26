@@ -44,15 +44,15 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Kelola
+                        Pelatihan
                     </div>
                     <h2 class="page-title">
-                        Pelatihan
+                        Ubah
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan'); ?>">Pelatihan</a></li>
+                        <li class="breadcrumb-item "><a href="<?= base_url('pelatihan/detail/' . json_decode($pelatihan)->courses->id); ?>">Detail</a></li>
+                        <li class="breadcrumb-item active"><a href="">Ubah</a></li>
                     </ol>
                 </div>
 

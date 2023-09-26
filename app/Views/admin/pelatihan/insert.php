@@ -124,19 +124,7 @@
                                                 </select>
                                             </div>
 
-                                            <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
-                                            <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-                                            <script>
-                                                let categoryCourse = new TomSelect('#floatingInputCategoryCourse', {
-                                                    hideSelected: true,
-                                                    create: false,
-                                                });
 
-                                                let batchCourse = new TomSelect('#floatingInputBatch', {
-                                                    hideSelected: true,
-                                                    create: false,
-                                                });
-                                            </script>
                                         </div>
 
                                         <!-- <div class="row">
@@ -165,6 +153,27 @@
 
                                         <div class="row mb-3">
                                             <div class="col-6">
+                                                <label for="floatingInputSourceFunds">Sumber Dana</label>
+                                                <select class="custom-select" name="source_funds" id="floatingInputSourceFunds" placeholder="Pilih Sumber Dana..." autocomplete="off" required>
+                                                    <option value="">Pilih Sumber Dana...</option>
+                                                    <option value="APBD">APBD</option>
+                                                    <option value="APBN">APBN</option>
+                                                    <option value="BLUD">BLUD</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6 custom-file">
+                                                <label for="floatingInputMethod">Metode</label>
+                                                <select class="custom-select" name="method" id="floatingInputMethod" placeholder="Pilih Metode..." autocomplete="off" required>
+                                                    <option value="">Pilih Metode...</option>
+                                                    <option value="Clasical">Clasical</option>
+                                                    <option value="Blanded">Blanded</option>
+                                                    <option value="Full Daring">Full Daring</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-6">
                                                 <label for="floatingInputContactPerson">Kontak Person</label>
                                                 <input type="text" class="form-control" id="floatingInputContactPerson" name="contact_person" placeholder="Kontak Person" value="">
                                             </div>
@@ -174,7 +183,27 @@
                                             </div>
 
                                         </div>
+                                        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+                                        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+                                        <script>
+                                            let categoryCourse = new TomSelect('#floatingInputCategoryCourse', {
+                                                hideSelected: true,
+                                                create: false,
+                                            });
 
+                                            let batchCourse = new TomSelect('#floatingInputBatch', {
+                                                hideSelected: true,
+                                                create: false,
+                                            });
+                                            let sourceFunds = new TomSelect('#floatingInputSourceFunds', {
+                                                hideSelected: true,
+                                                create: false,
+                                            });
+                                            let methodCourse = new TomSelect('#floatingInputMethod', {
+                                                hideSelected: true,
+                                                create: false,
+                                            });
+                                        </script>
                                         <br>
                                         <div class="hr-text hr-text-left my-3">Waktu Pelaksanaan</div>
                                         <div class="row mb-3">

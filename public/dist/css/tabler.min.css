@@ -23526,6 +23526,22 @@ a.step-item:hover {
   padding-bottom: 0.5rem;
   white-space: nowrap;
 }
+.markdown > table.table-borderless thead th,
+.table.table-borderless thead th {
+  color: var(--tblr-dark);
+  /* background: var(--tblr-bg-surface); */
+  border: none;
+  /* font-size: 0.625rem; */
+  font-size: 0.8rem;
+  font-weight: var(--tblr-font-weight-medium);
+  /* text-transform: uppercase; */
+  letter-spacing: 0.04em;
+  line-height: 1.6rem;
+  /* color: var(--tblr-secondary); */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  white-space: nowrap;
+}
 @media print {
   .markdown > table thead th,
   .table thead th {
