@@ -112,7 +112,7 @@
                                             <th scope="col">No</th>
                                             <th scope="col">Nama Pengguna / Jabatan</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Detail</th>
+                                            <th scope="col">Aksi</th>
 
                                         </tr>
                                     </thead>
@@ -144,7 +144,7 @@
                                                         } ?></td>
 
                                                     <td>
-                                                        <a href="<?= base_url('pelatihan/detail/user/regis/' . $id_pelatihan . '/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary">
+                                                        <a href="<?= base_url('pelatihan/detail/user/regis/' . $id_pelatihan . '/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Detail Pengguna">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
@@ -152,6 +152,17 @@
                                                                 <path d="M11 12h1v4h1"></path>
                                                             </svg>
                                                         </a>
+                                                        <span data-bs-toggle="modal" data-bs-target="#modal-upload-certificate" onclick="sendUserCourseID('<?= $value['id_user_course']; ?>')">
+                                                            <a class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unggah Setifikat">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-upload" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+                                                                    <path d="M7 9l5 -5l5 5"></path>
+                                                                    <path d="M12 4l0 12"></path>
+                                                                </svg>
+                                                            </a>
+                                                        </span>
+
                                                     </td>
                                                 </tr>
                                         <?php }
@@ -170,12 +181,53 @@
     <!-- Recent comment and chats -->
     <!-- ============================================================== -->
 </div>
+<!-- Modal Tambah Dokumen Unduhan -->
+<div class="modal modal-blur fade" id="modal-upload-certificate" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="form-upload-certificate" action="" method="POST" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Unggah Sertifikat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <?= csrf_field() ?>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="floatingInputCertificate">Sertifikat Peserta</label>
+                            <input type="file" class="form-control" id="floatingInputCertificate" name="certificate" accept="application/pdf" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="floatingInputCertificateNumber">Nomor Sertifikat</label>
+                            <input type="text" class="form-control" id="floatingInputCertificateNumber" name="certificate_number" placeholder="Nomor Sertifikat" value="<?= old('certificate_number'); ?>" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                        Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary ms-auto">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->
 <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-vVx8x/L4dr4OfZ+2XZd50t8+sWlINSMO7y4+LcB4t8uF4f+wJ4jDMbFOWjmR+8HiaJp+nt0qyL0Cm4+FS6UJ0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+    function sendUserCourseID(id_user_course) {
+        $('#form-upload-certificate').attr('action', '<?= base_url('pelatihan/detail/user/insert/certificate/'); ?>' + id_user_course);
+    }
+
+
     $(document).ready(function() {
         $('#home-tab').attr('class', 'nav-link active');
         $('#home').attr('class', 'tab-pane fade show active');

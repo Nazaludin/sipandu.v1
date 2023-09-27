@@ -466,7 +466,7 @@ class Pelatihan extends BaseController
         //judul
         $title = 'Rekap Pendaftar ' .   ucwords((string)$dataPelatihan->courses[0]->fullname);
         $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan tulisan "DATA SISWA"
-        $activeSheet->mergeCells('A2:AAC2'); // Set Merge Cell pada kolom A1 sampai F1
+        $activeSheet->mergeCells('A2:AD2'); // Set Merge Cell pada kolom A1 sampai F1
         $activeSheet->getStyle('A2')->applyFromArray($style_title);
 
         $activeSheet->setCellValue('A4', 'No');
@@ -522,6 +522,8 @@ class Pelatihan extends BaseController
         $activeSheet->setCellValue('AA5', 'Kecamatan');
         $activeSheet->setCellValue('AB5', 'Kabutapen/Kota');
         $activeSheet->setCellValue('AC5', 'Provinsi');
+        $activeSheet->setCellValue('AD4', 'Status Pelatihan');
+        $activeSheet->mergeCells('AD4:AD5');
 
 
         for ($i = 4; $i <= 5; $i++) {
@@ -554,6 +556,7 @@ class Pelatihan extends BaseController
             $activeSheet->getStyle('AA' . $i)->applyFromArray($style_col);
             $activeSheet->getStyle('AB' . $i)->applyFromArray($style_col);
             $activeSheet->getStyle('AC' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('AD' . $i)->applyFromArray($style_col);
         }
 
         // DATA
@@ -606,6 +609,23 @@ class Pelatihan extends BaseController
             $activeSheet->setCellValue('AA' . $index, $value['kecamatan_instansi']);
             $activeSheet->setCellValue('AB' . $index, $value['kabupaten_instansi']);
             $activeSheet->setCellValue('AC' . $index, $value['provinsi_instansi']);
+            switch ($value['status_pelatihan']) {
+                case 'register':
+                    $activeSheet->setCellValue('AD' . $index, 'Mendaftar');
+                    break;
+                case 'accept':
+                    $activeSheet->setCellValue('AD' . $index, 'Diterima');
+                    break;
+                case 'reject':
+                    $activeSheet->setCellValue('AD' . $index, 'Ditolak');
+                    break;
+                case 'revisi':
+                    $activeSheet->setCellValue('AD' . $index, 'Revisi');
+                    break;
+                default:
+                    $activeSheet->setCellValue('AD' . $index, '');
+                    break;
+            }
 
             $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
             $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
@@ -636,6 +656,7 @@ class Pelatihan extends BaseController
             $activeSheet->getStyle('AA' . $index)->applyFromArray($style_row_center);
             $activeSheet->getStyle('AB' . $index)->applyFromArray($style_row_center);
             $activeSheet->getStyle('AC' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('AD' . $index)->applyFromArray($style_row_center);
 
             $activeSheet->getCell('C' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
             $activeSheet->getCell('D' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
@@ -679,6 +700,7 @@ class Pelatihan extends BaseController
         $activeSheet->getColumnDimension('AA')->setWidth(25);
         $activeSheet->getColumnDimension('AB')->setWidth(25);
         $activeSheet->getColumnDimension('AC')->setWidth(25);
+        $activeSheet->getColumnDimension('AD')->setWidth(25);
 
         $filename = $title . '.xlsx';
 
@@ -933,8 +955,9 @@ class Pelatihan extends BaseController
             $data_user = model(UserModel::class)->find($value['id_user']);
             $data_final['user'][$key] = $data_user->toArray();
             $data_final['user'][$key]['status_pelatihan'] = $value['status'];
+            $data_final['user'][$key]['id_user_course'] = $value['id'];
         }
-
+        // dd($data_final);
         $data_final['id_pelatihan'] = $id_pelatihan;
         // dd($data_final, $data);
         return view('layout/header', $data_final)
@@ -1215,7 +1238,31 @@ class Pelatihan extends BaseController
         return Time::parse($tgl, 'Asia/Jakarta');
     }
 
+    public function insertCertificate($id_user_course)
+    {
+        $certificate_number =  $this->request->getPost('certificate_number');
+        $certificate        =  $this->request->getFile('certificate');
 
+        if (isset($certificate)) {
+            if ($certificate->isValid() && !($certificate->hasMoved())) {
+
+                $newName = $certificate->getRandomName();
+                $path = 'uploads/dokumen';
+
+                $certificate->move(FCPATH . $path, $newName);
+                $data = [
+                    'certificate_number'        => $certificate_number,
+                    'certificate_file_location' => $path . '/' . $newName,
+                    'certificate_file_name'     => $certificate->getClientName(),
+
+                ];
+                model(UserCourseModel::class)->update($id_user_course, $data);
+                $succes = true;
+            }
+        }
+        $data_user_course = model(UserCourseModel::class)->find($id_user_course);
+        return redirect()->to(base_url('pelatihan/detail/user/' . $data_user_course['id_course']));
+    }
 
     public function insertDownloadDocument($id_pelatihan)
     {

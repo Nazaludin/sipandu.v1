@@ -13,7 +13,7 @@ class UserCourseModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'id_course', 'id_user', 'status'];
+    protected $allowedFields    = ['id', 'id_course', 'id_user', 'status', 'certificate_number', 'certificate_file_name', 'certificate_file_location', 'comment'];
 
     // Dates
     protected $useTimestamps = false;
