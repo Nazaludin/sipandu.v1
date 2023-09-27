@@ -160,7 +160,7 @@
                                                         <?php } ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
+                                                        <a href="<?= base_url('pelatihan/detail/user/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
@@ -170,7 +170,7 @@
                                                                 <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value->registrar; ?></span>
                                                             <?php } ?>
                                                         </a>
-                                                        <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Detail">
+                                                        <a href="<?= base_url('pelatihan/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Detail">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
@@ -178,23 +178,37 @@
                                                                 <path d="M11 12h1v4h1"></path>
                                                             </svg>
                                                         </a>
-                                                        <a class="btn btn-icon btn-outline-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                                            </svg>
-                                                        </a>
-                                                        <div class="dropdown-menu ">
-                                                            <a class="dropdown-item text-danger btn" href="<?= base_url('pelatihan/batal/' . $value->id); ?>">
+                                                        <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <a class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lainnya">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                     <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                                     <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                                     <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
                                                                 </svg>
-                                                                Batal Mengikuti</a>
+                                                            </a>
+                                                        </span>
+                                                        <div class="dropdown-menu">
+                                                            <a class=" dropdown-item btn text-primary justify-content-start" href="<?= base_url('pelatihan/detail/edit/' . $value->id); ?>">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                                    <path d="M16 5l3 3"></path>
+                                                                </svg>
+                                                                Ubah
+                                                            </a>
+                                                            <a class="dropdown-item text-danger btn justify-content-start" data-bs-toggle="modal" data-bs-target="#modal-confirm-delete" onclick="sendIDPelatihan('<?= $value->id; ?>')">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M4 7l16 0"></path>
+                                                                    <path d="M10 11l0 6"></path>
+                                                                    <path d="M14 11l0 6"></path>
+                                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                                </svg>
+                                                                Hapus
+                                                            </a>
                                                         </div>
                                                     </td>
 
@@ -216,6 +230,59 @@
     <!-- Recent comment and chats -->
     <!-- ============================================================== -->
 </div>
+<!-- Modal Konfrimasi Publish -->
+<div class="modal modal-blur fade" id="modal-confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="form-delete-course" action="" method="post">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+                        <path d="M12 9v4" />
+                        <path d="M12 17h.01" />
+                    </svg>
+                    <h3>Apakah Anda yakin?</h3>
+                    <div class="text-secondary mb-2">Dengan menghapus pelatihan maka <strong>seluruh data pelatihan akan terhapus</strong> dari sistem.</div>
+                    <br>
+                    <?= csrf_field(); ?>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-check " style="text-align: left !important;">
+                                <input id="checkbox-persetujuan" type="checkbox" class="form-check-input" name="delete_best" />
+                                <span class="form-check-label">
+                                    <strong>Hapus juga pelatihan dari Best. </strong>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a class="btn w-100" data-bs-dismiss="modal">Batal</a>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger w-100"> Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<script>
+    function sendIDPelatihan(id_pelatihan) {
+        console.log("MASUK");
+        $('#form-delete-course').attr('action', "<?= base_url('pelatihan/delete/'); ?>" + id_pelatihan);
+    }
+</script>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->

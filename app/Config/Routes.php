@@ -110,6 +110,7 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
     $routes->get('rekap/pengguna/(:num)/(:num)', 'Admin\Pelatihan::rekapPengguna/$1/$2');
     $routes->get('detail/(:num)',  'Admin\Pelatihan::pelatihanDetail/$1');
     $routes->get('insert',  'Admin\Pelatihan::pelatihanInsert');
+    $routes->post('delete/(:num)',  'Admin\Pelatihan::pelatihanDelete/$1');
 
     $routes->group('status', static function ($routes) {
         $routes->get('edit/(:num)/(:num)',  'Admin\Pelatihan::pelatihanEditStatus/$1/$2');
@@ -143,16 +144,20 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
         });
 
         $routes->group('dokumen', static function ($routes) {
-            $routes->post('download/(:num)',  'Admin\Pelatihan::insertDownloadDocument/$1');
+            $routes->post('download',  'Admin\Pelatihan::insertDownloadDocument');
 
             $routes->group('download', static function ($routes) {
                 $routes->post('update-to-course/(:num)',  'Admin\Pelatihan::updateCourseDownloadDocument/$1');
+                $routes->post('edit/(:num)',  'Admin\Pelatihan::editDownloadDocument/$1');
+                $routes->get('delete/(:num)',  'Admin\Pelatihan::deleteDownloadDocument/$1');
             });
 
-            $routes->post('upload/(:num)',  'Admin\Pelatihan::insertUploadDocument/$1');
+            $routes->post('upload',  'Admin\Pelatihan::insertUploadDocument');
 
             $routes->group('upload', static function ($routes) {
                 $routes->post('update-to-course/(:num)',  'Admin\Pelatihan::updateCourseUploadDocument/$1');
+                $routes->post('edit/(:num)',  'Admin\Pelatihan::editUploadDocument/$1');
+                $routes->get('delete/(:num)',  'Admin\Pelatihan::deleteUploadDocument/$1');
             });
         });
     });

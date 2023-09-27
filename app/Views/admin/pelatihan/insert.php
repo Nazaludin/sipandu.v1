@@ -44,15 +44,14 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Kelola
+                        Pelatihan
                     </div>
                     <h2 class="page-title">
-                        Pelatihan
+                        Tambah
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan'); ?>">Pelatihan</a></li>
+                        <li class="breadcrumb-item active"><a href="">Tambah</a></li>
                     </ol>
                 </div>
 
@@ -71,7 +70,7 @@
                                 <div class="col-12">
                                     <div class="hr-text text-green">Progres</div>
                                     <div class="col-12">
-                                        <div class="steps steps-counter steps-lime">
+                                        <div class="steps steps-counter steps-primary">
                                             <span class="step-item active">
                                                 Buat Pelatihan
                                             </span>
@@ -311,7 +310,7 @@
                                         </script>
 
                                         <div class="row justify-content-end">
-                                            <div class="col-12 d-flex justify-content-end">
+                                            <div class="col-12 d-flex justify-content-between">
                                                 <a href="<?= base_url('pelatihan'); ?>" class="btn btn-outline-primary mx-2">Batal</a>
                                                 <button type="submit" class="btn btn-primary">Buat Pelatihan</button>
                                             </div>

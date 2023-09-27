@@ -821,6 +821,19 @@ class Pelatihan extends BaseController
             . view('admin/pelatihan/insert')
             . view('layout/footer');
     }
+    public function pelatihanDelete($id_pelatihan)
+    {
+        $delete_best =  $this->request->getPost('delete_best');
+        if (isset($delete_best)) {
+            $MoodyDelete = $this->MoodyBest->deleteCourse($id_pelatihan);
+            if (!empty($MoodyDelete['error'])) {
+                return redirect()->to(base_url('pelatihan'))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyDelete['error']['message']);
+            }
+        }
+
+        model(CourseModel::class)->delete($id_pelatihan);
+        return redirect()->to(base_url('pelatihan'))->withInput()->with('message', 'Pelatihan berhasil dihapus!');
+    }
 
 
     public function pelatihanInsertProses()
@@ -913,7 +926,7 @@ class Pelatihan extends BaseController
 
         $data['list_donwload_document'] = (!empty($tempDD)) ? $tempDD : $dataDownloadDocument;
         $data['list_upload_document'] = (!empty($tempUD)) ? $tempUD : $dataUploadDocument;
-        $data['pelatihan_id'] = $id_pelatihan;
+        $data['id_pelatihan'] = $id_pelatihan;
 
         return view('layout/header', $data)
             . view('layout/sidebar')
@@ -1264,7 +1277,7 @@ class Pelatihan extends BaseController
         return redirect()->to(base_url('pelatihan/detail/user/' . $data_user_course['id_course']));
     }
 
-    public function insertDownloadDocument($id_pelatihan)
+    public function insertDownloadDocument()
     {
         $name =  $this->request->getPost('name');
         $file_download =  $this->request->getFile('file_download_document');
@@ -1285,8 +1298,49 @@ class Pelatihan extends BaseController
                 $succes = true;
             }
         }
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
+    }
+    public function editDownloadDocument($id_download_document)
+    {
+        $name =  $this->request->getPost('name');
+        $file_download =  $this->request->getFile('file_download_document');
+        // dd($file_download, empty($file_download));
+        // $data = [];
+        $rules = [
+            'foto' => 'uploaded[file_download_document]',
+        ];
+        if ($this->validate($rules)) {
+            if (isset($file_download)) {
+                if ($file_download->isValid() && !($file_download->hasMoved())) {
 
-        return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+                    $newName = $file_download->getRandomName();
+                    $path = 'uploads/dokumen';
+
+                    $file_download->move(FCPATH . $path, $newName);
+                    $data = [
+                        'name'          => $name,
+                        'link'          => $path . '/' . $newName,
+
+                    ];
+                    // model(DownloadDocumentModel::class)->save($data);
+                    $succes = true;
+                }
+            }
+        } else {
+            $data['name'] = $name;
+        }
+        model(DownloadDocumentModel::class)->update($id_download_document, $data);
+
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
+    }
+    public function deleteDownloadDocument($id_download_document)
+    {
+        model(DownloadDocumentModel::class)->delete($id_download_document);
+
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
     }
     public function updateCourseDownloadDocument($id_pelatihan)
     {
@@ -1316,7 +1370,8 @@ class Pelatihan extends BaseController
             }
         }
 
-        return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
     }
     public function listDownloadDocument()
     {
@@ -1324,12 +1379,28 @@ class Pelatihan extends BaseController
         $data = model(DownloadDocumentModel::class)->findAll();
         return json_encode($data);
     }
-    public function insertUploadDocument($id_pelatihan)
+    public function insertUploadDocument()
     {
         $name =  $this->request->getPost('name_uplaod_document');
         model(UploadDocumentModel::class)->save(['name' => $name]);
 
-        return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
+    }
+    public function editUploadDocument($id_upload_document)
+    {
+        $name =  $this->request->getPost('name_uplaod_document');
+        model(UploadDocumentModel::class)->update($id_upload_document, ['name' => $name]);
+
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
+    }
+    public function deleteUploadDocument($id_upload_document)
+    {
+        model(UploadDocumentModel::class)->delete($id_upload_document);
+
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
     }
     public function updateCourseUploadDocument($id_pelatihan)
     {

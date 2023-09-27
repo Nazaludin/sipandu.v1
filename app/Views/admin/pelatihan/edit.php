@@ -533,7 +533,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <table class="table table-sm table-borderless" id="table-download-document">
+                            <table class="table table-sm table-borderless table-hover table-striped align-middle" id="table-download-document">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Pilih</th>
@@ -555,8 +555,25 @@
                                             </td>
                                             <td class="text-end"><a href="<?= base_url($doc['link']); ?>" target="_blank">Lihat</a></td>
                                             <td class="text-center">
-                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
-                                                    Edit
+                                                <span data-bs-toggle="modal" data-bs-target="#modal-download-document-edit" onclick="sendEditDownloadDocument('<?= $doc['id']; ?>','<?= $doc['name']; ?>','<?= base_url($doc['link']); ?>')">
+                                                    <a class="btn btn-outline-primary btn-icon ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ubah">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                            <path d="M16 5l3 3"></path>
+                                                        </svg>
+                                                    </a>
+                                                </span>
+                                                <a href="<?= base_url('pelatihan/detail/dokumen/download/delete/' . $doc['id']); ?>" class="btn btn-outline-danger btn-icon ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M4 7l16 0"></path>
+                                                        <path d="M10 11l0 6"></path>
+                                                        <path d="M14 11l0 6"></path>
+                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                    </svg>
                                                 </a>
                                             </td>
                                         </tr>
@@ -584,7 +601,7 @@
 <div class="modal modal-blur fade" id="modal-download-document-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/download') ?>" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Dokumen Unduhan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -616,6 +633,47 @@
         </div>
     </div>
 </div>
+<!-- Modal Edit Dokumen Unduhan -->
+<div class="modal modal-blur fade" id="modal-download-document-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="form-edit-download-document" method="POST" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ubah Dokumen Unduhan</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-download-document"></button>
+                </div>
+                <div class="modal-body">
+                    <?= csrf_field() ?>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <a id="seeEditDownloadDocument" target="_blank">Lihat Dokumen</a>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="fileEditDownloadDokument">Berkas Uduhan Peserta</label>
+                            <input type="file" class="form-control" id="fileEditDownloadDokument" name="file_download_document">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="floatingEditDownloadDokument">Nama document Unduhan</label>
+                            <input type="text" class="form-control" id="floatingEditDownloadDokument" name="name" placeholder="Nama document Unduhan Administrasi" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#modal-download-document">
+                        Batal
+                    </button>
+                    <button type="submit" class="btn btn-primary ms-auto">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- </div> -->
 <!-- Modal Pilih Dokumen Unggahan -->
 <div class="modal modal-blur fade" id="modal-upload-document" tabindex="-1" role="dialog" aria-hidden="true">
@@ -631,17 +689,17 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <table class="table table-sm table-borderless">
+                            <table class="table table-sm table-borderless table-hover table-striped align-middle">
                                 <colgroup>
                                     <col style="width: 10%;">
-                                    <col style="width: 60%;">
-                                    <col style="width: 30%;">
+                                    <col style="width: 70%;">
+                                    <col style="width: 20%;">
                                 </colgroup>
                                 <thead>
                                     <tr>
                                         <th class="text-center">Pilih</th>
                                         <th>Nama</th>
-                                        <th class="text-center">Aksi</th>
+                                        <th class="text-left">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -655,16 +713,28 @@
                                             <td>
                                                 <?= $doc['name']; ?>
                                             </td>
-                                            <td class="text-end">
-                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
-                                                    Edit
+                                            <td class="text-start">
+                                                <span data-bs-toggle="modal" data-bs-target="#modal-upload-document-edit" onclick="sendEditUploadDocument('<?= $doc['id']; ?>','<?= $doc['name']; ?>')">
+                                                    <a class="btn btn-outline-primary btn-icon ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ubah">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                            <path d="M16 5l3 3"></path>
+                                                        </svg>
+                                                    </a>
+                                                </span>
+                                                <a href="<?= base_url('pelatihan/detail/dokumen/upload/delete/' . $doc['id']); ?>" class="btn btn-outline-danger btn-icon ms-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M4 7l16 0"></path>
+                                                        <path d="M10 11l0 6"></path>
+                                                        <path d="M14 11l0 6"></path>
+                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                    </svg>
                                                 </a>
                                             </td>
-                                            <!-- <td class="text-end">
-                                                <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
-                                                    Editgggggggggggggggggggggggggggggggg
-                                                </a>
-                                            </td> -->
                                         </tr>
                                     <?php  } ?>
 
@@ -690,7 +760,7 @@
 <div class="modal modal-blur fade" id="modal-upload-document-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/' . json_decode($pelatihan)->courses->id); ?>" method="POST">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload'); ?>" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Dokumen Unggahan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -705,17 +775,63 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                    <a class="btn btn-link link-secondary" data-bs-dismiss="modal">
                         Batal
                     </a>
                     <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
                         Simpan
                     </button>
+                </div>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal Ubah Dokumen Unggahan -->
+<div class="modal modal-blur fade" id="modal-upload-document-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="form-edit-upload-document" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Dokumen Unggahan</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#modal-upload-document"></button>
+                </div>
+                <div class="modal-body">
+                    <?= csrf_field() ?>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="floatingEditUploadDokument">Nama Dokumen Unggahan</label>
+                            <input type="text" class="form-control" id="floatingEditUploadDokument" name="name_uplaod_document" placeholder="Nama document Unduhan Administrasi" value="" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-link link-secondary" data-bs-toggle="modal" data-bs-target="#modal-upload-document">
+                        Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    function sendEditUploadDocument(id_upload_document, name_document) {
+        // $('#modal-upload-document-edit').modal('show');
+        $('#form-edit-upload-document').attr('action', "<?= base_url('pelatihan/detail/dokumen/upload/edit/'); ?>" + id_upload_document);
+        $('#floatingEditUploadDokument').val(name_document);
+    }
+
+    function sendEditDownloadDocument(id_download_document, name_document, link_document) {
+        // $('#modal-upload-document-edit').modal('show');
+        $('#form-edit-download-document').attr('action', "<?= base_url('pelatihan/detail/dokumen/download/edit/'); ?>" + id_download_document);
+        $('#seeEditDownloadDocument').attr('href', link_document);
+        $('#floatingEditDownloadDokument').val(name_document);
+    }
+</script>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->

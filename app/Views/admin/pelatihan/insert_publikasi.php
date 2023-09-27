@@ -44,15 +44,14 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Kelola
+                        Pelatihan
                     </div>
                     <h2 class="page-title">
-                        Pelatihan
+                        Tambah
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan'); ?>">Pelatihan</a></li>
+                        <li class="breadcrumb-item active"><a href="">Tambah</a></li>
                     </ol>
                 </div>
 
@@ -71,7 +70,7 @@
                                 <div class="col-12">
                                     <div class="hr-text text-green">Progres</div>
                                     <div class="col-12">
-                                        <div class="steps steps-counter steps-lime">
+                                        <div class="steps steps-counter steps-primary">
                                             <span class="step-item">
                                                 Buat Pelatihan
                                             </span>
@@ -91,7 +90,28 @@
                                 <div class="row px-3">
                                     <form action="<?= base_url('pelatihan/insert/publis/proses/' . $id_pelatihan); ?>" method="post">
                                         <?= csrf_field() ?>
-                                        <div class="hr-text hr-text-left mb-3">Data Pelatihan</div>
+                                        <div class="hr-text hr-text-left mb-3">Atur Status Pelatihan</div>
+                                        <div class="row">
+                                            <div class="col card bg-yellow-lt text-dark mb-3">
+                                                <div class="card-body m-1">
+                                                    <div class="card-subheader h3 m-0 text-warning">Petunjuk!</div>
+                                                    <ul>
+                                                        <li>
+                                                            Status publikasi berguna untuk mengatur publikasi dari pelatihan yang Anda buat.
+                                                        </li>
+                                                        <li>
+                                                            Saat Anda memilih tombol <strong>Simpan</strong> maka secara otomatis pelatihan akan terdaftar sebagai <strong>draft</strong>.
+                                                        </li>
+                                                        <li>
+                                                            Namun jika Anda memilih tombol <strong>Simpan & Publish</strong> maka pelatihan akan terdaftar sebagai <strong>publis</strong>.
+                                                        </li>
+                                                        <li>
+                                                            Status publish artinya pelatihan yang Anda buat telah lengkap dan siap untuk ditampilkan di halaman pengguna.
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row mb-3">
                                             <div class="col">
                                                 <label class="form-check">
