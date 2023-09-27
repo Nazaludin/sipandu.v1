@@ -1068,7 +1068,8 @@ class Pelatihan extends BaseController
         $dataPelatihan->courses[0]->method                  = $courseLocal['method'] ?? '';
         $dataPelatihan->courses[0]->place                   = $courseLocal['place'] ?? '';
         $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
-        $dataPelatihan->courses[0]->schedule_file           = $courseLocal['schedule_file'] ?? '';
+        $dataPelatihan->courses[0]->schedule_file_name      = $courseLocal['schedule_file_name'] ?? '';
+        $dataPelatihan->courses[0]->schedule_file_location  = $courseLocal['schedule_file_location'] ?? '';
 
         $pelatihan['courses'] = $dataPelatihan->courses[0];
         $data['pelatihan'] = json_encode($pelatihan);
