@@ -99,11 +99,11 @@
                                         <div class="row mb-3">
                                             <div class="col-6">
                                                 <label for="floatingInputShortnameCourse" class="form-label mb-0">Nama Singkat Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputShortnameCourse" name="fullname" placeholder="Nama singkat pelatihan" value="<?= json_decode($pelatihan)->courses->shortname; ?>" required>
+                                                <input type="text" class="form-control" id="floatingInputShortnameCourse" name="shortname" placeholder="Nama singkat pelatihan" value="<?= json_decode($pelatihan)->courses->shortname; ?>" required>
                                             </div>
                                             <div class="col-4">
                                                 <label for="floatingInputCategoryCourse" class="form-label mb-0">Jenis Pelatihan</label>
-                                                <select class="select-control" name="catgoryid" id="floatingInputCategoryCourse" placeholder="Pilih/tulis kategori pelatihan..." required oninvalid="this.setCustomValidity('Mohon pilih kategori pelatihan ada input ini')" oninput="this.setCustomValidity('')">
+                                                <select class="select-control" name="categoryid" id="floatingInputCategoryCourse" placeholder="Pilih/tulis kategori pelatihan..." required oninvalid="this.setCustomValidity('Mohon pilih kategori pelatihan ada input ini')" oninput="this.setCustomValidity('')">
                                                     <option value=""></option>
                                                     <?php foreach ($kategori_pelatihan as $kp => $valueKP) { ?>
                                                         <option value="<?= $valueKP->id; ?>" <?= (json_decode($pelatihan)->courses->categoryid == $valueKP->id) ? 'selected' : '' ?>><?= $valueKP->name; ?></option>

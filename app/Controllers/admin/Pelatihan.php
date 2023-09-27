@@ -1159,27 +1159,48 @@ class Pelatihan extends BaseController
 
         $dataLokal = [
             'id'                    => $id_pelatihan,
-            'condition'             => 'coming',
+            'place'                 => $data['place'],
             'start_registration'    => $data['start_registration'],
             'end_registration'      => $data['end_registration'],
+            'startdate'             => $data['startdate'],
+            'enddate'               => $data['enddate'],
             'target_participant'    => $data['target_participant'],
             'batch'                 => intval($data['batch']),
             'quota'                 => intval($data['quota']),
-            'place'                 => $data['place'],
             'contact_person'        => $data['contact_person'],
+            'source_funds'          => $data['source_funds'],
+            'method'                => $data['method'],
             'status_sistem'         => $data['publish'] == 'true' ? 'publish' : 'draft',
         ];
 
-        if (isset($file_schedule)) {
-            if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
+        $MoodyEdit = $this->MoodyBest->updateCourse(
+            $id_pelatihan,
+            $data['shortname'],
+            $data['fullname'],
+            $data['categoryid'],
+            $data['summary'],
+            new \DateTime($data['startdate']),
+            new \DateTime($data['enddate'])
+        );
+        if (!empty($MoodyEdit['error'])) {
+            return redirect()->to(base_url('pelatihan/detail/edit' . $id_pelatihan))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyEdit['error']['message']);
+        }
 
-                $newName = $file_schedule->getRandomName();
-                $path = 'uploads/dokumen';
-                // dd(base_url() . $path, FCPATH, WRITEPATH);
-                $file_schedule->move(FCPATH . $path, $newName);
+        $rules = [
+            'jadwal' => 'uploaded[jadwal]',
+        ];
+        if ($this->validate($rules)) {
+            if (isset($file_schedule)) {
+                if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
 
-                $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
-                $dataLokal['schedule_file_location'] = $path . '/' . $newName;
+                    $newName = $file_schedule->getRandomName();
+                    $path = 'uploads/dokumen';
+                    // dd(base_url() . $path, FCPATH, WRITEPATH);
+                    $file_schedule->move(FCPATH . $path, $newName);
+
+                    $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
+                    $dataLokal['schedule_file_location'] = $path . '/' . $newName;
+                }
             }
         }
 
@@ -1308,7 +1329,7 @@ class Pelatihan extends BaseController
         // dd($file_download, empty($file_download));
         // $data = [];
         $rules = [
-            'foto' => 'uploaded[file_download_document]',
+            'file_download_document' => 'uploaded[file_download_document]',
         ];
         if ($this->validate($rules)) {
             if (isset($file_download)) {
