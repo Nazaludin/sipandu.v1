@@ -466,33 +466,62 @@ class Pelatihan extends BaseController
         //judul
         $title = 'Rekap Pendaftar ' .   ucwords((string)$dataPelatihan->courses[0]->fullname);
         $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan tulisan "DATA SISWA"
-        $activeSheet->mergeCells('A2:L2'); // Set Merge Cell pada kolom A1 sampai F1
+        $activeSheet->mergeCells('A2:AAC2'); // Set Merge Cell pada kolom A1 sampai F1
         $activeSheet->getStyle('A2')->applyFromArray($style_title);
 
         $activeSheet->setCellValue('A4', 'No');
         $activeSheet->mergeCells('A4:A5');
-        $activeSheet->setCellValue('B4', 'Nama Pelatihan');
+        $activeSheet->setCellValue('B4', 'Nama Lengkap');
         $activeSheet->mergeCells('B4:B5');
-        $activeSheet->setCellValue('C4', 'Jenis Pelatihan');
+        $activeSheet->setCellValue('C4', 'NIK');
         $activeSheet->mergeCells('C4:C5');
-        $activeSheet->setCellValue('D4', 'Periode Pendaftaran');
-        $activeSheet->mergeCells('D4:E4');
-        $activeSheet->setCellValue('D5', 'Mulai Pendaftaran');
-        $activeSheet->setCellValue('E5', 'Akhir Pendaftaran');
-        $activeSheet->setCellValue('F4', 'Periode Pelatihan');
-        $activeSheet->mergeCells('F4:G4');
-        $activeSheet->setCellValue('F5', 'Mulai Pelatihan');
-        $activeSheet->setCellValue('G5', 'Akhir Pelatihan');
-        $activeSheet->setCellValue('H4', 'Angkatan');
+        $activeSheet->setCellValue('D4', 'NIP');
+        $activeSheet->mergeCells('D4:D5');
+        $activeSheet->setCellValue('E4', 'NRP');
+        $activeSheet->mergeCells('E4:E5');
+        $activeSheet->setCellValue('F4', 'Nomor STR');
+        $activeSheet->mergeCells('F4:F5');
+        $activeSheet->setCellValue('G4', 'Jenis Kelamin');
+        $activeSheet->mergeCells('G4:G5');
+        $activeSheet->setCellValue('H4', 'Tempat Lahir');
         $activeSheet->mergeCells('H4:H5');
-        $activeSheet->setCellValue('I4', 'Sasaran Pelatihan');
+        $activeSheet->setCellValue('I4', 'Tanggal Lahir');
         $activeSheet->mergeCells('I4:I5');
-        $activeSheet->setCellValue('J4', 'Tempat Pelaksanaan');
+        $activeSheet->setCellValue('J4', 'Agama');
         $activeSheet->mergeCells('J4:J5');
-        $activeSheet->setCellValue('K4', 'Kontak Person');
+        $activeSheet->setCellValue('K4', 'Email');
         $activeSheet->mergeCells('K4:K5');
-        $activeSheet->setCellValue('L4', 'Kuota');
+        $activeSheet->setCellValue('L4', 'Telepon');
         $activeSheet->mergeCells('L4:L5');
+        $activeSheet->setCellValue('M4', 'Alamat Domisili');
+        $activeSheet->mergeCells('M4:Q4');
+        $activeSheet->setCellValue('M5', 'Nama Jalan');
+        $activeSheet->setCellValue('N5', 'Desa');
+        $activeSheet->setCellValue('O5', 'Kecamatan');
+        $activeSheet->setCellValue('P5', 'Kabutapen/Kota');
+        $activeSheet->setCellValue('Q5', 'Provinsi');
+        // $activeSheet->mergeCells('L4:L5');
+        $activeSheet->setCellValue('R4', "Pendidikan \rTerakhir");
+        $activeSheet->mergeCells('R4:R5');
+        $activeSheet->setCellValue('S4', 'Jurusan');
+        $activeSheet->mergeCells('S4:S5');
+        $activeSheet->setCellValue('T4', 'Jabatan / Pekerjaan');
+        $activeSheet->mergeCells('T4:T5');
+        $activeSheet->setCellValue('U4', 'Tipe Pegawai');
+        $activeSheet->mergeCells('U4:U5');
+        $activeSheet->setCellValue('V4', 'Jenis Nakes');
+        $activeSheet->mergeCells('V4:V5');
+        $activeSheet->setCellValue('W4', 'Pangkat/Golongan');
+        $activeSheet->mergeCells('W4:W5');
+        $activeSheet->setCellValue('X4', 'Nama Instansi');
+        $activeSheet->mergeCells('X4:X5');
+        $activeSheet->setCellValue('Y4', 'Alamat Instansi');
+        $activeSheet->mergeCells('Y4:AC4');
+        $activeSheet->setCellValue('Y5', 'Nama Jalan');
+        $activeSheet->setCellValue('Z5', 'Desa');
+        $activeSheet->setCellValue('AA5', 'Kecamatan');
+        $activeSheet->setCellValue('AB5', 'Kabutapen/Kota');
+        $activeSheet->setCellValue('AC5', 'Provinsi');
 
 
         for ($i = 4; $i <= 5; $i++) {
@@ -508,6 +537,23 @@ class Pelatihan extends BaseController
             $activeSheet->getStyle('J' . $i)->applyFromArray($style_col);
             $activeSheet->getStyle('K' . $i)->applyFromArray($style_col);
             $activeSheet->getStyle('L' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('M' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('N' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('O' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('P' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('Q' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('R' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('S' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('T' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('U' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('V' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('W' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('X' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('Y' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('Z' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('AA' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('AB' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('AC' . $i)->applyFromArray($style_col);
         }
 
         // DATA
@@ -530,51 +576,109 @@ class Pelatihan extends BaseController
         }
         $index = 6;
         // dd($data_final);
-        // foreach ($data_final as $dt => $value) {
-        //     $activeSheet->setCellValue('A' . $index, $index - 5);
-        //     $activeSheet->setCellValue('B' . $index, $dataBest->courses[0]->fullname);
-        //     $activeSheet->setCellValue('C' . $index, $dataBest->courses[0]->categoryname);
-        //     $activeSheet->setCellValue('D' . $index, date('Y-m-d', strtotime($value['start_registration'])));
-        //     $activeSheet->setCellValue('E' . $index, date('Y-m-d', strtotime($value['end_registration'])));
-        //     $activeSheet->setCellValue('F' . $index, $this->toDMY($dataBest->courses[0]->startdate));
-        //     $activeSheet->setCellValue('G' . $index, $this->toDMY($dataBest->courses[0]->enddate));
-        //     $activeSheet->setCellValue('H' . $index, $value['batch']);
-        //     $activeSheet->setCellValue('I' . $index, $value['target_participant']);
-        //     $activeSheet->setCellValue('J' . $index, $value['place']);
-        //     $activeSheet->setCellValue('K' . $index, $value['contact_person']);
-        //     $activeSheet->setCellValue('L' . $index, $value['quota']);
+        foreach ($data_final as $dt => $value) {
+            $activeSheet->setCellValue('A' . $index, $index - 5);
+            $activeSheet->setCellValue('B' . $index,  $value['fullname']);
+            $activeSheet->setCellValueExplicit('C' . $index, (string) $value['nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $activeSheet->setCellValueExplicit('D' . $index, (string) $value['nip'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $activeSheet->setCellValueExplicit('E' . $index, (string) $value['nrp'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $activeSheet->setCellValueExplicit('F' . $index, (string) $value['nomor_str'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $activeSheet->setCellValue('G' . $index, $value['jenis_kelamin']);
+            $activeSheet->setCellValue('H' . $index, $value['tempat_lahir']);
+            $activeSheet->setCellValue('I' . $index, $value['tanggal_lahir']);
+            $activeSheet->setCellValue('J' . $index, $value['agama']);
+            $activeSheet->setCellValue('K' . $index, $value['email']);
+            $activeSheet->setCellValueExplicit('L' . $index, (string) $value['telepon'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $activeSheet->setCellValue('M' . $index, $value['nama_jalan_domisili']);
+            $activeSheet->setCellValue('N' . $index, $value['desa_domisili']);
+            $activeSheet->setCellValue('O' . $index, $value['kecamatan_domisili']);
+            $activeSheet->setCellValue('P' . $index, $value['kabupaten_domisili']);
+            $activeSheet->setCellValue('Q' . $index, $value['provinsi_domisili']);
+            $activeSheet->setCellValue('R' . $index, $value['pendidikan_terakhir']);
+            $activeSheet->setCellValue('S' . $index, $value['jurusan']);
+            $activeSheet->setCellValue('T' . $index, $value['jabatan']);
+            $activeSheet->setCellValue('U' . $index, $value['tipe_pegawai']);
+            $activeSheet->setCellValue('V' . $index, $value['jenis_nakes']);
+            $activeSheet->setCellValue('W' . $index, $value['pangkat_golongan']);
+            $activeSheet->setCellValue('X' . $index, $value['nama_instansi']);
+            $activeSheet->setCellValue('Y' . $index, $value['nama_jalan_instansi']);
+            $activeSheet->setCellValue('Z' . $index, $value['desa_instansi']);
+            $activeSheet->setCellValue('AA' . $index, $value['kecamatan_instansi']);
+            $activeSheet->setCellValue('AB' . $index, $value['kabupaten_instansi']);
+            $activeSheet->setCellValue('AC' . $index, $value['provinsi_instansi']);
 
-        //     $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
-        //     $activeSheet->getStyle('C' . $index)->applyFromArray($style_row_left);
-        //     $activeSheet->getStyle('D' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('E' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('F' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('G' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('H' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('I' . $index)->applyFromArray($style_row_center);
-        //     $activeSheet->getStyle('J' . $index)->applyFromArray($style_row_left);
-        //     $activeSheet->getStyle('K' . $index)->applyFromArray($style_row_left);
-        //     $activeSheet->getStyle('L' . $index)->applyFromArray($style_row_center);
-        //     $index++;
-        // }
+            $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('C' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('D' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('E' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('F' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('G' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('H' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('I' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('J' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('K' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('L' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('M' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('N' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('O' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('P' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('Q' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('R' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('S' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('T' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('U' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('V' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('W' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('X' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('Y' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('Z' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('AA' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('AB' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('AC' . $index)->applyFromArray($style_row_center);
 
-        // //mengatur warptext disetiap kolom
-        // foreach (range('A', $activeSheet->getHighestDataColumn()) as $col) {
-        //     $activeSheet->getStyle($col)->getAlignment()->setWrapText(true);
-        // }
+            $activeSheet->getCell('C' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+            $activeSheet->getCell('D' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+            $activeSheet->getCell('E' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+            $activeSheet->getCell('F' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+            $activeSheet->getCell('L' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+            $index++;
+        }
+
+        //mengatur warptext disetiap kolom
+        foreach (range('A', $activeSheet->getHighestDataColumn()) as $col) {
+            $activeSheet->getStyle($col)->getAlignment()->setWrapText(true);
+        }
 
         // //mengatur weight pada cell
-        // $activeSheet->getColumnDimension('B')->setWidth(25);
-        // $activeSheet->getColumnDimension('C')->setWidth(25);
-        // $activeSheet->getColumnDimension('D')->setWidth(25);
-        // $activeSheet->getColumnDimension('E')->setWidth(25);
-        // $activeSheet->getColumnDimension('F')->setWidth(25);
-        // $activeSheet->getColumnDimension('G')->setWidth(25);
-        // $activeSheet->getColumnDimension('I')->setWidth(20);
-        // $activeSheet->getColumnDimension('J')->setWidth(25);
-        // $activeSheet->getColumnDimension('K')->setWidth(25);
-        // $activeSheet->getColumnDimension('L')->setWidth(15);
+        $activeSheet->getColumnDimension('B')->setWidth(30);
+        $activeSheet->getColumnDimension('C')->setWidth(30);
+        $activeSheet->getColumnDimension('D')->setWidth(30);
+        $activeSheet->getColumnDimension('E')->setWidth(30);
+        $activeSheet->getColumnDimension('F')->setWidth(30);
+        $activeSheet->getColumnDimension('G')->setWidth(15);
+        $activeSheet->getColumnDimension('H')->setWidth(20);
+        $activeSheet->getColumnDimension('I')->setWidth(20);
+        $activeSheet->getColumnDimension('J')->setWidth(20);
+        $activeSheet->getColumnDimension('K')->setWidth(30);
+        $activeSheet->getColumnDimension('L')->setWidth(30);
+        $activeSheet->getColumnDimension('M')->setWidth(40);
+        $activeSheet->getColumnDimension('N')->setWidth(25);
+        $activeSheet->getColumnDimension('O')->setWidth(25);
+        $activeSheet->getColumnDimension('P')->setWidth(25);
+        $activeSheet->getColumnDimension('Q')->setWidth(25);
+        $activeSheet->getColumnDimension('R')->setWidth(15);
+        $activeSheet->getColumnDimension('S')->setWidth(20);
+        $activeSheet->getColumnDimension('T')->setWidth(20);
+        $activeSheet->getColumnDimension('U')->setWidth(20);
+        $activeSheet->getColumnDimension('V')->setWidth(15);
+        $activeSheet->getColumnDimension('W')->setWidth(20);
+        $activeSheet->getColumnDimension('X')->setWidth(20);
+        $activeSheet->getColumnDimension('Y')->setWidth(40);
+        $activeSheet->getColumnDimension('Z')->setWidth(25);
+        $activeSheet->getColumnDimension('AA')->setWidth(25);
+        $activeSheet->getColumnDimension('AB')->setWidth(25);
+        $activeSheet->getColumnDimension('AC')->setWidth(25);
 
         $filename = $title . '.xlsx';
 
@@ -957,6 +1061,8 @@ class Pelatihan extends BaseController
         $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
         $dataPelatihan->courses[0]->batch                   = $courseLocal['batch'] ?? '';
         $dataPelatihan->courses[0]->quota                   = $courseLocal['quota'] ?? '';
+        $dataPelatihan->courses[0]->source_funds            = $courseLocal['source_funds'] ?? '';
+        $dataPelatihan->courses[0]->method                  = $courseLocal['method'] ?? '';
         $dataPelatihan->courses[0]->place                   = $courseLocal['place'] ?? '';
         $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
         $dataPelatihan->courses[0]->schedule_file_name      = $courseLocal['schedule_file_name'] ?? '';

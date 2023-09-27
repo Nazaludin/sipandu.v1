@@ -67,7 +67,7 @@
 
                     <div class="card card-round">
                         <div class="card-body">
-                            <div class="row justify-content-between mb-2 ">
+                            <div class="row justify-content-between mb-2">
                                 <div class="col-auto">
                                     <a href="<?= base_url('pelatihan/detail/user/' . $id_pelatihan); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -87,7 +87,7 @@
 
                             <div class="row px-2">
                                 <div class="col-12 d-flex justify-content-center">
-                                    <img src="<?php echo isset($data->lokasi_foto) ? base_url($data->lokasi_foto) : '../../assets/images/users/default-profil.png' ?>" class="img-fluid mb-4 mx-auto" style="width: 300px; height: 400px; object-fit: cover;">
+                                    <img src="<?php echo isset($user['lokasi_foto']) ? base_url($user['lokasi_foto']) : '../../assets/images/users/default-profil.png' ?>" class="img-fluid mb-4 mx-auto" style="width: 300px; height: 400px; object-fit: cover;">
                                     <style>
                                         .card-photo {
                                             max-width: 200px;
@@ -225,17 +225,19 @@
                                 </div>
                                 <h3>Dokumen Persyaratan</h3>
                                 <div class="row px-2 mb-4">
-                                    <?php foreach ($document as $d => $doc) {  ?>
-                                        <div class="col-12 my-2">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h3 class="card-title"><?= $doc['name_upload_document']; ?></h3>
-                                                    <button type=" button" class="btn btn-sm border-0 shadow-none text-primary" onclick="showViewer(<?= $d; ?>, this)">Lihat Dokumen</button>
-                                                    <embed id="viewer-pdf-<?= $d; ?>" style="display: none;" class="border border-dark" src="<?= $doc['link']; ?>#view=FitH&toolbar=1&navpanes=0&scrollbar=0" width="100%" height="1200" type="application/pdf">
+                                    <?php if (isset($document)) {
+                                        foreach ($document as $d => $doc) {  ?>
+                                            <div class="col-12 my-2">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h3 class="card-title"><?= $doc['name_upload_document']; ?></h3>
+                                                        <button type=" button" class="btn btn-sm border-0 shadow-none text-primary" onclick="showViewer(<?= $d; ?>, this)">Lihat Dokumen</button>
+                                                        <embed id="viewer-pdf-<?= $d; ?>" style="display: none;" class="border border-dark" src="<?= $doc['link']; ?>#view=FitH&toolbar=1&navpanes=0&scrollbar=0" width="100%" height="1200" type="application/pdf">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    <?php  } ?>
+                                    <?php  }
+                                    } ?>
                                     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
                                     <script>
                                         function showViewer(index, e) {

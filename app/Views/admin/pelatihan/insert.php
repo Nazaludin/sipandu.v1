@@ -186,6 +186,11 @@
                                         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
                                         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
                                         <script>
+                                            var category = '<?= old('catgoryid'); ?>';
+                                            var batch = '<?= old('batch'); ?>';
+                                            var source_funds = '<?= old('source_funds'); ?>';
+                                            var method = '<?= old('method'); ?>';
+
                                             let categoryCourse = new TomSelect('#floatingInputCategoryCourse', {
                                                 hideSelected: true,
                                                 create: false,
@@ -193,7 +198,7 @@
 
                                             let batchCourse = new TomSelect('#floatingInputBatch', {
                                                 hideSelected: true,
-                                                create: false,
+                                                create: true,
                                             });
                                             let sourceFunds = new TomSelect('#floatingInputSourceFunds', {
                                                 hideSelected: true,
@@ -203,6 +208,19 @@
                                                 hideSelected: true,
                                                 create: false,
                                             });
+
+                                            if (category !== '') {
+                                                categoryCourse.setValue(category);
+                                            }
+                                            if (batch !== '') {
+                                                batchCourse.setValue(batch);
+                                            }
+                                            if (source_funds !== '') {
+                                                sourceFunds.setValue(source_funds);
+                                            }
+                                            if (method !== '') {
+                                                methodCourse.setValue(method);
+                                            }
                                         </script>
                                         <br>
                                         <div class="hr-text hr-text-left my-3">Waktu Pelaksanaan</div>

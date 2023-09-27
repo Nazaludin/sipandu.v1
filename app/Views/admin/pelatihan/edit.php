@@ -112,11 +112,11 @@
                                             </div>
 
                                             <div class="col-2">
-                                                <label for="floatingInputBatch" class="form-label mb-0">Gelombang/batch</label>
+                                                <label for="floatingInputBatch" class="form-label mb-0">Angkatan/batch</label>
                                                 <select class="select-control" name="batch" id="floatingInputBatch" placeholder="Pilih/tulis gelombang..." required oninvalid="this.setCustomValidity('Mohon pilih gelombang ada input ini')" oninput="this.setCustomValidity('')">
                                                     <option value=""></option>
                                                     <?php for ($i = 1; $i <= 4; $i++) { ?>
-                                                        <option value="<?= $i; ?>" <?= (json_decode($pelatihan)->courses->batch == $i) ? 'selected' : '' ?>>Gelombang <?= $i; ?></option>
+                                                        <option value="<?= $i; ?>" <?= (json_decode($pelatihan)->courses->batch == $i) ? 'selected' : '' ?>><?= $i; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -129,12 +129,33 @@
                                                 <input type="text" class="form-control" id="floatingInputTargetParticipant" name="target_participant" placeholder="Sasaran Pelatihan" value="<?= json_decode($pelatihan)->courses->target_participant; ?>">
                                             </div>
                                             <div class="col-4">
-                                                <label for="floatingInputPlace" class="form-label mb-0">Tempat Pelatihan</label>
-                                                <input type="text" class="form-control" id="floatingInputPlace" name="place" placeholder="Tempat Pelatihan" value="<?= json_decode($pelatihan)->courses->place; ?>">
+                                                <label for="floatingInputPlace" class="form-label mb-0">Tempat Pelaksanaan</label>
+                                                <input type="text" class="form-control" id="floatingInputPlace" name="place" placeholder="Tempat Pelaksanaan" value="<?= json_decode($pelatihan)->courses->place; ?>">
                                             </div>
                                             <div class="col-2">
                                                 <label for="floatingInputQuota" class="form-label mb-0">Kuota</label>
                                                 <input type="number" class="form-control" id="floatingInputQuota" name="quota" placeholder="Kuota" value="<?= json_decode($pelatihan)->courses->quota; ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-6">
+                                                <label for="floatingInputSourceFunds">Sumber Dana</label>
+                                                <select class="custom-select" name="source_funds" id="floatingInputSourceFunds" placeholder="Pilih Sumber Dana..." autocomplete="off" value="<?= json_decode($pelatihan)->courses->source_funds; ?>">
+                                                    <option value="">Pilih Sumber Dana...</option>
+                                                    <option value="APBD">APBD</option>
+                                                    <option value="APBN">APBN</option>
+                                                    <option value="BLUD">BLUD</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6 custom-file">
+                                                <label for="floatingInputMethod">Metode</label>
+                                                <select class="custom-select" name="method" id="floatingInputMethod" placeholder="Pilih Metode..." autocomplete="off" value="<?= json_decode($pelatihan)->courses->method; ?>">
+                                                    <option value="">Pilih Metode...</option>
+                                                    <option value="Clasical">Clasical</option>
+                                                    <option value="Blanded">Blanded</option>
+                                                    <option value="Full Daring">Full Daring</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -237,20 +258,59 @@
                                         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
                                         <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
                                         <script>
-                                            let catgeoryCourseSelect = new TomSelect('#floatingInputCategoryCourse', {
+                                            var category = '<?= json_decode($pelatihan)->courses->categoryid; ?>';
+                                            var batch = '<?= json_decode($pelatihan)->courses->batch; ?>';
+                                            var source_funds = '<?= json_decode($pelatihan)->courses->source_funds; ?>';
+                                            var method = '<?= json_decode($pelatihan)->courses->method;; ?>';
+
+                                            console.log(category, batch, source_funds, method);
+                                            let categoryCourse = new TomSelect('#floatingInputCategoryCourse', {
                                                 hideSelected: true,
                                                 valueField: 'value',
                                                 labelField: 'name',
                                                 searchField: 'name',
                                                 create: false,
                                             });
-                                            let batchSelect = new TomSelect('#floatingInputBatch', {
+                                            let batchCourse = new TomSelect('#floatingInputBatch', {
                                                 hideSelected: true,
                                                 valueField: 'value',
                                                 labelField: 'name',
                                                 searchField: 'name',
                                                 create: true,
                                             });
+                                            let sourceFunds = new TomSelect('#floatingInputSourceFunds', {
+                                                hideSelected: true,
+                                                create: false,
+                                            });
+                                            let methodCourse = new TomSelect('#floatingInputMethod', {
+                                                hideSelected: true,
+                                                create: false,
+                                            });
+
+                                            if (category !== '') {
+                                                categoryCourse.setValue(category);
+                                            }
+                                            if (batch !== '') {
+                                                batchInt = parseInt(batch);
+                                                if (batchInt > 4) {
+                                                    console.log(batchInt);
+                                                    batchCourse.addOption({
+                                                        value: batchInt,
+                                                        name: batchInt
+                                                    });
+                                                    // batchCourse.addItem({
+                                                    //     value: batchInt,
+                                                    //     text: batch
+                                                    // });
+                                                }
+                                                batchCourse.setValue(batch);
+                                            }
+                                            if (source_funds !== '') {
+                                                sourceFunds.setValue(source_funds);
+                                            }
+                                            if (method !== '') {
+                                                methodCourse.setValue(method);
+                                            }
                                         </script>
                                         <div class="hr-text hr-text-left my-3">Dokumen Persyaratan</div>
 
@@ -523,8 +583,8 @@
 <!-- Modal Tambah Dokumen Unduhan -->
 <div class="modal modal-blur fade" id="modal-download-document-add" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <form action="<?php echo base_url('pelatihan/detail/dokumen/download/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
-            <div class="modal-content">
+        <div class="modal-content">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Dokumen Unduhan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -552,17 +612,17 @@
                         Simpan
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <!-- </div> -->
 <!-- Modal Pilih Dokumen Unggahan -->
 <div class="modal modal-blur fade" id="modal-upload-document" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
 
-            <div class="modal-content">
+        <div class="modal-content">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h5 class="modal-title">Pilih Dokumen Uggahan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -572,6 +632,11 @@
                         <div class="card-body">
 
                             <table class="table table-sm table-borderless">
+                                <colgroup>
+                                    <col style="width: 10%;">
+                                    <col style="width: 60%;">
+                                    <col style="width: 30%;">
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th class="text-center">Pilih</th>
@@ -595,11 +660,11 @@
                                                     Edit
                                                 </a>
                                             </td>
-                                            <td class="text-end">
+                                            <!-- <td class="text-end">
                                                 <a href="#" class="btn btn-primary btn-sm d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-upload-document-add">
                                                     Editgggggggggggggggggggggggggggggggg
                                                 </a>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     <?php  } ?>
 
@@ -616,8 +681,8 @@
                         Simpan
                     </button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
     </div>
 </div>
