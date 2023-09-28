@@ -969,6 +969,9 @@ class Pelatihan extends BaseController
             $data_final['user'][$key] = $data_user->toArray();
             $data_final['user'][$key]['status_pelatihan'] = $value['status'];
             $data_final['user'][$key]['id_user_course'] = $value['id'];
+            $data_final['user'][$key]['certificate_number'] = $value['certificate_number'];
+            $data_final['user'][$key]['certificate_file_location'] = $value['certificate_file_location'];
+            $data_final['user'][$key]['certificate_is_uploaded'] = !empty($value['certificate_file_location']) ? true : false;
         }
         // dd($data_final);
         $data_final['id_pelatihan'] = $id_pelatihan;
@@ -987,6 +990,7 @@ class Pelatihan extends BaseController
         // $MoodyUser = $this->MoodyBest->getUserByEmail('admsipandu@gmail.com');
         // dd($MoodyUser, $user['email'], empty($MoodyUser['error']), $MoodyUser['data']['userid']);
 
+        $dataUpdate = [];
         if (empty($MoodyUser['error'])) {
             switch ($status) {
                 case 1:
@@ -1003,6 +1007,10 @@ class Pelatihan extends BaseController
                     break;
                 case 3:
                     $statusUpdate = 'revisi';
+                    $comment = $this->request->getPost('comment');
+                    if (isset($comment)) {
+                        $dataUpdate['comment'] = $comment;
+                    }
                     break;
 
                 default:
@@ -1015,8 +1023,9 @@ class Pelatihan extends BaseController
             dd('Error Moodle User');
         }
 
+        $dataUpdate['status'] = $statusUpdate;
         // Update status User Course
-        $proses = model(UserCourseModel::class)->update($id_user_coruse[0], ['status' => $statusUpdate]);
+        $proses = model(UserCourseModel::class)->update($id_user_coruse[0], $dataUpdate);
         if ($proses) {
             return redirect()->back()->to(base_url('pelatihan/detail/user/' . $id_pelatihan))->withInput()->with('message', 'Setatus User Diperbaharui');
         } else {
@@ -1036,7 +1045,7 @@ class Pelatihan extends BaseController
             $dataFinal['document'][$key]['name_upload_document'] = $value['name'];
         }
         $dataFinal['id_pelatihan'] = $id_pelatihan;
-        $dataFinal['user'] = model(UserModel::class)->find($id_user)->toArray();
+        $dataFinal['data'] = model(UserModel::class)->find($id_user)->toArray();
         // dd($dataFinal);
         return view('layout/header', $dataFinal)
             . view('layout/sidebar')
@@ -1171,8 +1180,12 @@ class Pelatihan extends BaseController
             'contact_person'        => $data['contact_person'],
             'source_funds'          => $data['source_funds'],
             'method'                => $data['method'],
-            'status_sistem'         => $data['publish'] == 'true' ? 'publish' : 'draft',
+            // 'status_sistem'         => $data['publish'] == 'true' ? 'publish' : 'draft',
         ];
+
+        if ($data['publish'] == 'true') {
+            $dataLokal['status_sistem'] = 'publish';
+        }
 
         $MoodyEdit = $this->MoodyBest->updateCourse(
             $id_pelatihan,
@@ -1298,6 +1311,7 @@ class Pelatihan extends BaseController
         $data_user_course = model(UserCourseModel::class)->find($id_user_course);
         return redirect()->to(base_url('pelatihan/detail/user/' . $data_user_course['id_course']));
     }
+
 
     public function insertDownloadDocument()
     {

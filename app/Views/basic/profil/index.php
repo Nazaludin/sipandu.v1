@@ -340,7 +340,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="nav nav-tabs steps steps-counter steps-lime" data-bs-toggle="tabs">
+                        <div class="nav nav-tabs steps steps-counter steps-primary" data-bs-toggle="tabs">
                             <span id="button-tab-identitas" href="#tabs-identitas" class="step-item active" data-bs-toggle="tab" disabled>Identitas</span>
                             <span id="button-tab-pekerjaan" href="#tabs-pekerjaan" class="step-item" data-bs-toggle="tab" disabled>Pekerjaan</span>
                             <span id="button-tab-foto-diri" href="#tabs-foto-diri" class="step-item" data-bs-toggle="tab" disabled>Foto Diri</span>
@@ -798,10 +798,56 @@
                                                 <div class="card-body">
                                                     <!-- <h4 class="subheader"></h4> -->
                                                     <h3 class="card-title text-center">Penyesuaian Foto</h3>
-                                                    <div class="list-group list-group-flush list-group-hoverable overflow-auto" style="max-height: 50rem">
-                                                        <div id="previewContainer" class="mx-auto mb-2">
-                                                            <img id="previewImage" src="#" alt="Preview">
+                                                    <div id="container-display" class="list-group list-group-flush list-group-hoverable overflow-auto" style="max-height: 50rem">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <button class="btn btn-icon" type="button" id="move-top" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Geser Atas"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                            <path d="M12 5l0 14"></path>
+                                                                            <path d="M16 9l-4 -4"></path>
+                                                                            <path d="M8 9l4 -4"></path>
+                                                                        </svg></button>
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="col m-auto">
+                                                                <button class="btn btn-icon" type="button" id="move-left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Geser Kiri"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path d="M5 12l14 0"></path>
+                                                                        <path d="M5 12l4 4"></path>
+                                                                        <path d="M5 12l4 -4"></path>
+                                                                    </svg></button>
+                                                            </div>
+                                                            <div id="previewContainer" class="m-auto">
+                                                                <img id="previewImage" src="#" alt="Preview">
+                                                            </div>
+                                                            <div class="col m-auto">
+                                                                <button class="btn btn-icon" type="button" id="move-right" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Geser Kanan"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path d="M5 12l14 0"></path>
+                                                                        <path d="M15 16l4 -4"></path>
+                                                                        <path d="M15 8l4 4"></path>
+                                                                    </svg></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3 d-flex justify-content-center">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <button class="btn btn-icon me-2" type="button" id="move-bottom" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Geser Bawah"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                            <path d="M12 5l0 14"></path>
+                                                                            <path d="M16 15l-4 4"></path>
+                                                                            <path d="M8 15l4 4"></path>
+                                                                        </svg></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+
                                                         <div id="cropper-toolbar" class="d-flex justify-content-center">
                                                             <button class="btn btn-primary me-2" type="button" id="crop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Crop"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-crop" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -821,7 +867,7 @@
                                                                     <path d="M7 10l6 0"></path>
                                                                     <path d="M21 21l-6 -6"></path>
                                                                 </svg></button>
-                                                            <button class="btn btn-icon" type="button" id="move-left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Geser Kiri"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <!-- <button class="btn btn-icon" type="button" id="move-left" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Geser Kiri"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                     <path d="M5 12l14 0"></path>
                                                                     <path d="M5 12l4 4"></path>
@@ -844,7 +890,7 @@
                                                                     <path d="M12 5l0 14"></path>
                                                                     <path d="M16 15l-4 4"></path>
                                                                     <path d="M8 15l4 4"></path>
-                                                                </svg></button>
+                                                                </svg></button> -->
                                                             <button class="btn btn-icon" type="button" id="reset" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Reset"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-reload" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                     <path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747"></path>
@@ -951,6 +997,7 @@
                                         $('#cropper-toolbar').attr('style', 'visibility:hidden;');
                                         $('#recrop-toolbar').attr('style', 'visibility:hidden;');
                                         $('#button-selanjutnya-simpan').attr('disabled', 'true');
+                                        $('#container-display').attr('style', 'visibility:hidden;');
                                     });
                                     fileInput.addEventListener('change', function() {
                                         makeCropper();
@@ -959,6 +1006,7 @@
                                     function makeCropper() {
                                         $('#cropper-toolbar').attr('style', 'visibility:visible;');
                                         $('#recrop-toolbar').attr('style', 'visibility:hidden;');
+                                        $('#container-display').attr('style', 'visibility:visible;');
                                         $('#cropStatus').val('false');
                                         const file = fileInput.files[0];
 
@@ -1057,14 +1105,14 @@
                                     // Fungsi untuk move right
                                     moveRightButton.addEventListener('click', function() {
                                         if (cropper) {
-                                            cropper.move(10, 0); // Pindahkan 10 piksel ke kanan
+                                            cropper.move(-10, 0); // Pindahkan 10 piksel ke kanan
                                         }
                                     });
 
                                     // Fungsi untuk move left
                                     moveLeftButton.addEventListener('click', function() {
                                         if (cropper) {
-                                            cropper.move(-10, 0); // Pindahkan 10 piksel ke kiri
+                                            cropper.move(10, 0); // Pindahkan 10 piksel ke kiri
                                         }
                                     });
                                     // Fungsi untuk move top

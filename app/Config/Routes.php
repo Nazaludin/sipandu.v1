@@ -133,7 +133,7 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
 
         $routes->group('user', static function ($routes) {
             $routes->get('regis/(:num)/(:num)',  'Admin\Pelatihan::pelatihanUserDetail/$1/$2');
-            $routes->get('regis/(:num)/(:num)/(:num)',  'Admin\Pelatihan::pelatihanUserRegis/$1/$2/$3');
+            $routes->match(['get', 'post'], 'regis/(:num)/(:num)/(:num)',  'Admin\Pelatihan::pelatihanUserRegis/$1/$2/$3');
             $routes->group('insert', static function ($routes) {
                 $routes->post('certificate/(:num)',  'Admin\Pelatihan::insertCertificate/$1');
             });
