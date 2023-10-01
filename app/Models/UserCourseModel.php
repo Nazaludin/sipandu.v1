@@ -45,18 +45,21 @@ class UserCourseModel extends Model
         $builder = $db->table('user_course');
         if ($page == 'daftar') {
             $where = "id_user = '{$user_id}' AND (status = 'register' OR status = 'revisi' OR status = 'reject')";
-            // $builder->where(['status' => 'register', 'id_user' => $user_id]);
-            // $builder->orWhere(['status' => 'revisi', 'id_user' => $user_id]);
-            // $builder->orWhere(['status' => 'reject', 'id_user' => $user_id]);
-        } else if ($page = 'berlangsung') {
+        } else if ($page == 'berlangsung') {
             $where = "id_user='{$user_id}' AND status='accept'";
-            // $builder->where(['status' => 'accept', 'id_user' => $user_id]);
-        } else if ($page = 'riwayat') {
+        } else if ($page == 'riwayat') {
             $where = "id_user='{$user_id}' AND status='passed'";
         }
         $builder->where($where);
-        // $builder->where('id_user', $user_id);
         $query   = $builder->get();
         return $query->getResultArray();
+    }
+
+    public function setStatusPassed($id_course)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('user_course');
+        $builder->where("id_course='{$id_course}' AND status='accept'");
+        return $builder->update(['status' => 'passed']);
     }
 }

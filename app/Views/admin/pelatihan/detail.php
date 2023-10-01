@@ -147,12 +147,12 @@
                                                         <td>: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Periode Pelatihan</td>
-                                                        <td>: <b><?= json_decode($pelatihan)->courses->startdatetime; ?></b> s/d <b><?= json_decode($pelatihan)->courses->enddatetime; ?></b></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td>Periode Pendaftaran</td>
                                                         <td>: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Periode Pelatihan</td>
+                                                        <td>: <b><?= json_decode($pelatihan)->courses->startdatetime; ?></b> s/d <b><?= json_decode($pelatihan)->courses->enddatetime; ?></b></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

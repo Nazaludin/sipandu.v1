@@ -79,6 +79,7 @@ class Pelatihan extends BaseController
                 case ($enddate <= $now):
                     $condition = 'passed';
                     $result = 'Pelatihan Berakhir';
+                    model(UserCourseModel::class)->setStatusPassed($id_pelatihan); //control status accept to passed
                     break;
                 case ($startdate <= $now):
                     $condition = 'begin';
@@ -199,6 +200,14 @@ class Pelatihan extends BaseController
                 isset($dataPelatihan->courses[0]->startdate) ? $dataPelatihan->courses[0]->startdate : null,
                 isset($dataPelatihan->courses[0]->enddate) ? $dataPelatihan->courses[0]->enddate : null,
             ) : '';
+
+            if ($page == 'riwayat') {
+                $dataPelatihan->courses[0]->certificate_number              = $value['certificate_number'];
+                $dataPelatihan->courses[0]->certificate_file_name           = $value['certificate_file_name'];
+                $dataPelatihan->courses[0]->certificate_file_location       = $value['certificate_file_location'];
+            }
+
+
             $dataPelatihan->courses[0]->start_registration      = isset($courseLocal['start_registration']) ? $this->dateToLocalTime($courseLocal['start_registration']) : '';
             $dataPelatihan->courses[0]->end_registration        = isset($courseLocal['end_registration']) ? $this->dateToLocalTime($courseLocal['end_registration']) :  '';
             $dataPelatihan->courses[0]->target_participant      = $courseLocal['target_participant'] ?? '';
@@ -284,7 +293,7 @@ class Pelatihan extends BaseController
     public function pelatihanRiwayat()
     {
         $data['pelatihan'] = $this->dataPelatihan('riwayat');
-
+        // dd($data);
         return view('layout/header', $data)
             . view('layout/sidebar')
             . view('basic/pelatihan/riwayat/index')
@@ -299,7 +308,11 @@ class Pelatihan extends BaseController
 
     public function pelatihanAgenda()
     {
-        $pelatihanPublish = model(CourseModel::class)->where('status_sistem', 'publish')->findAll();
+        $pelatihanPublish = model(CourseModel::class)
+            ->where('status_sistem', 'publish')
+            ->whereNotIn('`condition`', ['begin', 'passed'])
+            ->findAll();
+
         $userCourse = model(UserCourseModel::class)->where('id_user', user_id())->findAll();
         d($pelatihanPublish, !empty($pelatihanPublish));
         // dd($userCourse);

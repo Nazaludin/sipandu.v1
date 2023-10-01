@@ -49,38 +49,11 @@
                         Berlangsung
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item"><a>Pelatihan</a></li>
+                        <li class="breadcrumb-item active"><a>Berlangsung</a></li>
                     </ol>
                 </div>
                 <!-- Page title actions -->
-                <!-- <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">
-                        <span class="d-none d-sm-inline">
-                            <a href="#" class="btn">
-                                New view
-                            </a>
-                        </span>
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-                            Create new report
-                        </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 5l0 14" />
-                                <path d="M5 12l14 0" />
-                            </svg>
-                        </a>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -96,14 +69,14 @@
                                     <thead class="text-center">
                                         <tr>
                                             <th class="align-middle">No</th>
-                                            <th class="align-middle">Status</th>
+                                            <th class="align-middle">Kondisi</th>
                                             <th class="align-middle">Periode Pelatihan</th>
                                             <th class="align-middle">Jenis Pelatihan/Nama Pelatihan</th>
                                             <th class="align-middle">Sasaran Peserta</th>
-                                            <th class="align-middle">Tempat Penyelenggara</th>
+                                            <th class="align-middle">Tempat Pelaksanaan</th>
                                             <th class="align-middle">Gel. / Batch</th>
                                             <th class="align-middle">Kuota</th>
-                                            <th class="align-middle">Detail</th>
+                                            <th class="align-middle">Aksi</th>
                                         </tr>
                                     </thead>
 
@@ -113,16 +86,15 @@
                                             foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
 
                                                 <tr>
-                                                    <th scope="row"><?= $key + 1; ?></th>
-                                                    <td></td>
-
+                                                    <th class="text-center" scope="row"><?= $key + 1; ?></th>
+                                                    <td class="text-center"><?= $value->condition; ?></td>
                                                     <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
                                                     <td><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><?= $value->batch; ?></td>
-                                                    <td><?= $value->quota; ?></td>
-                                                    <td>
+                                                    <td class="text-center"><?= $value->target_participant; ?></td>
+                                                    <td class="text-center"><?= $value->place; ?></td>
+                                                    <td class="text-center"><?= $value->batch; ?></td>
+                                                    <td class="text-center"><?= $value->quota; ?></td>
+                                                    <td class="text-center">
                                                         <a href="<?= base_url('pelatihan/berlangsung/detail/' . $value->id); ?>" class="btn btn-icon btn-outline-primary">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -159,29 +131,6 @@
                 </div>
             </div>
 
-            <!-- Modal -->
-            <!-- <div class="modal fade" id="modal-foto-profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="<?php echo base_url('profil/upload/foto'); ?>" method="POST" enctype="multipart/form-data">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="form-group">
-                                <label for="image">Upload Image</label>
-                                <input type="file" class="form-control-file" id="image" name="foto_profil">
-                            </div>
-
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
     <!-- ============================================================== -->

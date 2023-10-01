@@ -139,6 +139,9 @@
                                                             case 'revisi':
                                                                 echo '<span class="badge bg-yellow-lt">Revisi</span>';
                                                                 break;
+                                                            case 'passed':
+                                                                echo '<span class="badge bg-green-lt">Diterima</span>';
+                                                                break;
                                                             default:
                                                                 echo '';
                                                                 break;
