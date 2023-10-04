@@ -120,6 +120,9 @@
                                                             case 'revisi':
                                                                 echo '<button class="btn btn-pill text-orange m-0 px-3 py-1"><span class="badge bg-orange badge-blink badge-pill me-2"></span>Revisi</button>';
                                                                 break;
+                                                            case 'renew':
+                                                                echo '<button class="btn btn-pill text-blue m-0 px-3 py-1"><span class="badge bg-blue badge-blink badge-pill me-2"></span>Perbaikan</button>';
+                                                                break;
                                                             case 'reject':
                                                                 echo '<button class="btn btn-pill text-red m-0 px-3 py-1"><span class="badge bg-red badge-blink badge-pill me-2"></span>Ditolak</button>';
                                                                 break;

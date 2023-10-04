@@ -44,7 +44,7 @@ class UserCourseModel extends Model
         $db      = \Config\Database::connect();
         $builder = $db->table('user_course');
         if ($page == 'daftar') {
-            $where = "id_user = '{$user_id}' AND (status = 'register' OR status = 'revisi' OR status = 'reject')";
+            $where = "id_user = '{$user_id}' AND (status = 'register' OR status = 'revisi' OR status = 'reject' OR status = 'renew')";
         } else if ($page == 'berlangsung') {
             $where = "id_user='{$user_id}' AND status='accept'";
         } else if ($page == 'riwayat') {

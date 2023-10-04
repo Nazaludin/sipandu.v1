@@ -38,4 +38,16 @@ class UserUploadDocumentModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getUserUploadDocument($id_user_course)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('user_upload_document');
+        $builder->select('upload_document.*, user_upload_document.link, user_upload_document.id as id_user_upload_document');
+        $builder->join('upload_document', 'upload_document.id = user_upload_document.id_upload_document');
+        $builder->where('user_upload_document.id_user_course', $id_user_course);
+        $query = $builder->get();
+
+        return $query->getResultArray();
+    }
 }

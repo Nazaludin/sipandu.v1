@@ -95,6 +95,11 @@ $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes)
     $routes->get('daftar', 'General\Pelatihan::pelatihanDaftar', ['filter' => 'role:user']);
     $routes->group('daftar', ['filter' => 'role:user'], static function ($routes) {
         $routes->get('detail/(:num)',  'General\Pelatihan::detailDaftarProses/$1', ['filter' => 'role:user']);
+        $routes->get('revisi/(:num)', 'General\Pelatihan::pelatihanRevisi/$1');
+
+        $routes->group('revisi', static function ($routes) {
+            $routes->post('proses/(:num)', 'General\Pelatihan::pelatihanRevisiProses/$1');
+        });
     });
 
     $routes->get('berlangsung', 'General\Pelatihan::pelatihanBerlangsung', ['filter' => 'role:user']);
@@ -102,6 +107,9 @@ $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes)
         $routes->get('detail/(:num)',  'General\Pelatihan::detailBerlangsungProses/$1', ['filter' => 'role:user']);
     });
     $routes->get('riwayat', 'General\Pelatihan::pelatihanRiwayat');
+    $routes->group('riwayat', ['filter' => 'role:user'], static function ($routes) {
+        $routes->get('detail/(:num)',  'General\Pelatihan::detailRiwayatProses/$1', ['filter' => 'role:user']);
+    });
 });
 $routes->get('pelatihan', 'Admin\Pelatihan::pelatihan', ['filter' => 'role:admin']);
 $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes) {

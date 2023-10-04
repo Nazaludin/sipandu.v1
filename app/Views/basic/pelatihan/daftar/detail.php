@@ -43,15 +43,15 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Pelatihan
+                        Pelatihan Daftar
                     </div>
                     <h2 class="page-title">
-                        Agenda
+                        Detail
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item"><a>Home</a></li>
-                        <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li>
+                        <li class="breadcrumb-item"><a>Pelatihan</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/daftar'); ?>">Daftar</a></li>
+                        <li class="breadcrumb-item active"><a>Detail</a></li>
                     </ol>
                 </div>
 
@@ -70,7 +70,7 @@
                             <div class="row justify-content-between mb-2 ">
 
                                 <div class="col-auto">
-                                    <a href="<?= base_url('pelatihan/agenda'); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
+                                    <a href="<?= base_url('pelatihan/daftar'); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M15 6l-6 6l6 6"></path>
@@ -78,34 +78,43 @@
                                         Back</a>
                                 </div>
                                 <div class="col-auto">
-                                    <!-- <a href="<?= base_url('pelatihan/detail/user/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-warning position-relative" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pendaftar">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                                        </svg>
-                                        Pendaftar
-                                        <?php if (!empty(json_decode($pelatihan)->courses->registrar)) {   ?>
-                                            <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= json_decode($pelatihan)->courses->registrar; ?></span>
-                                        <?php } ?>
-                                    </a>
-                                    <a class="btn btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#modal-confirm-publish">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-share-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M8 9h-1a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-8a2 2 0 0 0 -2 -2h-1"></path>
-                                            <path d="M12 14v-11"></path>
-                                            <path d="M9 6l3 -3l3 3"></path>
-                                        </svg>
-                                        Publish
-                                    </a>
-                                    <a href="<?= base_url('pelatihan/detail/edit/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                            <path d="M16 5l3 3"></path>
-                                        </svg>
-                                        Edit</a> -->
+
+                                    <?php switch (json_decode($pelatihan)->courses->status_pelatihan) {
+                                        case 'register':
+                                            echo '<span class="btn  btn-outline-orange bg-orange-lt py-2 px-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Status Pelatihan Anda">
+                                            <span class="badge bg-orange badge-blink badge-pill me-2"></span>
+                                            <h3 class="p-0 m-0">Proses Daftar</h3>
+                                        </span>';
+                                            break;
+                                        case 'accept':
+                                            echo '<span class="btn  btn-outline-green bg-green-lt py-2 px-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Status Pelatihan Anda">
+                                            <span class="badge bg-green badge-blink badge-pill me-2"></span>
+                                            <h3 class="p-0 m-0">Diterima</h3>
+                                        </span>';
+                                            break;
+                                        case 'reject':
+                                            echo '<span class="btn  btn-outline-red bg-red-lt py-2 px-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Status Pelatihan Anda">
+                                            <span class="badge bg-red badge-blink badge-pill me-2"></span>
+                                            <h3 class="p-0 m-0">Ditolak</h3>
+                                        </span>';
+                                            break;
+                                        case 'revisi':
+                                            echo '<span class="btn  btn-outline-yellow bg-yellow-lt py-2 px-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Status Pelatihan Anda">
+                                            <span class="badge bg-yellow badge-blink badge-pill me-2"></span>
+                                            <h3 class="p-0 m-0">Revisi</h3>
+                                        </span>';
+                                            break;
+                                        case 'renew':
+                                            echo '<span class="btn  btn-outline-blue bg-blue-lt py-2 px-4" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Status Pelatihan Anda">
+                                            <span class="badge bg-blue badge-blink badge-pill me-2"></span>
+                                            <h3 class="p-0 m-0">Perbaikan</h3>
+                                        </span>';
+                                            break;
+                                        default:
+                                            echo '';
+                                            break;
+                                    } ?>
+
                                 </div>
                             </div>
                             <!-- </div> -->
@@ -118,58 +127,89 @@
                             <!-- Comment Row -->
                             <div class="row px-3 mb-4">
                                 <div class="col-12">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr class="row">
-                                                <td class="col-2">Tahun Pelaksanaan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->year; ?> </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Jenis Pelatihan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->categoryname; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Nama Pelatihan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->fullname; ?></td>
-                                            <tr class="row">
-                                                <td class="col-2">Gelombang/batch</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Periode Pelatihan</td>
-                                                <td class="col-10">: <b><?= json_decode($pelatihan)->courses->startdatetime; ?></b> s/d <b><?= json_decode($pelatihan)->courses->enddatetime; ?></b></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Periode Pendaftaran</td>
-                                                <td class="col-10">: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Sasaran Pelatihan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->target_participant; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Tempat Penyelenggaraan</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->place; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Kuota</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->quota; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Kontak Person</td>
-                                                <td class="col-10">: <?= json_decode($pelatihan)->courses->contact_person; ?></td>
-                                            </tr>
-                                            <tr class="row">
-                                                <td class="col-2">Lampiran Jadwal</td>
-                                                <td class="col-10">: </td>
-                                            </tr>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <table class="table table-light">
+                                                <colgroup>
+                                                    <col style="width: 30%;">
+                                                    <col style="width: 70%;">
+                                                    <col>
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Tahun Pelaksanaan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->year; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jenis Pelatihan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->categoryname; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nama Pelatihan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->fullname; ?></td>
+                                                    <tr>
+                                                    <tr>
+                                                        <td>Nama Singkat</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->shortname; ?></td>
+                                                    <tr>
+                                                        <td>Gelombang/batch</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->batch ?? ''; ?> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Periode Pendaftaran</td>
+                                                        <td>: <b><?= json_decode($pelatihan)->courses->start_registration; ?></b> s/d <b><?= json_decode($pelatihan)->courses->end_registration; ?></b> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Periode Pelatihan</td>
+                                                        <td>: <b><?= json_decode($pelatihan)->courses->startdatetime; ?></b> s/d <b><?= json_decode($pelatihan)->courses->enddatetime; ?></b></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <table class="table table-light">
+                                                <colgroup>
+                                                    <col style="width: 30%;">
+                                                    <col style="width: 70%;">
+                                                    <col>
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Sasaran Pelatihan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->target_participant; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tempat Pelaksanaan</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->place; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kuota</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->quota; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Metode</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->method; ?></td>
+                                                    </tr>
 
-                                        </tbody>
-                                    </table>
+                                                    <tr>
+                                                        <td>Kontak Person</td>
+                                                        <td>: <?= json_decode($pelatihan)->courses->contact_person; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lampiran Jadwal</td>
+                                                        <td>:<a href="<?= base_url(json_decode($pelatihan)->courses->schedule_file_location); ?>" download="<?= json_decode($pelatihan)->courses->schedule_file_name ?>"> Unduh</a> </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
                                     <!-- RINGKASAN -->
-                                    <div class="card card-round">
+                                    <div class="card card-round mt-3">
                                         <div class="card-body">
-                                            <h4 class="card-title mt-4">Ringkasan :</h4>
+                                            <h4 class="card-title mt-0">Ringkasan :</h4>
                                             <?= json_decode($pelatihan)->courses->summary; ?>
                                         </div>
                                     </div>
@@ -180,9 +220,9 @@
                                     <table class="table table-responsive table-bordered">
                                         <thead class="bg-success">
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Komponen Unduh</th>
-                                                <th>File</th>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-start">Komponen Unduh</th>
+                                                <th class="text-center">File</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -195,7 +235,7 @@
                                                         <?= $doc['name']; ?>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="<?= base_url($doc['link']); ?>" download>Unduh</a>
+                                                        <a href="<?= base_url($doc['link']); ?>" download="<?= $doc['name']; ?>">Unduh</a>
                                                     </td>
                                                 </tr>
                                             <?php  } ?>
@@ -206,8 +246,8 @@
                                     <table class="table table-responsive table-bordered">
                                         <thead class="bg-success">
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Komponen Kelengkapan Administrasi</th>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-start">Komponen Kelengkapan Administrasi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -226,14 +266,48 @@
                                     </table>
                                 </div>
 
-                                <div class="row px-0">
-                                    <?php if (json_decode($pelatihan)->courses->condition == 'going') { ?>
-                                        <div class="col-12 d-flex justify-content-end">
-                                            <a href="<?= base_url('pelatihan/agenda/registrasi/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-primary">Daftar Pelatihan</a>
-                                        </div>
+                            </div>
+                            <div class="row px-3">
 
+                                <?php if (json_decode($pelatihan)->courses->status_pelatihan == 'revisi') { ?>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <a href="<?= base_url('pelatihan/daftar/revisi/' . json_decode($pelatihan)->courses->id); ?>" class="btn btn-outline-yellow">Perbaiki Dokumen</a>
+                                    </div>
+                                <?php } else { ?>
+                                    <?php if (!empty($uploaded_document)) { ?>
+                                        <div class="col-12">
+                                            <div class="card card-round mt-3">
+                                                <div class="card-body">
+                                                    <h4 class="card-title mt-0">Dokumen Terupload :</h4>
+                                                    <table class="table  table-borderless table-hover table-striped align-middle">
+                                                        <colgroup>
+                                                            <col style="width: 5%;">
+                                                            <col style="width: 850%;">
+                                                            <col style="width: 10%;">
+                                                            <col>
+                                                        </colgroup>
+                                                        <thead>
+                                                            <th>No</th>
+                                                            <th>Jenis Dokumen</th>
+                                                            <th>Lihat</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php foreach ($uploaded_document as $key => $value) { ?>
+                                                                <tr>
+                                                                    <td><?= $key + 1 ?></td>
+                                                                    <td><?= $value['name']; ?></td>
+                                                                    <td>
+                                                                        <a href="<?= base_url($value['link']); ?>" target="_blank">Lihat</a>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php } ?>
-                                </div>
+                                <?php } ?>
                             </div>
 
                             <!-- END tab pane ringkasan -->

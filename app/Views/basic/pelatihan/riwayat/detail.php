@@ -43,14 +43,14 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Pelatihan Berlangsung
+                        Pelatihan Riwayat
                     </div>
                     <h2 class="page-title">
                         Detail
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
                         <li class="breadcrumb-item"><a>Pelatihan</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/berlangsung'); ?>">Berlangsung</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/riwayat'); ?>">Riwayat</a></li>
                         <li class="breadcrumb-item active"><a>Detail</a></li>
                     </ol>
                 </div>
@@ -69,7 +69,7 @@
                             <div class="row justify-content-between mb-2 ">
 
                                 <div class="col-auto">
-                                    <a href="<?= base_url('pelatihan/berlangsung'); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
+                                    <a href="<?= base_url('pelatihan/riwayat'); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M15 6l-6 6l6 6"></path>

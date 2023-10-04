@@ -130,6 +130,9 @@
                                                             case 'register':
                                                                 echo '<span class="badge bg-orange-lt">Baru</span>';
                                                                 break;
+                                                            case 'renew':
+                                                                echo '<span class="badge bg-orange-lt">Perbaikan</span>';
+                                                                break;
                                                             case 'accept':
                                                                 echo '<span class="badge bg-green-lt">Diterima</span>';
                                                                 break;

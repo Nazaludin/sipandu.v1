@@ -41,16 +41,16 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Pelatihan
+                        Pelatihan Daftar
                     </div>
                     <h2 class="page-title">
-                        Agenda
+                        Revisi Dokumen
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
                         <li class="breadcrumb-item"><a>Pelatihan</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/agenda'); ?>">Agenda</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/agenda/detail/' . $id_pelatihan); ?>">Detail</a></li>
-                        <li class="breadcrumb-item active"><a href="#">Daftar</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/daftar'); ?>">Daftar</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('pelatihan/daftar/detail/' . $id_pelatihan); ?>">Detail</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Revisi</a></li>
                     </ol>
                 </div>
 
@@ -66,13 +66,13 @@
                 <div class="col-12">
 
                     <div class="card card-round">
-                        <form action="<?php echo base_url('pelatihan/agenda/registrasi/proses/' . $id_pelatihan); ?>" method="POST" enctype="multipart/form-data">
+                        <form action="<?php echo base_url('pelatihan/daftar/revisi/proses/' . $id_pelatihan); ?>" method="POST" enctype="multipart/form-data">
 
                             <div class="card-body">
                                 <div class="row justify-content-between mb-2 ">
 
                                     <div class="col-auto">
-                                        <a href="<?= base_url('pelatihan/agenda/detail/' . $id_pelatihan); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
+                                        <a href="<?= base_url('pelatihan/daftar/detail/' . $id_pelatihan); ?>" class="btn btn-ghost-white border-0 shadow-none" aria-label="Button">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                 <path d="M15 6l-6 6l6 6"></path>
@@ -88,22 +88,22 @@
                                     <div class="col-12 my-2">
                                         <!-- <div class="card"> -->
                                         <div class="card-body p-0">
-                                            <h3 class="card-title mb-2">Mendaftar Pelatihan</h3>
+                                            <h3 class="card-title mb-2">Revisi Dokumen Pelatihan</h3>
                                             <div class="card bg-yellow-lt text-dark mb-3">
                                                 <div class="card-body m-1">
                                                     <div class="card-subheader h3 m-0 text-warning">Perhatian!</div>
                                                     <ul>
                                                         <li>
-                                                            Anda dapat mendaftar pelatihan dengan mengunggah semua dokumen persyaratan yang pada isian di bawah.
+                                                            Dokumen yang Anda unggah mungkin tidak sesuai, dokumen yang tidak sesuai dijelaskan oleh komentar Admin di bawah.
                                                         </li>
                                                         <li>
-                                                            Semua isian pada dokumen persyaratan bersifat <strong>wajib</strong>.
+                                                            Perbaiki dokumen dengan mengupload ulang dokumen pada isian yang disediakan.
                                                         </li>
                                                         <li>
                                                             Dokumen pesyaratan yang diunggah harus memiliki format <strong>pdf</strong> dengan ukuran dokumen <strong>tidak melebihi 5mb</strong>.
                                                         </li>
                                                         <li>
-                                                            Setelah semua dokumen persyaratan diisi Anda dapat mengeklik tombol <strong>Simpan</strong> untuk melanjutkan proses pendaftaran.
+                                                            Dokumen revisi diperbaiki Anda dapat mengeklik tombol <strong>Simpan</strong> untuk melanjutkan proses revisi dokumen.
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -112,15 +112,46 @@
                                     </div>
 
                                 </div>
+                                <?php if (!empty($comment)) { ?>
+                                    <div class="row px-3 mb-2">
+                                        <div class="col-12">
+                                            <div class="card-body p-0">
+                                                <h3 class="card-title mb-2">Komentar Admin</h3>
+                                                <div class="card bg-red-lt text-dark mb-3">
+                                                    <div class="card-body m-1 py-1">
+                                                        <div class="card-subheader h3 m-0 text-red">Pesan :</div>
+                                                        <p><?= $comment; ?></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <!-- Comment Row -->
                                 <div class="row px-3 mb-4">
                                     <h3 class="card-title mb-0">Dokumen Persyaratan</h3>
-                                    <?php foreach ($upload_document as $d => $doc) {  ?>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 my-2">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h3 class="card-title"><?= $doc['name']; ?></h3>
-                                                    <input type="file" class="form-control" id="f" name="<?= $doc['id']; ?>" accept="application/pdf" required>
+                                    <?php foreach ($uploaded_document as $d => $doc) {  ?>
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="card  ">
+                                                <div class="card-body pt-1">
+                                                    <span class="d-flex justify-content-between my-2">
+                                                        <h3 class="card-title py-1 my-1"><?= $doc['name']; ?></h3>
+                                                        <?php if (isset($doc['link'])) { ?>
+                                                            <a class="btn py-1 my-1" href="<?= base_url($doc['link']); ?>" target="_blank">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
+                                                                    <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
+                                                                    <path d="M9 12l.01 0"></path>
+                                                                    <path d="M13 12l2 0"></path>
+                                                                    <path d="M9 16l.01 0"></path>
+                                                                    <path d="M13 16l2 0"></path>
+                                                                </svg>
+                                                                <strong>Lihat</strong>
+                                                            </a>
+                                                        <?php } ?>
+                                                    </span>
+                                                    <input type="file" class="form-control" id="f" name="<?= $doc['id']; ?>" accept="application/pdf">
                                                 </div>
                                             </div>
                                         </div>
