@@ -887,7 +887,7 @@ class Pelatihan extends BaseController
             // dd($status);
             return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']))->withInput();
         } else {
-            return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']))->withInput()->with('error', $result['error']['message']);;
+            return redirect()->to(base_url('pelatihan/insert/'))->withInput()->with('error', $result['error']['message']);;
         }
         return redirect()->back();
     }
@@ -1266,8 +1266,10 @@ class Pelatihan extends BaseController
         $temp = [];
         $dataCourseDownloadDocument = model(CourseDownloadDocumentModel::class)->where('id_course', $id_pelatihan)->findAll();
         foreach ($dataCourseDownloadDocument as $key => $value) {
-            $result = model(DownloadDocumentModel::class)->where('id', $value['id_download_document'])->find();
-            array_push($temp, $result[0]);
+            $result = model(DownloadDocumentModel::class)->find($value['id_download_document']);
+            if (isset($result[0])) {
+                array_push($temp, $result[0]);
+            }
         }
         return $temp;
     }
@@ -1276,8 +1278,10 @@ class Pelatihan extends BaseController
         $temp = [];
         $dataCourseUploadDocument = model(CourseUploadDocumentModel::class)->where('id_course', $id_pelatihan)->findAll();
         foreach ($dataCourseUploadDocument as $key => $value) {
-            $result = model(UploadDocumentModel::class)->where('id', $value['id_upload_document'])->find();
-            array_push($temp, $result[0]);
+            $result = model(UploadDocumentModel::class)->find($value['id_upload_document']);
+            if (isset($result[0])) {
+                array_push($temp, $result[0]);
+            }
         }
         return $temp;
     }
