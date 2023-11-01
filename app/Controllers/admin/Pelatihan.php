@@ -1267,9 +1267,12 @@ class Pelatihan extends BaseController
         $dataCourseDownloadDocument = model(CourseDownloadDocumentModel::class)->where('id_course', $id_pelatihan)->findAll();
         foreach ($dataCourseDownloadDocument as $key => $value) {
             $result = model(DownloadDocumentModel::class)->find($value['id_download_document']);
-            if (isset($result[0])) {
-                array_push($temp, $result[0]);
+            if (!empty($result)) {
+                array_push($temp, $result);
             }
+            // if (!empty($result[0])) {
+            //     array_push($temp, $result[0]);
+            // }
         }
         return $temp;
     }
@@ -1279,9 +1282,13 @@ class Pelatihan extends BaseController
         $dataCourseUploadDocument = model(CourseUploadDocumentModel::class)->where('id_course', $id_pelatihan)->findAll();
         foreach ($dataCourseUploadDocument as $key => $value) {
             $result = model(UploadDocumentModel::class)->find($value['id_upload_document']);
-            if (isset($result[0])) {
-                array_push($temp, $result[0]);
+            if (!empty($result)) {
+                array_push($temp, $result);
             }
+            // dd($result);
+            // if (!empty($result[0])) {
+            //     array_push($temp, $result[0]);
+            // }
         }
         return $temp;
     }
