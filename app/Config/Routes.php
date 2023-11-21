@@ -32,6 +32,8 @@ $routes->set404Override();
 // $routes->get('/', 'Home::index');
 $routes->addRedirect('/', 'profil');
 $routes->get('/profil', 'General\Profil::index');
+$routes->get('/epp', 'Admin\Evaluasi::index');
+$routes->post('/postEPP', 'Admin\Evaluasi::postEPP');
 
 // AUTH ROUTES
 $routes->get('/login', 'AuthController::login');

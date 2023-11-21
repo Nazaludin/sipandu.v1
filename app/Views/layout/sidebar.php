@@ -80,7 +80,7 @@
                 <?php if (in_groups('admin')) { ?>
                     <li class="nav-item justify-content-center">
                         <a class="nav-link" href="<?php echo base_url('profil'); ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2 me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-2 me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
                                 <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
@@ -93,7 +93,7 @@
                     </li>
                     <li class="nav-item justify-content-center">
                         <a class="nav-link" href="<?php echo base_url('pelatihan'); ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2 me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2 me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z"></path>
                                 <path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
@@ -101,6 +101,22 @@
                             </svg>
                             <span class="nav-link-title">
                                 Pelatihan
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item justify-content-center">
+                        <a class="nav-link" href="<?php echo base_url('epp'); ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
+                                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
+                                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
+                                <path d="M11 6l9 0" />
+                                <path d="M11 12l9 0" />
+                                <path d="M11 18l9 0" />
+                            </svg>
+                            <span class="nav-link-title">
+                                Evaluasi Pasca Pelatihan <strong>(EPP)</strong>
                             </span>
                         </a>
                     </li>
