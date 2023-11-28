@@ -38,4 +38,33 @@ class InstrumentModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getInstrument($id_course)
+    {
+        $db      = \Config\Database::connect();
+        $query = $db->table('instrument')
+            ->select('instrument.id AS id_instrument, 
+            instrument.name, 
+            instrument.description, 
+            instrument.start_fill, 
+            instrument.end_fill, 
+            question.id AS id_question, 
+            question.number, 
+            question.question, 
+            question.type,
+            question.key, 
+            question.linked, 
+            question_option.option_a,
+            question_option.option_b,
+            question_option.option_c,
+            question_option.option_d,
+            question_option.option_e')
+            ->join('question', 'instrument.id = question.id_instrument')
+            ->join('question_option', 'question.id = question_option.id_question AND question.type = 1', 'left')
+            ->where('instrument.id_course', $id_course)
+            ->get();
+
+        $results = $query->getResultArray();
+        return $results;
+    }
 }

@@ -32,8 +32,20 @@ $routes->set404Override();
 // $routes->get('/', 'Home::index');
 $routes->addRedirect('/', 'profil');
 $routes->get('/profil', 'General\Profil::index');
-$routes->get('/epp', 'Admin\Evaluasi::index');
+$routes->get('/epp', 'Admin\Evaluasi::index', ['filter' => 'role:admin']);
+$routes->get('/epp-fill', 'Admin\Evaluasi::indexBasic', ['filter' => 'role:user']);
+$routes->get('/instrument', 'Admin\Evaluasi::instrument');
 $routes->post('/postEPP', 'Admin\Evaluasi::postEPP');
+$routes->group('instrument', static function ($routes) {
+    $routes->get('insert/(:num)', 'Admin\Evaluasi::insertInstrument/$1');
+    $routes->get('edit/(:num)', 'Admin\Evaluasi::editInstrument/$1');
+    $routes->group('edit', static function ($routes) {
+        $routes->post('proses/(:num)', 'Admin\Evaluasi::editInstrumentProses/$1');
+    });
+    $routes->get('fill/(:num)', 'Admin\Evaluasi::fillInstrument/$1');
+    $routes->get('perview/(:num)', 'Admin\Evaluasi::perviewInstrument/$1');
+    $routes->get('rekap/(:num)', 'Admin\Evaluasi::rekapInstrument/$1');
+});
 
 // AUTH ROUTES
 $routes->get('/login', 'AuthController::login');

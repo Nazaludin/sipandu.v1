@@ -7,13 +7,13 @@ use CodeIgniter\Model;
 class OptionModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'option';
+    protected $table            = 'question_option';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_question', 'option_a', 'option_b', 'option_c', 'option_d'];
+    protected $allowedFields    = ['id_question', 'option_a', 'option_b', 'option_c', 'option_d', 'option_e'];
 
     // Dates
     protected $useTimestamps = false;
