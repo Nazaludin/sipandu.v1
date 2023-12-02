@@ -7,6 +7,7 @@ use CodeIgniter\I18n\Time;
 use \App\Models\InstrumentModel;
 use App\Models\OptionModel;
 use App\Models\QuestionModel;
+use App\Models\SectionModel;
 use PhpParser\Node\Expr\Empty_;
 
 class Evaluasi extends BaseController
@@ -363,6 +364,7 @@ class Evaluasi extends BaseController
     public function postEPP()
     {
         $data = $this->request->getPost();
+        d($data, json_encode($data));
         // dd($data, json_encode($data));
         // Data yang akan di-insert ke tabel 'instrumen_soal'
         $dataInstrumenSoal = array(
@@ -376,47 +378,102 @@ class Evaluasi extends BaseController
         $instrument_id =  model(InstrumentModel::class)->getInsertID();
         // Data soal yang akan di-insert ke tabel 'soal'
         // dd($instrument_id, $dataInstrumenSoal);
+        $dataBagian = array();
         $dataSoal = array();
         // Data opsi jawaban yang akan di-insert ke tabel 'opsi_jawaban'
         $dataOpsi = array();
 
         // Mencari dan menyiapkan data soal dan opsi jawaban dari input yang dinamis
         foreach ($data as $key => $value) {
-            // Jika kunci input merupakan bagian dari data soal (misalnya 'card1_input_pertanyaan')
-            if (strpos($key, 'card') !== false && strpos($key, '_input_pertanyaan') !== false) {
-                $index = substr($key, 4, 1); // Mengambil nomor kartu dari kunci
-                $dataSoal['id_instrument'] = $instrument_id;
-                $dataSoal['number'] = $index;
-                $dataSoal['type'] = $data['card' . $index . '_input_tipe_soal'];
-                $dataSoal['question'] = $value;
+            if (strpos($key, 'section') !== false && strpos($key, '_bagian') !== false) {
+                $sectionNumber = substr($key, 7, 1); // Mendapatkan nomor bagian dari kunci
+                $dataBagian['id_instrument'] = $instrument_id;
+                $dataBagian['section'] = $data['section' . $sectionNumber . '_bagian'];
 
-                model(QuestionModel::class)->insert($dataSoal);
-                $soal_id =  model(QuestionModel::class)->getInsertID();
-                // dd($soal_id);
+                model(SectionModel::class)->insert($dataBagian);
+                $section_id =  model(SectionModel::class)->getInsertID();
+                d($dataBagian);
 
-                // $dataSoal[$index]['pertanyaan'] = $value;
-                // Mengambil data opsi jawaban sesuai nomor kartu yang sama
-                // $dataSoal[$index]['type'] = $data['card' . $index . '_input_tipe_soal'];
-                if ($data['card' . $index . '_input_tipe_soal'] == 1) {
-                    $dataOpsi['id_question'] = $soal_id;
-                    $dataOpsi['option_a'] = $data['card' . $index . '_input_opsiA'];
-                    $dataOpsi['option_b'] = $data['card' . $index . '_input_opsiB'];
-                    $dataOpsi['option_c'] = $data['card' . $index . '_input_opsiC'];
-                    $dataOpsi['option_d'] = $data['card' . $index . '_input_opsiD'];
-                    $dataOpsi['option_e'] = $data['card' . $index . '_input_opsiE'];
-                    model(OptionModel::class)->insert($dataOpsi);
-                    $option_id =  model(OptionModel::class)->getInsertID();
-                    // dd($option_id);
+                foreach ($data as $subKey => $subValue) {
+                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                        // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
+                        $index = substr($subKey, 4, 1); // Mengambil nomor kartu dari kunci
+                        // Cek apakah pertanyaan sudah pernah di-insert
+                        $existingQuestion = model(QuestionModel::class)
+                            ->where('number', $index)
+                            ->where('id_section', $section_id)
+                            ->first();
+                        d($existingQuestion);
+                        if (!$existingQuestion) {
+                            $dataSoal['id_section'] = $section_id;
+                            $dataSoal['number'] = $index;
+                            $dataSoal['type'] = $data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'];
+                            $dataSoal['question'] = $subValue;
 
-                    // $dataOpsiJawaban[$index]['opsiA'] = $data['card' . $index . '_input_opsiA'];
-                    // $dataOpsiJawaban[$index]['opsiB'] = $data['card' . $index . '_input_opsiB'];
-                    // $dataOpsiJawaban[$index]['opsiC'] = $data['card' . $index . '_input_opsiC'];
-                    // $dataOpsiJawaban[$index]['opsiD'] = $data['card' . $index . '_input_opsiD'];
+                            model(QuestionModel::class)->insert($dataSoal);
+                            $soal_id =  model(QuestionModel::class)->getInsertID();
+
+                            if ($data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'] == 1) {
+                                // Proses opsi jawaban hanya jika tipe soal adalah 1
+                                $dataOpsi['id_question'] = $soal_id;
+                                $dataOpsi['option_a'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiA'];
+                                $dataOpsi['option_b'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiB'];
+                                $dataOpsi['option_c'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiC'];
+                                $dataOpsi['option_d'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiD'];
+                                $dataOpsi['option_e'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiE'];
+
+                                model(OptionModel::class)->insert($dataOpsi);
+                            }
+                        }
+
+                        unset(
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_pertanyaan'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiA'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiB'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiC'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiD'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiE']
+                        );
+                    }
                 }
-                // $dataOpsiJawaban[$index]['isianSingkat'] = $data['card' . $index . '_input_isianSingkat'];
-                // $dataOpsiJawaban[$index]['isianPanjang'] = $data['card' . $index . '_input_isianPanjang'];
+                // Jika kunci input merupakan bagian dari data soal (misalnya 'card1_input_pertanyaan')
+                // if (strpos($key, 'card') !== false && strpos($key, '_input_pertanyaan') !== false) {
+                //     $index = substr($key, 4, 1); // Mengambil nomor kartu dari kunci
+                //     $dataSoal['id_bagian'] = $instrument_id;
+                //     $dataSoal['number'] = $index;
+                //     $dataSoal['type'] = $data['card' . $index . '_input_tipe_soal'];
+                //     $dataSoal['question'] = $value;
+
+                //     model(QuestionModel::class)->insert($dataSoal);
+                //     $soal_id =  model(QuestionModel::class)->getInsertID();
+                //     // dd($soal_id);
+
+                //     // $dataSoal[$index]['pertanyaan'] = $value;
+                //     // Mengambil data opsi jawaban sesuai nomor kartu yang sama
+                //     // $dataSoal[$index]['type'] = $data['card' . $index . '_input_tipe_soal'];
+                //     if ($data['card' . $index . '_input_tipe_soal'] == 1) {
+                //         $dataOpsi['id_question'] = $soal_id;
+                //         $dataOpsi['option_a'] = $data['card' . $index . '_input_opsiA'];
+                //         $dataOpsi['option_b'] = $data['card' . $index . '_input_opsiB'];
+                //         $dataOpsi['option_c'] = $data['card' . $index . '_input_opsiC'];
+                //         $dataOpsi['option_d'] = $data['card' . $index . '_input_opsiD'];
+                //         $dataOpsi['option_e'] = $data['card' . $index . '_input_opsiE'];
+                //         model(OptionModel::class)->insert($dataOpsi);
+                //         $option_id =  model(OptionModel::class)->getInsertID();
+                //         // dd($option_id);
+
+                //         // $dataOpsiJawaban[$index]['opsiA'] = $data['card' . $index . '_input_opsiA'];
+                //         // $dataOpsiJawaban[$index]['opsiB'] = $data['card' . $index . '_input_opsiB'];
+                //         // $dataOpsiJawaban[$index]['opsiC'] = $data['card' . $index . '_input_opsiC'];
+                //         // $dataOpsiJawaban[$index]['opsiD'] = $data['card' . $index . '_input_opsiD'];
+                //     }
+                //     // $dataOpsiJawaban[$index]['isianSingkat'] = $data['card' . $index . '_input_isianSingkat'];
+                //     // $dataOpsiJawaban[$index]['isianPanjang'] = $data['card' . $index . '_input_isianPanjang'];
+                // }
             }
         }
+        // }
         // dd($dataInstrumenSoal, $dataSoal, $dataOpsi);
         // dd($data, json_encode($data));
         return redirect()->back()->to(base_url('epp'))->withInput()->with('message', 'Instrument Berhasil dibuat');

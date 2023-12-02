@@ -4,16 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class QuestionModel extends Model
+class SectionModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'question';
+    protected $table            = 'section';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_section', 'number', 'type', 'question', 'key', 'link'];
+    protected $allowedFields    = ['id_instrument', 'section'];
 
     // Dates
     protected $useTimestamps = false;
