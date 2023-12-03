@@ -30,6 +30,8 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 // $routes->get('/', 'Home::index');
+$routes->get('/login-best', 'AuthController::loginBest');
+
 $routes->addRedirect('/', 'profil');
 $routes->get('/profil', 'General\Profil::index');
 $routes->get('/epp', 'Admin\Evaluasi::index', ['filter' => 'role:admin']);
