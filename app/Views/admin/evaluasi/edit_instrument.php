@@ -11,16 +11,13 @@
     }
 
 
-    /* .card-number {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #fff;
+    .section-card {
         border: 1px solid #ccc;
-        padding: 5px;
-        border-radius: 5px;
-        font-weight: bold;
-    } */
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px 0px;
+        cursor: pointer;
+    }
 
     /* .card-content {
                             display: none;
@@ -146,50 +143,61 @@
                                         <textarea class="form-control" name="description" id="floatingInputDescription" cols="30" rows="10"><?= $data[0]['description']; ?></textarea>
                                     </div>
                                 </div>
-                                <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        let options = {
-                                            selector: '#floatingInputDescription',
-                                            height: 300,
-                                            menubar: false,
-                                            statusbar: false,
-                                            plugins: [
-                                                'advlist autolink lists link image charmap print preview anchor',
-                                                'searchreplace visualblocks code fullscreen',
-                                                'insertdatetime media table paste code help wordcount'
-                                            ],
-                                            toolbar: 'undo redo | formatselect | ' +
-                                                'bold italic backcolor | alignleft aligncenter ' +
-                                                'alignright alignjustify | bullist numlist outdent indent | ' +
-                                                'removeformat',
-                                            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
-                                        }
-                                        if (localStorage.getItem("tablerTheme") === 'dark') {
-                                            options.skin = 'oxide-dark';
-                                            options.content_css = 'dark';
-                                        }
-                                        tinyMCE.init(options);
-                                    })
-                                </script>
                             </div>
                         </div>
                         <div class="card-title mt-4">Soal
                         </div>
                         <!-- Container Card Soal -->
                         <div id="cardContainer" class="mb-3">
-
+                            <?php $id_section = 0; ?>
                             <?php foreach ($data as $key => $value) { ?>
-                                <input type="hidden" class="value-type" value="<?= $value['type']; ?>">
+                                <?php if ($id_section != $value['id_section']) { ?>
+                                    <!-- Card Bagian -->
+                                    <div class="section-card" onclick="toggleSection(this)">
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label class="form-label fw-bold">Bagian</label>
+                                                <div class="row g-2">
+                                                    <div class="col">
+                                                        <div class="container-section">
+                                                            <input value="<?= $value['section']; ?>" data-input-name="bagian" type="text" class="form-control-plaintext fw-bold section the-section" name="example-text-input" placeholder="Bagian Tanpa Judul">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <div class="section-tools">
+                                                            <div class="form-group">
+                                                                <a onclick="triggerRemoveSection(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Bagian" data-bs-original-title="Hapus Bagian">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                                        <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                                    </svg>
+                                                                </a>
+                                                                <a onclick="addSection.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Bagian" data-bs-original-title="Tambah Bagian">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                        <path d="M9 12h6"></path>
+                                                                        <path d="M12 9v6"></path>
+                                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                                    </svg>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <!-- Card Soal -->
                                 <div class="custom-card" onclick="toggleCard(this)">
                                     <div class="row mb-1">
-                                        <span class="card-number fw-bold">No. <?= $value['number']; ?></span>
+                                        <span class="card-number fw-bold">No. 1</span>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-8 col-md-6 col-lg-6">
                                             <div class="container-question">
-                                                <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul" value="<?= $value['question']; ?>">
+                                                <input value="<?= $value['question']; ?>" data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
                                             </div>
                                         </div>
                                         <div class="col-sm-4 col-md-6 col-lg-6">
@@ -197,7 +205,7 @@
                                             <div class="question-tools">
                                                 <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
                                                     <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
-                                                        <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                                        <option value="1" <?php echo ($value['type'] == '1') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
                                         <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
                                         <path d=&quot;M9 6l11 0&quot;></path>
                                         <path d=&quot;M9 12l11 0&quot;></path>
@@ -208,7 +216,7 @@
                                         </svg>">
                                                             Pilihan Ganda
                                                         </option>
-                                                        <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                                        <option value="2" <?php echo ($value['type'] == '2') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
                                         <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
                                         <path d=&quot;M4 6l16 0&quot;></path>
                                         <path d=&quot;M4 12l16 0&quot;></path>
@@ -217,7 +225,7 @@
                                         ">
                                                             Isian Singkat
                                                         </option>
-                                                        <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                                        <option value="3" <?php echo ($value['type'] == '3') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
                                         <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
                                         <path d=&quot;M19 10h-14&quot;></path>
                                         <path d=&quot;M5 6h14&quot;></path>
@@ -253,47 +261,63 @@
 
                                     <!-- Isian Jawaban -->
                                     <div class="card-content">
-                                        <!-- Pilihan Ganda -->
-                                        <div class="mb-3">
-                                            <div>
-                                                <label class="form-check d-flex align-items-center">
-                                                    <input class="form-check-input radio" type="radio" name="radios">
-                                                    <span class="form-check-label ps-2 w-100">
-                                                        <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
-                                                    </span>
-                                                </label>
-                                                <label class="form-check d-flex align-items-center">
-                                                    <input class="form-check-input radio" type="radio" name="radios">
-                                                    <span class="form-check-label ps-2 w-100">
-                                                        <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
-                                                    </span>
-                                                </label>
-                                                <label class="form-check d-flex align-items-center">
-                                                    <input class="form-check-input radio" type="radio" name="radios">
-                                                    <span class="form-check-label ps-2 w-100">
-                                                        <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
-                                                    </span>
-                                                </label>
-                                                <label class="form-check d-flex align-items-center">
-                                                    <input class="form-check-input radio" type="radio" name="radios">
-                                                    <span class="form-check-label ps-2 w-100">
-                                                        <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
-                                                    </span>
-                                                </label>
-                                                <label class="form-check d-flex align-items-center">
-                                                    <input class="form-check-input radio" type="radio" name="radios">
-                                                    <span class="form-check-label ps-2 w-100">
-                                                        <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
-                                                    </span>
-                                                </label>
+                                        <?php if ($value['type'] == 1) { ?>
+                                            <!-- Pilihan Ganda -->
+                                            <div class="mb-3">
+                                                <div>
+                                                    <label class="form-check d-flex align-items-center">
+                                                        <input class="form-check-input radio" type="radio" name="radios">
+                                                        <span class="form-check-label ps-2 w-100">
+                                                            <input value="<?= $value['option_a']; ?>" data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
+                                                        </span>
+                                                    </label>
+                                                    <label class="form-check d-flex align-items-center">
+                                                        <input class="form-check-input radio" type="radio" name="radios">
+                                                        <span class="form-check-label ps-2 w-100">
+                                                            <input value="<?= $value['option_b']; ?>" data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
+                                                        </span>
+                                                    </label>
+                                                    <label class="form-check d-flex align-items-center">
+                                                        <input class="form-check-input radio" type="radio" name="radios">
+                                                        <span class="form-check-label ps-2 w-100">
+                                                            <input value="<?= $value['option_c']; ?>" data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
+                                                        </span>
+                                                    </label>
+                                                    <label class="form-check d-flex align-items-center">
+                                                        <input class="form-check-input radio" type="radio" name="radios">
+                                                        <span class="form-check-label ps-2 w-100">
+                                                            <input value="<?= $value['option_d']; ?>" data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
+                                                        </span>
+                                                    </label>
+                                                    <label class="form-check d-flex align-items-center">
+                                                        <input class="form-check-input radio" type="radio" name="radios">
+                                                        <span class="form-check-label ps-2 w-100">
+                                                            <input value="<?= $value['option_e']; ?>" data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
+                                                        </span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php } else if ($value['type'] == 2) { ?>
+                                            <input data-input-name="isianSingkat" type="text" class="form-control-plaintext" name="example-text-input" placeholder="Teks jawaban singkat" readonly>
+                                        <?php } else { ?>
+                                            <input data-input-name="isianPanjang" type="text" class="form-control-plaintext" name="example-text-input" placeholder="Teks jawaban panjang" readonly>
+                                        <?php } ?>
                                     </div>
                                 </div>
-
+                                <?php $id_section = $value['id_section'] ?>
                             <?php } ?>
-
-
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <button onclick="addSection()" type="button" class="btn btn-outline-success w-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 5l0 14" />
+                                        <path d="M5 12l14 0" />
+                                    </svg>
+                                    Tambahkan Bagian
+                                </button>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-6 d-flex justify-content-start">
@@ -312,7 +336,124 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let options = {
+            selector: '#floatingInputDescription',
+            height: 300,
+            menubar: false,
+            statusbar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat',
+            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
+        }
+        if (localStorage.getItem("tablerTheme") === 'dark') {
+            options.skin = 'oxide-dark';
+            options.content_css = 'dark';
+        }
+        tinyMCE.init(options);
+    })
+</script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script>
+    // Fungsi untuk mengatur toggle pada card pertanyaan
+    function toggleCard(card) {
+        if (currentCard !== card) {
+            deactivateSection(currentSection);
+            deactivateCard(currentCard);
+            activateCard(card);
+            currentCard = card;
+        } else {
+            if (!card.classList.contains('active')) {
+                activateCard(card);
+                currentCard = card;
+            }
+        }
+    }
+
+    // Fungsi untuk mengatur toggle pada bagian section
+    function toggleSection(section) {
+        if (currentSection !== section) {
+            deactivateCard(currentCard);
+            deactivateSection(currentSection);
+            activateSection(section);
+            currentSection = section;
+        } else {
+            if (!section.classList.contains('active')) {
+                activateSection(section);
+                currentSection = section;
+            }
+        }
+    }
+
+    // Fungsi untuk mengaktifkan card pertanyaan
+    function activateCard(card) {
+        card.classList.add('active');
+        toggleContent(card);
+        updateInputStatus(card);
+    }
+
+    // Fungsi untuk menonaktifkan card pertanyaan
+    function deactivateCard(card) {
+        if (card !== null) {
+            card.classList.remove('active');
+            toggleContent(card);
+            updateInputStatus(card);
+        }
+    }
+
+    // Fungsi untuk mengaktifkan bagian section
+    function activateSection(section) {
+        section.classList.add('active');
+        toggleContent(section);
+        updateInputStatus(section);
+    }
+
+    // Fungsi untuk menonaktifkan bagian section
+    function deactivateSection(section) {
+        if (section !== null) {
+            section.classList.remove('active');
+            toggleContent(section);
+            updateInputStatus(section);
+        }
+    }
+
+    // Fungsi untuk memperbarui status input
+    function updateInputStatus(element) {
+        var input = element.querySelector('.question, .section');
+
+        if (element.classList.contains('active')) {
+            input.removeAttribute('readonly');
+            input.classList.remove('form-control-plaintext', 'fw-bold');
+            input.classList.add('form-control');
+        } else {
+            input.setAttribute('readonly', 'true');
+            input.classList.remove('form-control');
+            input.classList.add('form-control-plaintext', 'fw-bold');
+        }
+    }
+
+    // Fungsi untuk mengatur tampilan konten
+    function toggleContent(element) {
+        var content = element.querySelector('.question-tools, .section-tools');
+
+        content.style.display = element.classList.contains('active') ? 'block' : 'none';
+    }
+
+    // Variabel global untuk menyimpan card dan section yang aktif
+    var currentCard = null;
+    var currentSection = null;
+</script>
+
 <script type="text/javascript">
     $('.radio').on('click', function(e) {
         e.preventDefault();
@@ -320,39 +461,70 @@
 </script>
 <script>
     function setUniqueNames() {
+        console.log('set Unique name');
+        const sectionCards = document.querySelectorAll('.section-card');
         const customCards = document.querySelectorAll('.custom-card');
+
         customCards.forEach((card, cardIndex) => {
             const inputs = card.querySelectorAll('input, select');
+            const currentSection = findCurrentSection(sectionCards, card);
+
             inputs.forEach((input, inputIndex) => {
                 const inputName = input.dataset.inputName;
-                //     const inputType = input.getAttribute('type');
                 if (inputName !== undefined) {
+                    let uniqueName = `card${cardIndex + 1}`;
 
-                    const uniqueName = `card${cardIndex+1}_input_${inputName}`;
-                    console.log(uniqueName);
+                    if (currentSection) {
+                        const sectionNumber = getSectionNumber(currentSection);
+                        uniqueName += `_section${sectionNumber}`;
+                    }
+
+                    uniqueName += `_input_${inputName}`;
                     input.setAttribute('name', uniqueName);
                 }
-
-                if (input.classList.contains('select-type-answer')) {
-                    // Cari nilai default dari elemen `.value-type`
-                    const valueType = card.querySelector('.value-type');
-                    if (valueType) {
-                        const selectedValue = valueType.value;
-
-                        // Dapatkan instance Tom Select dari elemen input
-                        const tomSelectInstance = TomSelect.mark(input);
-
-                        // Set nilai Tom Select
-                        tomSelectInstance.setValue([selectedValue]);
-                    }
-                }
             });
+
             const cardNumbers = card.querySelectorAll('.card-number');
             cardNumbers.forEach((cardNum, cardNumIndex) => {
                 cardNum.textContent = 'No. ' + (parseInt(cardIndex) + 1);
             });
-            console.log(cardNumbers);
         });
+
+        const containerSections = document.querySelectorAll('.container-section');
+        containerSections.forEach((container, index) => {
+            const bagianInput = container.querySelector('input[data-input-name="bagian"]');
+            if (bagianInput) {
+                console.log(index);
+                const uniqueName = `section${index + 1}_bagian`;
+                bagianInput.setAttribute('name', uniqueName);
+            }
+        });
+    }
+
+    function findCurrentSection(sections, card) {
+        let currentSection = null;
+
+        const sectionCards = document.querySelectorAll('.section-card');
+        const customCards = document.querySelectorAll('.custom-card');
+
+        for (let i = 0; i < customCards.length; i++) {
+            if (customCards[i] === card) {
+                // Temukan indeks section-card yang sesuai dengan custom-card saat ini
+                const sectionIndex = Math.floor(i / customCards.length * sectionCards.length);
+
+                // Dapatkan section-card yang sesuai dengan custom-card saat ini
+                currentSection = sectionCards[sectionIndex];
+                break;
+            }
+        }
+
+        return currentSection;
+    }
+
+
+    function getSectionNumber(section) {
+        const sectionCards = document.querySelectorAll('.section-card');
+        return Array.from(sectionCards).indexOf(section) + 1;
     }
 </script>
 <!-- Script ID -->
@@ -366,43 +538,8 @@
             });
         });
     }
-    // document.addEventListener("DOMContentLoaded", function() {
-
-
-    //     var cardContainer = document.getElementById('cardContainer');
-
-    //     var observer = new MutationObserver(function(mutations) {
-    //         mutations.forEach(function(mutation) {
-    //             if (mutation.addedNodes.length > 0) {
-    //                 mutation.addedNodes.forEach(function(node) {
-    //                     if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('custom-card')) {
-    //                         assignCardIDs();
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     });
-
-    //     var config = {
-    //         childList: true,
-    //         subtree: true
-    //     };
-    //     observer.observe(cardContainer, config);
-
-    //     // Panggil fungsi untuk memberikan ID pada elemen saat halaman dimuat
-    //     assignCardIDs();
-    // });
 </script>
-
 <script>
-    var currentCard = null;
-
-    // Menampilkan fitur pada card pertama saat halaman dimuat pertama kali
-    // window.onload = function() {
-    //     var firstCard = document.querySelector('.custom-card');
-    //     toggleCard(firstCard);
-    // };
-
     function initializeTomSelect() {
         var selectTypeAnswers = document.querySelectorAll('.select-type-answer');
 
@@ -433,59 +570,11 @@
 
     // @formatter:off
     document.addEventListener("DOMContentLoaded", function() {
+        setUniqueNames()
         initializeTomSelect();
         // triggerRemoveCard();
         triggerSelectTypeAnswer();
     });
-
-    // @formatter:on
-    function toggleCard(card) {
-        // Menyembunyikan fitur dari card saat ini jika ada
-        if (currentCard !== null) {
-            currentCard.classList.remove('active');
-            toggleContent(currentCard);
-            updateInputStatus(currentCard);
-
-        }
-
-
-        // if (currentCard !== card) {
-        card.classList.add('active');
-        toggleContent(card);
-        updateInputStatus(card);
-        currentCard = card;
-        // } else {
-        //     currentCard = null;
-        // }
-        // Menampilkan fitur dari card yang diklik
-        // card.classList.add('active');
-        // updateInputStatus(card);
-        // toggleContent(card);
-
-        // Menyimpan card yang diklik sebagai card saat ini
-        // currentCard = card;
-    }
-
-    function updateInputStatus(card) {
-        var input = card.querySelector('.container-question .question');
-
-        // Mengubah atribut dan kelas input sesuai dengan status card (aktif atau tidak aktif)
-        if (card.classList.contains('active')) {
-            input.removeAttribute('readonly');
-            input.classList.remove('form-control-plaintext', 'fw-bold');
-            input.classList.add('form-control');
-        } else {
-            input.setAttribute('readonly', 'true');
-            input.classList.remove('form-control');
-            input.classList.add('form-control-plaintext', 'fw-bold');
-        }
-    }
-
-    function toggleContent(card) {
-        var content = card.querySelector('.question-tools');
-        // Menampilkan konten jika card aktif, menyembunyikan jika tidak aktif
-        content.style.display = card.classList.contains('active') ? 'block' : 'none';
-    }
 
     function addQuestion() {
         var cardContainer = document.getElementById('cardContainer');
@@ -615,6 +704,252 @@
         // Menjadikan card baru sebagai card saat ini
         currentCard = newCard;
         assignCardIDs();
+
+        // Inisialisasi TomSelect untuk elemen baru yang ditambahkan
+        var selectInNewCard = newCard.querySelector('.select-type-answer');
+        if (window.TomSelect && selectInNewCard) {
+            try {
+                new TomSelect(selectInNewCard, {
+                    copyClassesToDropdown: false,
+                    dropdownParent: 'body',
+                    controlInput: '<input>',
+                    render: {
+                        item: function(data, escape) {
+                            if (data.customProperties) {
+                                return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                            }
+                            return '<div>' + escape(data.text) + '</div>';
+                        },
+                        option: function(data, escape) {
+                            if (data.customProperties) {
+                                return '<div><span class="dropdown-item-indicator">' + data.customProperties + '</span>' + escape(data.text) + '</div>';
+                            }
+                            return '<div>' + escape(data.text) + '</div>';
+                        },
+                    },
+                });
+            } catch (error) {
+                // Tangani kesalahan jika TomSelect sudah diinisialisasi sebelumnya
+                console.error("TomSelect is already initialized for this element:", error);
+            }
+        }
+
+        var deleteButtons = document.querySelectorAll('.btn[data-bs-original-title="Hapus Pertanyaan"]');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                triggerRemoveCard(button);
+            });
+        });
+        triggerSelectTypeAnswer();
+        setUniqueNames();
+    }
+
+    function triggerRemoveCard(button) {
+        var card = button.closest('.custom-card');
+        if (card !== null && card !== undefined) {
+            card.remove();
+            setUniqueNames();
+        } else {
+            console.error("Parent element with class '.custom-card' not found");
+        }
+    }
+
+    function triggerRemoveSection(button) {
+        var card = button.closest('.section-card');
+        if (card !== null && card !== undefined) {
+            card.remove();
+            setUniqueNames();
+        } else {
+            console.error("Parent element with class '.custom-card' not found");
+        }
+    }
+    var deleteButtons = document.querySelectorAll('.btn[data-bs-original-title="Hapus Pertanyaan"]');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            triggerRemoveCard(button);
+        });
+    });
+    var deleteButtonSection = document.querySelectorAll('.btn[data-bs-original-title="Hapus Bagian"]');
+    deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            triggerRemoveSection(button);
+        });
+    });
+
+
+    function addSection() {
+        var cardContainer = document.getElementById('cardContainer');
+        var newSectionHTML = ` <div class="section-card" onclick="toggleCard(this)">
+                                <!-- <div class="row mb-1">
+                                    <span class="card-number fw-bold">No. 1</span>
+                                </div> -->
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Bagian</label>
+                                        <div class="row g-2">
+                                            <div class="col">
+                                                <div class="container-section">
+                                                    <input data-input-name="bagian" type="text" class="form-control-plaintext fw-bold section" name="example-text-input" placeholder="Bagian Tanpa Judul">
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="section-tools">
+                                                    <div class="form-group">
+                                                        <a onclick="triggerRemoveSection(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Bagian" data-bs-original-title="Hapus Bagian">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                                <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <a onclick="addSection.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Bagian" data-bs-original-title="Tambah Bagian">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M9 12h6"></path>
+                                                                <path d="M12 9v6"></path>
+                                                                <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                            </svg>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <!-- <div class="col-sm-4 col-md-6 col-lg-6"> -->
+                                    <!-- Tools -->
+
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                            <!-- Card Soal -->
+                            <div class="custom-card" onclick="toggleCard(this)">
+                                <div class="row mb-1">
+                                    <span class="card-number fw-bold">No. 1</span>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-8 col-md-6 col-lg-6">
+                                        <div class="container-question">
+                                            <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-6 col-lg-6">
+                                        <!-- Tools -->
+                                        <div class="question-tools">
+                                            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                                                <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
+                                                    <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                        <path d=&quot;M9 6l11 0&quot;></path>
+                                        <path d=&quot;M9 12l11 0&quot;></path>
+                                        <path d=&quot;M9 18l11 0&quot;></path>
+                                        <path d=&quot;M5 6l0 .01&quot;></path>
+                                        <path d=&quot;M5 12l0 .01&quot;></path>
+                                        <path d=&quot;M5 18l0 .01&quot;></path>
+                                        </svg>">
+                                                        Pilihan Ganda
+                                                    </option>
+                                                    <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                        <path d=&quot;M4 6l16 0&quot;></path>
+                                        <path d=&quot;M4 12l16 0&quot;></path>
+                                        <path d=&quot;M4 18l12 0&quot;></path>
+                                        </svg>
+                                        ">
+                                                        Isian Singkat
+                                                    </option>
+                                                    <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                        <path d=&quot;M19 10h-14&quot;></path>
+                                        <path d=&quot;M5 6h14&quot;></path>
+                                        <path d=&quot;M14 14h-9&quot;></path>
+                                        <path d=&quot;M5 18h6&quot;></path>
+                                        <path d=&quot;M18 15v6&quot;></path>
+                                        <path d=&quot;M15 18h6&quot;></path>
+                                        </svg>
+                                        ">
+                                                        Isian Panjang
+                                                    </option>
+                                                </select>
+
+                                                <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                        <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                    </svg>
+                                                </a>
+                                                <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M9 12h6"></path>
+                                                        <path d="M12 9v6"></path>
+                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Isian Jawaban -->
+                                <div class="card-content">
+                                    <!-- Pilihan Ganda -->
+                                    <div class="mb-3">
+                                        <div>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+
+        // Menyembunyikan fitur dari card saat ini jika ada
+        if (currentCard !== null) {
+            toggleContent(currentCard);
+            currentCard.classList.remove('active');
+        }
+
+        // Menambahkan card baru setelah card yang diklik
+        cardContainer.insertAdjacentHTML('beforeend', newSectionHTML);
+
+        // Menandai card baru sebagai card aktif
+        // var newCard = currentCard.nextElementSibling;
+        // newCard.classList.add('active');
+
+        // Menjadikan card baru sebagai card saat ini
+        // currentCard = newCard;
+        assignCardIDs();
         // initializeTomSelect();
 
         // Inisialisasi TomSelect untuk elemen baru yang ditambahkan
@@ -656,36 +991,6 @@
         triggerSelectTypeAnswer();
         setUniqueNames();
     }
-
-    // document.addEventListener('DOMContentLoaded', function() {
-    // function triggerRemoveCard(button) {
-    //     var card = button.closest('.custom-card');
-    //     if (card !== null) {
-    //         card.remove();
-    //     }
-    //     setUniqueNames();
-    // }
-    function triggerRemoveCard(button) {
-        var card = button.closest('.custom-card');
-        if (card !== null && card !== undefined) {
-            card.remove();
-            setUniqueNames();
-        } else {
-            console.error("Parent element with class '.custom-card' not found");
-        }
-    }
-    var deleteButtons = document.querySelectorAll('.btn[data-bs-original-title="Hapus Pertanyaan"]');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            triggerRemoveCard(button);
-        });
-    });
-    // });
-
-
-    // function selectCard() {
-
-
 
 
     // document.addEventListener('DOMContentLoaded', function() {
@@ -755,10 +1060,9 @@
         });
 
         setUniqueNames();
-        // });
     }
 
-    // }
+
 
 
     document.addEventListener('click', function(event) {

@@ -18,25 +18,8 @@
         cursor: pointer;
     }
 
-
-    /* .card-number {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 5px;
-        border-radius: 5px;
-        font-weight: bold;
-    } */
-
-    /* .card-content {
-                            display: none;
-                        } */
-
     .active {
         background-color: #F7FCFA;
-        /* Ganti warna latar yang sesuai */
     }
 </style>
 <div class="page-wrapper">
@@ -54,8 +37,6 @@
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
                         <li class="breadcrumb-item active"><a>instrument</a></li>
-                        <!-- <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
                     </ol>
 
                 </div>
@@ -103,23 +84,9 @@
                                     <input type="text" class="form-control" id="floatingInputFullnameCourse" name="name" placeholder="Nama Instrument" required="">
                                 </div>
                                 <div class="col-12">
-                                    <!-- <label for="floatingInputFullnameCourse">ID COURSE</label> -->
+                                    <!-- ID COURSE -->
                                     <input type="hidden" class="form-control" id="floatingInputFullnameCourse" name="id_course" placeholder="Nama Instrument" required="" value="<?= $id_course; ?>">
                                 </div>
-                                <!-- <div class="col-12">
-                                    <label for="floatingInputFullnameCourse">Nama Pelatihan</label>
-                                    <select data-input-name="id_course" type="text" class="form-select select-type-answer" value="">
-                                        <option value="1">
-                                            Pilihan Ganda
-                                        </option>
-                                        <option value="2">
-                                            Isian Singkat
-                                        </option>
-                                        <option value="3">
-                                            Isian Panjang
-                                        </option>
-                                    </select>
-                                </div> -->
                                 <div class="row mb-3">
                                     <div class="col-6">
                                         <label for="floatingInputStartRegistration">Mulai Pengisian</label>
@@ -138,32 +105,6 @@
                                         <textarea class="form-control" name="description" id="floatingInputDescription" cols="30" rows="10"></textarea>
                                     </div>
                                 </div>
-                                <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        let options = {
-                                            selector: '#floatingInputDescription',
-                                            height: 300,
-                                            menubar: false,
-                                            statusbar: false,
-                                            plugins: [
-                                                'advlist autolink lists link image charmap print preview anchor',
-                                                'searchreplace visualblocks code fullscreen',
-                                                'insertdatetime media table paste code help wordcount'
-                                            ],
-                                            toolbar: 'undo redo | formatselect | ' +
-                                                'bold italic backcolor | alignleft aligncenter ' +
-                                                'alignright alignjustify | bullist numlist outdent indent | ' +
-                                                'removeformat',
-                                            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
-                                        }
-                                        if (localStorage.getItem("tablerTheme") === 'dark') {
-                                            options.skin = 'oxide-dark';
-                                            options.content_css = 'dark';
-                                        }
-                                        tinyMCE.init(options);
-                                    })
-                                </script>
                             </div>
                         </div>
                         <div class="card-title mt-4">Soal
@@ -172,9 +113,6 @@
                         <div id="cardContainer" class="mb-3">
                             <!-- Card Bagian -->
                             <div class="section-card" onclick="toggleSection(this)">
-                                <!-- <div class="row mb-1">
-                                    <span class="card-number fw-bold">No. 1</span>
-                                </div> -->
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label class="form-label fw-bold">Bagian</label>
@@ -206,14 +144,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
-                                    <!-- <div class="col-sm-4 col-md-6 col-lg-6"> -->
-                                    <!-- Tools -->
-
-                                    <!-- </div> -->
                                 </div>
                             </div>
                             <!-- Card Soal -->
@@ -325,10 +256,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
                         </div>
 
                         <div class="row mb-3">
@@ -352,7 +279,6 @@
                                 <button type="submit" class="btn btn-success mx-2">Simpan</button>
                             </div>
                         </div>
-                        <!-- <button type="submit">Submit</button> -->
                     </form>
 
 
@@ -361,6 +287,32 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let options = {
+            selector: '#floatingInputDescription',
+            height: 300,
+            menubar: false,
+            statusbar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat',
+            content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }'
+        }
+        if (localStorage.getItem("tablerTheme") === 'dark') {
+            options.skin = 'oxide-dark';
+            options.content_css = 'dark';
+        }
+        tinyMCE.init(options);
+    })
+</script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script>
@@ -394,7 +346,6 @@
         }
     }
 
-
     // Fungsi untuk mengaktifkan card pertanyaan
     function activateCard(card) {
         card.classList.add('active');
@@ -410,19 +361,6 @@
             updateInputStatus(card);
         }
     }
-
-    // Fungsi untuk mengatur toggle pada bagian section
-    // function toggleSection(section) {
-    //     if (currentSection !== section) {
-    //         deactivateCard(currentCard);
-    //         deactivateSection(currentSection);
-    //         activateSection(section);
-    //         currentSection = section;
-    //     } else {
-    //         deactivateSection(currentSection);
-    //         currentSection = null;
-    //     }
-    // }
 
     // Fungsi untuk mengaktifkan bagian section
     function activateSection(section) {
@@ -477,68 +415,38 @@
         const sectionCards = document.querySelectorAll('.section-card');
         const customCards = document.querySelectorAll('.custom-card');
 
-        customCards.forEach((card, cardIndex) => {
+        customCards.forEach((card) => {
             const inputs = card.querySelectorAll('input, select');
             const currentSection = findCurrentSection(sectionCards, card);
 
-            inputs.forEach((input, inputIndex) => {
+            inputs.forEach((input) => {
                 const inputName = input.dataset.inputName;
                 if (inputName !== undefined) {
-                    let uniqueName = `card${cardIndex + 1}`;
+                    let uniqueName = '';
 
                     if (currentSection) {
-                        const sectionNumber = getSectionNumber(currentSection);
-                        uniqueName += `_section${sectionNumber}`;
+                        const sectionNumber = Array.from(sectionCards).indexOf(currentSection) + 1;
+                        uniqueName += `section${sectionNumber}`;
                     }
 
-                    uniqueName += `_input_${inputName}`;
+                    uniqueName += `_${inputName}`;
                     input.setAttribute('name', uniqueName);
                 }
             });
-
-            const cardNumbers = card.querySelectorAll('.card-number');
-            cardNumbers.forEach((cardNum, cardNumIndex) => {
-                cardNum.textContent = 'No. ' + (parseInt(cardIndex) + 1);
-            });
-        });
-
-        const containerSections = document.querySelectorAll('.container-section');
-        containerSections.forEach((container, index) => {
-            const bagianInput = container.querySelector('input[data-input-name="bagian"]');
-            if (bagianInput) {
-                const uniqueName = `section${index + 1}_bagian`;
-                bagianInput.setAttribute('name', uniqueName);
-            }
         });
     }
 
     function findCurrentSection(sections, card) {
-        let currentSection = null;
-
-        const sectionCards = document.querySelectorAll('.section-card');
-        const customCards = document.querySelectorAll('.custom-card');
-
-        for (let i = 0; i < customCards.length; i++) {
-            if (customCards[i] === card) {
-                // Temukan indeks section-card yang sesuai dengan custom-card saat ini
-                const sectionIndex = Math.floor(i / customCards.length * sectionCards.length);
-
-                // Dapatkan section-card yang sesuai dengan custom-card saat ini
-                currentSection = sectionCards[sectionIndex];
-                break;
+        // Menemukan section card terkait dengan custom card saat ini
+        for (let i = 0; i < sections.length; i++) {
+            const sectionCustomCards = sections[i].querySelectorAll('.custom-card');
+            for (let j = 0; j < sectionCustomCards.length; j++) {
+                if (sectionCustomCards[j] === card) {
+                    return sections[i];
+                }
             }
         }
-
-        return currentSection;
-    }
-
-
-
-
-
-    function getSectionNumber(section) {
-        const sectionCards = document.querySelectorAll('.section-card');
-        return Array.from(sectionCards).indexOf(section) + 1;
+        return null;
     }
 </script>
 <!-- Script ID -->
@@ -552,42 +460,8 @@
             });
         });
     }
-    // document.addEventListener("DOMContentLoaded", function() {
-
-
-    //     var cardContainer = document.getElementById('cardContainer');
-
-    //     var observer = new MutationObserver(function(mutations) {
-    //         mutations.forEach(function(mutation) {
-    //             if (mutation.addedNodes.length > 0) {
-    //                 mutation.addedNodes.forEach(function(node) {
-    //                     if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('custom-card')) {
-    //                         assignCardIDs();
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     });
-
-    //     var config = {
-    //         childList: true,
-    //         subtree: true
-    //     };
-    //     observer.observe(cardContainer, config);
-
-    //     // Panggil fungsi untuk memberikan ID pada elemen saat halaman dimuat
-    //     assignCardIDs();
-    // });
 </script>
 <script>
-    // var currentCard = null;
-
-    // Menampilkan fitur pada card pertama saat halaman dimuat pertama kali
-    // window.onload = function() {
-    //     var firstCard = document.querySelector('.custom-card');
-    //     toggleCard(firstCard);
-    // };
-
     function initializeTomSelect() {
         var selectTypeAnswers = document.querySelectorAll('.select-type-answer');
 
@@ -622,55 +496,6 @@
         // triggerRemoveCard();
         triggerSelectTypeAnswer();
     });
-
-    // // @formatter:on
-    // function toggleCard(card) {
-    //     // Menyembunyikan fitur dari card saat ini jika ada
-    //     if (currentCard !== null) {
-    //         currentCard.classList.remove('active');
-    //         toggleContent(currentCard);
-    //         updateInputStatus(currentCard);
-
-    //     }
-
-
-    //     // if (currentCard !== card) {
-    //     card.classList.add('active');
-    //     toggleContent(card);
-    //     updateInputStatus(card);
-    //     currentCard = card;
-    //     // } else {
-    //     //     currentCard = null;
-    //     // }
-    //     // Menampilkan fitur dari card yang diklik
-    //     // card.classList.add('active');
-    //     // updateInputStatus(card);
-    //     // toggleContent(card);
-
-    //     // Menyimpan card yang diklik sebagai card saat ini
-    //     // currentCard = card;
-    // }
-
-    // function updateInputStatus(card) {
-    //     var input = card.querySelector('.container-question .question, .container-section .section');
-
-    //     // Mengubah atribut dan kelas input sesuai dengan status card (aktif atau tidak aktif)
-    //     if (card.classList.contains('active')) {
-    //         input.removeAttribute('readonly');
-    //         input.classList.remove('form-control-plaintext', 'fw-bold');
-    //         input.classList.add('form-control');
-    //     } else {
-    //         input.setAttribute('readonly', 'true');
-    //         input.classList.remove('form-control');
-    //         input.classList.add('form-control-plaintext', 'fw-bold');
-    //     }
-    // }
-
-    // function toggleContent(card) {
-    //     var content = card.querySelector('.question-tools, section-tools');
-    //     // Menampilkan konten jika card aktif, menyembunyikan jika tidak aktif
-    //     content.style.display = card.classList.contains('active') ? 'block' : 'none';
-    // }
 
     function addQuestion() {
         var cardContainer = document.getElementById('cardContainer');
@@ -800,10 +625,8 @@
         // Menjadikan card baru sebagai card saat ini
         currentCard = newCard;
         assignCardIDs();
-        // initializeTomSelect();
 
         // Inisialisasi TomSelect untuk elemen baru yang ditambahkan
-        // var newCard = currentCard.nextElementSibling;
         var selectInNewCard = newCard.querySelector('.select-type-answer');
         if (window.TomSelect && selectInNewCard) {
             try {
@@ -842,14 +665,6 @@
         setUniqueNames();
     }
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    // function triggerRemoveCard(button) {
-    //     var card = button.closest('.custom-card');
-    //     if (card !== null) {
-    //         card.remove();
-    //     }
-    //     setUniqueNames();
-    // }
     function triggerRemoveCard(button) {
         var card = button.closest('.custom-card');
         if (card !== null && card !== undefined) {
@@ -881,10 +696,7 @@
             triggerRemoveSection(button);
         });
     });
-    // });
 
-
-    // function selectCard() {
 
     function addSection() {
         var cardContainer = document.getElementById('cardContainer');
@@ -1169,10 +981,9 @@
         });
 
         setUniqueNames();
-        // });
     }
 
-    // }
+
 
 
     document.addEventListener('click', function(event) {
