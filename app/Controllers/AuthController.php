@@ -108,13 +108,13 @@ class AuthController extends Controller
         // return redirect()->to($redirectURL)->withCookies()->with('message', lang('Auth.loginSuccess'));
         // $this->session->setFlashdata('data', array('email' => $login, 'password' => $password));
         // return redirect()->to(base_url('login-best'))->withCookies();
-        return view('best-login', array('email' => $login, 'password' => $password));
+        return view('auth/best-login', array('email' => $login, 'password' => $password));
     }
 
-    // public function loginBest()
-    // {
-    //     return view('best-login');
-    // }
+    public function loginBest()
+    {
+        return view('best-login');
+    }
     /**
      * Log the user out.
      */

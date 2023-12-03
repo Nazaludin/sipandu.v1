@@ -72,6 +72,9 @@
                                 <a class="dropdown-item" href="<?= base_url('pelatihan/riwayat'); ?>">
                                     Riwayat
                                 </a>
+                                <a class="dropdown-item" href="http://best-bapelkes.jogjaprov.go.id/course" target="_blank">
+                                    Website Best
+                                </a>
                             </div>
 
                         </div>
