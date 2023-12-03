@@ -149,104 +149,38 @@
                         </div>
                         <!-- Container Card Soal -->
                         <div id="cardContainer" class="mb-3">
-                            <?php $id_section = 0; ?>
+                            <?php $id_section = null;
+                            $id_section_before = 0; ?>
                             <?php foreach ($data as $key => $value) { ?>
-                                <?php if ($id_section != $value['id_section']) { ?>
-                                    <!-- Card Bagian -->
-                                    <div class="section-card" onclick="toggleSection(this)">
-                                        <div class="row mb-3">
-                                            <div class="col">
-                                                <label class="form-label fw-bold">Bagian</label>
-                                                <div class="row g-2">
-                                                    <div class="col">
-                                                        <div class="container-section">
-                                                            <input value="<?= $value['section']; ?>" data-input-name="bagian" type="text" class="form-control-plaintext fw-bold section the-section" name="example-text-input" placeholder="Bagian Tanpa Judul">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <div class="section-tools">
-                                                            <div class="form-group">
-                                                                <a onclick="triggerRemoveSection(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Bagian" data-bs-original-title="Hapus Bagian">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                                        <path d="M9 9l6 6m0 -6l-6 6"></path>
-                                                                    </svg>
-                                                                </a>
-                                                                <a onclick="addSection.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Bagian" data-bs-original-title="Tambah Bagian">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                        <path d="M9 12h6"></path>
-                                                                        <path d="M12 9v6"></path>
-                                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                                    </svg>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                <!-- Card Soal -->
-                                <div class="custom-card" onclick="toggleCard(this)">
-                                    <div class="row mb-1">
-                                        <span class="card-number fw-bold">No. 1</span>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-8 col-md-6 col-lg-6">
-                                            <div class="container-question">
-                                                <input value="<?= $value['question']; ?>" data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4 col-md-6 col-lg-6">
-                                            <!-- Tools -->
-                                            <div class="question-tools">
-                                                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
-                                                    <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
-                                                        <option value="1" <?php echo ($value['type'] == '1') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M9 6l11 0&quot;></path>
-                                        <path d=&quot;M9 12l11 0&quot;></path>
-                                        <path d=&quot;M9 18l11 0&quot;></path>
-                                        <path d=&quot;M5 6l0 .01&quot;></path>
-                                        <path d=&quot;M5 12l0 .01&quot;></path>
-                                        <path d=&quot;M5 18l0 .01&quot;></path>
-                                        </svg>">
-                                                            Pilihan Ganda
-                                                        </option>
-                                                        <option value="2" <?php echo ($value['type'] == '2') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M4 6l16 0&quot;></path>
-                                        <path d=&quot;M4 12l16 0&quot;></path>
-                                        <path d=&quot;M4 18l12 0&quot;></path>
-                                        </svg>
-                                        ">
-                                                            Isian Singkat
-                                                        </option>
-                                                        <option value="3" <?php echo ($value['type'] == '3') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M19 10h-14&quot;></path>
-                                        <path d=&quot;M5 6h14&quot;></path>
-                                        <path d=&quot;M14 14h-9&quot;></path>
-                                        <path d=&quot;M5 18h6&quot;></path>
-                                        <path d=&quot;M18 15v6&quot;></path>
-                                        <path d=&quot;M15 18h6&quot;></path>
-                                        </svg>
-                                        ">
-                                                            Isian Panjang
-                                                        </option>
-                                                    </select>
+                                <?php if ($id_section !== null && $id_section != $value['id_section']) { ?>
+                                    <!-- Tutup div section sebelumnya jika ID section berbeda -->
+                        </div> <!-- tutup div section -->
+                    <?php } ?>
 
-                                                    <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
+                    <?php if ($id_section != $value['id_section']) { ?>
+
+                        <!-- Card Bagian -->
+                        <div class="section-card" onclick="toggleSection(this)">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label class="form-label fw-bold">Bagian</label>
+                                    <div class="row g-2">
+                                        <div class="col">
+                                            <div class="container-section">
+                                                <input value="<?= $value['section']; ?>" data-input-name="bagian" type="text" class="form-control-plaintext fw-bold section the-section" name="example-text-input" placeholder="Bagian Tanpa Judul">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="section-tools">
+                                                <div class="form-group">
+                                                    <a onclick="triggerRemoveSection(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Bagian" data-bs-original-title="Hapus Bagian">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
                                                             <path d="M9 9l6 6m0 -6l-6 6"></path>
                                                         </svg>
                                                     </a>
-                                                    <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
+                                                    <a onclick="addSection.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Bagian" data-bs-original-title="Tambah Bagian">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M9 12h6"></path>
@@ -258,83 +192,162 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <!-- Isian Jawaban -->
-                                    <div class="card-content">
-                                        <?php if ($value['type'] == 1) { ?>
-                                            <!-- Pilihan Ganda -->
-                                            <div class="mb-3">
-                                                <div>
-                                                    <label class="form-check d-flex align-items-center">
-                                                        <input class="form-check-input radio" type="radio" name="radios">
-                                                        <span class="form-check-label ps-2 w-100">
-                                                            <input value="<?= $value['option_a']; ?>" data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
-                                                        </span>
-                                                    </label>
-                                                    <label class="form-check d-flex align-items-center">
-                                                        <input class="form-check-input radio" type="radio" name="radios">
-                                                        <span class="form-check-label ps-2 w-100">
-                                                            <input value="<?= $value['option_b']; ?>" data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
-                                                        </span>
-                                                    </label>
-                                                    <label class="form-check d-flex align-items-center">
-                                                        <input class="form-check-input radio" type="radio" name="radios">
-                                                        <span class="form-check-label ps-2 w-100">
-                                                            <input value="<?= $value['option_c']; ?>" data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
-                                                        </span>
-                                                    </label>
-                                                    <label class="form-check d-flex align-items-center">
-                                                        <input class="form-check-input radio" type="radio" name="radios">
-                                                        <span class="form-check-label ps-2 w-100">
-                                                            <input value="<?= $value['option_d']; ?>" data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
-                                                        </span>
-                                                    </label>
-                                                    <label class="form-check d-flex align-items-center">
-                                                        <input class="form-check-input radio" type="radio" name="radios">
-                                                        <span class="form-check-label ps-2 w-100">
-                                                            <input value="<?= $value['option_e']; ?>" data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        <?php } else if ($value['type'] == 2) { ?>
-                                            <input data-input-name="isianSingkat" type="text" class="form-control-plaintext" name="example-text-input" placeholder="Teks jawaban singkat" readonly>
-                                        <?php } else { ?>
-                                            <input data-input-name="isianPanjang" type="text" class="form-control-plaintext" name="example-text-input" placeholder="Teks jawaban panjang" readonly>
-                                        <?php } ?>
+                        <?php } ?>
+                        <!-- Card Soal -->
+                        <div class="custom-card" onclick="toggleCard(this)">
+                            <div class="row mb-1">
+                                <span class="card-number fw-bold">No. 1</span>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-8 col-md-6 col-lg-6">
+                                    <div class="container-question">
+                                        <input value="<?= $value['question']; ?>" data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
                                     </div>
                                 </div>
-                                <?php $id_section = $value['id_section'] ?>
-                            <?php } ?>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <button onclick="addSection()" type="button" class="btn btn-outline-success w-100">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M12 5l0 14" />
-                                        <path d="M5 12l14 0" />
-                                    </svg>
-                                    Tambahkan Bagian
-                                </button>
+                                <div class="col-sm-4 col-md-6 col-lg-6">
+                                    <!-- Tools -->
+                                    <div class="question-tools">
+                                        <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                                            <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
+                                                <option value="1" <?php echo ($value['type'] == '1') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                        <path d=&quot;M9 6l11 0&quot;></path>
+                                        <path d=&quot;M9 12l11 0&quot;></path>
+                                        <path d=&quot;M9 18l11 0&quot;></path>
+                                        <path d=&quot;M5 6l0 .01&quot;></path>
+                                        <path d=&quot;M5 12l0 .01&quot;></path>
+                                        <path d=&quot;M5 18l0 .01&quot;></path>
+                                        </svg>">
+                                                    Pilihan Ganda
+                                                </option>
+                                                <option value="2" <?php echo ($value['type'] == '2') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                        <path d=&quot;M4 6l16 0&quot;></path>
+                                        <path d=&quot;M4 12l16 0&quot;></path>
+                                        <path d=&quot;M4 18l12 0&quot;></path>
+                                        </svg>
+                                        ">
+                                                    Isian Singkat
+                                                </option>
+                                                <option value="3" <?php echo ($value['type'] == '3') ? 'selected' : ''; ?> data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                        <path d=&quot;M19 10h-14&quot;></path>
+                                        <path d=&quot;M5 6h14&quot;></path>
+                                        <path d=&quot;M14 14h-9&quot;></path>
+                                        <path d=&quot;M5 18h6&quot;></path>
+                                        <path d=&quot;M18 15v6&quot;></path>
+                                        <path d=&quot;M15 18h6&quot;></path>
+                                        </svg>
+                                        ">
+                                                    Isian Panjang
+                                                </option>
+                                            </select>
+
+                                            <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                    <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                </svg>
+                                            </a>
+                                            <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M9 12h6"></path>
+                                                    <path d="M12 9v6"></path>
+                                                    <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Isian Jawaban -->
+                            <div class="card-content">
+                                <?php if ($value['type'] == 1) { ?>
+                                    <!-- Pilihan Ganda -->
+                                    <div class="mb-3">
+                                        <div>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input value="<?= $value['option_a']; ?>" data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input value="<?= $value['option_b']; ?>" data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input value="<?= $value['option_c']; ?>" data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input value="<?= $value['option_d']; ?>" data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
+                                                </span>
+                                            </label>
+                                            <label class="form-check d-flex align-items-center">
+                                                <input class="form-check-input radio" type="radio" name="radios">
+                                                <span class="form-check-label ps-2 w-100">
+                                                    <input value="<?= $value['option_e']; ?>" data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                <?php } else if ($value['type'] == 2) { ?>
+                                    <input data-input-name="isianSingkat" type="text" class="form-control-plaintext" name="example-text-input" placeholder="Teks jawaban singkat" readonly>
+                                <?php } else { ?>
+                                    <input data-input-name="isianPanjang" type="text" class="form-control-plaintext" name="example-text-input" placeholder="Teks jawaban panjang" readonly>
+                                <?php } ?>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-6 d-flex justify-content-start">
-                                <a href="<?= base_url('epp'); ?>" class="btn btn-outline-primary">Batal</a>
-                            </div>
-                            <div class="col-6 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success mx-2">Simpan</button>
-                            </div>
-                        </div>
-                        <!-- <button type="submit">Submit</button> -->
-                    </form>
+
+                        <?php $id_section = $value['id_section'] ?>
+                    <?php } ?>
+                    <?php if ($id_section !== null) { ?>
+                        </div> <!-- tutup div section terakhir -->
+                    <?php } ?>
 
 
                 </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <button onclick="addSection()" type="button" class="btn btn-outline-success w-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 5l0 14" />
+                                <path d="M5 12l14 0" />
+                            </svg>
+                            Tambahkan Bagian
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 d-flex justify-content-start">
+                        <a href="<?= base_url('epp'); ?>" class="btn btn-outline-primary">Batal</a>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success mx-2">Simpan</button>
+                    </div>
+                </div>
+                <!-- <button type="submit">Submit</button> -->
+                </form>
+
+
             </div>
         </div>
     </div>
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
 <script>
@@ -461,45 +474,49 @@
 </script>
 <script>
     function setUniqueNames() {
-        console.log('set Unique name');
+        console.log('Set Unique names');
+        let totalCardCount = 0;
+
         const sectionCards = document.querySelectorAll('.section-card');
-        const customCards = document.querySelectorAll('.custom-card');
 
-        customCards.forEach((card, cardIndex) => {
-            const inputs = card.querySelectorAll('input, select');
-            const currentSection = findCurrentSection(sectionCards, card);
+        sectionCards.forEach((section, sectionIndex) => {
+            const currentSection = section;
+            const customCards = currentSection.querySelectorAll('.custom-card');
+            const sectionNumber = sectionIndex + 1;
+            const sectionPrefix = `section${sectionNumber}`;
 
-            inputs.forEach((input, inputIndex) => {
-                const inputName = input.dataset.inputName;
-                if (inputName !== undefined) {
-                    let uniqueName = `card${cardIndex + 1}`;
+            customCards.forEach((card, cardIndex) => {
+                totalCardCount++;
+                const inputs = card.querySelectorAll('input, select');
 
-                    if (currentSection) {
-                        const sectionNumber = getSectionNumber(currentSection);
-                        uniqueName += `_section${sectionNumber}`;
+                inputs.forEach((input, inputIndex) => {
+                    const inputName = input.dataset.inputName;
+                    if (inputName !== undefined) {
+                        let uniqueName = `card${totalCardCount}_${sectionPrefix}_input_${inputName}`;
+                        input.setAttribute('name', uniqueName);
                     }
+                });
 
-                    uniqueName += `_input_${inputName}`;
-                    input.setAttribute('name', uniqueName);
-                }
+                const cardNumbers = card.querySelectorAll('.card-number');
+                cardNumbers.forEach((cardNum, cardNumIndex) => {
+                    cardNum.textContent = 'No. ' + totalCardCount;
+                });
             });
 
-            const cardNumbers = card.querySelectorAll('.card-number');
-            cardNumbers.forEach((cardNum, cardNumIndex) => {
-                cardNum.textContent = 'No. ' + (parseInt(cardIndex) + 1);
-            });
-        });
-
-        const containerSections = document.querySelectorAll('.container-section');
-        containerSections.forEach((container, index) => {
-            const bagianInput = container.querySelector('input[data-input-name="bagian"]');
+            const containerSection = currentSection.querySelector('.container-section');
+            const bagianInput = containerSection.querySelector('input[data-input-name="bagian"]');
             if (bagianInput) {
-                console.log(index);
-                const uniqueName = `section${index + 1}_bagian`;
+                const uniqueName = `${sectionPrefix}_bagian`;
                 bagianInput.setAttribute('name', uniqueName);
             }
         });
     }
+
+
+
+
+
+
 
     function findCurrentSection(sections, card) {
         let currentSection = null;
@@ -779,10 +796,8 @@
 
     function addSection() {
         var cardContainer = document.getElementById('cardContainer');
-        var newSectionHTML = ` <div class="section-card" onclick="toggleCard(this)">
-                                <!-- <div class="row mb-1">
-                                    <span class="card-number fw-bold">No. 1</span>
-                                </div> -->
+        var newSectionHTML = `  <!-- Card Bagian -->
+                            <div class="section-card" onclick="toggleSection(this)">
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label class="form-label fw-bold">Bagian</label>
@@ -814,121 +829,114 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
-                                    <!-- <div class="col-sm-4 col-md-6 col-lg-6"> -->
-                                    <!-- Tools -->
-
-                                    <!-- </div> -->
                                 </div>
-                            </div>
-                            <!-- Card Soal -->
-                            <div class="custom-card" onclick="toggleCard(this)">
-                                <div class="row mb-1">
-                                    <span class="card-number fw-bold">No. 1</span>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-8 col-md-6 col-lg-6">
-                                        <div class="container-question">
-                                            <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
+                                <!-- Card Soal -->
+                                <div class="custom-card" onclick="toggleCard(this)">
+                                    <div class="row mb-1">
+                                        <span class="card-number fw-bold">No. 1</span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8 col-md-6 col-lg-6">
+                                            <div class="container-question">
+                                                <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4 col-md-6 col-lg-6">
-                                        <!-- Tools -->
-                                        <div class="question-tools">
-                                            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
-                                                <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
-                                                    <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M9 6l11 0&quot;></path>
-                                        <path d=&quot;M9 12l11 0&quot;></path>
-                                        <path d=&quot;M9 18l11 0&quot;></path>
-                                        <path d=&quot;M5 6l0 .01&quot;></path>
-                                        <path d=&quot;M5 12l0 .01&quot;></path>
-                                        <path d=&quot;M5 18l0 .01&quot;></path>
-                                        </svg>">
-                                                        Pilihan Ganda
-                                                    </option>
-                                                    <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M4 6l16 0&quot;></path>
-                                        <path d=&quot;M4 12l16 0&quot;></path>
-                                        <path d=&quot;M4 18l12 0&quot;></path>
-                                        </svg>
-                                        ">
-                                                        Isian Singkat
-                                                    </option>
-                                                    <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M19 10h-14&quot;></path>
-                                        <path d=&quot;M5 6h14&quot;></path>
-                                        <path d=&quot;M14 14h-9&quot;></path>
-                                        <path d=&quot;M5 18h6&quot;></path>
-                                        <path d=&quot;M18 15v6&quot;></path>
-                                        <path d=&quot;M15 18h6&quot;></path>
-                                        </svg>
-                                        ">
-                                                        Isian Panjang
-                                                    </option>
-                                                </select>
+                                        <div class="col-sm-4 col-md-6 col-lg-6">
+                                            <!-- Tools -->
+                                            <div class="question-tools">
+                                                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                                                    <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
+                                                        <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M9 6l11 0&quot;></path>
+                                            <path d=&quot;M9 12l11 0&quot;></path>
+                                            <path d=&quot;M9 18l11 0&quot;></path>
+                                            <path d=&quot;M5 6l0 .01&quot;></path>
+                                            <path d=&quot;M5 12l0 .01&quot;></path>
+                                            <path d=&quot;M5 18l0 .01&quot;></path>
+                                            </svg>">
+                                                            Pilihan Ganda
+                                                        </option>
+                                                        <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M4 6l16 0&quot;></path>
+                                            <path d=&quot;M4 12l16 0&quot;></path>
+                                            <path d=&quot;M4 18l12 0&quot;></path>
+                                            </svg>
+                                            ">
+                                                            Isian Singkat
+                                                        </option>
+                                                        <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M19 10h-14&quot;></path>
+                                            <path d=&quot;M5 6h14&quot;></path>
+                                            <path d=&quot;M14 14h-9&quot;></path>
+                                            <path d=&quot;M5 18h6&quot;></path>
+                                            <path d=&quot;M18 15v6&quot;></path>
+                                            <path d=&quot;M15 18h6&quot;></path>
+                                            </svg>
+                                            ">
+                                                            Isian Panjang
+                                                        </option>
+                                                    </select>
 
-                                                <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                        <path d="M9 9l6 6m0 -6l-6 6"></path>
-                                                    </svg>
-                                                </a>
-                                                <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 12h6"></path>
-                                                        <path d="M12 9v6"></path>
-                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                    </svg>
-                                                </a>
+                                                    <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                            <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                        </svg>
+                                                    </a>
+                                                    <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M9 12h6"></path>
+                                                            <path d="M12 9v6"></path>
+                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Isian Jawaban -->
-                                <div class="card-content">
-                                    <!-- Pilihan Ganda -->
-                                    <div class="mb-3">
-                                        <div>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
-                                                </span>
-                                            </label>
+                                    <!-- Isian Jawaban -->
+                                    <div class="card-content">
+                                        <!-- Pilihan Ganda -->
+                                        <div class="mb-3">
+                                            <div>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
+                                                    </span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -942,6 +950,7 @@
 
         // Menambahkan card baru setelah card yang diklik
         cardContainer.insertAdjacentHTML('beforeend', newSectionHTML);
+        // cardContainer.insertAdjacentHTML('afterend', newSectionHTML);
 
         // Menandai card baru sebagai card aktif
         // var newCard = currentCard.nextElementSibling;

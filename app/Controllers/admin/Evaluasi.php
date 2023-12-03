@@ -255,7 +255,7 @@ class Evaluasi extends BaseController
     {
         $data['id_course'] = $id_pelatihan;
         $data['data'] = model(InstrumentModel::class)->getInstrument($id_pelatihan);
-
+        // dd($data);
         if (empty($data['data'])) {
             return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
         } else {
@@ -272,9 +272,7 @@ class Evaluasi extends BaseController
     public function editInstrumentProses()
     {
         $data = $this->request->getPost();
-        // dd($data);
-        // dd($data['id_instrument']);
-        // dd($data, json_encode($data));
+
         // Data yang akan di-insert ke tabel 'instrumen_soal'
         $dataInstrumenSoal = array(
             'name' => $data['name'],
@@ -284,28 +282,24 @@ class Evaluasi extends BaseController
             'description' => $data['description']
         );
 
-        model(InstrumentModel::class)->deleteByCourseId($data['id_course']);
+        $deletedInstrument =  model(InstrumentModel::class)->deleteByCourseId($data['id_course']);
         // $result = model(InstrumentModel::class)->delete($data['id_instrument']);
         // $result = model(InstrumentModel::class)->delete(10);
         // $result = model(InstrumentModel::class)->delete(11);
 
-        // if ($result) {
-        //     // Proses penghapusan berhasil
-        //     echo "Data berhasil dihapus.";
-        // } else {
-        //     // Terjadi kesalahan saat penghapusan
-        //     echo "Gagal menghapus data.";
-        // }
+        if (!$deletedInstrument) {
+            // Terjadi kesalahan saat penghapusan
+            return redirect()->back()->withInput()->with('error', 'Maaf, terjadi kesalahan dalam proses edit instrument.');
+        }
+
         model(InstrumentModel::class)->insert($dataInstrumenSoal);
         $instrument_id =  model(InstrumentModel::class)->getInsertID();
 
-        // Data soal yang akan di-insert ke tabel 'soal'
-        // dd($instrument_id, $dataInstrumenSoal);
         $dataBagian = array();
         $dataSoal = array();
-        // Data opsi jawaban yang akan di-insert ke tabel 'opsi_jawaban'
         $dataOpsi = array();
         $sectionNumber = 0;
+
         // Mencari dan menyiapkan data soal dan opsi jawaban dari input yang dinamis
         foreach ($data as $key => $value) {
             if (strpos($key, 'section') !== false && strpos($key, '_bagian') !== false) {
@@ -317,21 +311,10 @@ class Evaluasi extends BaseController
 
                     model(SectionModel::class)->insert($dataBagian);
                     $section_id =  model(SectionModel::class)->getInsertID();
-                    // dd($key, $matches);
-                    // echo "Nilai angka setelah 'card': " . $sectionNumber;
-
+                } else {
+                    //     // Penanganan jika tidak ada nilai yang ditemukan
+                    continue;
                 }
-                // else {
-                //     // Penanganan jika tidak ada nilai yang ditemukan
-                //     dd($key, "failed");
-                //     echo "Failed";
-                // continue;
-                // }
-                // $sectionNumber = substr($key, 7, 1); // Mendapatkan nomor bagian dari kunci
-
-
-
-                d($dataBagian);
 
                 foreach ($data as $subKey => $subValue) {
                     if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
@@ -339,21 +322,14 @@ class Evaluasi extends BaseController
                         preg_match('/card(\d+)/', $subKey, $matchesCard);
                         if (isset($matchesCard[1])) {
                             $index = $matchesCard[1];
-                            // dd($subKey, $matchesCard);
-                            // echo "Nilai angka setelah 'card': " . $sectionNumber;
-                        } else {
-                            //     // Penanganan jika tidak ada nilai yang ditemukan
-                            //     dd($key, "failed");
-                            //     echo "Failed";
-                            continue;
                         }
-                        // $index = substr($subKey, 4, 1); // Mengambil nomor kartu dari kunci
+
                         // Cek apakah pertanyaan sudah pernah di-insert
                         $existingQuestion = model(QuestionModel::class)
                             ->where('number', $index)
                             ->where('id_section', $section_id)
                             ->first();
-                        d($existingQuestion);
+
                         if (!$existingQuestion) {
                             $dataSoal['id_section'] = $section_id;
                             $dataSoal['number'] = $index;
@@ -389,10 +365,8 @@ class Evaluasi extends BaseController
                 }
             }
         }
-        // dd($dataInstrumenSoal, $dataSoal, $dataOpsi);
-        // dd($data, json_encode($data));
-        return redirect()->back()->to(base_url('epp'))->withInput()->with('message', 'Instrument Berhasil dibuat');
-        // return redirect()->back()->to(base_url('pelatihan/detail/user/' .  $dataInstrumenSoal['id_course']))->withInput()->with('message', 'Instrument Berhasil dibuat');
+
+        return redirect()->back()->to(base_url('epp'))->withInput()->with('message', 'Instrument Berhasil Diubah');
     }
     public function fillInstrument($id_pelatihan)
     {
@@ -425,8 +399,7 @@ class Evaluasi extends BaseController
     public function postEPP()
     {
         $data = $this->request->getPost();
-        d($data, json_encode($data));
-        // dd($data, json_encode($data));
+
         // Data yang akan di-insert ke tabel 'instrumen_soal'
         $dataInstrumenSoal = array(
             'name' => $data['name'],
@@ -435,36 +408,45 @@ class Evaluasi extends BaseController
             'end_fill' => $data['end_fill'],
             'description' => $data['description']
         );
+
         model(InstrumentModel::class)->insert($dataInstrumenSoal);
         $instrument_id =  model(InstrumentModel::class)->getInsertID();
-        // Data soal yang akan di-insert ke tabel 'soal'
-        // dd($instrument_id, $dataInstrumenSoal);
+
         $dataBagian = array();
         $dataSoal = array();
-        // Data opsi jawaban yang akan di-insert ke tabel 'opsi_jawaban'
         $dataOpsi = array();
+        $sectionNumber = 0;
 
         // Mencari dan menyiapkan data soal dan opsi jawaban dari input yang dinamis
         foreach ($data as $key => $value) {
             if (strpos($key, 'section') !== false && strpos($key, '_bagian') !== false) {
-                $sectionNumber = substr($key, 7, 1); // Mendapatkan nomor bagian dari kunci
-                $dataBagian['id_instrument'] = $instrument_id;
-                $dataBagian['section'] = $data['section' . $sectionNumber . '_bagian'];
+                preg_match('/section(\d+)/', $key, $matches);
+                if (isset($matches[1])) {
+                    $sectionNumber = $matches[1];
+                    $dataBagian['id_instrument'] = $instrument_id;
+                    $dataBagian['section'] = $data['section' . $sectionNumber . '_bagian'];
 
-                model(SectionModel::class)->insert($dataBagian);
-                $section_id =  model(SectionModel::class)->getInsertID();
-                d($dataBagian);
+                    model(SectionModel::class)->insert($dataBagian);
+                    $section_id =  model(SectionModel::class)->getInsertID();
+                } else {
+                    //     // Penanganan jika tidak ada nilai yang ditemukan
+                    continue;
+                }
 
                 foreach ($data as $subKey => $subValue) {
                     if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
                         // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
-                        $index = substr($subKey, 4, 1); // Mengambil nomor kartu dari kunci
+                        preg_match('/card(\d+)/', $subKey, $matchesCard);
+                        if (isset($matchesCard[1])) {
+                            $index = $matchesCard[1];
+                        }
+
                         // Cek apakah pertanyaan sudah pernah di-insert
                         $existingQuestion = model(QuestionModel::class)
                             ->where('number', $index)
                             ->where('id_section', $section_id)
                             ->first();
-                        d($existingQuestion);
+
                         if (!$existingQuestion) {
                             $dataSoal['id_section'] = $section_id;
                             $dataSoal['number'] = $index;
@@ -498,46 +480,9 @@ class Evaluasi extends BaseController
                         );
                     }
                 }
-                // Jika kunci input merupakan bagian dari data soal (misalnya 'card1_input_pertanyaan')
-                // if (strpos($key, 'card') !== false && strpos($key, '_input_pertanyaan') !== false) {
-                //     $index = substr($key, 4, 1); // Mengambil nomor kartu dari kunci
-                //     $dataSoal['id_bagian'] = $instrument_id;
-                //     $dataSoal['number'] = $index;
-                //     $dataSoal['type'] = $data['card' . $index . '_input_tipe_soal'];
-                //     $dataSoal['question'] = $value;
-
-                //     model(QuestionModel::class)->insert($dataSoal);
-                //     $soal_id =  model(QuestionModel::class)->getInsertID();
-                //     // dd($soal_id);
-
-                //     // $dataSoal[$index]['pertanyaan'] = $value;
-                //     // Mengambil data opsi jawaban sesuai nomor kartu yang sama
-                //     // $dataSoal[$index]['type'] = $data['card' . $index . '_input_tipe_soal'];
-                //     if ($data['card' . $index . '_input_tipe_soal'] == 1) {
-                //         $dataOpsi['id_question'] = $soal_id;
-                //         $dataOpsi['option_a'] = $data['card' . $index . '_input_opsiA'];
-                //         $dataOpsi['option_b'] = $data['card' . $index . '_input_opsiB'];
-                //         $dataOpsi['option_c'] = $data['card' . $index . '_input_opsiC'];
-                //         $dataOpsi['option_d'] = $data['card' . $index . '_input_opsiD'];
-                //         $dataOpsi['option_e'] = $data['card' . $index . '_input_opsiE'];
-                //         model(OptionModel::class)->insert($dataOpsi);
-                //         $option_id =  model(OptionModel::class)->getInsertID();
-                //         // dd($option_id);
-
-                //         // $dataOpsiJawaban[$index]['opsiA'] = $data['card' . $index . '_input_opsiA'];
-                //         // $dataOpsiJawaban[$index]['opsiB'] = $data['card' . $index . '_input_opsiB'];
-                //         // $dataOpsiJawaban[$index]['opsiC'] = $data['card' . $index . '_input_opsiC'];
-                //         // $dataOpsiJawaban[$index]['opsiD'] = $data['card' . $index . '_input_opsiD'];
-                //     }
-                //     // $dataOpsiJawaban[$index]['isianSingkat'] = $data['card' . $index . '_input_isianSingkat'];
-                //     // $dataOpsiJawaban[$index]['isianPanjang'] = $data['card' . $index . '_input_isianPanjang'];
-                // }
             }
         }
-        // }
-        // dd($dataInstrumenSoal, $dataSoal, $dataOpsi);
-        // dd($data, json_encode($data));
+
         return redirect()->back()->to(base_url('epp'))->withInput()->with('message', 'Instrument Berhasil dibuat');
-        // return redirect()->back()->to(base_url('pelatihan/detail/user/' .  $dataInstrumenSoal['id_course']))->withInput()->with('message', 'Instrument Berhasil dibuat');
     }
 }

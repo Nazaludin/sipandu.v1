@@ -146,112 +146,112 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Card Soal -->
-                            <div class="custom-card" onclick="toggleCard(this)">
-                                <div class="row mb-1">
-                                    <span class="card-number fw-bold">No. 1</span>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-8 col-md-6 col-lg-6">
-                                        <div class="container-question">
-                                            <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
-                                        </div>
+                                <!-- Card Soal -->
+                                <div class="custom-card" onclick="toggleCard(this)">
+                                    <div class="row mb-1">
+                                        <span class="card-number fw-bold">No. 1</span>
                                     </div>
-                                    <div class="col-sm-4 col-md-6 col-lg-6">
-                                        <!-- Tools -->
-                                        <div class="question-tools">
-                                            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
-                                                <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
-                                                    <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M9 6l11 0&quot;></path>
-                                        <path d=&quot;M9 12l11 0&quot;></path>
-                                        <path d=&quot;M9 18l11 0&quot;></path>
-                                        <path d=&quot;M5 6l0 .01&quot;></path>
-                                        <path d=&quot;M5 12l0 .01&quot;></path>
-                                        <path d=&quot;M5 18l0 .01&quot;></path>
-                                        </svg>">
-                                                        Pilihan Ganda
-                                                    </option>
-                                                    <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M4 6l16 0&quot;></path>
-                                        <path d=&quot;M4 12l16 0&quot;></path>
-                                        <path d=&quot;M4 18l12 0&quot;></path>
-                                        </svg>
-                                        ">
-                                                        Isian Singkat
-                                                    </option>
-                                                    <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M19 10h-14&quot;></path>
-                                        <path d=&quot;M5 6h14&quot;></path>
-                                        <path d=&quot;M14 14h-9&quot;></path>
-                                        <path d=&quot;M5 18h6&quot;></path>
-                                        <path d=&quot;M18 15v6&quot;></path>
-                                        <path d=&quot;M15 18h6&quot;></path>
-                                        </svg>
-                                        ">
-                                                        Isian Panjang
-                                                    </option>
-                                                </select>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8 col-md-6 col-lg-6">
+                                            <div class="container-question">
+                                                <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-6 col-lg-6">
+                                            <!-- Tools -->
+                                            <div class="question-tools">
+                                                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                                                    <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
+                                                        <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M9 6l11 0&quot;></path>
+                                            <path d=&quot;M9 12l11 0&quot;></path>
+                                            <path d=&quot;M9 18l11 0&quot;></path>
+                                            <path d=&quot;M5 6l0 .01&quot;></path>
+                                            <path d=&quot;M5 12l0 .01&quot;></path>
+                                            <path d=&quot;M5 18l0 .01&quot;></path>
+                                            </svg>">
+                                                            Pilihan Ganda
+                                                        </option>
+                                                        <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M4 6l16 0&quot;></path>
+                                            <path d=&quot;M4 12l16 0&quot;></path>
+                                            <path d=&quot;M4 18l12 0&quot;></path>
+                                            </svg>
+                                            ">
+                                                            Isian Singkat
+                                                        </option>
+                                                        <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M19 10h-14&quot;></path>
+                                            <path d=&quot;M5 6h14&quot;></path>
+                                            <path d=&quot;M14 14h-9&quot;></path>
+                                            <path d=&quot;M5 18h6&quot;></path>
+                                            <path d=&quot;M18 15v6&quot;></path>
+                                            <path d=&quot;M15 18h6&quot;></path>
+                                            </svg>
+                                            ">
+                                                            Isian Panjang
+                                                        </option>
+                                                    </select>
 
-                                                <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                        <path d="M9 9l6 6m0 -6l-6 6"></path>
-                                                    </svg>
-                                                </a>
-                                                <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 12h6"></path>
-                                                        <path d="M12 9v6"></path>
-                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                    </svg>
-                                                </a>
+                                                    <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                            <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                        </svg>
+                                                    </a>
+                                                    <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M9 12h6"></path>
+                                                            <path d="M12 9v6"></path>
+                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Isian Jawaban -->
-                                <div class="card-content">
-                                    <!-- Pilihan Ganda -->
-                                    <div class="mb-3">
-                                        <div>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
-                                                </span>
-                                            </label>
+                                    <!-- Isian Jawaban -->
+                                    <div class="card-content">
+                                        <!-- Pilihan Ganda -->
+                                        <div class="mb-3">
+                                            <div>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
+                                                    </span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
+script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/libs/tinymce/tinymce.min.js" defer></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let options = {
@@ -412,41 +412,74 @@
 </script>
 <script>
     function setUniqueNames() {
+        console.log('Set Unique names');
+        let totalCardCount = 0;
+
         const sectionCards = document.querySelectorAll('.section-card');
-        const customCards = document.querySelectorAll('.custom-card');
 
-        customCards.forEach((card) => {
-            const inputs = card.querySelectorAll('input, select');
-            const currentSection = findCurrentSection(sectionCards, card);
+        sectionCards.forEach((section, sectionIndex) => {
+            const currentSection = section;
+            const customCards = currentSection.querySelectorAll('.custom-card');
+            const sectionNumber = sectionIndex + 1;
+            const sectionPrefix = `section${sectionNumber}`;
 
-            inputs.forEach((input) => {
-                const inputName = input.dataset.inputName;
-                if (inputName !== undefined) {
-                    let uniqueName = '';
+            customCards.forEach((card, cardIndex) => {
+                totalCardCount++;
+                const inputs = card.querySelectorAll('input, select');
 
-                    if (currentSection) {
-                        const sectionNumber = Array.from(sectionCards).indexOf(currentSection) + 1;
-                        uniqueName += `section${sectionNumber}`;
+                inputs.forEach((input, inputIndex) => {
+                    const inputName = input.dataset.inputName;
+                    if (inputName !== undefined) {
+                        let uniqueName = `card${totalCardCount}_${sectionPrefix}_input_${inputName}`;
+                        input.setAttribute('name', uniqueName);
                     }
+                });
 
-                    uniqueName += `_${inputName}`;
-                    input.setAttribute('name', uniqueName);
-                }
+                const cardNumbers = card.querySelectorAll('.card-number');
+                cardNumbers.forEach((cardNum, cardNumIndex) => {
+                    cardNum.textContent = 'No. ' + totalCardCount;
+                });
             });
+
+            const containerSection = currentSection.querySelector('.container-section');
+            const bagianInput = containerSection.querySelector('input[data-input-name="bagian"]');
+            if (bagianInput) {
+                const uniqueName = `${sectionPrefix}_bagian`;
+                bagianInput.setAttribute('name', uniqueName);
+            }
         });
     }
 
+
+
+
+
+
+
     function findCurrentSection(sections, card) {
-        // Menemukan section card terkait dengan custom card saat ini
-        for (let i = 0; i < sections.length; i++) {
-            const sectionCustomCards = sections[i].querySelectorAll('.custom-card');
-            for (let j = 0; j < sectionCustomCards.length; j++) {
-                if (sectionCustomCards[j] === card) {
-                    return sections[i];
-                }
+        let currentSection = null;
+
+        const sectionCards = document.querySelectorAll('.section-card');
+        const customCards = document.querySelectorAll('.custom-card');
+
+        for (let i = 0; i < customCards.length; i++) {
+            if (customCards[i] === card) {
+                // Temukan indeks section-card yang sesuai dengan custom-card saat ini
+                const sectionIndex = Math.floor(i / customCards.length * sectionCards.length);
+
+                // Dapatkan section-card yang sesuai dengan custom-card saat ini
+                currentSection = sectionCards[sectionIndex];
+                break;
             }
         }
-        return null;
+
+        return currentSection;
+    }
+
+
+    function getSectionNumber(section) {
+        const sectionCards = document.querySelectorAll('.section-card');
+        return Array.from(sectionCards).indexOf(section) + 1;
     }
 </script>
 <!-- Script ID -->
@@ -492,6 +525,7 @@
 
     // @formatter:off
     document.addEventListener("DOMContentLoaded", function() {
+        setUniqueNames()
         initializeTomSelect();
         // triggerRemoveCard();
         triggerSelectTypeAnswer();
@@ -700,10 +734,8 @@
 
     function addSection() {
         var cardContainer = document.getElementById('cardContainer');
-        var newSectionHTML = ` <div class="section-card" onclick="toggleCard(this)">
-                                <!-- <div class="row mb-1">
-                                    <span class="card-number fw-bold">No. 1</span>
-                                </div> -->
+        var newSectionHTML = `  <!-- Card Bagian -->
+                            <div class="section-card" onclick="toggleSection(this)">
                                 <div class="row mb-3">
                                     <div class="col">
                                         <label class="form-label fw-bold">Bagian</label>
@@ -735,121 +767,114 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
                                     </div>
-                                    <!-- <div class="col-sm-4 col-md-6 col-lg-6"> -->
-                                    <!-- Tools -->
-
-                                    <!-- </div> -->
                                 </div>
-                            </div>
-                            <!-- Card Soal -->
-                            <div class="custom-card" onclick="toggleCard(this)">
-                                <div class="row mb-1">
-                                    <span class="card-number fw-bold">No. 1</span>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-8 col-md-6 col-lg-6">
-                                        <div class="container-question">
-                                            <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
+                                <!-- Card Soal -->
+                                <div class="custom-card" onclick="toggleCard(this)">
+                                    <div class="row mb-1">
+                                        <span class="card-number fw-bold">No. 1</span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-8 col-md-6 col-lg-6">
+                                            <div class="container-question">
+                                                <input data-input-name="pertanyaan" type="text" class="form-control-plaintext fw-bold question" name="example-text-input" placeholder="Pertanyaan Tanpa Judul">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4 col-md-6 col-lg-6">
-                                        <!-- Tools -->
-                                        <div class="question-tools">
-                                            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
-                                                <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
-                                                    <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M9 6l11 0&quot;></path>
-                                        <path d=&quot;M9 12l11 0&quot;></path>
-                                        <path d=&quot;M9 18l11 0&quot;></path>
-                                        <path d=&quot;M5 6l0 .01&quot;></path>
-                                        <path d=&quot;M5 12l0 .01&quot;></path>
-                                        <path d=&quot;M5 18l0 .01&quot;></path>
-                                        </svg>">
-                                                        Pilihan Ganda
-                                                    </option>
-                                                    <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M4 6l16 0&quot;></path>
-                                        <path d=&quot;M4 12l16 0&quot;></path>
-                                        <path d=&quot;M4 18l12 0&quot;></path>
-                                        </svg>
-                                        ">
-                                                        Isian Singkat
-                                                    </option>
-                                                    <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
-                                        <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
-                                        <path d=&quot;M19 10h-14&quot;></path>
-                                        <path d=&quot;M5 6h14&quot;></path>
-                                        <path d=&quot;M14 14h-9&quot;></path>
-                                        <path d=&quot;M5 18h6&quot;></path>
-                                        <path d=&quot;M18 15v6&quot;></path>
-                                        <path d=&quot;M15 18h6&quot;></path>
-                                        </svg>
-                                        ">
-                                                        Isian Panjang
-                                                    </option>
-                                                </select>
+                                        <div class="col-sm-4 col-md-6 col-lg-6">
+                                            <!-- Tools -->
+                                            <div class="question-tools">
+                                                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                                                    <select data-input-name="tipe_soal" type="text" class="form-select select-type-answer" value="">
+                                                        <option value="1" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-list&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M9 6l11 0&quot;></path>
+                                            <path d=&quot;M9 12l11 0&quot;></path>
+                                            <path d=&quot;M9 18l11 0&quot;></path>
+                                            <path d=&quot;M5 6l0 .01&quot;></path>
+                                            <path d=&quot;M5 12l0 .01&quot;></path>
+                                            <path d=&quot;M5 18l0 .01&quot;></path>
+                                            </svg>">
+                                                            Pilihan Ganda
+                                                        </option>
+                                                        <option value="2" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-align-justified&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M4 6l16 0&quot;></path>
+                                            <path d=&quot;M4 12l16 0&quot;></path>
+                                            <path d=&quot;M4 18l12 0&quot;></path>
+                                            </svg>
+                                            ">
+                                                            Isian Singkat
+                                                        </option>
+                                                        <option value="3" data-custom-properties="<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; class=&quot;icon icon-tabler icon-tabler-text-plus&quot; width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;2&quot; stroke=&quot;currentColor&quot; fill=&quot;none&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+                                            <path stroke=&quot;none&quot; d=&quot;M0 0h24v24H0z&quot; fill=&quot;none&quot;></path>
+                                            <path d=&quot;M19 10h-14&quot;></path>
+                                            <path d=&quot;M5 6h14&quot;></path>
+                                            <path d=&quot;M14 14h-9&quot;></path>
+                                            <path d=&quot;M5 18h6&quot;></path>
+                                            <path d=&quot;M18 15v6&quot;></path>
+                                            <path d=&quot;M15 18h6&quot;></path>
+                                            </svg>
+                                            ">
+                                                            Isian Panjang
+                                                        </option>
+                                                    </select>
 
-                                                <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                        <path d="M9 9l6 6m0 -6l-6 6"></path>
-                                                    </svg>
-                                                </a>
-                                                <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M9 12h6"></path>
-                                                        <path d="M12 9v6"></path>
-                                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
-                                                    </svg>
-                                                </a>
+                                                    <a onclick="triggerRemoveCard.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Hapus Pertanyaan" data-bs-original-title="Hapus Pertanyaan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                            <path d="M9 9l6 6m0 -6l-6 6"></path>
+                                                        </svg>
+                                                    </a>
+                                                    <a onclick="addQuestion.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Pertanyaan" data-bs-original-title="Tambah Pertanyaan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M9 12h6"></path>
+                                                            <path d="M12 9v6"></path>
+                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                                                        </svg>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Isian Jawaban -->
-                                <div class="card-content">
-                                    <!-- Pilihan Ganda -->
-                                    <div class="mb-3">
-                                        <div>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
-                                                </span>
-                                            </label>
-                                            <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="radios">
-                                                <span class="form-check-label ps-2 w-100">
-                                                    <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
-                                                </span>
-                                            </label>
+                                    <!-- Isian Jawaban -->
+                                    <div class="card-content">
+                                        <!-- Pilihan Ganda -->
+                                        <div class="mb-3">
+                                            <div>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiA" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi A" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiB" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi B" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiC" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi C" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiD" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi D" readonly>
+                                                    </span>
+                                                </label>
+                                                <label class="form-check d-flex align-items-center">
+                                                    <input class="form-check-input radio" type="radio" name="radios">
+                                                    <span class="form-check-label ps-2 w-100">
+                                                        <input data-input-name="opsiE" type="text" class="form-control-plaintext radio" name="example-text-input" placeholder="Isikan Opsi E" readonly>
+                                                    </span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -863,6 +888,7 @@
 
         // Menambahkan card baru setelah card yang diklik
         cardContainer.insertAdjacentHTML('beforeend', newSectionHTML);
+        // cardContainer.insertAdjacentHTML('afterend', newSectionHTML);
 
         // Menandai card baru sebagai card aktif
         // var newCard = currentCard.nextElementSibling;
