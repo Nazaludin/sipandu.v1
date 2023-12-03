@@ -120,7 +120,8 @@
                             </span>
                         </a>
                     </li>
-                    <li class="nav-item justify-content-center">
+                    <li class="nav-item dropdown">
+                        <!-- <li class="nav-item justify-content-center"> -->
                         <a class="nav-link" href="<?php echo base_url('epp'); ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -135,6 +136,24 @@
                                 Evaluasi Pasca Pelatihan <strong>(EPP)</strong>
                             </span>
                         </a>
+
+                        <div class="dropdown-menu  show">
+                            <div class="dropdown-menu-column">
+                                <a class="dropdown-item" href="<?= base_url('instrument/template'); ?>">
+                                    Kelola Template
+                                </a>
+                                <!-- <a class="dropdown-item" href="<?= base_url('pelatihan/daftar'); ?>">
+                                    Daftar
+                                </a>
+                                <a class="dropdown-item" href="<?= base_url('pelatihan/berlangsung'); ?>">
+                                    Berlangsung
+                                </a>
+                                <a class="dropdown-item" href="<?= base_url('pelatihan/riwayat'); ?>">
+                                    Riwayat
+                                </a> -->
+                            </div>
+
+                        </div>
                     </li>
                 <?php } ?>
                 <li class="d-none d-xl-none d-md-block d-sm-none nav-item justify-content-center">

@@ -8,6 +8,7 @@ use \App\Models\InstrumentModel;
 use App\Models\OptionModel;
 use App\Models\QuestionModel;
 use App\Models\SectionModel;
+use App\Models\TemplateModel;
 use PhpParser\Node\Expr\Empty_;
 
 class Evaluasi extends BaseController
@@ -235,6 +236,31 @@ class Evaluasi extends BaseController
             . view('admin/evaluasi/instrument')
             . view('layout/footer');
     }
+    public function templateInstrument()
+    {
+        $data['data'] = model(TemplateModel::class)->findAll();
+        // dd($data);
+        // if (empty($data['data'])) {
+        // return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Template Masi dibuat');
+        // }
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/evaluasi/template_instrument')
+            . view('layout/footer');
+    }
+    public function courseTemplateInstrument($id_course)
+    {
+        $data['id_course'] = $id_course;
+        $data['data'] = model(TemplateModel::class)->findAll();
+        // dd($data);
+        // if (empty($data['data'])) {
+        // return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Template Masi dibuat');
+        // }
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/evaluasi/course_template_instrument')
+            . view('layout/footer');
+    }
     public function rekapInstrument()
     {
         return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
@@ -249,6 +275,48 @@ class Evaluasi extends BaseController
         return view('layout/header', $data)
             . view('layout/sidebar')
             . view('admin/evaluasi/insert_instrument')
+            . view('layout/footer');
+    }
+    public function insertTemplateInstrument()
+    {
+        // $data['id_course'] = $id_pelatihan;
+        return view('layout/header')
+            . view('layout/sidebar')
+            . view('admin/evaluasi/insert_template_instrument')
+            . view('layout/footer');
+    }
+    public function editTemplateInstrument($id_template)
+    {
+        // $data['id_template'] = $id_template;
+        $data['data'] = model(TemplateModel::class)->getInstrument($id_template);
+        // dd($data);
+        if (empty($data['data'])) {
+            return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
+        } else {
+            $data['data'][0]['start_fill'] = $data['data'][0]['start_fill'] ? Time::parse($data['data'][0]['start_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+            $data['data'][0]['end_fill'] = $data['data'][0]['end_fill'] ? Time::parse($data['data'][0]['end_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+        }
+        // dd($data);
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/evaluasi/edit_template_instrument')
+            . view('layout/footer');
+    }
+    public function previewTemplateInstrument($id_template)
+    {
+        // $data['id_template'] = $id_template;
+        $data['data'] = model(TemplateModel::class)->getInstrument($id_template);
+        // dd($data);
+        if (empty($data['data'])) {
+            return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
+        } else {
+            $data['data'][0]['start_fill'] = $data['data'][0]['start_fill'] ? Time::parse($data['data'][0]['start_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+            $data['data'][0]['end_fill'] = $data['data'][0]['end_fill'] ? Time::parse($data['data'][0]['end_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+        }
+        // dd($data);
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/evaluasi/preview_template_instrument')
             . view('layout/footer');
     }
     public function editInstrument($id_pelatihan)
@@ -266,6 +334,22 @@ class Evaluasi extends BaseController
         return view('layout/header', $data)
             . view('layout/sidebar')
             . view('admin/evaluasi/edit_instrument')
+            . view('layout/footer');
+    }
+    public function useTemplateInstrument($id_pelatihan, $id_template)
+    {
+        $data['id_course'] = $id_pelatihan;
+        $data['data'] = model(TemplateModel::class)->getInstrument($id_template);
+        // dd($data);
+        if (empty($data['data'])) {
+            return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
+        } else {
+            $data['data'][0]['start_fill'] = $data['data'][0]['start_fill'] ? Time::parse($data['data'][0]['start_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+            $data['data'][0]['end_fill'] = $data['data'][0]['end_fill'] ? Time::parse($data['data'][0]['end_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+        }
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('admin/evaluasi/use_template_instrument')
             . view('layout/footer');
     }
 
@@ -368,6 +452,111 @@ class Evaluasi extends BaseController
 
         return redirect()->back()->to(base_url('epp'))->withInput()->with('message', 'Instrument Berhasil Diubah');
     }
+    public function editTemplateInstrumentProses()
+    {
+        $data = $this->request->getPost();
+
+        $template_id = $data['id_template'];
+        $old_instrument_id = $data['id_instrument'];
+
+        $deletedInstrument =  model(InstrumentModel::class)->delete($old_instrument_id);
+        if (!$deletedInstrument) {
+            // Terjadi kesalahan saat penghapusan
+            return redirect()->back()->withInput()->with('error', 'Maaf, terjadi kesalahan dalam proses edit instrument.');
+        }
+
+        // Data yang akan di-insert ke tabel 'instrumen_soal'
+        $dataInstrumenSoal = array(
+            'name' => $data['name'],
+        );
+        model(InstrumentModel::class)->insert($dataInstrumenSoal);
+        $instrument_id =  model(InstrumentModel::class)->getInsertID();
+
+        // edit isian table template
+        $dataTemplate = array(
+            'name' => $data['name'],
+            'id_instrument' =>  $instrument_id,
+        );
+
+        $updatedTemplate =  model(TemplateModel::class)->update($template_id, $dataTemplate);
+        if (!$updatedTemplate) {
+            return redirect()->back()->withInput()->with('error', 'Maaf, terjadi kesalahan dalam proses pengubahan template.');
+        }
+
+
+        $dataBagian = array();
+        $dataSoal = array();
+        $dataOpsi = array();
+        $sectionNumber = 0;
+
+        // Mencari dan menyiapkan data soal dan opsi jawaban dari input yang dinamis
+        foreach ($data as $key => $value) {
+            if (strpos($key, 'section') !== false && strpos($key, '_bagian') !== false) {
+                preg_match('/section(\d+)/', $key, $matches);
+                if (isset($matches[1])) {
+                    $sectionNumber = $matches[1];
+                    $dataBagian['id_instrument'] = $instrument_id;
+                    $dataBagian['section'] = $data['section' . $sectionNumber . '_bagian'];
+
+                    model(SectionModel::class)->insert($dataBagian);
+                    $section_id =  model(SectionModel::class)->getInsertID();
+                } else {
+                    //     // Penanganan jika tidak ada nilai yang ditemukan
+                    continue;
+                }
+
+                foreach ($data as $subKey => $subValue) {
+                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                        // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
+                        preg_match('/card(\d+)/', $subKey, $matchesCard);
+                        if (isset($matchesCard[1])) {
+                            $index = $matchesCard[1];
+                        }
+
+                        // Cek apakah pertanyaan sudah pernah di-insert
+                        $existingQuestion = model(QuestionModel::class)
+                            ->where('number', $index)
+                            ->where('id_section', $section_id)
+                            ->first();
+
+                        if (!$existingQuestion) {
+                            $dataSoal['id_section'] = $section_id;
+                            $dataSoal['number'] = $index;
+                            $dataSoal['type'] = $data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'];
+                            $dataSoal['question'] = $subValue;
+
+                            model(QuestionModel::class)->insert($dataSoal);
+                            $soal_id =  model(QuestionModel::class)->getInsertID();
+
+                            if ($data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'] == 1) {
+                                // Proses opsi jawaban hanya jika tipe soal adalah 1
+                                $dataOpsi['id_question'] = $soal_id;
+                                $dataOpsi['option_a'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiA'];
+                                $dataOpsi['option_b'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiB'];
+                                $dataOpsi['option_c'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiC'];
+                                $dataOpsi['option_d'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiD'];
+                                $dataOpsi['option_e'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiE'];
+
+                                model(OptionModel::class)->insert($dataOpsi);
+                            }
+                        }
+
+                        unset(
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_pertanyaan'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiA'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiB'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiC'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiD'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiE']
+                        );
+                    }
+                }
+            }
+        }
+
+        return redirect()->back()->to(base_url('instrument/template'))->withInput()->with('message', 'Template Berhasil Diubah');
+    }
     public function fillInstrument($id_pelatihan)
     {
         $data['id_course'] = $id_pelatihan;
@@ -396,7 +585,7 @@ class Evaluasi extends BaseController
             . view('admin/evaluasi/perview_instrument')
             . view('layout/footer');
     }
-    public function postEPP()
+    public function insertInstrumentProses()
     {
         $data = $this->request->getPost();
 
@@ -484,5 +673,115 @@ class Evaluasi extends BaseController
         }
 
         return redirect()->back()->to(base_url('epp'))->withInput()->with('message', 'Instrument Berhasil dibuat');
+    }
+    public function insertTemplateInstrumentProses()
+    {
+        $data = $this->request->getPost();
+
+        // Data yang akan di-insert ke tabel 'instrumen_soal'
+        $dataInstrumenSoal = array(
+            'name' => $data['name'],
+            // 'id_course' => $data['id_course'],
+            // 'start_fill' => $data['start_fill'],
+            // 'end_fill' => $data['end_fill'],
+            // 'description' => $data['description']
+        );
+
+        model(InstrumentModel::class)->insert($dataInstrumenSoal);
+        $instrument_id =  model(InstrumentModel::class)->getInsertID();
+
+        $dataTemplate = array(
+            'name' => $data['name'],
+            'id_instrument' =>  $instrument_id,
+        );
+
+        $createdTemplate =  model(TemplateModel::class)->insert($dataTemplate);
+        if (!$createdTemplate) {
+            return redirect()->back()->withInput()->with('error', 'Maaf, terjadi kesalahan dalam proses pembuatan template.');
+        }
+
+        $dataBagian = array();
+        $dataSoal = array();
+        $dataOpsi = array();
+        $sectionNumber = 0;
+
+        // Mencari dan menyiapkan data soal dan opsi jawaban dari input yang dinamis
+        foreach ($data as $key => $value) {
+            if (strpos($key, 'section') !== false && strpos($key, '_bagian') !== false) {
+                preg_match('/section(\d+)/', $key, $matches);
+                if (isset($matches[1])) {
+                    $sectionNumber = $matches[1];
+                    $dataBagian['id_instrument'] = $instrument_id;
+                    $dataBagian['section'] = $data['section' . $sectionNumber . '_bagian'];
+
+                    model(SectionModel::class)->insert($dataBagian);
+                    $section_id =  model(SectionModel::class)->getInsertID();
+                } else {
+                    //     // Penanganan jika tidak ada nilai yang ditemukan
+                    continue;
+                }
+
+                foreach ($data as $subKey => $subValue) {
+                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                        // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
+                        preg_match('/card(\d+)/', $subKey, $matchesCard);
+                        if (isset($matchesCard[1])) {
+                            $index = $matchesCard[1];
+                        }
+
+                        // Cek apakah pertanyaan sudah pernah di-insert
+                        $existingQuestion = model(QuestionModel::class)
+                            ->where('number', $index)
+                            ->where('id_section', $section_id)
+                            ->first();
+
+                        if (!$existingQuestion) {
+                            $dataSoal['id_section'] = $section_id;
+                            $dataSoal['number'] = $index;
+                            $dataSoal['type'] = $data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'];
+                            $dataSoal['question'] = $subValue;
+
+                            model(QuestionModel::class)->insert($dataSoal);
+                            $soal_id =  model(QuestionModel::class)->getInsertID();
+
+                            if ($data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'] == 1) {
+                                // Proses opsi jawaban hanya jika tipe soal adalah 1
+                                $dataOpsi['id_question'] = $soal_id;
+                                $dataOpsi['option_a'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiA'];
+                                $dataOpsi['option_b'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiB'];
+                                $dataOpsi['option_c'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiC'];
+                                $dataOpsi['option_d'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiD'];
+                                $dataOpsi['option_e'] = $data['card' . $index . '_section' . $sectionNumber . '_input_opsiE'];
+
+                                model(OptionModel::class)->insert($dataOpsi);
+                            }
+                        }
+
+                        unset(
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_pertanyaan'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_tipe_soal'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiA'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiB'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiC'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiD'],
+                            $data['card' . $index . '_section' . $sectionNumber . '_input_opsiE']
+                        );
+                    }
+                }
+            }
+        }
+
+        return redirect()->back()->to(base_url('instrument/template'))->withInput()->with('message', 'Instrument Berhasil dibuat');
+    }
+
+    public function deleteTemplateInstrument($template_id)
+    {
+        // $template_id = $this->request->getPost('id_template');
+        $deletedTemplate =  model(TemplateModel::class)->delete($template_id);
+        if (!$deletedTemplate) {
+            return redirect()->back()->withInput()->with('error', 'Maaf, terjadi kesalahan dalam proses menghapus template.');
+        }
+
+        return redirect()->back()->to(base_url('instrument/template'))->withInput()->with('message', 'Instrument Berhasil Dihapus');
     }
 }

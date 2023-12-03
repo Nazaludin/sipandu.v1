@@ -71,44 +71,23 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    <form action="<?php echo base_url('instrument/insert/proses/'); ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo base_url('instrument/template/insert/proses/'); ?>" method="POST" enctype="multipart/form-data">
                         <?= csrf_field() ?>
 
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    Tentang Instrumen
+                                    Buat Template Baru
                                 </div>
                                 <div class="col-12 mb-3">
-                                    <label for="floatingInputFullnameCourse">Nama Instrument</label>
-                                    <input type="text" class="form-control" id="floatingInputFullnameCourse" name="name" placeholder="Nama Instrument" required="">
+                                    <label for="floatingInputFullnameCourse">Nama Template</label>
+                                    <input type="text" class="form-control" id="floatingInputFullnameCourse" name="name" placeholder="Nama Template" required="">
                                 </div>
-                                <div class="col-12">
-                                    <!-- ID COURSE -->
-                                    <input type="hidden" class="form-control" id="floatingInputFullnameCourse" name="id_course" placeholder="Nama Instrument" required="" value="<?= $id_course; ?>">
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <label for="floatingInputStartRegistration">Mulai Pengisian</label>
-                                        <input type="date" class="form-control" id="floatingInputStartRegistration" name="start_fill" value="" required autofocus>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="floatingInputEndRegistration">Akhir Pengisian</label>
-                                        <input type="date" class="form-control" id="floatingInputEndRegistration" name="end_fill" value="" required autofocus>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-12">
-                                        <label for="floatingInputDescription">
-                                            <h3> Deskripsi </h3>
-                                        </label>
-                                        <textarea class="form-control" name="description" id="floatingInputDescription" cols="30" rows="10"></textarea>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
-                        <div class="card-title mt-4">Soal
-                        </div>
+                        <!-- <div class="card-title mt-4">Soal
+                        </div> -->
                         <!-- Container Card Soal -->
                         <div id="cardContainer" class="mb-3">
                             <!-- Card Bagian -->
@@ -273,7 +252,7 @@
 
                         <div class="row">
                             <div class="col-6 d-flex justify-content-start">
-                                <a href="" class="btn btn-outline-primary">Batal</a>
+                                <a href="<?= base_url('instrument/template'); ?>" class="btn btn-outline-primary">Batal</a>
                             </div>
                             <div class="col-6 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-success mx-2">Simpan</button>

@@ -57,16 +57,16 @@
 
                 </div>
                 <!-- Page title actions -->
-                <!-- <div class="col-auto ms-auto d-print-none">
+                <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="<?= base_url('pelatihan/insert'); ?>" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="<?= base_url('instrument/template/insert'); ?>" class="btn btn-primary d-none d-sm-inline-block">
 
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
                             </svg>
-                            Pelatihan Baru
+                            Buat Template Baru
                         </a>
                         <a href="" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
 
@@ -77,7 +77,7 @@
                             </svg>
                         </a>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -126,14 +126,21 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
+                                    <colgroup>
+                                        <col style="width: 5%;">
+                                        <col style="width: 30%;">
+                                        <!-- Kolom lainnya -->
+                                        <col style="width: 20%;">
+                                        <!-- Kolom lainnya -->
+                                    </colgroup>
                                     <thead class="text-center text-light bg-dark ">
                                         <tr>
                                             <th class="align-middle" scope="col">No</th>
-                                            <th class="align-middle" scope="col">Kondisi</th>
+                                            <th class="align-middle" scope="col">Nama</th>
                                             <!-- <th class="align-middle" scope="col">Mulai Pendaftaran / <br>Selesai Pendaftaran</th> -->
-                                            <th class="align-middle" scope="col">Mulai Pelatihan / <br>Selesai Pelatihan</th>
+                                            <!-- <th class="align-middle" scope="col">Mulai Pelatihan / <br>Selesai Pelatihan</th>
                                             <th class="align-middle" scope="col">Jenis Pelatihan / Nama Pelatihan</th>
-                                            <th class="align-middle" scope="col">Gel. / Batch</th>
+                                            <th class="align-middle" scope="col">Gel. / Batch</th> -->
                                             <!-- <th class="align-middle" scope="col">Pendaftar / <br> Kuota</th> -->
                                             <th class="align-middle" scope="col">Aksi</th>
                                             <!-- <th class="align-middle " scope="col">Detail</th> -->
@@ -142,39 +149,23 @@
 
                                     <tbody>
                                         <?php
-                                        if (!empty(json_decode($pelatihan))) {
-                                            foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
+                                        if (!empty($data)) {
+                                            foreach ($data as $key => $value) { ?>
 
                                                 <tr>
-                                                    <th><?= $key + 1; ?></th>
-                                                    <td style="width: 5%;"><?= $value->condition; ?></td>
-                                                    <!-- <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td> -->
-                                                    <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                                    <td style="width: 10%;"><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                    <td class="text-center"><?= $value->batch; ?></td>
-                                                    <!-- <td class="text-center">
-                                                        <?php if (!empty($value->quota)) {   ?>
-                                                            <button class="btn btn-pill btn-outline-green my-0 py-2"><?= $value->participant; ?> / <?= $value->quota; ?>
-                                                            </button><br>
-                                                            <span class="mt-2 badge bg-green-lt">Diterima : <?= $value->accepted_participant; ?></span>
-                                                        <?php } ?>
-                                                    </td> -->
+                                                    <th class="text-center"><?= $key + 1; ?></th>
+                                                    <td><strong> <?= $value['name'] ?></strong></td>
+
                                                     <td class="text-center">
-                                                        <a href="<?= base_url('instrument/rekap/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rekap Hasil">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
-                                                                <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
-                                                                <path d="M9 12l.01 0"></path>
-                                                                <path d="M13 12l2 0"></path>
-                                                                <path d="M9 16l.01 0"></path>
-                                                                <path d="M13 16l2 0"></path>
+                                                        <a href="<?= base_url('instrument/template/preview/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary position-relative m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                                                <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
                                                             </svg>
-                                                            <?php if (!empty($value->registrar)) {   ?>
-                                                                <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value->registrar; ?></span>
-                                                            <?php } ?>
+
                                                         </a>
-                                                        <a href="<?= base_url('instrument/edit/' . $value->id); ?>" class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit">
+                                                        <a href="<?= base_url('instrument/template/edit/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
@@ -182,17 +173,27 @@
                                                                 <path d="M16 5l3 3"></path>
                                                             </svg>
                                                         </a>
-                                                        <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <a class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Buat Instrument">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                    <path d="M12 5l0 14" />
-                                                                    <path d="M5 12l14 0" />
-                                                                </svg>
-                                                            </a>
-                                                        </span>
-                                                        <div class="dropdown-menu">
-                                                            <a class=" dropdown-item btn text-primary justify-content-start" href="<?= base_url('instrument/insert/' . $value->id); ?>">
+                                                        <a href="<?= base_url('instrument/template/delete/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M4 7h16" />
+                                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                <path d="M10 12l4 4m0 -4l-4 4" />
+                                                            </svg>
+                                                        </a>
+                                                        <!-- <span data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                                                        <!-- <a class="btn btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gunakan Template">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M12 5l0 14" />
+                                                                <path d="M5 12l14 0" />
+                                                            </svg>
+                                                            Gunakan
+                                                        </a> -->
+                                                        <!-- </span> -->
+                                                        <!-- <div class="dropdown-menu">
+                                                            <a class=" dropdown-item btn text-primary justify-content-start" href="<?= base_url('instrument/insert/'); ?>">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                                     <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -202,7 +203,7 @@
                                                                 </svg>
                                                                 Buat Baru
                                                             </a>
-                                                            <a class="dropdown-item text-primary btn justify-content-start" href="<?= base_url('instrument/template/course/' . $value->id); ?>">
+                                                            <a class="dropdown-item text-primary btn justify-content-start" data-bs-toggle="modal" data-bs-target="#modal-confirm-delete" onclick="sendIDPelatihan()">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-description" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                                     <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -211,27 +212,27 @@
                                                                     <path d="M9 13h6" />
                                                                 </svg>
                                                                 Buat Dengan Template
-                                                            </a>
-                                                        </div>
-                                                    </td>
-
-                                                </tr>
-                                        <?php }
-                                        }
-                                        ?>
-
-                                    </tbody>
-                                </table>
+                                                            </a> -->
                             </div>
+                            </td>
+
+                            </tr>
+                    <?php }
+                                        }
+                    ?>
+
+                    </tbody>
+                    </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Recent comment and chats -->
-    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- Recent comment and chats -->
+<!-- ============================================================== -->
 </div>
 <!-- Modal Konfrimasi Publish -->
 <div class="modal modal-blur fade" id="modal-confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
