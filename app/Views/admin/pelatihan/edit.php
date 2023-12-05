@@ -184,11 +184,11 @@
                                                         <div class="row mb-3">
                                                             <div class="col-6">
                                                                 <label for="floatingInputStartRegistration" class="form-label mb-0">Mulai Pendaftaran</label>
-                                                                <input type="date" class="form-control" id="floatingInputStartRegistration" name="start_registration" value="<?= json_decode($pelatihan)->courses->startdatetime; ?>" required autofocus>
+                                                                <input type="date" class="form-control" id="floatingInputStartRegistration" name="start_registration" value="<?= json_decode($pelatihan)->courses->start_registration; ?>" required autofocus>
                                                             </div>
                                                             <div class="col-6">
                                                                 <label for="floatingInputEndRegistration" class="form-label mb-0">Akhir Pendaftaran</label>
-                                                                <input type="date" class="form-control" id="floatingInputEndRegistration" name="end_registration" value="<?= json_decode($pelatihan)->courses->enddatetime; ?>" required autofocus>
+                                                                <input type="date" class="form-control" id="floatingInputEndRegistration" name="end_registration" value="<?= json_decode($pelatihan)->courses->end_registration; ?>" required autofocus>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -206,11 +206,11 @@
 
                                                             <div class="col-6">
                                                                 <label for="floatingInputStartCourse" class="form-label mb-0">Mulai Pelatihan</label>
-                                                                <input type="date" class="form-control" id="floatingInputStartCourse" name="startdate" value="<?= json_decode($pelatihan)->courses->start_registration; ?>" required autofocus>
+                                                                <input type="date" class="form-control" id="floatingInputStartCourse" name="startdate" value="<?= json_decode($pelatihan)->courses->startdatetime; ?>" required autofocus>
                                                             </div>
                                                             <div class="col-6">
                                                                 <label for="floatingInputEndCourse" class="form-label mb-0">Akhir Pelatihan</label>
-                                                                <input type="date" class="form-control" id="floatingInputEndCourse" name="enddate" value="<?= json_decode($pelatihan)->courses->end_registration; ?>" required autofocus>
+                                                                <input type="date" class="form-control" id="floatingInputEndCourse" name="enddate" value="<?= json_decode($pelatihan)->courses->enddatetime; ?>" required autofocus>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -839,6 +839,7 @@ class Pelatihan extends BaseController
     public function pelatihanInsertProses()
     {
         $data =  $this->request->getPost();
+        dd($data);
         $file_schedule =  $this->request->getFile('jadwal');
 
         // Insert Course Moodle Best
@@ -1478,7 +1479,8 @@ class Pelatihan extends BaseController
             }
         }
 
-        return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
+        return redirect()->back();
     }
     public function listUploadDocument()
     {

@@ -227,7 +227,7 @@
                                         <div class="row justify-content-end">
                                             <div class="col-12 d-flex justify-content-between">
                                                 <a href="<?= base_url('pelatihan/insert'); ?>" class="btn btn-outline-primary mx-2">Batal</a>
-                                                <button type="submit" class="btn btn-primary">Simpan Persyaratan</button>
+                                                <a href="<?= base_url('pelatihan/insert/publis/' . $id_pelatihan); ?>" type="button" class="btn btn-primary">Simpan Persyaratan</a>
                                             </div>
                                         </div>
 
