@@ -38,7 +38,7 @@ $routes->get('/epp', 'Admin\Evaluasi::index', ['filter' => 'role:admin']);
 $routes->get('/epp-fill', 'Admin\Evaluasi::indexBasic', ['filter' => 'role:user']);
 $routes->get('/instrument', 'Admin\Evaluasi::instrument');
 
-$routes->group('instrument', static function ($routes) {
+$routes->group('instrument', ['filter' => 'role:admin'], static function ($routes) {
     $routes->get('insert/(:num)', 'Admin\Evaluasi::insertInstrument/$1');
     $routes->group('insert', static function ($routes) {
         $routes->post('proses', 'Admin\Evaluasi::insertInstrumentProses');
@@ -63,9 +63,17 @@ $routes->group('instrument', static function ($routes) {
             $routes->post('proses', 'Admin\Evaluasi::insertTemplateInstrumentProses');
         });
     });
-    $routes->get('fill/(:num)', 'Admin\Evaluasi::fillInstrument/$1');
+    // $routes->get('fill/(:num)', 'Admin\Evaluasi::fillInstrument/$1');
     $routes->get('perview/(:num)', 'Admin\Evaluasi::perviewInstrument/$1');
     $routes->get('rekap/(:num)', 'Admin\Evaluasi::rekapInstrument/$1');
+});
+
+
+$routes->group('question', ['filter' => 'role:user'], static function ($routes) {
+    $routes->get('fill/(:num)', 'General\Evaluasi::fillInstrument/$1');
+    $routes->group('fill', static function ($routes) {
+        $routes->post('proses', 'General\Evaluasi::answerInstrument');
+    });
 });
 
 // AUTH ROUTES

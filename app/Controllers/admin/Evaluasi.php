@@ -3,12 +3,16 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\AnswerModel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use CodeIgniter\I18n\Time;
 use \App\Models\InstrumentModel;
 use App\Models\OptionModel;
 use App\Models\QuestionModel;
 use App\Models\SectionModel;
 use App\Models\TemplateModel;
+use App\Models\UserCourseModel;
 use PhpParser\Node\Expr\Empty_;
 
 class Evaluasi extends BaseController
@@ -220,10 +224,14 @@ class Evaluasi extends BaseController
             $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
             $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
             $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
+
+            // $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
         }
         // dd("test");
         // return isset($pelatihan) ? json_encode($pelatihan) : json_encode([]);
+        // dd($pelatihan);
         $data['pelatihan'] = isset($pelatihan) ? json_encode($pelatihan) : json_encode([]);
+        // $data['id_instrument'] = model(InstrumentModel::class)->getInstrument($pelatihan['courses']);
         return view('layout/header')
             . view('layout/sidebar')
             . view('basic/evaluasi/index', $data)
@@ -261,14 +269,238 @@ class Evaluasi extends BaseController
             . view('admin/evaluasi/course_template_instrument')
             . view('layout/footer');
     }
-    public function rekapInstrument()
+
+    // Fungsi untuk mengonversi nomor kolom menjadi huruf kolom
+    function getColumnName($columnNumber)
     {
-        return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
-        // return view('layout/header')
-        //     . view('layout/sidebar')
-        //     . view('admin/evaluasi/instrument')
-        //     . view('layout/footer');
+        $columnName = '';
+
+        while ($columnNumber > 0) {
+            $remainder = ($columnNumber - 1) % 26;
+            $columnName = chr(65 + $remainder) . $columnName;
+            $columnNumber = ($columnNumber - $remainder - 1) / 26;
+        }
+
+        return $columnName;
     }
+    public function rekapInstrument($id_pelatihan)
+    {
+
+        $instrument = model(InstrumentModel::class)->getInstrument($id_pelatihan);
+        $users = model(UserCourseModel::class)->findPassedUsersByCourse($id_pelatihan);
+        if (empty($instrument)) {
+            return redirect()->back()->to(base_url('epp'))->withInput()->with('error', 'Intrument Belum dibuat');
+        }
+
+        require_once "../vendor/autoload.php";
+        $spreadsheet = new Spreadsheet();
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $activeSheet = $spreadsheet->getActiveSheet();
+
+        // Buat sebuah variabel untuk menampung pengaturan style judul
+        $style_title = [
+            'font' => [
+                'bold'  => true,
+                'size'  => 15,
+                'name'  => 'Calibri'
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ]
+        ];
+        // Buat sebuah variabel untuk menampung pengaturan style dari header tabel
+        $style_col = [
+            'font' => [
+                'bold' => true,
+                'color' => [
+                    'argb' => 'FFFFFF',
+                ],
+            ], // Set font nya jadi bold
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'outline' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border top dengan garis tipis
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00985B',
+                ],
+                'endColor' => [
+                    'argb' => '00985B',
+                ],
+            ]
+        ];
+        // Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
+        $style_row_justify = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_JUSTIFY,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'outline' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+        $style_row_center = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'outline' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+
+        $style_row_left = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+                'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+                'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+                'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+            ]
+        ];
+
+        //judul
+        $title = 'Rekap Evaluasi Pasca Pelatihan ' . $instrument[0]['name'];
+        $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan title
+        $activeSheet->getStyle('A2')->applyFromArray($style_title);
+
+        // Tanggal download
+        $now = Time::now('Asia/Jakarta', 'en_US');
+        $activeSheet->setCellValue('A3', 'Diunduh pada ' . $now->toDateTimeString());
+
+
+        $activeSheet->setCellValue('A4', 'No');
+        $activeSheet->mergeCells('A4:A5');
+        $activeSheet->setCellValue('B4', 'Nama Lengkap');
+        $activeSheet->mergeCells('B4:B5');
+        $activeSheet->setCellValue('C4', 'Nama Instansi');
+        $activeSheet->mergeCells('C4:C5');
+        $activeSheet->setCellValue('D4', 'Jabatan');
+        $activeSheet->mergeCells('D4:D5');
+        $activeSheet->setCellValue('E4', 'NIP');
+        $activeSheet->mergeCells('E4:E5');
+        $activeSheet->setCellValue('F4', 'Jenis Kelamin');
+        $activeSheet->mergeCells('F4:F5');
+
+        $row = 4;
+        $col = 7;
+        $startColMerge = $this->getColumnName($col);
+        $oldSection = null;
+        $lastCol = null;
+        $questionColumn = [];
+
+        // Data Instrument untuk Header dari tabel
+        foreach ($instrument as $cellData) {
+            $columnName = $this->getColumnName($col);
+
+            if ($oldSection === null) {
+                $activeSheet->setCellValue($columnName . $row, $cellData['section']);
+                $startColMerge = $columnName;
+            } elseif ($cellData['id_section'] != $oldSection) {
+                $activeSheet->setCellValue($columnName . $row, $cellData['section']);
+                if ($startColMerge !== $lastCol) {
+                    $activeSheet->mergeCells($startColMerge . $row . ':' . $lastCol . $row);
+                }
+                $startColMerge = $columnName;
+            }
+
+            $questionColumn[$cellData['id_question']] = $columnName;
+            $activeSheet->setCellValue($columnName . ($row + 1), $cellData['number']);
+
+            $oldSection = $cellData['id_section'];
+            $lastCol = $columnName;
+            $lastColInt = $col;
+            $col++;
+        }
+        // dd($questionColumn, $instrument);
+
+        if ($startColMerge !== $lastCol) {
+            $activeSheet->mergeCells($startColMerge . $row . ':' . $lastCol . $row);
+        }
+
+        $row += 2;
+        $col = 1;
+        // Load data User untuk jawaban tiap user
+        foreach ($users as $us => $valueUS) {
+            $answer = model(AnswerModel::class)->getAnswerByUserAndInstrument($valueUS['id_user'], $instrument[0]['id_instrument']);
+
+            // Data Peserta
+            $activeSheet->setCellValue('A' . $row, $us + 1);
+            $activeSheet->setCellValue('B' . $row, $valueUS['fullname']);
+            $activeSheet->setCellValue('C' . $row, $valueUS['nama_instansi']);
+            $activeSheet->setCellValue('D' . $row, $valueUS['jabatan']);
+            $activeSheet->setCellValue('E' . $row, $valueUS['nip']);
+            $activeSheet->setCellValue('F' . $row, $valueUS['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan');
+
+            // Data Jawaban
+            foreach ($answer as $ans => $valueANS) {
+                if (isset($questionColumn[$valueANS['id_question']])) {
+                    $columnName = $questionColumn[$valueANS['id_question']];
+                    if ($valueANS['type'] == 1) {
+                        $activeSheet->setCellValue($columnName . $row, $valueANS['skor']);
+                        $activeSheet->getStyle($columnName . $row)->applyFromArray($style_row_center);
+                    } else {
+                        $activeSheet->setCellValue($columnName . $row, $valueANS['answer']);
+                        $activeSheet->getStyle($columnName . $row)->applyFromArray($style_row_justify);
+                        $activeSheet->getColumnDimension($columnName)->setWidth(40);
+                    }
+                }
+            }
+
+            // Styling kolom
+            $activeSheet->getStyle('A' . $row)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('B' . $row)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('C' . $row)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('D' . $row)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('E' . $row)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('F' . $row)->applyFromArray($style_row_left);
+            $row++;
+        }
+        // CLose Marge
+        if ($startColMerge !== $lastCol) {
+            $activeSheet->mergeCells($startColMerge . $row . ':' . $lastCol . $row);
+        }
+        $activeSheet->mergeCells('A2:' . $lastCol . '2');
+        $activeSheet->mergeCells('A3:' . $lastCol . '3');
+
+
+        // Menerapkan Style Kolom
+        for ($i = 4; $i <= 5; $i++) {
+            for ($j = 1; $j <= $lastColInt; $j++) {
+                $activeSheet->getStyle($this->getColumnName($j) . $i)->applyFromArray($style_col);
+            }
+        }
+
+        //mengatur warptext disetiap kolom
+        foreach (range('A', $activeSheet->getHighestDataColumn()) as $col) {
+            $activeSheet->getStyle($col)->getAlignment()->setWrapText(true);
+        }
+
+        //mengatur weight pada cell
+        $activeSheet->getColumnDimension('B')->setWidth(30);
+        $activeSheet->getColumnDimension('C')->setWidth(25);
+        $activeSheet->getColumnDimension('D')->setWidth(25);
+        $activeSheet->getColumnDimension('E')->setWidth(25);
+        $activeSheet->getColumnDimension('F')->setWidth(20);
+
+
+        $filename = $title . '.xlsx';
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename=' . $filename);
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        die;
+    }
+
     public function insertInstrument($id_pelatihan)
     {
         $data['id_course'] = $id_pelatihan;

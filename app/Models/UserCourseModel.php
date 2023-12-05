@@ -55,6 +55,22 @@ class UserCourseModel extends Model
         return $query->getResultArray();
     }
 
+    public function findPassedUsersByCourse($id_course)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('user_course');
+        $builder->select('user_course.*, users.id AS id_user, users.fullname, users.nama_instansi, users.jabatan, users.nip, users.jenis_kelamin');
+        $builder->join('users', 'users.id = user_course.id_user');
+        $query = $builder->where('user_course.id_course', $id_course)
+            ->whereIn('user_course.status', ['accept', 'passed'])
+            ->get()
+            ->getResultArray();
+
+        return $query;
+    }
+
+
+
     public function setStatusPassed($id_course)
     {
         $db      = \Config\Database::connect();
