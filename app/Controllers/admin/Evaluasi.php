@@ -440,19 +440,23 @@ class Evaluasi extends BaseController
             $activeSheet->setCellValue('E' . $row, $valueUS['nip']);
             $activeSheet->setCellValue('F' . $row, $valueUS['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan');
 
-            // Data Jawaban
-            foreach ($answer as $ans => $valueANS) {
-                if (isset($questionColumn[$valueANS['id_question']])) {
-                    $columnName = $questionColumn[$valueANS['id_question']];
-                    if ($valueANS['type'] == 1) {
-                        $activeSheet->setCellValue($columnName . $row, $valueANS['skor']);
-                        $activeSheet->getStyle($columnName . $row)->applyFromArray($style_row_center);
-                    } else {
-                        $activeSheet->setCellValue($columnName . $row, $valueANS['answer']);
-                        $activeSheet->getStyle($columnName . $row)->applyFromArray($style_row_justify);
-                        $activeSheet->getColumnDimension($columnName)->setWidth(40);
+            if (!empty($answer)) {
+                // Data Jawaban
+                foreach ($answer as $ans => $valueANS) {
+                    if (isset($questionColumn[$valueANS['id_question']])) {
+                        $columnName = $questionColumn[$valueANS['id_question']];
+                        if ($valueANS['type'] == 1) {
+                            $activeSheet->setCellValue($columnName . $row, $valueANS['skor']);
+                            $activeSheet->getStyle($columnName . $row)->applyFromArray($style_row_center);
+                        } else {
+                            $activeSheet->setCellValue($columnName . $row, $valueANS['answer']);
+                            $activeSheet->getStyle($columnName . $row)->applyFromArray($style_row_justify);
+                            $activeSheet->getColumnDimension($columnName)->setWidth(40);
+                        }
                     }
                 }
+            } else {
+                $activeSheet->setCellValue($columnName . $row, 'Belum Mengisi');
             }
 
             // Styling kolom

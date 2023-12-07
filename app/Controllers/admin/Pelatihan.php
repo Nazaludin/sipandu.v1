@@ -839,7 +839,7 @@ class Pelatihan extends BaseController
     public function pelatihanInsertProses()
     {
         $data =  $this->request->getPost();
-        dd($data);
+        // dd($data);
         $file_schedule =  $this->request->getFile('jadwal');
 
         // Insert Course Moodle Best
