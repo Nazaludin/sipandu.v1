@@ -972,7 +972,7 @@ class Pelatihan extends BaseController
 
         $publis = $this->request->getPost('publish');
         if (null != model(CourseModel::class)->find($id_pelatihan)) {
-            model(CourseModel::class)->update($id_pelatihan, ['status_sistem' => $publis ? 'publish' : 'draft']);
+            model(CourseModel::class)->update($id_pelatihan, ['status_sistem' => $publis == 'true' ? 'publish' : 'draft']);
         } else {
             return redirect()->to(base_url('pelatihan'))->with('error', 'Terjadi kesalahan saat membuat pelatihan');
             dd('Terjadi Error');
@@ -1102,6 +1102,8 @@ class Pelatihan extends BaseController
         $dataPelatihan->courses[0]->contact_person          = $courseLocal['contact_person'] ?? '';
         $dataPelatihan->courses[0]->schedule_file_name      = $courseLocal['schedule_file_name'] ?? '';
         $dataPelatihan->courses[0]->schedule_file_location  = $courseLocal['schedule_file_location'] ?? '';
+
+        $dataPelatihan->courses[0]->status_sistem  = $courseLocal['status_sistem'] ?? '';
 
         $pelatihan['courses'] = $dataPelatihan->courses[0];
         $data['pelatihan'] = json_encode($pelatihan);

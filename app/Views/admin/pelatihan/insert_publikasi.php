@@ -128,7 +128,7 @@
                                                 <a href="<?= base_url('pelatihan'); ?>" class="btn btn-outline-primary">Batal</a>
                                             </div>
                                             <div class="col-6 d-flex justify-content-end">
-                                                <button type="button" class="btn btn-success mx-2" onclick="$('#button-submit').click()">Simpan</button>
+                                                <button type="button" class="btn btn-success mx-2" onclick="save()">Simpan</button>
                                                 <button type="button" class="btn btn-danger" onclick="savePublish()">Simpan & Publish</button>
                                             </div>
                                         </div>
@@ -143,6 +143,17 @@
                                         $('#input-publis').val('true');
                                         $('#checkbox-persetujuan').prop('required', true);
                                         $('#button-submit').click();
+                                        // console.log($('#checkbox-persetujuan').prop('required'));
+                                        // console.log($('#input-publis').val());
+                                    }
+
+                                    function save() {
+                                        $('#input-publis').val('false');
+                                        $('#checkbox-persetujuan').prop('required', false);
+                                        $('#checkbox-persetujuan')[0].setCustomValidity('');
+                                        $('#button-submit').click();
+                                        // console.log($('#checkbox-persetujuan').prop('required'));
+                                        // console.log($('#input-publis').val());
                                     }
                                 </script>
                             </div>
