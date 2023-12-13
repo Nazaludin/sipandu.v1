@@ -34,6 +34,8 @@ $routes->get('/login-best', 'AuthController::loginBest');
 
 $routes->addRedirect('/', 'profil');
 $routes->get('/profil', 'General\Profil::index');
+
+
 $routes->get('/epp', 'Admin\Evaluasi::index', ['filter' => 'role:admin']);
 $routes->get('/epp-fill', 'Admin\Evaluasi::indexBasic', ['filter' => 'role:user']);
 $routes->get('/instrument', 'Admin\Evaluasi::instrument');
@@ -119,6 +121,12 @@ $routes->group('profil', static function ($routes) {
         $routes->match(['get', 'post'], 'foto',  'General\Profil::uploadFotoProfil');
     });
     $routes->post('update',  'General\Profil::updateUser');
+    $routes->group('photo', static function ($routes) {
+        $routes->get('edit',  'General\Profil::photoEdit');
+        $routes->group('edit', static function ($routes) {
+            $routes->post('proses',  'General\Profil::photoEditProses');
+        });
+    });
 });
 $routes->group('pelatihan', ['filter' => 'role:user'], static function ($routes) {
     $routes->get('batal/(:num)', 'General\Pelatihan::pelatihanBatal/$1', ['filter' => 'role:user']);

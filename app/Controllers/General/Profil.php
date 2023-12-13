@@ -19,6 +19,57 @@ class Profil extends BaseController
             . view('basic/profil/index')
             . view('layout/footer');
     }
+    public function photoEdit()
+    {
+        $data['data'] = model(UsersModel::class)->where('id', user_id())->get()->getRow();
+        $dump = explode(" ", $data['data']->tanggal_lahir);
+        (!empty($dump[0])) ? $data['data']->tanggal_lahir = $dump[0] : '';
+
+        return view('layout/header', $data)
+            . view('layout/sidebar')
+            . view('basic/profil/edit_photo')
+            . view('layout/footer');
+    }
+    public function photoEditProses()
+    {
+        $foto = $this->request->getFile('foto');
+        $crop = $this->request->getPost('crop_dir');
+        $crop_status = $this->request->getPost('isCropped');
+
+        if ($crop_status == 'false') {
+            return redirect()->back()->withInput()->with('errors.complete.profil', ['isCropped' => 'Mohon klik "Crop" terlebih dahulu sebelum submit!']);
+        }
+
+
+        if (isset($foto)) {
+
+            if ($foto->isValid() && !($foto->hasMoved())) {
+
+                $newName = $foto->getRandomName();
+                $path = 'uploads/profil';
+
+                $sourcePath = WRITEPATH . $crop;
+
+                // Memindahkan file ke direktori tujuan
+                $file = new File($sourcePath);
+                $file->move(FCPATH . $path, $newName);
+
+                $data['nama_foto']      = $foto->getClientName();
+                $data['lokasi_foto']    = $path . '/' . $newName;
+                // dd($data);
+                $updateUser = model(UserModel::class)->update(user_id(), $data);
+                if ($updateUser) {
+                    return redirect()->to(base_url('profil'))->withInput()->with('message', 'Foto berhasil diperbarui!');
+                } else {
+                    return redirect()->to(base_url('profil'))->withInput()->with('error', 'Maaf, terjadi kesalahan sistem saat mengganti foto profil Anda!');
+                }
+            } else {
+                return redirect()->to(base_url('profil'))->withInput()->with('error', 'Maaf, foto tidak valid, silahkan unggah foto Anda kembali!');
+            }
+        } else {
+            return redirect()->to(base_url('profil'))->withInput()->with('error', 'Gagal mengganti photo profil Anda!');
+        }
+    }
     public function profilEdit()
     {
         $data['data'] = model(UsersModel::class)->where('id', user_id())->get()->getRow();
