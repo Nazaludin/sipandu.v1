@@ -42,8 +42,10 @@ class Format extends BaseConfig
      * @var array<string, string>
      */
     public array $formatters = [
-        'application/json' => JSONFormatter::class,
-        'application/xml'  => XMLFormatter::class,
+        // 'application/json' => JSONFormatter::class,
+        // 'application/xml'  => XMLFormatter::class,
+        'application/json' => \CodeIgniter\Format\JSONFormatter::class,
+        'application/xml'  => \CodeIgniter\Format\XMLFormatter::class,
         'text/xml'         => XMLFormatter::class,
     ];
 

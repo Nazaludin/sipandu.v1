@@ -217,6 +217,12 @@ $routes->post('list-download-document', 'Admin\Pelatihan::listDownloadDocument',
 $routes->post('list-user-course', 'Admin\Pelatihan::listUserCourse', ['filter' => 'role:admin']);
 $routes->post('list-user-upload-document', 'Admin\Pelatihan::listUserUploadDocument', ['filter' => 'role:admin']);
 
+// API RESPON
+$routes->group('api', ['filter' => 'api'], static function ($routes) {
+    $routes->get('getPelatihan',  'Api\ApiPelatihan::getPelatihan');
+    $routes->post('getPelatihanFilter',  'Api\ApiPelatihan::getPelatihanFilter');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

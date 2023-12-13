@@ -731,7 +731,8 @@ class Pelatihan extends BaseController
             foreach ($pelatihan as $key => $value) {
                 // Data Pelatihan API
                 $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
-
+                d($value['condition']);
+                d($value, $dataPelatihan);
                 $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
                     $value['condition'],
                     $value['id'],
@@ -764,6 +765,7 @@ class Pelatihan extends BaseController
             . view('admin/pelatihan/index')
             . view('layout/footer');
     }
+
     // BACKUP PELATIHAN
     // public function pelatihan()
     // {
@@ -835,6 +837,18 @@ class Pelatihan extends BaseController
         return redirect()->to(base_url('pelatihan'))->withInput()->with('message', 'Pelatihan berhasil dihapus!');
     }
 
+    public function getCategoryById($id)
+    {
+        $category = '';
+        $categoryPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_categories'));
+        foreach ($categoryPelatihan as $key => $value) {
+            if ($value->id == $id) {
+                $category = $value->name;
+                break;
+            }
+        }
+        return $category;
+    }
 
     public function pelatihanInsertProses()
     {
@@ -852,17 +866,25 @@ class Pelatihan extends BaseController
             new \DateTime($data['enddate'])
         );
 
+        // dd($categoryPelatihan, $category);
         // Insert Course to Lokal Databases
         if (!empty($result['data'])) {
             $dataLokal = [
                 // 'id'                    => 202,
+                // Belum ada di db
+                'shortname'             => $data['shortname'],
+                'fullname'             => $data['fullname'],
+                'category'             => $this->getCategoryById($data['categoryid']),
+                'categoryid'             => $data['categoryid'],
+                'summary'             => $data['summary'],
+
+                'startdate'             => $data['startdate'],
+                'enddate'               => $data['enddate'],
                 'id'                    => $result['data']['courseid'],
                 'condition'             => 'coming',
                 'place'                 => $data['place'],
                 'start_registration'    => $data['start_registration'],
                 'end_registration'      => $data['end_registration'],
-                'startdate'             => $data['startdate'],
-                'enddate'               => $data['enddate'],
                 'target_participant'    => $data['target_participant'],
                 'batch'                 => intval($data['batch']),
                 'quota'                 => intval($data['quota']),
@@ -1169,12 +1191,17 @@ class Pelatihan extends BaseController
         $file_schedule =  $this->request->getFile('jadwal');
 
         $dataLokal = [
+            'shortname'             => $data['shortname'],
+            'fullname'             => $data['fullname'],
+            'category'             => $this->getCategoryById($data['categoryid']),
+            'categoryid'             => $data['categoryid'],
+            'summary'             => $data['summary'],
+
+
             'id'                    => $id_pelatihan,
             'place'                 => $data['place'],
             'start_registration'    => $data['start_registration'],
             'end_registration'      => $data['end_registration'],
-            'startdate'             => $data['startdate'],
-            'enddate'               => $data['enddate'],
             'target_participant'    => $data['target_participant'],
             'batch'                 => intval($data['batch']),
             'quota'                 => intval($data['quota']),

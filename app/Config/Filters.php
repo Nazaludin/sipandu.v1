@@ -24,6 +24,7 @@ class Filters extends BaseConfig
         'login'      => \Myth\Auth\Filters\LoginFilter::class,
         'role'       => \Myth\Auth\Filters\RoleFilter::class,
         'permission' => \Myth\Auth\Filters\PermissionFilter::class,
+        'api' => \App\Middleware\ApiFilter::class,
     ];
 
     /**
@@ -33,8 +34,8 @@ class Filters extends BaseConfig
     public array $globals = [
         'before' => [
             'honeypot',
-            'csrf',
-            'login' => ['except' => ['service/*', '/']],
+            'csrf' => ['except' => ['api/*']],
+            'login' => ['except' => ['service/*', 'api/*', '/']],
             // 'invalidchars',
         ],
         'after' => [
