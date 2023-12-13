@@ -39,12 +39,12 @@
                         EPP
                     </div>
                     <h2 class="page-title">
-                        Evaluasi Pasca Pelatihan
+                        Lihat Instrumen
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item active"><a>instrument</a></li>
-                        <!-- <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
+                        <li class="breadcrumb-item"><a href="<?= base_url('epp'); ?>">Instrumen</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('instrument/edit/' . $id_course); ?>">Edit</a></li>
+                        <li class="breadcrumb-item active"><a>Lihat</a></li>
                     </ol>
 
                 </div>

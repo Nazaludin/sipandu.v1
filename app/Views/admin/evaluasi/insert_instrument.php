@@ -33,10 +33,11 @@
                         EPP
                     </div>
                     <h2 class="page-title">
-                        Evaluasi Pasca Pelatihan
+                        Instrumen Baru
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item active"><a>instrument</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('epp'); ?>">Instrumen</a></li>
+                        <li class="breadcrumb-item active"><a>Buat Baru</a></li>
                     </ol>
 
                 </div>

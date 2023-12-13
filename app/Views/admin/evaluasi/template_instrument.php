@@ -47,12 +47,11 @@
                         EPP
                     </div>
                     <h2 class="page-title">
-                        Evaluasi Pasca Pelatihan
+                        Template Instrumen
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item active"><a>instrument</a></li>
-                        <!-- <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
+                        <li class="breadcrumb-item"><a href="<?= base_url('epp'); ?>">Instrumen</a></li>
+                        <li class="breadcrumb-item active"><a>Template</a></li>
                     </ol>
 
                 </div>
@@ -96,14 +95,14 @@
                             <div class="row">
                                 <div class="col-12 d-flex justify-content-between mb-2">
 
-                                    <div class="align-self-end dropdown mb-2">
+                                    <!-- <div class="align-self-end dropdown mb-2">
                                         <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Semua</strong></a>
                                         <div class="dropdown-menu " style="">
                                             <a class="dropdown-item" href="#">Draft</a>
                                             <a class="dropdown-item" href="#">Publis</a>
                                             <a class="dropdown-item active" href="#">Semua</a>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="btn btn-primary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

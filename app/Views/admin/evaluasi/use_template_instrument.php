@@ -39,12 +39,11 @@
                         EPP
                     </div>
                     <h2 class="page-title">
-                        Evaluasi Pasca Pelatihan
+                        Buat Instrumen
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item active"><a>instrument</a></li>
-                        <!-- <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
+                        <li class="breadcrumb-item"><a href="<?= base_url('epp'); ?>">Instrumen</a></li>
+                        <li class="breadcrumb-item active"><a>Gunakan Template</a></li>
                     </ol>
 
                 </div>
@@ -88,16 +87,6 @@
                                     <div class="row">
                                         <div class="col-6 d-flex justify-content-start">
                                             Tentang Instrumen
-                                        </div>
-                                        <div class="col-6 d-flex justify-content-end">
-                                            <a href="<?= base_url('instrument/perview/' . $id_course); ?>" class="btn btn-outline-primary mx-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                                </svg>
-                                                Perview
-                                            </a>
                                         </div>
                                     </div>
 
@@ -178,14 +167,6 @@
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
                                                             <path d="M9 9l6 6m0 -6l-6 6"></path>
-                                                        </svg>
-                                                    </a>
-                                                    <a onclick="addSection.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Bagian" data-bs-original-title="Tambah Bagian">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                            <path d="M9 12h6"></path>
-                                                            <path d="M12 9v6"></path>
-                                                            <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
                                                         </svg>
                                                     </a>
                                                 </div>
@@ -772,12 +753,16 @@
     }
 
     function triggerRemoveSection(button) {
-        var card = button.closest('.section-card');
-        if (card !== null && card !== undefined) {
-            card.remove();
-            setUniqueNames();
+        var sectionCard = button.closest('.section-card');
+        if (sectionCard !== null && sectionCard !== undefined) {
+            var customCards = sectionCard.querySelectorAll('.custom-card');
+            customCards.forEach(function(card) {
+                card.remove();
+            });
+            sectionCard.remove();
+            setUniqueNames(); // Mungkin perlu penyesuaian tergantung pada implementasi setUniqueNames()
         } else {
-            console.error("Parent element with class '.custom-card' not found");
+            console.error("Parent element with class '.section-card' not found");
         }
     }
     var deleteButtons = document.querySelectorAll('.btn[data-bs-original-title="Hapus Pertanyaan"]');
@@ -815,14 +800,6 @@
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
                                                                 <path d="M9 9l6 6m0 -6l-6 6"></path>
-                                                            </svg>
-                                                        </a>
-                                                        <a onclick="addSection.bind(this)()" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Tambah Bagian" data-bs-original-title="Tambah Bagian">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M9 12h6"></path>
-                                                                <path d="M12 9v6"></path>
-                                                                <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
                                                             </svg>
                                                         </a>
                                                     </div>
