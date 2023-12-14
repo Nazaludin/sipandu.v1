@@ -125,3 +125,9 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+#-------------------------
+# Public Folder
+#-------------------------
+# Unignore everything inside the "public" folder
+!/public/
+!/public/**
