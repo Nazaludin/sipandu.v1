@@ -42,9 +42,8 @@
                         Evaluasi Pasca Pelatihan
                     </h2>
                     <ol class="breadcrumb mt-2" aria-label="breadcrumbs">
-                        <li class="breadcrumb-item active"><a>instrument</a></li>
-                        <!-- <li class="breadcrumb-item"><a>Library</a></li>
-                        <li class="breadcrumb-item active" aria-current="page"><a href="#">Data</a></li> -->
+                        <li class="breadcrumb-item active"><a href="<?= base_url('epp-fill'); ?>">Pengisian Epp</a></li>
+                        <li class="breadcrumb-item active"><a>Instrumen</a></li>
                     </ol>
 
                 </div>
@@ -180,7 +179,7 @@
                         <!-- Card Soal -->
                         <div class="custom-card" onclick="toggleCard(this)">
                             <div class="row mb-1">
-                                <span class="card-number fw-bold"><?= $value['number']; ?>. <?= $value['question']; ?></span>
+                                <span class="card-number fw-bold form-label required"><?= $value['number']; ?>. <?= $value['question']; ?></span>
                             </div>
                             <!-- <div class="row mb-3">
                                 <div class="col">
@@ -198,31 +197,31 @@
                                     <div class="mb-3">
                                         <div>
                                             <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="1">
+                                                <input class="form-check-input radio " required type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="1">
                                                 <span class="form-check-label ps-2 w-100">
                                                     <?= $value['option_a']; ?>
                                                 </span>
                                             </label>
                                             <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="2">
+                                                <input class="form-check-input radio " required type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="2">
                                                 <span class="form-check-label ps-2 w-100">
                                                     <?= $value['option_b']; ?>
                                                 </span>
                                             </label>
                                             <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="3">
+                                                <input class="form-check-input radio " required type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="3">
                                                 <span class="form-check-label ps-2 w-100">
                                                     <?= $value['option_c']; ?>
                                                 </span>
                                             </label>
                                             <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="4">
+                                                <input class="form-check-input radio " required type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="4">
                                                 <span class="form-check-label ps-2 w-100">
                                                     <?= $value['option_d']; ?>
                                                 </span>
                                             </label>
                                             <label class="form-check d-flex align-items-center">
-                                                <input class="form-check-input radio" type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="5">
+                                                <input class="form-check-input radio " required type="radio" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_skor' ?>" value="5">
                                                 <span class="form-check-label ps-2 w-100">
                                                     <?= $value['option_e']; ?>
                                                 </span>
@@ -230,9 +229,9 @@
                                         </div>
                                     </div>
                                 <?php } else if ($value['type'] == 2) { ?>
-                                    <input type="text" class="form-control" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_answer' ?>" placeholder="Isikan jawaban singkat">
+                                    <input type="text" class="form-control" required name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_answer' ?>" placeholder="Isikan jawaban singkat">
                                 <?php } else { ?>
-                                    <textarea class="form-control" name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_answer' ?>" cols="30" rows="10" placeholder="Isikan jawaban uraian"></textarea>
+                                    <textarea class="form-control" required name="<?= 'question' . $value['id_question'] . '_type' . $value['type'] . '_answer' ?>" cols="30" rows="10" placeholder="Isikan jawaban uraian"></textarea>
                                 <?php } ?>
                             </div>
                         </div>

@@ -145,6 +145,13 @@ class Evaluasi extends BaseController
         // dd($data);
         if (empty($data['data'])) {
             return redirect()->back()->to(base_url('epp-fill'))->withInput()->with('error', 'Terjadi kesalahan, Silahkan coba untuk menghubungi Admin!');
+        } else {
+            // dd($data);
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['start_fill'] = !empty($value['start_fill']) ? Time::parse($value['start_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+                $data['data'][$key]['end_fill'] = !empty($value['end_fill']) ? Time::parse($value['end_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';
+            }
+            // d($value['start_fill']);
         }
         // dd($data);
         return view('layout/header', $data)
