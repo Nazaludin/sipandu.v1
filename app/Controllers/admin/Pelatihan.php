@@ -387,6 +387,7 @@ class Pelatihan extends BaseController
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $activeSheet = $spreadsheet->getActiveSheet();
 
+        $tipe = 1;
         // Buat sebuah variabel untuk menampung pengaturan style judul
         $style_title = [
             'font' => [
