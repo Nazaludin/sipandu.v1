@@ -135,7 +135,7 @@ class Evaluasi extends BaseController
     }
     public function moodleUrlAPI($function)
     {
-        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE_MOBILE');
         $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=' . $apiKeyMoodle . $function . '&moodlewsrestformat=json';
         return $url;
     }
@@ -224,8 +224,33 @@ class Evaluasi extends BaseController
             $dataPelatihan->courses[0]->schedule_file           = $courseLocal['schedule_file'] ?? '';
             $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
             $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
-            $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
 
+
+            $instrument['data'] = model(InstrumentModel::class)->getInstrument($dataPelatihan->courses[0]->id);
+            // dd($data);
+            if (empty($instrument['data'])) {
+                continue;
+            } else {
+                $now = new Time('now', 'Asia/Jakarta');
+                if (isset($instrument['data'][0])) {
+
+                    $startFill = !empty($instrument['data'][0]['start_fill']) ? Time::parse($instrument['data'][0]['start_fill'], 'Asia/Jakarta') : null;
+                    $endFill = !empty($instrument['data'][0]['end_fill']) ? Time::parse($instrument['data'][0]['end_fill'], 'Asia/Jakarta') : null;
+
+                    if (isset($startFill) && isset($endFill)) {
+                        if ($now > $startFill && $now < $endFill) {
+
+                            $instrument['data'][0]['start_fill'] = $startFill->toDateString('Y-m-d');
+                            $instrument['data'][0]['end_fill'] =  $endFill->toDateString('Y-m-d');
+
+                            $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
+                        }
+                    }
+                }
+
+                // dd('test');
+                // d($value['start_fill']);
+            }
             // $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
         }
         // dd("test");

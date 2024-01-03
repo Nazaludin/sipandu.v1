@@ -36,7 +36,8 @@ class AuthController extends Controller
         $this->config = config('Auth');
         $this->auth   = service('authentication');
 
-        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", "8d52a95d541a42e81f955536e8927e9a");
+        $apiKeyMoody =  getenv('API_KEY_MOODY');
+        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
     }
 

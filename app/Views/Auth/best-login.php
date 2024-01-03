@@ -168,7 +168,7 @@
                             // Menutup tab yang dibuka pada saat submit form setelah 2 detik
                             const redirectURL = '<?= base_url(); ?>';
                             setTimeout(function() {
-                                newTab.close();
+                                // newTab.close();
                                 window.location.href = redirectURL;
                             }, 500);
                             // Melakukan redirect ke halaman Sipandu setelah 2 detik

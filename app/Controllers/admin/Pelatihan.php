@@ -24,8 +24,9 @@ class Pelatihan extends BaseController
 
     public function __construct()
     {
-        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
-        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoodle);
+        // $apiKeyMoodle =  '6324f38717ff35569d486e633b0a31b1';
+        $apiKeyMoody =  getenv('API_KEY_MOODY');
+        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
     }
 
@@ -168,7 +169,7 @@ class Pelatihan extends BaseController
     }
     public function moodleUrlAPI($function)
     {
-        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE_MOBILE');
         $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=' . $apiKeyMoodle . $function . '&moodlewsrestformat=json';
         return $url;
     }
@@ -598,7 +599,7 @@ class Pelatihan extends BaseController
                 'name'  => 'Calibri'
             ],
             'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
                 'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
             ]
         ];
@@ -765,7 +766,7 @@ class Pelatihan extends BaseController
 
         // DATA
         if ($tipe == 1) {
-            $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->where('status', 'accept')->findAll();
+            $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->whereIn('status', ['accept', 'passed'])->findAll();
             $data_final = [];
             foreach ($data as $key => $value) {
                 $data_user = model(UserModel::class)->find($value['id_user']);
@@ -778,6 +779,7 @@ class Pelatihan extends BaseController
             foreach ($data as $key => $value) {
                 $data_user = model(UserModel::class)->find($value['id_user']);
                 $data_final[$key] = $data_user->toArray();
+                // dd($value);
                 $data_final[$key]['status_pelatihan'] = $value['status'];
             }
         }
@@ -825,6 +827,12 @@ class Pelatihan extends BaseController
                     break;
                 case 'revisi':
                     $activeSheet->setCellValue('AD' . $index, 'Revisi');
+                    break;
+                case 'renew':
+                    $activeSheet->setCellValue('AD' . $index, 'Perbaikan');
+                    break;
+                case 'passed':
+                    $activeSheet->setCellValue('AD' . $index, 'Diterima');
                     break;
                 default:
                     $activeSheet->setCellValue('AD' . $index, '');
@@ -1261,6 +1269,11 @@ class Pelatihan extends BaseController
     }
 
 
+    public function singkronSimpeg()
+    {
+        return redirect()->back()->withInput()->with('error', 'Tidak ada data yang tersingkron!');
+    }
+
     public function pelatihanUserDetail($id_pelatihan, $id_user)
     {
         $dataUserCourse = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->where('id_user', $id_user)->findColumn('id');
@@ -1268,8 +1281,10 @@ class Pelatihan extends BaseController
         $dataFinal = [];
         foreach ($dataCourseUploadDocument as $key => $value) {
             $UserUploadDocument = model(UserUploadDocumentModel::class)->where('id_user_course', $dataUserCourse[0])->where('id_upload_document', $value['id'])->findAll();
-            $dataFinal['document'][$key] = $UserUploadDocument[0];
-            $dataFinal['document'][$key]['name_upload_document'] = $value['name'];
+            if (isset($UserUploadDocument[0])) {
+                $dataFinal['document'][$key] = $UserUploadDocument[0];
+                $dataFinal['document'][$key]['name_upload_document'] = $value['name'];
+            }
         }
         $dataFinal['id_pelatihan'] = $id_pelatihan;
         $dataFinal['data'] = model(UserModel::class)->find($id_user)->toArray();
@@ -1431,7 +1446,7 @@ class Pelatihan extends BaseController
             new \DateTime($data['enddate'])
         );
         if (!empty($MoodyEdit['error'])) {
-            return redirect()->to(base_url('pelatihan/detail/edit' . $id_pelatihan))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyEdit['error']['message']);
+            return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyEdit['error']['message']);
         }
 
         $rules = [

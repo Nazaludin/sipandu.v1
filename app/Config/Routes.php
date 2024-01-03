@@ -235,6 +235,12 @@ $routes->group('api', ['filter' => 'api'], static function ($routes) {
 $routes->group('test', static function ($routes) {
     $routes->get('rekap',  'Admin\Pelatihan::testRekap');
 });
+
+$routes->group('sync', static function ($routes) {
+    $routes->get('simpeg',  'Admin\Pelatihan::singkronSimpeg');
+});
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

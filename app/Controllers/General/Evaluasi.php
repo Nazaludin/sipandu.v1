@@ -132,7 +132,7 @@ class Evaluasi extends BaseController
     }
     public function moodleUrlAPI($function)
     {
-        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE_MOBILE');
         $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=' . $apiKeyMoodle . $function . '&moodlewsrestformat=json';
         return $url;
     }

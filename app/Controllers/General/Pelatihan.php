@@ -39,7 +39,8 @@ class Pelatihan extends BaseController
         $this->UserCourseModel  = new UserCourseModel();
         $this->UserUploadDocumentModel  = new UserUploadDocumentModel();
 
-        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", "8d52a95d541a42e81f955536e8927e9a");
+        $apiKeyMoody =  getenv('API_KEY_MOODY');
+        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
     }
 
@@ -139,7 +140,7 @@ class Pelatihan extends BaseController
     }
     public function moodleUrlAPI($function)
     {
-        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE_MOBILE');
         $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=' . $apiKeyMoodle . $function . '&moodlewsrestformat=json';
         return $url;
     }
