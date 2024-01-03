@@ -380,6 +380,207 @@ class Pelatihan extends BaseController
         $writer->save('php://output');
         die;
     }
+    public function testRekap()
+    {
+        require_once COMPOSER_PATH;
+        $spreadsheet = new Spreadsheet();
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $activeSheet = $spreadsheet->getActiveSheet();
+
+        // Buat sebuah variabel untuk menampung pengaturan style judul
+        $style_title = [
+            'font' => [
+                'bold'  => true,
+                'size'  => 15,
+                'name'  => 'Calibri'
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ]
+        ];
+        // Buat sebuah variabel untuk menampung pengaturan style dari header tabel
+        $style_col = [
+            'font' => [
+                'bold' => true,
+                'color' => [
+                    'argb' => 'FFFFFF',
+                ],
+            ], // Set font nya jadi bold
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'outline' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border top dengan garis tipis
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '00985B',
+                ],
+                'endColor' => [
+                    'argb' => '00985B',
+                ],
+            ]
+        ];
+        // Buat sebuah variabel untuk menampung pengaturan style dari isi tabel
+        $style_row_center = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'outline' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+
+        $style_row_left = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+            ],
+            'borders' => [
+                'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border top dengan garis tipis
+                'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],  // Set border right dengan garis tipis
+                'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN], // Set border bottom dengan garis tipis
+                'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
+            ]
+        ];
+        $bulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+        //judul
+        $title = $tipe == 1 ? 'Rekap Pelatihan ' . $bulan[date('n')] . ' Tahun ' . date('Y') : 'Rekap Pelatihan Tahun ' . date('Y');
+        $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan tulisan "DATA SISWA"
+        $activeSheet->mergeCells('A2:N2'); // Set Merge Cell pada kolom A1 sampai F1
+        $activeSheet->getStyle('A2')->applyFromArray($style_title);
+
+        $activeSheet->setCellValue('A4', 'No');
+        $activeSheet->mergeCells('A4:A5');
+        $activeSheet->setCellValue('B4', 'Nama Pelatihan');
+        $activeSheet->mergeCells('B4:B5');
+        $activeSheet->setCellValue('C4', 'Jenis Pelatihan');
+        $activeSheet->mergeCells('C4:C5');
+        $activeSheet->setCellValue('D4', 'Periode Pendaftaran');
+        $activeSheet->mergeCells('D4:E4');
+        $activeSheet->setCellValue('D5', 'Mulai Pendaftaran');
+        $activeSheet->setCellValue('E5', 'Akhir Pendaftaran');
+        $activeSheet->setCellValue('F4', 'Periode Pelatihan');
+        $activeSheet->mergeCells('F4:G4');
+        $activeSheet->setCellValue('F5', 'Mulai Pelatihan');
+        $activeSheet->setCellValue('G5', 'Akhir Pelatihan');
+        $activeSheet->setCellValue('H4', 'Angkatan');
+        $activeSheet->mergeCells('H4:H5');
+        $activeSheet->setCellValue('I4', 'Sasaran Pelatihan');
+        $activeSheet->mergeCells('I4:I5');
+        $activeSheet->setCellValue('J4', 'Tempat Pelaksanaan');
+        $activeSheet->mergeCells('J4:J5');
+        $activeSheet->setCellValue('K4', 'Kontak Person');
+        $activeSheet->mergeCells('K4:K5');
+        $activeSheet->setCellValue('L4', 'Kuota');
+        $activeSheet->mergeCells('L4:L5');
+        $activeSheet->setCellValue('M4', 'Metode');
+        $activeSheet->mergeCells('M4:M5');
+        $activeSheet->setCellValue('N4', 'Sumber Dana');
+        $activeSheet->mergeCells('N4:N5');
+
+
+        for ($i = 4; $i <= 5; $i++) {
+            $activeSheet->getStyle('A' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('B' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('C' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('D' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('E' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('F' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('G' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('H' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('I' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('J' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('K' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('L' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('M' . $i)->applyFromArray($style_col);
+            $activeSheet->getStyle('N' . $i)->applyFromArray($style_col);
+        }
+
+        // DATA
+        $data = model(CourseModel::class)->getDataCourseMonth();
+
+        $index = 6;
+        foreach ($data as $dt => $value) {
+            // DATA BEST
+            $dataBest = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
+
+            $activeSheet->setCellValue('A' . $index, $index - 5);
+            $activeSheet->setCellValue('B' . $index, $dataBest->courses[0]->fullname);
+            $activeSheet->setCellValue('C' . $index, $dataBest->courses[0]->categoryname);
+            $activeSheet->setCellValue('D' . $index, date('Y-m-d', strtotime($value['start_registration'])));
+            $activeSheet->setCellValue('E' . $index, date('Y-m-d', strtotime($value['end_registration'])));
+            $activeSheet->setCellValue('F' . $index, $this->toDMY($dataBest->courses[0]->startdate));
+            $activeSheet->setCellValue('G' . $index, $this->toDMY($dataBest->courses[0]->enddate));
+            $activeSheet->setCellValue('H' . $index, $value['batch']);
+            $activeSheet->setCellValue('I' . $index, $value['target_participant']);
+            $activeSheet->setCellValue('J' . $index, $value['place']);
+            $activeSheet->setCellValue('K' . $index, $value['contact_person']);
+            $activeSheet->setCellValue('L' . $index, $value['quota']);
+            $activeSheet->setCellValue('M' . $index, $value['method']);
+            $activeSheet->setCellValue('N' . $index, $value['source_funds']);
+
+            $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('C' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('D' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('E' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('F' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('G' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('H' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('I' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('J' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('K' . $index)->applyFromArray($style_row_left);
+            $activeSheet->getStyle('L' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('M' . $index)->applyFromArray($style_row_center);
+            $activeSheet->getStyle('N' . $index)->applyFromArray($style_row_center);
+            $index++;
+        }
+
+        //mengatur warptext disetiap kolom
+        foreach (range('A', $activeSheet->getHighestDataColumn()) as $col) {
+            $activeSheet->getStyle($col)->getAlignment()->setWrapText(true);
+        }
+
+        //mengatur weight pada cell
+        $activeSheet->getColumnDimension('B')->setWidth(25);
+        $activeSheet->getColumnDimension('C')->setWidth(25);
+        $activeSheet->getColumnDimension('D')->setWidth(25);
+        $activeSheet->getColumnDimension('E')->setWidth(25);
+        $activeSheet->getColumnDimension('F')->setWidth(25);
+        $activeSheet->getColumnDimension('G')->setWidth(25);
+        $activeSheet->getColumnDimension('I')->setWidth(20);
+        $activeSheet->getColumnDimension('J')->setWidth(25);
+        $activeSheet->getColumnDimension('K')->setWidth(25);
+        $activeSheet->getColumnDimension('L')->setWidth(15);
+        $activeSheet->getColumnDimension('M')->setWidth(15);
+        $activeSheet->getColumnDimension('N')->setWidth(15);
+
+        $filename = $title . '.xlsx';
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename=' . $filename);
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        die;
+    }
     // CODE PELATIHAN
     public function rekapPengguna($id_pelatihan, $tipe)
     {

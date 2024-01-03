@@ -135,7 +135,8 @@ class Evaluasi extends BaseController
     }
     public function moodleUrlAPI($function)
     {
-        $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7' . $function . '&moodlewsrestformat=json';
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=' . $apiKeyMoodle . $function . '&moodlewsrestformat=json';
         return $url;
     }
     // FUNNCITON UMUM

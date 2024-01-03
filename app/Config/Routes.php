@@ -231,6 +231,10 @@ $routes->group('api', ['filter' => 'api'], static function ($routes) {
     $routes->post('getPelatihanFilter',  'Api\ApiPelatihan::getPelatihanFilter');
 });
 
+
+$routes->group('test', static function ($routes) {
+    $routes->get('rekap',  'Admin\Pelatihan::testRekap');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing
