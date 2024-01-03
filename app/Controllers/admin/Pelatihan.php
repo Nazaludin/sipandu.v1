@@ -934,8 +934,8 @@ class Pelatihan extends BaseController
             foreach ($pelatihan as $key => $value) {
                 // Data Pelatihan API
                 $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
-                d($value['condition']);
-                d($value, $dataPelatihan);
+                // d($value['condition']);
+                // d($value, $dataPelatihan);
                 $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
                     $value['condition'],
                     $value['id'],
