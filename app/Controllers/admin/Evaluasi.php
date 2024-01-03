@@ -796,6 +796,7 @@ class Evaluasi extends BaseController
     }
     public function fillInstrument($id_pelatihan)
     {
+        // push eval
         $data['id_course'] = $id_pelatihan;
         $data['data'] = model(InstrumentModel::class)->getInstrument($id_pelatihan);
 
