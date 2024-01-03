@@ -24,7 +24,8 @@ class Pelatihan extends BaseController
 
     public function __construct()
     {
-        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", "8d52a95d541a42e81f955536e8927e9a");
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoodle);
         $this->MoodyBest = AppFactory::create($configBest);
     }
 
@@ -167,7 +168,8 @@ class Pelatihan extends BaseController
     }
     public function moodleUrlAPI($function)
     {
-        $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=26a8df1bbd691fcdc570159cac7f00e7' . $function . '&moodlewsrestformat=json';
+        $apiKeyMoodle =  getenv('API_KEY_MOODLE');
+        $url = 'http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php?wstoken=' . $apiKeyMoodle . $function . '&moodlewsrestformat=json';
         return $url;
     }
 
@@ -176,7 +178,7 @@ class Pelatihan extends BaseController
     // CODE PELATIHAN
     public function rekap($tipe)
     {
-        require_once "../vendor/autoload.php";
+        require_once COMPOSER_PATH;
         $spreadsheet = new Spreadsheet();
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $activeSheet = $spreadsheet->getActiveSheet();
@@ -381,7 +383,7 @@ class Pelatihan extends BaseController
     // CODE PELATIHAN
     public function rekapPengguna($id_pelatihan, $tipe)
     {
-        require_once "../vendor/autoload.php";
+        require_once COMPOSER_PATH;
         $spreadsheet = new Spreadsheet();
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $activeSheet = $spreadsheet->getActiveSheet();

@@ -45,10 +45,12 @@ class Profil extends BaseController
 
             if ($foto->isValid() && !($foto->hasMoved())) {
 
-                $newName = $foto->getRandomName();
+                // $newName = $foto->getRandomName();
                 $path = 'uploads/profil';
 
                 $sourcePath = WRITEPATH . $crop;
+                $newName = str_replace('uploads/temp/', '', $crop);
+
 
                 // Memindahkan file ke direktori tujuan
                 $file = new File($sourcePath);
