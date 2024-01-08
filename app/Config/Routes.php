@@ -105,6 +105,7 @@ $routes->group('service', static function ($routes) {
     $routes->get('test',  'APIControl::test');
     $routes->post('test',  'APIControl::testKoneksi');
     $routes->post('store-profil-image',  'APIControl::storeProfilImage');
+    $routes->post('store-profil-image-final',  'APIControl::storeProfilImageFinal');
     $routes->get('pangkat-golongan',  'APIControl::dataPangkatGolongan');
     $routes->get('jenis-nakes',  'APIControl::dataJenisNakes');
     $routes->get('provinsi',  'APIControl::dataProvinsi');

@@ -265,6 +265,7 @@
                                                         <div class="col">
                                                             <input class="form-control" type="file" id="fileFotoInsert" name="foto" accept="image/jpg, image/jpeg">
                                                             <input type="hidden" id="cropDir" name="crop_dir">
+                                                            <input type="hidden" id="cropName" name="crop_name">
                                                             <input type="hidden" id="cropStatus" name="isCropped" value="false">
                                                         </div>
 
@@ -273,7 +274,9 @@
                                                                         </div> -->
                                                     </div>
 
-                                                    <button class="btn btn-primary mt-3 w-100" id="submit-form" type="submit">Simpan Foto</button>
+                                                    <a onclick="submitSend()" class="btn btn-primary mt-3 w-100" id="submit-form">Simpan Foto</a>
+                                                    <!-- <button class="btn btn-primary mt-3 w-100" id="submit-form" type="submit">Simpan Foto</button> -->
+                                                    <button id="trigger-submit-button" class="btn " hidden type="submit"></button>
 
                                                 </div>
                                             </form>
@@ -320,8 +323,14 @@
         $('#container-display').attr('style', 'visibility:hidden;');
     });
     fileInput.addEventListener('change', function() {
+        $('#cropName').val(getFilename());
         makeCropper();
     });
+
+    function getFilename() {
+        var filename = $('#fileFotoInsert').val().split('\\').pop();
+        return filename;
+    }
 
     function makeCropper() {
         $('#cropper-toolbar').attr('style', 'visibility:visible;');
@@ -387,6 +396,7 @@
                         console.log(jsonData.temp_dir);
                         $('#button-selanjutnya-simpan').removeAttr('disabled');
                         $('#cropStatus').val('true');
+
                         $('#cropDir').val(jsonData.temp_dir);
                         $('#csrf').val(jsonData.csrf_name);
                         $('#cropper-toolbar').attr('style', 'visibility:hidden;');
@@ -395,9 +405,10 @@
                         previewImage.src = cropper.getCroppedCanvas().toDataURL('image/jpeg');
                         csrfHash = jsonData.csrf_name;
                         console.log('Upload success');
-                        if (cropper) {
-                            cropper.destroy();
-                        }
+                        console.log($('#cropName').val());
+                        // if (cropper) {
+                        //     cropper.destroy();
+                        // }
                     },
                     error() {
                         console.log('Upload error');
@@ -406,6 +417,48 @@
             }, 'image/jpg');
         }
     });
+
+    function submitSend() {
+
+        if (cropper) {
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                const formData = new FormData();
+
+                // Pass the image file name as the third parameter if necessary.
+                formData.append('croppedImage', blob /*, 'example.png' */ );
+                formData.append([csrfName], csrfHash);
+
+                // Use `jQuery.ajax` method for example
+                $.ajax('<?= base_url('service/store-profil-image-final'); ?>', {
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success(data) {
+                        console.log(data);
+                        var jsonData = JSON.parse(data);
+                        console.log(jsonData.temp_dir);
+
+                        $('#cropDir').val(jsonData.temp_dir);
+                        $('#csrf').val(jsonData.csrf_name);
+
+                        csrfHash = jsonData.csrf_name;
+                        console.log('Upload success FInal');
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+
+                        $('#trigger-submit-button').click();
+
+                    },
+                    error() {
+                        console.log('Upload error');
+                    },
+                });
+            }, 'image/jpg');
+        }
+    }
+
     reCrop.addEventListener('click', function() {
         makeCropper()
     });

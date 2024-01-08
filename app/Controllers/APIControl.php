@@ -84,6 +84,22 @@ class APIControl extends BaseController
         ];
         return json_encode($returnData);
     }
+    public function storeProfilImageFinal()
+    {
+        $img = $this->request->getFile('croppedImage');
+        $newName = $img->getRandomName();
+        $path = FCPATH . 'uploads/profil';
+
+        $img->move($path, $newName);
+
+        $security = \Config\Services::security();
+        $hash = $security->generateHash();
+        $returnData = [
+            'temp_dir' => 'uploads/profil/' . $newName,
+            'csrf_name' => $hash,
+        ];
+        return json_encode($returnData);
+    }
     // public function dataProvinsi()
     // {
     //     $client = \Config\Services::curlrequest();

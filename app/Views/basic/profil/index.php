@@ -951,6 +951,7 @@
                                                         <div class="col">
                                                             <input class="form-control" type="file" id="fileFotoInsert" name="foto" accept="image/jpg, image/jpeg">
                                                             <input type="hidden" id="cropDir" name="crop_dir">
+                                                            <input type="hidden" id="cropName" name="crop_name">
                                                             <input type="hidden" id="cropStatus" name="isCropped" value="false">
                                                         </div>
 
@@ -972,7 +973,9 @@
                                     </div>
                                 </div>
 
-                                <button id="submit-form" type="submit" hidden></button>
+                                <!-- <a onclick="submitSend()" class="btn btn-primary mt-3 w-100" id="submit-form">Simpan Foto</a> -->
+                                <button class="btn btn-primary mt-3 w-100" id="submit-form" type="submit" hidden>Simpan Foto</button>
+                                <!-- <button id="trigger-submit-button" class="btn " hidden type="submit"></button> -->
 
 
 
@@ -1003,14 +1006,21 @@
                                     let cropper;
 
                                     $(document).ready(function() {
+                                        $('#submit-form').attr('style', 'visibility:hidden;');
                                         $('#cropper-toolbar').attr('style', 'visibility:hidden;');
                                         $('#recrop-toolbar').attr('style', 'visibility:hidden;');
                                         $('#button-selanjutnya-simpan').attr('disabled', 'true');
                                         $('#container-display').attr('style', 'visibility:hidden;');
                                     });
                                     fileInput.addEventListener('change', function() {
+                                        $('#cropName').val(getFilename());
                                         makeCropper();
                                     });
+
+                                    function getFilename() {
+                                        var filename = $('#fileFotoInsert').val().split('\\').pop();
+                                        return filename;
+                                    }
 
                                     function makeCropper() {
                                         $('#cropper-toolbar').attr('style', 'visibility:visible;');
@@ -1076,16 +1086,19 @@
                                                         console.log(jsonData.temp_dir);
                                                         $('#button-selanjutnya-simpan').removeAttr('disabled');
                                                         $('#cropStatus').val('true');
+
                                                         $('#cropDir').val(jsonData.temp_dir);
                                                         $('#csrf').val(jsonData.csrf_name);
                                                         $('#cropper-toolbar').attr('style', 'visibility:hidden;');
                                                         $('#recrop-toolbar').attr('style', 'visibility:visible;');
+                                                        $('#submit-form').attr('style', 'visibility:visible;');
                                                         previewImage.src = cropper.getCroppedCanvas().toDataURL('image/jpeg');
                                                         csrfHash = jsonData.csrf_name;
                                                         console.log('Upload success');
-                                                        if (cropper) {
-                                                            cropper.destroy();
-                                                        }
+                                                        console.log($('#cropName').val());
+                                                        // if (cropper) {
+                                                        //     cropper.destroy();
+                                                        // }
                                                     },
                                                     error() {
                                                         console.log('Upload error');
@@ -1094,6 +1107,49 @@
                                             }, 'image/jpg');
                                         }
                                     });
+
+                                    function submitSend() {
+
+                                        if (cropper) {
+                                            cropper.getCroppedCanvas().toBlob((blob) => {
+                                                const formData = new FormData();
+
+                                                // Pass the image file name as the third parameter if necessary.
+                                                formData.append('croppedImage', blob /*, 'example.png' */ );
+                                                formData.append([csrfName], csrfHash);
+
+                                                // Use `jQuery.ajax` method for example
+                                                $.ajax('<?= base_url('service/store-profil-image-final'); ?>', {
+                                                    method: 'POST',
+                                                    data: formData,
+                                                    processData: false,
+                                                    contentType: false,
+                                                    success(data) {
+                                                        console.log(data);
+                                                        var jsonData = JSON.parse(data);
+                                                        console.log(jsonData.temp_dir);
+
+                                                        $('#cropDir').val(jsonData.temp_dir);
+                                                        $('#csrf').val(jsonData.csrf_name);
+
+                                                        csrfHash = jsonData.csrf_name;
+                                                        console.log('Upload success FInal');
+                                                        // if (cropper) {
+                                                        //     cropper.destroy();
+                                                        // }
+
+                                                        controlSimpan();
+                                                        // $('#trigger-submit-button').click();
+
+                                                    },
+                                                    error() {
+                                                        console.log('Upload error');
+                                                    },
+                                                });
+                                            }, 'image/jpg');
+                                        }
+                                    }
+
                                     reCrop.addEventListener('click', function() {
                                         makeCropper()
                                     });
@@ -1205,7 +1261,7 @@
                             <path d="M9 6l6 6l-6 6"></path>
                         </svg>
                     </button>
-                    <button id="button-selanjutnya-simpan" class="btn btn-danger" type="button" onclick="controlSimpan()">
+                    <button id="button-selanjutnya-simpan" class="btn btn-danger" type="button" onclick="submitSend()">
                         Simpan
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

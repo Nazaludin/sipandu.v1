@@ -30,35 +30,64 @@ class Profil extends BaseController
             . view('basic/profil/edit_photo')
             . view('layout/footer');
     }
+
+    public function deleteTempFiles()
+    {
+        $directory = WRITEPATH . 'uploads/temp'; // Path folder tempat berkas dihapus
+
+        // Pastikan folder tersebut ada dan bisa diakses
+        if (is_dir($directory)) {
+            $files = glob($directory . '/*'); // Mendapatkan daftar file di dalam folder
+
+            // Hapus setiap file di dalam folder
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    unlink($file); // Hapus file
+                }
+            }
+        }
+
+        // Redirect atau berikan respons sesuai kebutuhan aplikasi Anda
+        return true;
+    }
+
+    public function deleteFileExists($filePath)
+    {
+        // Periksa apakah file ada
+        if (file_exists($filePath)) {
+            // Jika file ada, hapus file tersebut
+            unlink($filePath);
+        }
+
+        return true;
+    }
+
     public function photoEditProses()
     {
         $foto = $this->request->getFile('foto');
         $crop = $this->request->getPost('crop_dir');
+        $crop_name = $this->request->getPost('crop_name');
         $crop_status = $this->request->getPost('isCropped');
 
         if ($crop_status == 'false') {
             return redirect()->back()->withInput()->with('errors.complete.profil', ['isCropped' => 'Mohon klik "Crop" terlebih dahulu sebelum submit!']);
         }
 
+        // Mengapus semua file di folder temp
+        $this->deleteTempFiles();
 
-        if (isset($foto)) {
+        // dd($this->request->getPost());
+        if (isset($crop)) {
+            if (strstr($crop, 'uploads/profil') !== false) {
+                $data['nama_foto']      = $crop_name;
+                $data['lokasi_foto']    = $crop;
 
-            if ($foto->isValid() && !($foto->hasMoved())) {
+                //  Hapus foto profil sebelumnya
+                $user = model(UserModel::class)->find(user_id())->toArray();
+                if (!empty($user['lokasi_foto'])) {
+                    $this->deleteFileExists($user['lokasi_foto']);
+                }
 
-                // $newName = $foto->getRandomName();
-                $path = 'uploads/profil';
-
-                $sourcePath = WRITEPATH . $crop;
-                $newName = str_replace('uploads/temp/', '', $crop);
-
-
-                // Memindahkan file ke direktori tujuan
-                $file = new File($sourcePath);
-                $file->move(FCPATH . $path, $newName);
-
-                $data['nama_foto']      = $foto->getClientName();
-                $data['lokasi_foto']    = $path . '/' . $newName;
-                // dd($data);
                 $updateUser = model(UserModel::class)->update(user_id(), $data);
                 if ($updateUser) {
                     return redirect()->to(base_url('profil'))->withInput()->with('message', 'Foto berhasil diperbarui!');
@@ -66,11 +95,42 @@ class Profil extends BaseController
                     return redirect()->to(base_url('profil'))->withInput()->with('error', 'Maaf, terjadi kesalahan sistem saat mengganti foto profil Anda!');
                 }
             } else {
-                return redirect()->to(base_url('profil'))->withInput()->with('error', 'Maaf, foto tidak valid, silahkan unggah foto Anda kembali!');
+
+                return redirect()->back()->withInput()->with('errors.complete.profil', ['isCropped' => 'Maaf terjadi kesalahan upload foto, silahkan coba untuk hubungi Admin!']);
             }
-        } else {
-            return redirect()->to(base_url('profil'))->withInput()->with('error', 'Gagal mengganti photo profil Anda!');
         }
+        return redirect()->to(base_url('profil'))->withInput()->with('error', 'Gagal mengganti photo profil Anda!');
+
+        // if (isset($foto)) {
+
+        //     if ($foto->isValid() && !($foto->hasMoved())) {
+
+        //         // $newName = $foto->getRandomName();
+        //         $path = 'uploads/profil';
+
+        //         $sourcePath = WRITEPATH . $crop;
+        //         $newName = str_replace('uploads/temp/', '', $crop);
+
+
+        //         // Memindahkan file ke direktori tujuan
+        //         $file = new File($sourcePath);
+        //         $file->move(FCPATH . $path, $newName);
+
+        //         $data['nama_foto']      = $foto->getClientName();
+        //         $data['lokasi_foto']    = $path . '/' . $newName;
+        //         // dd($data);
+        //         $updateUser = model(UserModel::class)->update(user_id(), $data);
+        //         if ($updateUser) {
+        //             return redirect()->to(base_url('profil'))->withInput()->with('message', 'Foto berhasil diperbarui!');
+        //         } else {
+        //             return redirect()->to(base_url('profil'))->withInput()->with('error', 'Maaf, terjadi kesalahan sistem saat mengganti foto profil Anda!');
+        //         }
+        //     } else {
+        //         return redirect()->to(base_url('profil'))->withInput()->with('error', 'Maaf, foto tidak valid, silahkan unggah foto Anda kembali!');
+        //     }
+        // } else {
+        //     return redirect()->to(base_url('profil'))->withInput()->with('error', 'Gagal mengganti photo profil Anda!');
+        // }
     }
     public function profilEdit()
     {
@@ -217,6 +277,7 @@ class Profil extends BaseController
         $data = $this->request->getPost();
         $foto = $this->request->getFile('foto');
         $crop = $this->request->getPost('crop_dir');
+        $crop_name = $this->request->getPost('crop_name');
         $crop_status = $this->request->getPost('isCropped');
 
         if ($crop_status == 'false') {
@@ -344,23 +405,35 @@ class Profil extends BaseController
             return redirect()->back()->withInput()->with('errors.complete.profil', $this->validator->getErrors());
         }
 
-        if (isset($foto)) {
+        // Mengapus semua file di folder temp
+        $this->deleteTempFiles();
 
-            if ($foto->isValid() && !($foto->hasMoved())) {
-
-                $newName = $foto->getRandomName();
-                $path = 'uploads/profil';
-
-                $sourcePath = WRITEPATH . $crop;
-
-                // Memindahkan file ke direktori tujuan
-                $file = new File($sourcePath);
-                $file->move(FCPATH . $path, $newName);
-
-                $data['nama_foto']      = $foto->getClientName();
-                $data['lokasi_foto']    = $path . '/' . $newName;
+        // dd($this->request->getPost());
+        if (isset($crop)) {
+            if (strstr($crop, 'uploads/profil') !== false) {
+                $data['nama_foto']      = $crop_name;
+                $data['lokasi_foto']    = $crop;
+            } else {
+                return redirect()->back()->withInput()->with('errors.complete.profil', ['isCropped' => 'Maaf terjadi kesalahan upload foto, silahkan coba untuk hubungi Admin!']);
             }
         }
+        // if (isset($foto)) {
+
+        //     if ($foto->isValid() && !($foto->hasMoved())) {
+
+        //         $newName = $foto->getRandomName();
+        //         $path = 'uploads/profil';
+
+        //         $sourcePath = WRITEPATH . $crop;
+
+        //         // Memindahkan file ke direktori tujuan
+        //         $file = new File($sourcePath);
+        //         $file->move(FCPATH . $path, $newName);
+
+        //         $data['nama_foto']      = $foto->getClientName();
+        //         $data['lokasi_foto']    = $path . '/' . $newName;
+        //     }
+        // }
         // dd($pengguna, $data);
         $data['status_sistem'] = 'complete';
         $updateUser = model(UserModel::class)->update(user_id(), $data);
