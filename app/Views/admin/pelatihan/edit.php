@@ -87,7 +87,7 @@
                                 <div class="col-12">
                                     <!-- <table class="table">
                                     <tbody> -->
-                                    <form action="<?= base_url('pelatihan/detail/edit/proses/' . json_decode($pelatihan)->courses->id); ?>" method="post" enctype='multipart/form-data'>
+                                    <form action="<?= base_url('pelatihan/detail/edit/proses/' . json_decode($pelatihan)->courses->id); ?>" method="post" enctype="multipart/form-data">
                                         <?= csrf_field() ?>
                                         <div class="hr-text hr-text-left mb-3 mt-1">Data Pelatihan</div>
                                         <div class="row mb-3">
@@ -166,7 +166,7 @@
                                             </div>
                                             <div class="col-6 custom-file">
                                                 <label for="floatingInputSchedule" class="form-label mb-0">Lampiran Jadwal</label>
-                                                <input type="file" class="form-control custom-file-input" id="floatingInputSchedule" name="jadwal" lang="id">
+                                                <input type="file" class="form-control custom-file-input" id="floatingInputSchedule" name="jadwal" lang="id" accept=".pdf">
                                             </div>
 
                                         </div>
@@ -524,7 +524,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 
         <div class="modal-content">
-            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Pilih Dokumen Unduhan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -611,7 +611,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="floatingInputDownloadDocument">Berkas Uduhan Peserta</label>
-                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_document">
+                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_document" accept=".pdf,.docx">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -652,7 +652,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="fileEditDownloadDokument">Berkas Uduhan Peserta</label>
-                            <input type="file" class="form-control" id="fileEditDownloadDokument" name="file_download_document">
+                            <input type="file" class="form-control" id="fileEditDownloadDokument" name="file_download_document" accept=".pdf,.docx">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -680,7 +680,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 
         <div class="modal-content">
-            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . json_decode($pelatihan)->courses->id); ?>" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Pilih Dokumen Uggahan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

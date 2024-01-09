@@ -156,7 +156,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="image">Upload Image</label>
-                                <input type="file" class="form-control-file" id="image" name="foto_profil">
+                                <input type="file" class="form-control-file" id="image" name="foto_profil" accept="image/jpeg, image/jpg, image/png">
                             </div>
 
 

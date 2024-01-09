@@ -73,7 +73,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    <form action="<?php echo base_url('instrument/template/insert/proses'); ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?php echo base_url('instrument/template/insert/proses'); ?>" method="POST">
                         <?= csrf_field() ?>
 
                         <div class="card">

@@ -56,6 +56,17 @@ class Pelatihan extends BaseController
         return $tgl;
     }
 
+    public function deleteFileExists($filePath)
+    {
+        // Periksa apakah file ada
+        if (file_exists($filePath)) {
+            // Jika file ada, hapus file tersebut
+            unlink($filePath);
+        }
+
+        return true;
+    }
+
     // public function convertCondition($condition)
     // {
     //     $result = '';
@@ -1107,22 +1118,40 @@ class Pelatihan extends BaseController
             ];
 
             if (isset($file_schedule)) {
-                if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
+                $rules = [
+                    'jadwal' => [
+                        'uploaded[jadwal]',
+                        'mime_in[jadwal,application/pdf]',
+                        'max_size[jadwal,5096]',
+                    ],
+                ];
+                $message = [
+                    'jadwal' => [
+                        'uploaded' => 'File gagal terupload, silahkan coba lagi!',
+                        'mime_in' => 'Jenis berkas yang Anda upload tidak sesuai!',
+                        'max_size' => 'Upload dokumen gagal! Size dokumen melebihi 5MB!'
+                    ]
+                ];
+                if ($this->validate($rules, $message)) {
+                    if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
 
-                    $newName = $file_schedule->getRandomName();
-                    $path = 'uploads/dokumen';
+                        $newName = $file_schedule->getRandomName();
+                        $path = 'uploads/dokumen';
 
-                    $file_schedule->move(FCPATH . $path, $newName);
+                        $file_schedule->move(FCPATH . $path, $newName);
 
-                    $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
-                    $dataLokal['schedule_file_location'] = $path . '/' . $newName;
+                        $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
+                        $dataLokal['schedule_file_location'] = $path . '/' . $newName;
+                    }
+                } else {
+                    return redirect()->to(base_url('pelatihan/insert'))->withInput()->with('error', $this->validator->getError('jadwal'));
                 }
             }
             $status = model(CourseModel::class)->insert($dataLokal);
             // dd($status);
             return redirect()->to(base_url('pelatihan/insert/syarat/' . $result['data']['courseid']))->withInput();
         } else {
-            return redirect()->to(base_url('pelatihan/insert/'))->withInput()->with('error', $result['error']['message']);;
+            return redirect()->to(base_url('pelatihan/insert/'))->withInput()->with('error', $result['error']['message']);
         }
         return redirect()->back();
     }
@@ -1449,12 +1478,25 @@ class Pelatihan extends BaseController
             return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyEdit['error']['message']);
         }
 
-        $rules = [
-            'jadwal' => 'uploaded[jadwal]',
-        ];
-        if ($this->validate($rules)) {
-            if (isset($file_schedule)) {
+        if (isset($file_schedule)) {
+            $rules = [
+                'jadwal' => [
+                    // 'uploaded[jadwal]',
+                    'mime_in[jadwal,application/pdf]',
+                    'max_size[jadwal,5096]',
+                ],
+            ];
+            $message = [
+                'jadwal' => [
+                    // 'uploaded' => 'File gagal terupload, silahkan coba lagi!',
+                    'mime_in' => 'Jenis berkas yang Anda upload tidak sesuai!',
+                    'max_size' => 'Upload dokumen gagal! Size dokumen melebihi 5MB!'
+                ]
+            ];
+            if ($this->validate($rules, $message)) {
                 if ($file_schedule->isValid() && !($file_schedule->hasMoved())) {
+
+                    $this->deleteFileExists(model(CourseModel::class)->find($id_pelatihan)['schedule_file_location']);
 
                     $newName = $file_schedule->getRandomName();
                     $path = 'uploads/dokumen';
@@ -1464,10 +1506,14 @@ class Pelatihan extends BaseController
                     $dataLokal['schedule_file_name']     = $file_schedule->getClientName();
                     $dataLokal['schedule_file_location'] = $path . '/' . $newName;
                 }
+            } else {
+                return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan))->withInput()->with('error', $this->validator->getError('jadwal'));
             }
         }
 
         if (null != model(CourseModel::class)->find($id_pelatihan)) {
+            // dd();
+
             model(CourseModel::class)->update($id_pelatihan, $dataLokal);
         } else {
             model(CourseModel::class)->insert($dataLokal, false);
@@ -1552,20 +1598,39 @@ class Pelatihan extends BaseController
         $certificate        =  $this->request->getFile('certificate');
 
         if (isset($certificate)) {
-            if ($certificate->isValid() && !($certificate->hasMoved())) {
+            $rules = [
+                'certificate' => [
+                    'uploaded[certificate]',
+                    'mime_in[certificate,application/pdf]',
+                    'max_size[certificate,5096]',
+                ],
+            ];
+            $message = [
+                'certificate' => [
+                    'uploaded' => 'File gagal terupload, silahkan coba lagi!',
+                    'mime_in' => 'Jenis berkas yang Anda upload tidak sesuai!',
+                    'max_size' => 'Upload dokumen gagal! Size dokumen melebihi 5MB!'
+                ]
+            ];
+            if ($this->validate($rules, $message)) {
+                if ($certificate->isValid() && !($certificate->hasMoved())) {
 
-                $newName = $certificate->getRandomName();
-                $path = 'uploads/dokumen';
+                    $newName = $certificate->getRandomName();
+                    $path = 'uploads/dokumen';
 
-                $certificate->move(FCPATH . $path, $newName);
-                $data = [
-                    'certificate_number'        => $certificate_number,
-                    'certificate_file_location' => $path . '/' . $newName,
-                    'certificate_file_name'     => $certificate->getClientName(),
+                    $certificate->move(FCPATH . $path, $newName);
+                    $data = [
+                        'certificate_number'        => $certificate_number,
+                        'certificate_file_location' => $path . '/' . $newName,
+                        'certificate_file_name'     => $certificate->getClientName(),
 
-                ];
-                model(UserCourseModel::class)->update($id_user_course, $data);
-                $succes = true;
+                    ];
+                    model(UserCourseModel::class)->update($id_user_course, $data);
+                    $succes = true;
+                }
+            } else {
+                $data_user_course = model(UserCourseModel::class)->find($id_user_course);
+                return redirect()->to(base_url('pelatihan/detail/user/' . $data_user_course['id_course']))->withInput()->with('error', $this->validator->getError('certificate'));
             }
         }
         $data_user_course = model(UserCourseModel::class)->find($id_user_course);
@@ -1579,19 +1644,37 @@ class Pelatihan extends BaseController
         $file_download =  $this->request->getFile('file_download_document');
 
         if (isset($file_download)) {
-            if ($file_download->isValid() && !($file_download->hasMoved())) {
+            $rules = [
+                'file_download_document' => [
+                    'uploaded[file_download_document]',
+                    'mime_in[file_download_document,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document]',
+                    'max_size[file_download_document,5096]',
+                ],
+            ];
+            $message = [
+                'file_download_document' => [
+                    'uploaded' => 'File gagal terupload, silahkan coba lagi!',
+                    'mime_in' => 'Jenis berkas yang Anda upload tidak sesuai!',
+                    'max_size' => 'Upload dokumen gagal! Size dokumen melebihi 5MB!'
+                ]
+            ];
+            if ($this->validate($rules, $message)) {
+                if ($file_download->isValid() && !($file_download->hasMoved())) {
 
-                $newName = $file_download->getRandomName();
-                $path = 'uploads/dokumen';
-                // dd(base_url() . $path, FCPATH, WRITEPATH);
-                $file_download->move(FCPATH . $path, $newName);
-                $data = [
-                    'name'          => $name,
-                    'link'          => $path . '/' . $newName,
+                    $newName = $file_download->getRandomName();
+                    $path = 'uploads/dokumen';
+                    // dd(base_url() . $path, FCPATH, WRITEPATH);
+                    $file_download->move(FCPATH . $path, $newName);
+                    $data = [
+                        'name'          => $name,
+                        'link'          => $path . '/' . $newName,
 
-                ];
-                model(DownloadDocumentModel::class)->save($data);
-                $succes = true;
+                    ];
+                    model(DownloadDocumentModel::class)->save($data);
+                    $succes = true;
+                }
+            } else {
+                return redirect()->back()->withInput()->with('error', $this->validator->getError('file_download_document'));
             }
         }
         // return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan));
@@ -1604,11 +1687,24 @@ class Pelatihan extends BaseController
         // dd($file_download, empty($file_download));
         // $data = [];
         $rules = [
-            'file_download_document' => 'uploaded[file_download_document]',
+            'file_download_document' => [
+                'uploaded[file_download_document]',
+                'mime_in[file_download_document,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document]',
+                'max_size[file_download_document,5096]',
+            ],
         ];
-        if ($this->validate($rules)) {
-            if (isset($file_download)) {
+        $message = [
+            'file_download_document' => [
+                'uploaded' => 'File gagal terupload, silahkan coba lagi!',
+                'mime_in' => 'Jenis berkas yang Anda upload tidak sesuai!',
+                'max_size' => 'Upload dokumen gagal! Size dokumen melebihi 5MB!'
+            ]
+        ];
+        if (isset($file_download)) {
+            if ($this->validate($rules, $message)) {
                 if ($file_download->isValid() && !($file_download->hasMoved())) {
+
+                    $this->deleteFileExists(model(DownloadDocumentModel::class)->find($id_download_document)['link']);
 
                     $newName = $file_download->getRandomName();
                     $path = 'uploads/dokumen';
@@ -1622,6 +1718,8 @@ class Pelatihan extends BaseController
                     // model(DownloadDocumentModel::class)->save($data);
                     $succes = true;
                 }
+            } else {
+                return redirect()->back()->withInput()->with('error', $this->validator->getError('file_download_document'));
             }
         } else {
             $data['name'] = $name;

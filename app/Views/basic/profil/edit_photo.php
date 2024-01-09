@@ -263,7 +263,7 @@
                                                     </div>
                                                     <div class="row align-items-center">
                                                         <div class="col">
-                                                            <input class="form-control" type="file" id="fileFotoInsert" name="foto" accept="image/jpg, image/jpeg">
+                                                            <input class="form-control" type="file" id="fileFotoInsert" name="foto" accept="image/jpeg, image/jpg, image/png">
                                                             <input type="hidden" id="cropDir" name="crop_dir">
                                                             <input type="hidden" id="cropName" name="crop_name">
                                                             <input type="hidden" id="cropStatus" name="isCropped" value="false">

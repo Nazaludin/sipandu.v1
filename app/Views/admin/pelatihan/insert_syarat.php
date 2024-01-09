@@ -258,7 +258,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 
         <div class="modal-content">
-            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/update-to-course/' . $id_pelatihan); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/download/update-to-course/' . $id_pelatihan); ?>" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Pilih Dokumen Unduhan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -345,7 +345,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="floatingInputDownloadDocument">Berkas Uduhan Peserta</label>
-                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_document">
+                            <input type="file" class="filepond form-control" id="floatingInputDownloadDocument" name="file_download_document" accept=".pdf,.docx">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -386,7 +386,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="fileEditDownloadDokument">Berkas Uduhan Peserta</label>
-                            <input type="file" class="form-control" id="fileEditDownloadDokument" name="file_download_document">
+                            <input type="file" class="form-control" id="fileEditDownloadDokument" name="file_download_document" accept=".pdf,.docx">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -414,7 +414,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 
         <div class="modal-content">
-            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . $id_pelatihan); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo base_url('pelatihan/detail/dokumen/upload/update-to-course/' . $id_pelatihan); ?>" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title">Pilih Dokumen Uggahan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
