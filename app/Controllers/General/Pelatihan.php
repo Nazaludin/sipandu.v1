@@ -173,10 +173,10 @@ class Pelatihan extends BaseController
         if (isset($id_user_course)) {
             model(UserCourseModel::class)->delete($id_user_course[0]);
         } else {
-            return redirect()->to(base_url('/pelatihan/berlangsung'))->with('error', 'Terjadi kesalahan dalam pembatalan pelatihan!');
+            return redirect()->back()->with('error', 'Terjadi kesalahan dalam pembatalan pelatihan!');
         }
 
-        return redirect()->to(base_url('/pelatihan/berlangsung'))->with('message', 'Berhasil membatalkan pendaftaran.');
+        return redirect()->back()->with('message', 'Berhasil membatalkan pendaftaran.');
     }
 
 
@@ -473,10 +473,20 @@ class Pelatihan extends BaseController
         // dd($MoodyUser);
         // dd($_SESSION, user_email());
         $data =  $this->request->getFiles();
+        $id_user = user_id();
+        $isInsert = true;
 
-        // dd($data, count($data), $data[1]);
-        $this->UserCourseModel->insert(['id_course' => $id_pelatihan, 'id_user' => user_id(), 'status' => 'register']);
-        $id_user_course = $this->UserCourseModel->getInsertID();
+        $userCourse = $this->UserCourseModel->where(['id_course' => $id_pelatihan, 'id_user' => $id_user])->first();
+        if ($userCourse) {
+            // Jika ditemukan, lakukan update
+            $id_user_course =  $userCourse['id'];
+            $isInsert = false;
+        } else {
+            // Jika tidak ditemukan, lakukan insert
+            $this->UserCourseModel->insert(['id_course' => $id_pelatihan, 'id_user' => $id_user, 'status' => 'register']);
+            $id_user_course = $this->UserCourseModel->getInsertID();
+        }
+
         $uploadDocument = $this->AdminControl->listCourseUploadDocument($id_pelatihan);
 
         foreach ($uploadDocument as $key => $value) {
@@ -496,11 +506,19 @@ class Pelatihan extends BaseController
                         'link'                  => $path . '/' . $newName,
                         'status'                => 'new',
                     ];
+                    if (!$isInsert) {
+                        $user_uploaded_document = $this->UserUploadDocumentModel->where('id_user_course', $id_user_course)->findAll();
+                        foreach ($user_uploaded_document as $user_uploaded_doc => $value_uploaded_doc) {
+                            $this->deleteFileExists($value_uploaded_doc['id']);
+                            $this->UserUploadDocumentModel->delete($value_uploaded_doc['id']);
+                        }
+                        $isInsert = true;
+                    }
                     $this->UserUploadDocumentModel->insert($dataInsert);
                 }
             }
         }
-        return redirect()->to(base_url('pelatihan/agenda/detail/' . $id_pelatihan));
+        return redirect()->to(base_url('pelatihan/daftar/detail/' . $id_pelatihan))->with('message', 'Berhasil mendaftar pelatihan!');
     }
     public function pelatihanRevisiProses($id_pelatihan)
     {
@@ -533,7 +551,16 @@ class Pelatihan extends BaseController
 
         return redirect()->to(base_url('pelatihan/daftar/detail/' . $id_pelatihan));
     }
+    public function deleteFileExists($filePath)
+    {
+        // Periksa apakah file ada
+        if (file_exists($filePath)) {
+            // Jika file ada, hapus file tersebut
+            unlink($filePath);
+        }
 
+        return true;
+    }
     // public function login()
     // {
     //     return view('login');

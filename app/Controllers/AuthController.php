@@ -191,6 +191,7 @@ class AuthController extends Controller
 
         // Save New user to Moodle (BEST)
         $dataRegis = $this->request->getPost();
+        d($dataRegis);
         $result = $this->MoodyBest->createUser(
             $dataRegis['username'],
             $dataRegis['password'],
@@ -203,9 +204,12 @@ class AuthController extends Controller
         // dd($result);
 
         if (!empty($result['error'])) {
+            d($result['error']);
             $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
             if (!empty($akunBest['error'])) {
-                return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
+                // return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
+                dd($akunBest['error']);
+                // return redirect()->back()->withInput()->with('error', );
             } else {
                 // d($akunBest['data']);
                 // updateUser(string $id, string $password, string $email, string $firstname, string $lastname, string $city, string $country)
