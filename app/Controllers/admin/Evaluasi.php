@@ -663,7 +663,7 @@ class Evaluasi extends BaseController
                 }
 
                 foreach ($data as $subKey => $subValue) {
-                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                    if (strpos($subKey, 'card') !== false && preg_match('/_section' . $sectionNumber . '(?=$|\D)/', $subKey)) {
                         // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
                         preg_match('/card(\d+)/', $subKey, $matchesCard);
                         if (isset($matchesCard[1])) {
@@ -768,7 +768,7 @@ class Evaluasi extends BaseController
                 }
 
                 foreach ($data as $subKey => $subValue) {
-                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                    if (strpos($subKey, 'card') !== false && preg_match('/_section' . $sectionNumber . '(?=$|\D)/', $subKey)) {
                         // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
                         preg_match('/card(\d+)/', $subKey, $matchesCard);
                         if (isset($matchesCard[1])) {
@@ -893,7 +893,7 @@ class Evaluasi extends BaseController
                 }
 
                 foreach ($data as $subKey => $subValue) {
-                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                    if (strpos($subKey, 'card') !== false && preg_match('/_section' . $sectionNumber . '(?=$|\D)/', $subKey)) {
                         // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
                         preg_match('/card(\d+)/', $subKey, $matchesCard);
                         if (isset($matchesCard[1])) {
@@ -974,7 +974,7 @@ class Evaluasi extends BaseController
         $dataSoal = array();
         $dataOpsi = array();
         $sectionNumber = 0;
-
+        d($data);
         // Mencari dan menyiapkan data soal dan opsi jawaban dari input yang dinamis
         foreach ($data as $key => $value) {
             if (strpos($key, 'section') !== false && strpos($key, '_bagian') !== false) {
@@ -990,15 +990,22 @@ class Evaluasi extends BaseController
                     //     // Penanganan jika tidak ada nilai yang ditemukan
                     continue;
                 }
-
+                d($key, $sectionNumber);
                 foreach ($data as $subKey => $subValue) {
-                    if (strpos($subKey, 'card') !== false && strpos($subKey, '_section' . $sectionNumber) !== false) {
+                    // Memperbarui kondisi untuk memastikan pencocokan nomor bagian yang tepat
+                    d($subKey);
+                    if (strpos($subKey, 'card') !== false && preg_match('/_section' . $sectionNumber . '(?=$|\D)/', $subKey)) {
                         // Proses soal dan opsi jawaban untuk bagian yang sesuai dengan nomor bagian
                         preg_match('/card(\d+)/', $subKey, $matchesCard);
                         if (isset($matchesCard[1])) {
                             $index = $matchesCard[1];
                         }
+                        //  else {
+                        //     //     // Penanganan jika tidak ada nilai yang ditemukan
+                        //     continue;
+                        // }
 
+                        // d($subValue);
                         // Cek apakah pertanyaan sudah pernah di-insert
                         $existingQuestion = model(QuestionModel::class)
                             ->where('number', $index)
@@ -1040,15 +1047,27 @@ class Evaluasi extends BaseController
                 }
             }
         }
-
+        // $dataBagian = array();
+        // $dataSoal = array();
+        // $dataOpsi = array();
+        // $sectionNumber = 0;
+        // dd($dataBagian, $dataSoal, $dataOpsi, $sectionNumber);
         return redirect()->back()->to(base_url('instrument/template'))->withInput()->with('message', 'Instrument Berhasil dibuat');
     }
 
     public function deleteTemplateInstrument($template_id)
     {
-        // $template_id = $this->request->getPost('id_template');
-        $deletedTemplate =  model(TemplateModel::class)->delete($template_id);
-        if (!$deletedTemplate) {
+        $deletedInstrument = false;
+        $deletedTemplate =  false;
+        $result = model(TemplateModel::class)->find($template_id);
+        // dd($result);
+        if ($result) {
+            $deletedInstrument = model(InstrumentModel::class)->delete($result['id_instrument']);
+            $deletedTemplate =  model(TemplateModel::class)->delete($template_id);
+        }
+
+
+        if (!($deletedTemplate && $deletedInstrument)) {
             return redirect()->back()->withInput()->with('error', 'Maaf, terjadi kesalahan dalam proses menghapus template.');
         }
 
