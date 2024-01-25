@@ -46,6 +46,10 @@ class Pengguna extends BaseController
 
         return $randomUsername;
     }
+    function arrayToString($array, $separator = ', ')
+    {
+        return implode($separator, $array);
+    }
     public function index()
     {
         return view('layout/header',)
@@ -53,66 +57,7 @@ class Pengguna extends BaseController
             . view('admin/pengguna/index')
             . view('layout/footer');
     }
-    public function testRegis()
-    {
-        $users = model(UserModel::class);
 
-        // $dataRegis = $this->request->getPost();
-        // d($dataRegis);
-        $result = $this->MoodyBest->createUser(
-            $this->generateRandomUsername(), //username
-            'Sandisandi1*', //password
-            'werwfsdfsre@gmail.com', //email
-            'hello test', //firstname
-            'akhir', //lastname
-            'aceh', //provinsi
-            "ID",
-        );
-        dd($result);
-
-        // if (!empty($result['error'])) {
-        //     d($result['error']);
-        //     $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
-        //     if (!empty($akunBest['error'])) {
-        //         // return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
-        //         dd($akunBest['error']);
-        //         // return redirect()->back()->withInput()->with('error', );
-        //     } else {
-        //         // d($akunBest['data']);
-        //         // updateUser(string $id, string $password, string $email, string $firstname, string $lastname, string $city, string $country)
-        //         $updateakunBest = $this->MoodyBest->updateUser(
-        //             $akunBest['data']['userid'],
-        //             $dataRegis['password'],
-        //             $dataRegis['email'],
-        //             $dataRegis['firstname'],
-        //             $dataRegis['lastname'],
-        //             $dataRegis['provinsi'],
-        //             "ID",
-        //         );
-
-        //         if (!empty($updateakunBest['error'])) {
-        //             return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam singkronisasi akun Sipandu dan akun Best.");
-        //         }
-        //         // dd($updateakunBest);
-        //     }
-        // }
-        // $user              = new User(array_merge($this->request->getPost($allowedPostFields), ['status_sistem' => 'incomplete']));
-
-
-
-        // $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
-
-        // // Ensure default group gets assigned if set
-        // if (!empty($this->config->defaultUserGroup)) {
-        //     $users = $users->withGroup($this->config->defaultUserGroup);
-        // }
-
-        // if (!$users->save($user)) {
-        //     return redirect()->back()->withInput()->with('errors', $users->errors());
-        // }
-    }
-
-    // CODE PELATIHAN
     public function downloadTemplate()
     {
         require_once COMPOSER_PATH;
@@ -338,7 +283,7 @@ class Pengguna extends BaseController
             $telepon    = $row['G'];
             $provinsi   = $row['H'];
 
-            $activeSheet->setCellValue('A' . $idx, $idx - 3);
+            $activeSheet->setCellValue('A' . $idx, $idx - 4);
             $activeSheet->setCellValue('B' . $idx, $firstname);
             $activeSheet->setCellValue('C' . $idx, $lastname);
             $activeSheet->setCellValue('D' . $idx, $fullname);
@@ -364,7 +309,7 @@ class Pengguna extends BaseController
                 $akunBest = $this->MoodyBest->getUserByEmail($email);
                 if (!empty($akunBest['error'])) {
                     $status = 'Gagal';
-                    $message = $akunBest['error'];
+                    $message = $this->arrayToString($akunBest['error']);
                     $continue = true;
                     // return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
                     // dd($akunBest['error']);
@@ -382,7 +327,7 @@ class Pengguna extends BaseController
 
                     if (!empty($updateAkunBest['error'])) {
                         $status = 'Gagal';
-                        $message = $updateAkunBest['error'];
+                        $message = $this->arrayToString($updateAkunBest['error']);
                         $continue = true;
 
                         // return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam singkronisasi akun Sipandu dan akun Best.");
@@ -419,7 +364,7 @@ class Pengguna extends BaseController
             if (isset($userSipandu)) {
                 if (!$users->update($userSipandu->toArray()['id'], array_diff_key($user->toArray(), array_flip(['email', 'status_sistem'])))) {
                     $status = 'Gagal';
-                    $message = $users->errors();
+                    $message = $this->arrayToString($users->errors());
                     // dd('failed update', $users->errors());
                     // return redirect()->back()->withInput()->with('errors', $users->errors());
                 } else {
@@ -429,7 +374,8 @@ class Pengguna extends BaseController
             } else {
                 if (!$users->save($user)) {
                     $status = 'Gagal';
-                    $message = $users->errors();
+                    $message = $this->arrayToString($users->errors());
+
                     // dd('failed', $users->errors());
                     // return redirect()->back()->withInput()->with('errors', $users->errors());
                 } else {

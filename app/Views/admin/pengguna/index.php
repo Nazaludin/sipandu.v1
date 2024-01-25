@@ -75,7 +75,7 @@
                                 <div class="card-body p-0">
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-between mb-2">
-                                            <h3 class="card-title mb-2">Revisi Dokumen Pelatihan</h3>
+                                            <h3 class="card-title mb-2">Unggah File Pengguna</h3>
                                             <!-- <div class="align-self-end dropdown mb-2">
                                         <a class="dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>Semua</strong></a>
                                         <div class="dropdown-menu " style="">
