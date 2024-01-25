@@ -25,7 +25,7 @@
     <meta name="MobileOptimized" content="320" />
     <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png'); ?>">
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
-    <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!" />
+    <!-- <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!" />
     <meta name="canonical" content="https://preview.tabler.io/layout-vertical.html">
     <meta name="twitter:image:src" content="https://preview.tabler.io/static/og.png">
     <meta name="twitter:site" content="@tabler_ui">
@@ -39,7 +39,7 @@
     <meta property="og:type" content="object">
     <meta property="og:title" content="Tabler: Premium and Open Source dashboard template with responsive and high quality UI.">
     <meta property="og:url" content="https://preview.tabler.io/static/og.png">
-    <meta property="og:description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!">
+    <meta property="og:description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!"> -->
     <!-- CSS files -->
     <link href="<?= base_url('dist/css/tabler.min.css?1685973381'); ?>" rel="stylesheet" />
     <!-- <link href="<?= base_url('dist/css/tabler-flags.min.css?1685973381'); ?>" rel="stylesheet" />

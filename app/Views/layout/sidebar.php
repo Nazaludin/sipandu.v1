@@ -160,15 +160,15 @@
                     </li>
                     <li class="nav-item dropdown">
                         <!-- <li class="nav-item justify-content-center"> -->
-                        <a class="nav-link" href="<?php echo base_url('epp'); ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <a class="nav-link" href="<?php echo base_url('pengguna'); ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                                <path d="M11 6l9 0" />
-                                <path d="M11 12l9 0" />
-                                <path d="M11 18l9 0" />
+                                <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                                <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                                <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
                             </svg>
                             <span class="nav-link-title">
                                 Tambahkan Pengguna
@@ -207,7 +207,7 @@
                 <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                     <span class="avatar avatar-sm" style="background-image: url(<?php echo isset(user()->toArray()['lokasi_foto']) ? user()->toArray()['lokasi_foto'] : base_url('assets/images/users/default-profil.png'); ?>)"></span>
                     <div class="d-none d-xl-block ps-2">
-                        <div><?php echo isset(user()->toArray()['nama']) ? user()->toArray()['nama'] : 'Pandu' ?></div>
+                        <div><?php echo isset(user()->toArray()['firstname']) ? user()->toArray()['firstname'] : 'Pandu' ?></div>
                         <div class="mt-1 small text-secondary"><?php echo isset(user()->toArray()['jabatan']) ? user()->toArray()['jabatan'] : 'Pengguna' ?></div>
                     </div>
                 </a>

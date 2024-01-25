@@ -222,6 +222,16 @@ $routes->group('pelatihan', ['filter' => 'role:admin'], static function ($routes
         });
     });
 });
+
+$routes->get('pengguna', 'Admin\Pengguna::index', ['filter' => 'role:admin']);
+$routes->group('pengguna', ['filter' => 'role:admin'], static function ($routes) {
+    $routes->get('testInsert',  'Admin\Pengguna::testRegis');
+    $routes->group('template', static function ($routes) {
+        $routes->get('download',  'Admin\Pengguna::downloadTemplate');
+        $routes->post('upload',  'Admin\Pengguna::uploadTemplate');
+    });
+});
+
 $routes->post('list-download-document', 'Admin\Pelatihan::listDownloadDocument', ['filter' => 'role:admin']);
 $routes->post('list-user-course', 'Admin\Pelatihan::listUserCourse', ['filter' => 'role:admin']);
 $routes->post('list-user-upload-document', 'Admin\Pelatihan::listUserUploadDocument', ['filter' => 'role:admin']);

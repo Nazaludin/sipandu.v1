@@ -1863,4 +1863,11 @@ class Pelatihan extends BaseController
         }
         return json_encode($data_final);
     }
+    public function kelolaPengguna()
+    {
+        return view('layout/header',)
+            . view('layout/sidebar')
+            . view('admin/pengguna/index')
+            . view('layout/footer');
+    }
 }
