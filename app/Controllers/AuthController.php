@@ -167,7 +167,7 @@ class AuthController extends Controller
 
         // Validate basics first since some password rules rely on these fields
         $rules = config('Validation')->registrationRules ?? [
-            'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
+            // 'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
             'telepon'    => 'required',
         ];
@@ -190,10 +190,11 @@ class AuthController extends Controller
         }
 
         // Save New user to Moodle (BEST)
+        $username = $this->generateRandomUsername();
         $dataRegis = $this->request->getPost();
         d($dataRegis);
         $result = $this->MoodyBest->createUser(
-            $dataRegis['username'],
+            $username,
             $dataRegis['password'],
             $dataRegis['email'],
             $dataRegis['firstname'],
@@ -232,7 +233,7 @@ class AuthController extends Controller
 
         // Save new user
         $allowedPostFields = array_merge(['password', 'telepon', 'fullname', 'firstname', 'lastname', 'provinsi'], $this->config->validFields, $this->config->personalFields);
-        $user              = new User(array_merge($this->request->getPost($allowedPostFields), ['status_sistem' => 'incomplete']));
+        $user              = new User(array_merge($this->request->getPost($allowedPostFields), ['status_sistem' => 'incomplete', 'username' => $username]));
 
 
 
@@ -262,7 +263,18 @@ class AuthController extends Controller
         // Success!
         return redirect()->route('login')->with('message', lang('Auth.registerSuccess'));
     }
+    function generateRandomUsername()
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyz';
+        $usernameLength = rand(6, 8);
+        $randomUsername = '';
 
+        for ($i = 0; $i < $usernameLength; $i++) {
+            $randomUsername .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomUsername;
+    }
     //--------------------------------------------------------------------
     // Forgot Password
     //--------------------------------------------------------------------

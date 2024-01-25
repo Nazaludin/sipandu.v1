@@ -24,7 +24,7 @@
                         <div class="row mb-3">
                             <div class="col-6 form-group ">
                                 <label for="firstname" class="form-label required">Nama depan</label>
-                                <input type="text" class="form-control <?php if (session('errors.emaifirstname')) : ?>is-invalid<?php endif ?>" name="firstname" aria-describedby="firstnameHelp" placeholder="Nama Depan" value="<?= old('emaifirstname') ?>">
+                                <input type="text" class="form-control <?php if (session('errors.firstname')) : ?>is-invalid<?php endif ?>" name="firstname" aria-describedby="firstnameHelp" placeholder="Nama Depan" value="<?= old('firstname') ?>">
                             </div>
                             <div class="col-6 form-group ">
                                 <label for="lastname" class="form-label required">Nama Belakang</label>
@@ -45,10 +45,7 @@
                             <small id="emailHelp" class="form-text text-muted"><?= lang('Auth.weNeverShare') ?></small>
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label for="username" class="form-label required"><?= lang('Auth.username') ?></label>
-                            <input type="text" class="form-control <?php if (session('errors.username')) : ?>is-invalid<?php endif ?>" name="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>">
-                        </div>
+
 
                         <div class="form-group mb-3">
                             <label for="password" class="form-label required"><?= lang('Auth.password') ?></label>
@@ -135,6 +132,11 @@
                                 // Fungsi untuk mengkonversi data dari string JSON ke array
                                 function convertArray(data) {
                                     return JSON.parse(data);
+                                }
+
+                                var provinsi = '<?= old('provinsi'); ?>';
+                                if (provinsi !== '') {
+                                    provinsiSelect.setValue(provinsi);
                                 }
                             </script>
                         </div>

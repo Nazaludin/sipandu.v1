@@ -333,7 +333,7 @@ class Pelatihan extends BaseController
             ->findAll();
 
         $userCourse = model(UserCourseModel::class)->where('id_user', user_id())->findAll();
-        d($pelatihanPublish, !empty($pelatihanPublish));
+        // d($pelatihanPublish, !empty($pelatihanPublish));
         // dd($userCourse);
         if (!empty($pelatihanPublish)) {
             $now = new Time('now', 'Asia/Jakarta');
@@ -379,7 +379,7 @@ class Pelatihan extends BaseController
                 $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
                 $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
                 // d($now->getTimestamp(), $dataPelatihan->courses[0]->startdate);
-                d(isset($dataPelatihan->courses[0]->startdate) ?? null);
+                // d(isset($dataPelatihan->courses[0]->startdate) ?? null);
                 if ($now->getTimestamp() < $dataPelatihan->courses[0]->startdate) {
                     $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
                     // d($pelatihan);
