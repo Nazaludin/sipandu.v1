@@ -207,6 +207,18 @@
                                                                 </span>
                                                             <?php }  ?>
                                                         <?php } ?>
+                                                        <span data-bs-toggle="modal" data-bs-target="#modal-confirm-delete-user" onclick="sendDeleteUserCourseID('<?= $value['id_user_course']; ?>')">
+                                                            <a class="btn btn-icon btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hapus peserta pelatihan">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M4 7l16 0"></path>
+                                                                    <path d="M10 11l0 6"></path>
+                                                                    <path d="M14 11l0 6"></path>
+                                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                                </svg>
+                                                            </a>
+                                                        </span>
 
 
                                                     </td>
@@ -299,11 +311,51 @@
         </div>
     </div>
 </div>
+<!-- Modal Konfrimasi Publish -->
+<div class="modal modal-blur fade" id="modal-confirm-delete-user" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="form-delete-user-course" action="" method="post">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-status bg-danger"></div>
+                <div class="modal-body text-center py-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+                        <path d="M12 9v4" />
+                        <path d="M12 17h.01" />
+                    </svg>
+                    <h3>Apakah Anda yakin?</h3>
+                    <div class="text-secondary mb-2">Menghapus pengguna dari pelatihan, setelah <strong>klik hapus </strong>proses ini <strong> tidak dapat dibatalkan</strong>.</div>
+                    <br>
+                    <?= csrf_field(); ?>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="w-100">
+                        <div class="row">
+                            <div class="col">
+                                <a class="btn w-100" data-bs-dismiss="modal">Batal</a>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger w-100"> Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
 <!-- ============================================================== -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script>
+    function sendDeleteUserCourseID(id_user_course) {
+        $('#form-delete-user-course').attr('action', '<?= base_url('pelatihan/detail/user/delete/'); ?>' + id_user_course);
+    }
+
     function sendUserCourseID(id_user_course) {
         $('#form-upload-certificate').attr('action', '<?= base_url('pelatihan/detail/user/insert/certificate/'); ?>' + id_user_course);
     }

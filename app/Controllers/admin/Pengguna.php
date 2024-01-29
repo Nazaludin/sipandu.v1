@@ -252,7 +252,7 @@ class Pengguna extends BaseController
 
         // Excel Read
         $spreadsheet = IOFactory::load($fileExcel);
-        $sheet =  $spreadsheet->getActiveSheet()->toArray(-1, true, true, true);
+        $sheet =  $spreadsheet->getActiveSheet()->toArray('', true, true, true);
 
         $username   = '';
         $firstname  = '';
@@ -294,6 +294,71 @@ class Pengguna extends BaseController
             $activeSheet->setCellValue('I' . $idx, $status);
             $activeSheet->setCellValue('J' . $idx, $message);
 
+            $rules = [
+                'B' => [
+                    'required',
+                ],
+                'C' => [
+                    'required',
+                ],
+                'D' => [
+                    'required',
+                ],
+                'E' =>
+                'required|max_length[254]|valid_email',
+
+                'F' => 'required|regex_match[/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/]',
+                'G' => [
+                    'required',
+                ],
+                'H' => [
+                    'required',
+                ],
+
+            ];
+            $message = [
+                'B' => [
+                    'required' => 'Nama depan harus diisi'
+                ],
+                'C' => [
+                    'required' => 'Nama belakang harus diisi'
+                ],
+                'D' => [
+                    'required' => 'Nama lengkap harus diisi'
+                ],
+                'E' => [
+                    'required' => 'Email harus diisi',
+                    'valid_email' => 'Email tidak valid'
+                ],
+                'F' => [
+                    'required' => 'Kata sandi harus diisi',
+                    'regex_match' => "Penulisan kata sandi tidak sesuai"
+                ],
+                'G' => [
+                    'required' => 'Telepon harus diisi'
+                ],
+                'H' => [
+                    'required' => 'Provinsi harus diisi'
+                ],
+
+            ];
+            // d($row['B']);
+            // d($row);
+            $validation = \Config\Services::validation();
+            $validation->reset();
+            $validation->setRules($rules, $message);
+            if (!$validation->run($row)) {
+                $status = 'Gagal';
+                $message = $this->arrayToString($this->validator->getErrors());
+                $continue = true;
+            }
+
+            if ($continue) {
+                $activeSheet->setCellValue('I' . $idx, $status);
+                $activeSheet->setCellValue('J' . $idx, $message);
+                continue;
+            }
+            // dd('stop', $validation->run($row), $message);
             $result = $this->MoodyBest->createUser(
                 $username, //username
                 $password, //password
@@ -354,6 +419,8 @@ class Pengguna extends BaseController
                 ]
             );
             $user->setPassword($password);
+
+            $this->config->requireActivation === null ? $user->activate() : $user->generateActivateHash();
 
             // Ensure default group gets assigned if set
             if (!empty($this->config->defaultUserGroup)) {

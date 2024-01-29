@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table id="tabel-pelatihan" class="table table-bordered table-hover">
                                     <thead class="text-center text-light bg-dark ">
                                         <tr>
                                             <th class="align-middle" scope="col">No</th>
@@ -118,25 +118,19 @@
 
                                     <tbody>
                                         <?php
-                                        if (!empty(json_decode($pelatihan))) {
-                                            foreach (json_decode($pelatihan)->courses as $key => $value) { ?>
+                                        if (!empty($pelatihan)) {
+                                            foreach ($pelatihan as $key => $value) { ?>
 
                                                 <tr>
                                                     <th><?= $key + 1; ?></th>
-                                                    <td style="width: 5%;"><?= $value->condition; ?></td>
-                                                    <!-- <td><b><?= $value->start_registration; ?></b> <br> <?= $value->end_registration; ?></td> -->
-                                                    <td><b><?= $value->startdatetime; ?></b> <br> <?= $value->enddatetime; ?></td>
-                                                    <td style="width: 10%;"><b><?= $value->categoryname; ?></b> <br> <?= $value->fullname; ?></td>
-                                                    <td class="text-center"><?= $value->batch; ?></td>
-                                                    <!-- <td class="text-center">
-                                                        <?php if (!empty($value->quota)) {   ?>
-                                                            <button class="btn btn-pill btn-outline-green my-0 py-2"><?= $value->participant; ?> / <?= $value->quota; ?>
-                                                            </button><br>
-                                                            <span class="mt-2 badge bg-green-lt">Diterima : <?= $value->accepted_participant; ?></span>
-                                                        <?php } ?>
-                                                    </td> -->
+                                                    <td style="width: 5%;"><?= $value['condition']; ?></td>
+                                                    <!-- <td><b><?= $value['start_registration']; ?></b> <br> <?= $value['end_registration']; ?></td> -->
+                                                    <td><b><?= $value['startdatetime']; ?></b> <br> <?= $value['enddatetime']; ?></td>
+                                                    <td style="width: 10%;"><b><?= $value['category']; ?></b> <br> <?= $value['fullname']; ?></td>
+                                                    <td class="text-center"><?= $value['batch']; ?></td>
+
                                                     <td class="text-center">
-                                                        <a href="<?= base_url('instrument/rekap/' . $value->id); ?>" class="btn btn-icon btn-outline-primary position-relative m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rekap Hasil">
+                                                        <a href="<?= base_url('instrument/rekap/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary position-relative m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rekap Hasil">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clipboard-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path>
@@ -146,11 +140,11 @@
                                                                 <path d="M9 16l.01 0"></path>
                                                                 <path d="M13 16l2 0"></path>
                                                             </svg>
-                                                            <?php if (!empty($value->registrar)) {   ?>
-                                                                <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value->registrar; ?></span>
+                                                            <?php if (!empty($value['registrar'])) {   ?>
+                                                                <span class="badge bg-red text-red-fg badge-notification badge-pill"><?= $value['registrar']; ?></span>
                                                             <?php } ?>
                                                         </a>
-                                                        <a href="<?= base_url('instrument/edit/' . $value->id); ?>" class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit">
+                                                        <a href="<?= base_url('instrument/edit/' . $value['id']); ?>" class="btn btn-icon btn-outline-primary m-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
@@ -168,7 +162,7 @@
                                                             </a>
                                                         </span>
                                                         <div class="dropdown-menu">
-                                                            <a class=" dropdown-item btn text-primary justify-content-start" href="<?= base_url('instrument/insert/' . $value->id); ?>">
+                                                            <a class=" dropdown-item btn text-primary justify-content-start" href="<?= base_url('instrument/insert/' . $value['id']); ?>">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                                     <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -178,7 +172,7 @@
                                                                 </svg>
                                                                 Buat Baru
                                                             </a>
-                                                            <a class="dropdown-item text-primary btn justify-content-start" href="<?= base_url('instrument/template/course/' . $value->id); ?>">
+                                                            <a class="dropdown-item text-primary btn justify-content-start" href="<?= base_url('instrument/template/course/' . $value['id']); ?>">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-description" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                                     <path d="M14 3v4a1 1 0 0 0 1 1h4" />

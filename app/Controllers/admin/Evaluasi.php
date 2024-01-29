@@ -149,36 +149,39 @@ class Evaluasi extends BaseController
             $now = new Time('now', 'Asia/Jakarta');
             // $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
             // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
+            $dataPelatihan = [];
             foreach ($pelatihan as $key => $value) {
                 // Data Pelatihan API
-                $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
-
-                $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
+                // d($value['condition']);
+                // d($value, $dataPelatihan);
+                $value['condition']               = isset($value['condition']) ? $this->convertCondition(
                     $value['condition'],
                     $value['id'],
                     isset($value['start_registration']) ? strtotime($value['start_registration']) : null,
                     isset($value['end_registration']) ? strtotime($value['end_registration']) : null,
-                    isset($dataPelatihan->courses[0]->startdate) ? $dataPelatihan->courses[0]->startdate : null,
-                    isset($dataPelatihan->courses[0]->enddate) ? $dataPelatihan->courses[0]->enddate : null,
+                    isset($value['startdate']) ? $value['startdate'] : null,
+                    isset($value['enddate']) ? $value['enddate'] : null,
                 ) : '';
-                $dataPelatihan->courses[0]->start_registration      = isset($value['start_registration']) ? $this->dateToLocalTime($value['start_registration']) : '';
-                $dataPelatihan->courses[0]->end_registration        = isset($value['end_registration']) ? $this->dateToLocalTime($value['end_registration']) :  '';
-                $dataPelatihan->courses[0]->target_participant      = $value['target_participant'] ?? '';
-                $dataPelatihan->courses[0]->batch                   = $value['batch'] ?? '';
-                $dataPelatihan->courses[0]->quota                   = $value['quota'] ?? '';
-                $dataPelatihan->courses[0]->place                   = $value['place'] ?? '';
-                $dataPelatihan->courses[0]->contact_person          = $value['contact_person'] ?? '';
-                $dataPelatihan->courses[0]->schedule_file           = $value['schedule_file'] ?? '';
-                $dataPelatihan->courses[0]->startdatetime           = isset($dataPelatihan->courses[0]->startdate) ? $this->toLocalTime($dataPelatihan->courses[0]->startdate) : '';
-                $dataPelatihan->courses[0]->enddatetime             = isset($dataPelatihan->courses[0]->enddate) ? $this->toLocalTime($dataPelatihan->courses[0]->enddate) : '';
-                $dataPelatihan->courses[0]->registrar               = model(UserCourseModel::class)->where('id_course', $value['id'])->where('status', 'register')->countAllResults();
-                $dataPelatihan->courses[0]->accepted_participant    = model(UserCourseModel::class)->where('id_course', $value['id'])->whereIn('status', ['accept', 'passed'])->countAllResults();
-                $dataPelatihan->courses[0]->participant             = model(UserCourseModel::class)->where('id_course', $value['id'])->countAllResults();
-                $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
+                $value['start_registration']      = isset($value['start_registration']) ? $this->dateToLocalTime($value['start_registration']) : '';
+                $value['end_registration']        = isset($value['end_registration']) ? $this->dateToLocalTime($value['end_registration']) :  '';
+                $value['target_participant']      = $value['target_participant'] ?? '';
+                $value['batch']                   = $value['batch'] ?? '';
+                $value['quota']                   = $value['quota'] ?? '';
+                $value['place']                   = $value['place'] ?? '';
+                $value['contact_person']          = $value['contact_person'] ?? '';
+                $value['schedule_file']           = $value['schedule_file'] ?? '';
+                $value['startdatetime']           = isset($value['startdate']) ? $this->toLocalTime(strtotime($value['startdate'])) : '';
+                $value['enddatetime']             = isset($value['enddate']) ? $this->toLocalTime(strtotime($value['enddate'])) : '';
+                $value['registrar']               = model(UserCourseModel::class)->where('id_course', $value['id'])->where('status', 'register')->countAllResults();
+                $value['accepted_participant']    = model(UserCourseModel::class)->where('id_course', $value['id'])->whereIn('status', ['accept', 'passed'])->countAllResults();
+                $value['participant']             = model(UserCourseModel::class)->where('id_course', $value['id'])->countAllResults();
+                array_push($dataPelatihan, $value);
+                // $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
             }
         }
-
-        $data['pelatihan'] = isset($pelatihan) ? json_encode($pelatihan) : json_encode([]);
+        // dd($pelatihan);
+        // dd($dataPelatihan);
+        $data['pelatihan'] = $dataPelatihan;
         return view('layout/header')
             . view('layout/sidebar')
             . view('admin/evaluasi/index', $data)
