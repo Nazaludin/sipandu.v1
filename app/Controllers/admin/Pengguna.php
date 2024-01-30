@@ -17,6 +17,8 @@ use \App\Models\CourseUploadDocumentModel;
 use \App\Models\CourseDownloadDocumentModel;
 use \App\Models\UserCourseModel;
 use \App\Models\UserUploadDocumentModel;
+use App\Libraries\UserLibrary;
+
 
 use Myth\Auth\Entities\User;
 use Myth\Auth\Config\Auth as AuthConfig;
@@ -25,6 +27,8 @@ class Pengguna extends BaseController
 {
     protected $config;
     protected $MoodyBest;
+    protected $UserLibrary;
+
 
     public function __construct()
     {
@@ -33,6 +37,7 @@ class Pengguna extends BaseController
         $apiKeyMoody =  getenv('API_KEY_MOODY');
         $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
+        $this->UserLibrary = new UserLibrary($configBest);
     }
     function generateRandomUsername()
     {
@@ -371,7 +376,8 @@ class Pengguna extends BaseController
 
             if (!empty($result['error'])) {
                 // d($result['error']);
-                $akunBest = $this->MoodyBest->getUserByEmail($email);
+                // $akunBest = $this->MoodyBest->getUserByEmail($email);
+                $akunBest = $this->UserLibrary->getUserIdByEmail($email);
                 if (!empty($akunBest['error'])) {
                     $status = 'Gagal';
                     $message = $this->arrayToString($akunBest['error']);

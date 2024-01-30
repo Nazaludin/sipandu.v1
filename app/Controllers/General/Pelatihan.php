@@ -15,10 +15,12 @@ use \App\Models\UserCourseModel;
 use \App\Models\UserUploadDocumentModel;
 use \App\Controllers\Admin\Pelatihan as AdminController;
 use stdClass;
+use App\Libraries\UserLibrary;
 
 class Pelatihan extends BaseController
 {
     protected $MoodyBest;
+    protected $UserLibrary;
     protected $AdminControl;
     protected $UsersModel;
     protected $CourseModel;
@@ -42,6 +44,7 @@ class Pelatihan extends BaseController
         $apiKeyMoody =  getenv('API_KEY_MOODY');
         $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
+        $this->UserLibrary = new UserLibrary($configBest);
     }
 
     public function toLocalTime($timestamp)
@@ -327,6 +330,29 @@ class Pelatihan extends BaseController
 
     public function pelatihanAgenda()
     {
+        $apiKeyMoody =  getenv('API_KEY_MOODY');
+        // $userLibrary = new UserLibrary('http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php', $apiKeyMoody);
+        // dd($this->UserLibrary->getUserIdByEmail(user_email()));
+        // // Panggil method getUserIdByEmail dari kelas UserLibrary
+        // // $akunBest = $userLibrary->getUserIdByEmail(user_email() . 'l');
+        // dd(model(UserModel::class)->where('id', user_id())->findColumn('provinsi_domisili')[0]);
+        // dd($akunBest);
+        // $updateakunBest = $this->MoodyBest->updateUser(
+        //     $akunBest['data']['userid'],
+        //     '',
+        //     '',
+        //     '',
+        //     '',
+        //     'ACEH',
+        //     "ID",
+        // );
+        // dd($updateakunBest);
+        // Lakukan sesuatu dengan hasilnya
+        // return json_encode($result);
+        // $test = $this->MoodyBest->getUserByEmail(user_email());
+        // $test = $this->MoodyBest->getUserByUsername('sitiaminahc');
+        // if($)
+        // dd($test);
         $pelatihanPublish = model(CourseModel::class)
             ->where('status_sistem', 'publish')
             ->whereNotIn('`condition`', ['begin', 'passed'])
@@ -466,7 +492,8 @@ class Pelatihan extends BaseController
     public function pelatihanRegisProses($id_pelatihan)
     {
         // $test = $this->MoodyBest->getUserById(2821);
-        $MoodyUser = $this->MoodyBest->getUserByEmail(user_email());
+        // $MoodyUser = $this->MoodyBest->getUserByEmail(user_email());
+        $MoodyUser = $this->UserLibrary->getUserIdByEmail(user_email());;
         if (!empty($MoodyUser['error'])) {
             return redirect()->to(base_url('pelatihan/agenda/detail/' . $id_pelatihan))->withInput()->with('error', 'User Moodle ' . $MoodyUser['error']['message']);
         }

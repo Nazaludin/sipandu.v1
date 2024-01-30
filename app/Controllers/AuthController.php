@@ -9,6 +9,7 @@ use Myth\Auth\Entities\User;
 use Myth\Auth\Models\UserModel;
 use Loncat\Moody\AppFactory;
 use Loncat\Moody\Config;
+use App\Libraries\UserLibrary;
 
 class AuthController extends Controller
 {
@@ -25,6 +26,7 @@ class AuthController extends Controller
     protected $session;
 
     protected $MoodyBest;
+    protected $UserLibrary;
 
 
     public function __construct()
@@ -39,6 +41,7 @@ class AuthController extends Controller
         $apiKeyMoody =  getenv('API_KEY_MOODY');
         $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
+        $this->UserLibrary = new UserLibrary($configBest);
     }
 
     //--------------------------------------------------------------------
@@ -109,6 +112,46 @@ class AuthController extends Controller
         // return redirect()->to($redirectURL)->withCookies()->with('message', lang('Auth.loginSuccess'));
         // $this->session->setFlashdata('data', array('email' => $login, 'password' => $password));
         // return redirect()->to(base_url('login-best'))->withCookies();
+        // $apiKeyMoody =  getenv('API_KEY_MOODY');
+        // $config = new \Loncat\Moody\Config('http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php', $apiKeyMoody);
+        // $userLibrary = new UserLibrary($config);
+        // dd($userLibrary->getUserIdByEmail('ludinnaza344@gmail.com'));
+        try {
+            $test = $this->MoodyBest->getUserByEmail(user_email());
+            if (!empty($test['error'])) {
+                if ($test['error']['message'] == 'Undefined array key "city"') {
+                    // Panggil method getUserIdByEmail dari kelas UserLibrary
+                    $akunBest = $this->UserLibrary->getUserIdByEmail(user_email());
+                    // dd($test, $akunBest);
+                    if (!empty($akunBest['data'])) {
+                        $provinsi = model(UserModel::class)->where('id', user_id())->findColumn('provinsi_domisili')[0];
+                        // Update akunBest hanya jika provinsi ditemukan
+                        if (!empty($provinsi)) {
+                            $updateakunBest = $this->MoodyBest->updateUser(
+                                $akunBest['data']['userid'],
+                                '',
+                                '',
+                                '',
+                                '',
+                                $provinsi,
+                                "ID",
+                            );
+                            // dd($updateakunBest);
+                        } else {
+                            // Handle jika provinsi tidak ditemukan
+                            log_message('error', 'Provinsi not found for user_id: ' . user_id());
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $error) {
+            // Tangkap kesalahan
+            log_message('error', 'Error in getUserIdByEmail: ' . $error->getMessage());
+
+            // Lanjutkan eksekusi atau lakukan sesuatu yang sesuai dengan kebutuhan Anda
+        }
+
+        // dd($updateakunBest);
         return view('Auth/best-login', array('email' => $login, 'password' => $password));
     }
 
@@ -206,10 +249,12 @@ class AuthController extends Controller
 
         if (!empty($result['error'])) {
             d($result['error']);
-            $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
+            // $akunBest = $this->MoodyBest->getUserByEmail($dataRegis['email']);
+            $akunBest = $this->UserLibrary->getUserIdByEmail($dataRegis['email']);
+
             if (!empty($akunBest['error'])) {
-                // return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
-                dd($akunBest['error']);
+                return redirect()->back()->withInput()->with('error', "Terjadi kesalahan dalam meproses akun Anda. Akun Anda mungkin sudah terdaftar.");
+                // dd($akunBest['error']);
                 // return redirect()->back()->withInput()->with('error', );
             } else {
                 // d($akunBest['data']);

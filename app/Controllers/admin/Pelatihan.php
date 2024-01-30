@@ -17,10 +17,13 @@ use \App\Models\CourseUploadDocumentModel;
 use \App\Models\CourseDownloadDocumentModel;
 use \App\Models\UserCourseModel;
 use \App\Models\UserUploadDocumentModel;
+use App\Libraries\UserLibrary;
 
 class Pelatihan extends BaseController
 {
     protected $MoodyBest;
+    protected $UserLibrary;
+
 
     public function __construct()
     {
@@ -28,6 +31,7 @@ class Pelatihan extends BaseController
         $apiKeyMoody =  getenv('API_KEY_MOODY');
         $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
+        $this->UserLibrary = new UserLibrary($configBest);
     }
 
     // FUNNCITON UMUM
@@ -1293,7 +1297,8 @@ class Pelatihan extends BaseController
             $id_pelatihan = $data_user_course['id_course'];
 
             if (isset($user)) {
-                $MoodyUser = $this->MoodyBest->getUserByEmail($user['email']); // Check user in moodle
+                // $MoodyUser = $this->MoodyBest->getUserByEmail($user['email']); // Check user in moodle
+                $MoodyUser = $this->UserLibrary->getUserIdByEmail($user['email']);
                 if (!empty($MoodyUser['error'])) {
                     return redirect()->to(base_url('pelatihan/detail/user/' . $id_pelatihan))->withInput()->with('error', 'User Moodle ' . $MoodyUser['error']['message']);
                 }
@@ -1312,7 +1317,8 @@ class Pelatihan extends BaseController
         $id_user_coruse = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->where('id_user', $id_user)->findColumn('id');
         $user = model(UserModel::class)->find($id_user)->toArray();
 
-        $MoodyUser = $this->MoodyBest->getUserByEmail($user['email']); // Check user in moodle
+        // $MoodyUser = $this->MoodyBest->getUserByEmail($user['email']); // Check user in moodle
+        $MoodyUser = $this->UserLibrary->getUserIdByEmail($user['email']); // Check user in moodle
         // $MoodyUser = $this->MoodyBest->getUserByEmail('admsipandu@gmail.com');
         // dd($MoodyUser, $user['email'], empty($MoodyUser['error']), $MoodyUser['data']['userid']);
 
