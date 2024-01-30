@@ -9,23 +9,22 @@
 -->
 <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sipandu</title>
-    <script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="/stats/js/script.js"></script>
-    <base href="<?= base_url(); ?>">
-    <meta name="msapplication-TileColor" content="" />
-    <meta name="theme-color" content="" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="MobileOptimized" content="320" />
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png'); ?>">
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
-    <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>Sipandu</title>
+<script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="/stats/js/script.js"></script>
+<base href="<?= base_url(); ?>">
+<meta name="msapplication-TileColor" content="" />
+<meta name="theme-color" content="" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('favicon.ico'); ?>">
+<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+<!-- <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!" />
     <meta name="canonical" content="https://preview.tabler.io/layout-vertical.html">
     <meta name="twitter:image:src" content="https://preview.tabler.io/static/og.png">
     <meta name="twitter:site" content="@tabler_ui">
@@ -39,45 +38,45 @@
     <meta property="og:type" content="object">
     <meta property="og:title" content="Tabler: Premium and Open Source dashboard template with responsive and high quality UI.">
     <meta property="og:url" content="https://preview.tabler.io/static/og.png">
-    <meta property="og:description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!">
-    <!-- CSS files -->
-    <link href="<?= base_url('dist/css/tabler.min.css?1685973381'); ?>" rel="stylesheet" />
-    <link href="<?= base_url('dist/css/tabler-flags.min.css?1685973381'); ?>" rel="stylesheet" />
+    <meta property="og:description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!"> -->
+<!-- CSS files -->
+<link href="<?= base_url('dist/css/tabler.min.css?1685973381'); ?>" rel="stylesheet" />
+<!-- <link href="<?= base_url('dist/css/tabler-flags.min.css?1685973381'); ?>" rel="stylesheet" />
     <link href="<?= base_url('dist/css/tabler-payments.min.css?1685973381'); ?>" rel="stylesheet" />
     <link href="<?= base_url('dist/css/tabler-vendors.min.css?1685973381'); ?>" rel="stylesheet" />
-    <link href="<?= base_url('dist/css/demo.min.css?1685973381'); ?>" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet" />
+    <link href="<?= base_url('dist/css/demo.min.css?1685973381'); ?>" rel="stylesheet" /> -->
 
-    <style>
-        @import url('https://rsms.me/inter/inter.css');
 
-        :root {
-            --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-        }
+<style>
+    @import url('https://rsms.me/inter/inter.css');
 
-        body {
-            font-feature-settings: "cv03", "cv04", "cv11";
-        }
+    :root {
+        --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
 
-        html {
-            height: 100%;
-            background-color: rgba(237, 248, 255, 1);
-        }
+    body {
+        font-feature-settings: "cv03", "cv04", "cv11";
+    }
 
-        /* body {
+    html {
+        height: 100%;
+        background-color: rgba(237, 248, 255, 1);
+    }
+
+    /* body {
             height: 100%;
         } */
 
-        .bg {
-            background-image: linear-gradient(rgba(76, 182, 140, 0.1), rgba(0, 30, 18, 0.6)), url(assets/images/bg-auth.png);
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            height: 100%;
-            width: 100%;
-        }
+    .bg {
+        background-image: linear-gradient(rgba(76, 182, 140, 0.1), rgba(0, 30, 18, 0.6)), url(assets/images/bg-auth.png);
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        height: 100%;
+        width: 100%;
+    }
 
-        /* .bg {
+    /* .bg {
 
             background-image: url('../../assets/images/img-depan-invert.png');
             background-repeat: no-repeat;
@@ -85,7 +84,7 @@
             height: 100%;
             width: 100%;
         } */
-    </style>
+</style>
 </head>
 
 <?= $this->renderSection('pageStyles') ?>

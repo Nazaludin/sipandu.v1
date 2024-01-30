@@ -23,7 +23,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="320" />
-    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('assets/images/favicon.png'); ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('favicon.ico'); ?>">
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <!-- <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!" />
     <meta name="canonical" content="https://preview.tabler.io/layout-vertical.html">
