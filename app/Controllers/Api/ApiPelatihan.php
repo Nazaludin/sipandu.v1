@@ -40,15 +40,29 @@ class ApiPelatihan extends ResourceController
 
         // $data = $this->request->getPost();
         // return $this->setResponseFormat('json')->respond($data, 200);
+        $courseModel = model(CourseModel::class)->getPelatihanFilter($status_sistem, $keyword)->orderBy('start_registration', 'desc');
 
+        $pelatihan = $courseModel->paginate(10, 'group1'); // 'group1' is a named group
+        // $pelatihan = $builder->paginate(10, 'group1');
+        $pager = $courseModel->pager;
 
-        $pelatihan = model(CourseModel::class)->getPelatihanFilter($status_sistem, $keyword);
         if (empty($pelatihan)) {
             return $this->failNotFound(); // Respons jika data kosong
         }
 
         $formated_pelatihan = $this->formatPelatihan($pelatihan);
-        return $this->setResponseFormat('json')->respond($formated_pelatihan, 200);
+
+        $data = [
+            'pelatihan' => $formated_pelatihan,
+            'pager' => [
+                'current_page' => $pager->getCurrentPage('group1'),
+                'page_count'   => $pager->getPageCount('group1'),
+                'total_data'   => $pager->getTotal('group1'),
+                'page_uri' => $pager->getPageURI(),
+            ],
+        ];
+        return $this->setResponseFormat('json')->respond($data, 200);
+        // return $this->setResponseFormat('json')->respond($formated_pelatihan, 200);
     }
 
     public function formatPelatihan($pelatihan)

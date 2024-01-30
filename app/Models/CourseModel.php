@@ -69,24 +69,22 @@ class CourseModel extends Model
         return $query->getResultArray();
     }
     public function getPelatihanFilter($status_sistem, $q)
-    {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('course');
-        // $builder->where('YEAR(DATE(startdate))', date('Y'));
+    { // Start building the query
+        // $builder = $this->builder();
+
         // Menambahkan filter berdasarkan status_sistem
         if ($status_sistem !== null) {
             if ($status_sistem !== 'semua') {
-                $builder->where('status_sistem', $status_sistem);
+                $this->builder()->where('status_sistem', $status_sistem);
             }
         }
 
-        // Menambahkan filter berdasarkan pencarian nama pelatihan (q)
+        // // Menambahkan filter berdasarkan pencarian nama pelatihan (q)
         if ($q !== null) {
-            $builder->like('fullname', "%" . $q . "%");
+            $this->builder()->like('fullname', "%" . $q . "%");
         }
 
-        $query = $builder->get();
-
-        return $query->getResultArray();
+        // Execute the query and return the result
+        return $this;
     }
 }

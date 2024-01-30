@@ -23,6 +23,7 @@ class Pelatihan extends BaseController
 {
     protected $MoodyBest;
     protected $UserLibrary;
+    protected $pager;
 
 
     public function __construct()
@@ -32,6 +33,7 @@ class Pelatihan extends BaseController
         $configBest = new Config("http://best-bapelkes.jogjaprov.go.id/webservice/rest/server.php", $apiKeyMoody);
         $this->MoodyBest = AppFactory::create($configBest);
         $this->UserLibrary = new UserLibrary($configBest);
+        $this->pager = \Config\Services::pager();
     }
 
     // FUNNCITON UMUM
@@ -967,7 +969,14 @@ class Pelatihan extends BaseController
         // var_dump($result);
 
         // Data Pelatihan API
-        $pelatihan = model(CourseModel::class)->findAll();
+        // $pelatihan = model(CourseModel::class)->findAll();
+
+        $courseModel = model(CourseModel::class);
+        $perPage = 10; // Number of items per page
+        // Get paginated data
+        $pelatihan = $courseModel->orderBy('start_registration', 'desc')->paginate($perPage, 'group1'); // 'group1' is a named group
+        $pager = $courseModel->pager;
+
 
         if (!empty($pelatihan)) {
             $now = new Time('now', 'Asia/Jakarta');
@@ -1036,6 +1045,8 @@ class Pelatihan extends BaseController
         // dd($pelatihan);
         // dd($dataPelatihan);
         $data['pelatihan'] = $dataPelatihan;
+
+        $data['pager'] =   $pager;
         // $data['pelatihan'] = isset($dataPelatihan) ? json_encode($dataPelatihan) : json_encode([]);
         // dd($data, empty(json_decode($data['pelatihan'])));
         return view('layout/header', $data)

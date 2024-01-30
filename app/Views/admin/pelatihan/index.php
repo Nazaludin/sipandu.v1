@@ -152,7 +152,7 @@
                                         if (!empty($pelatihan)) {
                                             foreach ($pelatihan as $key => $value) { ?>
                                                 <tr>
-                                                    <th><?= $key + 1; ?></th>
+                                                    <th><?= $pager->getPerPage('group1') * ($pager->getCurrentPage('group1') - 1) + $key + 1; ?></th>
                                                     <td style="width: 5%;"><?= $value['condition']; ?></td>
                                                     <td><b><?= $value['start_registration']; ?></b> <br> <?= $value['end_registration']; ?></td>
                                                     <td><b><?= $value['startdatetime']; ?></b> <br> <?= $value['enddatetime']; ?></td>
@@ -225,6 +225,40 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Display pagination links -->
+
+                            <div id="tabel-pager" class="card-footer d-flex align-items-center">
+                                <p class="m-0 text-secondary">Menampilkan <span><?= $pager->getCurrentPage('group1'); ?></span> - <span><?= $pager->getPageCount('group1'); ?></span> dari <span><?= $pager->getTotal('group1'); ?></span> data.</p>
+                                <ul class="pagination m-0 ms-auto">
+                                    <li class="page-item <?= $pager->getCurrentPage('group1') == 1 ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="<?= $pager->getPreviousPageURI('group1'); ?>" tabindex="-1" aria-disabled="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M15 6l-6 6l6 6"></path>
+                                            </svg>
+                                            sebelum
+                                        </a>
+                                    </li>
+                                    <?php if ($pager->getCurrentPage('group1') - 1 != 0) { ?>
+                                        <li class="page-item"><a class="page-link" href="<?= $pager->getPageURI($pager->getCurrentPage('group1') - 1, 'group1');  ?>"><?= $pager->getCurrentPage('group1') - 1; ?></a></li>
+                                    <?php } ?>
+                                    <li class="page-item active"><a class="page-link" href="<?= $pager->getPageURI($pager->getCurrentPage('group1'), 'group1');  ?>"><?= $pager->getCurrentPage('group1') ?></a></li>
+                                    <?php if ($pager->getCurrentPage('group1') != $pager->getPageCount('group1')) { ?>
+                                        <li class="page-item"><a class="page-link" href="<?= $pager->getPageURI($pager->getCurrentPage('group1') + 1, 'group1');  ?>"><?= $pager->getCurrentPage('group1') + 1; ?></a></li>
+                                    <?php } ?>
+
+                                    <li class="page-item  <?= $pager->getCurrentPage('group1') == $pager->getPageCount('group1') ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="<?= $pager->getNextPageURI('group1'); ?>">
+                                            sesudah
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M9 6l6 6l-6 6"></path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -345,7 +379,8 @@
             },
             success: function(data) {
                 console.log(data);
-                updateTabel(data);
+                updateTabel(data.pelatihan);
+                updatePager(data.pager);
                 // updateTabel(data); // Panggil fungsi untuk memperbarui tabel
             },
             error: function(error) {
@@ -429,6 +464,29 @@
             var emptyRow = '<tr><td colspan="8" class="text-center">Tidak ada data yang ditemukan</td></tr>';
             tbody.append(emptyRow);
         }
+    }
+
+    function updatePager(data) {
+        const pagerElement = document.getElementById('tabel-pager');
+        const pagerTemplate = `
+        <p class="m-0 text-secondary">Menampilkan <span>${data.current_page}</span> - <span>${data.page_count}</span> dari <span>${data.total_data}</span> data.</p>
+        <ul class="pagination m-0 ms-auto">
+            <li class="page-item ${data.current_page === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="${data.current_page === 1 ? '#' : data.page_uri + '&page_group1=' + (data.current_page - 1)}" tabindex="-1" aria-disabled="true">
+                    sebelum
+                </a>
+            </li>
+            ${data.current_page - 1 !== 0 ? `<li class="page-item"><a class="page-link" href="${data.page_uri + '&page_group1=' + (data.current_page - 1)}">${data.current_page - 1}</a></li>` : ''}
+            <li class="page-item active"><a class="page-link" href="${data.page_uri + '&page_group1=' + data.current_page}">${data.current_page}</a></li>
+            ${data.current_page !== data.page_count ? `<li class="page-item"><a class="page-link" href="${data.page_uri + '&page_group1=' + (data.current_page + 1)}">${data.current_page + 1}</a></li>` : ''}
+            <li class="page-item ${data.current_page === data.page_count ? 'disabled' : ''}">
+                <a class="page-link" href="${data.page_uri + '&page_group1=' + (data.current_page + 1)}">
+                    sesudah
+                </a>
+            </li>
+        </ul>
+    `;
+        pagerElement.innerHTML = pagerTemplate;
     }
 </script>
 <!-- ============================================================== -->
