@@ -337,20 +337,22 @@ class Pelatihan extends BaseController
             // DATA BEST
             $dataBest = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
 
-            $activeSheet->setCellValue('A' . $index, $index - 5);
-            $activeSheet->setCellValue('B' . $index, $dataBest->courses[0]->fullname);
-            $activeSheet->setCellValue('C' . $index, $dataBest->courses[0]->categoryname);
-            $activeSheet->setCellValue('D' . $index, date('Y-m-d', strtotime($value['start_registration'])));
-            $activeSheet->setCellValue('E' . $index, date('Y-m-d', strtotime($value['end_registration'])));
-            $activeSheet->setCellValue('F' . $index, $this->toDMY($dataBest->courses[0]->startdate));
-            $activeSheet->setCellValue('G' . $index, $this->toDMY($dataBest->courses[0]->enddate));
-            $activeSheet->setCellValue('H' . $index, $value['batch']);
-            $activeSheet->setCellValue('I' . $index, $value['target_participant']);
-            $activeSheet->setCellValue('J' . $index, $value['place']);
-            $activeSheet->setCellValue('K' . $index, $value['contact_person']);
-            $activeSheet->setCellValue('L' . $index, $value['quota']);
-            $activeSheet->setCellValue('M' . $index, $value['method']);
-            $activeSheet->setCellValue('N' . $index, $value['source_funds']);
+            if (isset($dataBest->courses[0])) {
+                $activeSheet->setCellValue('A' . $index, $index - 5);
+                $activeSheet->setCellValue('B' . $index, $dataBest->courses[0]->fullname);
+                $activeSheet->setCellValue('C' . $index, $dataBest->courses[0]->categoryname);
+                $activeSheet->setCellValue('D' . $index, date('Y-m-d', strtotime($value['start_registration'])));
+                $activeSheet->setCellValue('E' . $index, date('Y-m-d', strtotime($value['end_registration'])));
+                $activeSheet->setCellValue('F' . $index, $this->toDMY($dataBest->courses[0]->startdate));
+                $activeSheet->setCellValue('G' . $index, $this->toDMY($dataBest->courses[0]->enddate));
+                $activeSheet->setCellValue('H' . $index, $value['batch']);
+                $activeSheet->setCellValue('I' . $index, $value['target_participant']);
+                $activeSheet->setCellValue('J' . $index, $value['place']);
+                $activeSheet->setCellValue('K' . $index, $value['contact_person']);
+                $activeSheet->setCellValue('L' . $index, $value['quota']);
+                $activeSheet->setCellValue('M' . $index, $value['method']);
+                $activeSheet->setCellValue('N' . $index, $value['source_funds']);
+            }
 
             $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
             $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
@@ -684,7 +686,10 @@ class Pelatihan extends BaseController
         $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
         // dd($pelatihan, $dataPelatihan);
         //judul
-        $title = 'Rekap Pendaftar ' .   ucwords((string)$dataPelatihan->courses[0]->fullname);
+        $title = 'Rekap Pendaftar';
+        if (isset($pelatihan['fullname'])) {
+            $title = 'Rekap Pendaftar ' .   ucwords((string)$pelatihan['fullname']);
+        }
         $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan tulisan "DATA SISWA"
         $activeSheet->mergeCells('A2:AD2'); // Set Merge Cell pada kolom A1 sampai F1
         $activeSheet->getStyle('A2')->applyFromArray($style_title);
@@ -784,74 +789,87 @@ class Pelatihan extends BaseController
             $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->whereIn('status', ['accept', 'passed'])->findAll();
             $data_final = [];
             foreach ($data as $key => $value) {
-                $data_user = model(UserModel::class)->find($value['id_user']);
-                $data_final[$key] = $data_user->toArray();
-                $data_final[$key]['status_pelatihan'] = $value['status'];
+                try {
+                    if (isset($value['id_user'])) {
+                        $data_user = model(UserModel::class)->find($value['id_user']);
+                        $data_final[$key] = $data_user->toArray();
+                        $data_final[$key]['status_pelatihan'] = $value['status'];
+                    }
+                } catch (\Throwable $exception) {
+                    continue;
+                }
             }
         } else {
             $data = model(UserCourseModel::class)->where('id_course', $id_pelatihan)->findAll();
             $data_final = [];
             foreach ($data as $key => $value) {
-                $data_user = model(UserModel::class)->find($value['id_user']);
-                $data_final[$key] = $data_user->toArray();
-                // dd($value);
-                $data_final[$key]['status_pelatihan'] = $value['status'];
+                try {
+                    if (isset($value['id_user'])) {
+                        $data_user = model(UserModel::class)->find($value['id_user']);
+                        $data_final[$key] = $data_user->toArray();
+                        $data_final[$key]['status_pelatihan'] = $value['status'];
+                    }
+                } catch (\Throwable $exception) {
+                    continue;
+                }
             }
         }
         $index = 6;
         // dd($data_final);
-        foreach ($data_final as $dt => $value) {
-            $activeSheet->setCellValue('A' . $index, $index - 5);
-            $activeSheet->setCellValue('B' . $index,  $value['fullname']);
-            $activeSheet->setCellValueExplicit('C' . $index, (string) $value['nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $activeSheet->setCellValueExplicit('D' . $index, (string) $value['nip'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $activeSheet->setCellValueExplicit('E' . $index, (string) $value['nrp'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $activeSheet->setCellValueExplicit('F' . $index, (string) $value['nomor_str'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $activeSheet->setCellValue('G' . $index, $value['jenis_kelamin']);
-            $activeSheet->setCellValue('H' . $index, $value['tempat_lahir']);
-            $activeSheet->setCellValue('I' . $index, $value['tanggal_lahir']);
-            $activeSheet->setCellValue('J' . $index, $value['agama']);
-            $activeSheet->setCellValue('K' . $index, $value['email']);
-            $activeSheet->setCellValueExplicit('L' . $index, (string) $value['telepon'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            $activeSheet->setCellValue('M' . $index, $value['nama_jalan_domisili']);
-            $activeSheet->setCellValue('N' . $index, $value['desa_domisili']);
-            $activeSheet->setCellValue('O' . $index, $value['kecamatan_domisili']);
-            $activeSheet->setCellValue('P' . $index, $value['kabupaten_domisili']);
-            $activeSheet->setCellValue('Q' . $index, $value['provinsi_domisili']);
-            $activeSheet->setCellValue('R' . $index, $value['pendidikan_terakhir']);
-            $activeSheet->setCellValue('S' . $index, $value['jurusan']);
-            $activeSheet->setCellValue('T' . $index, $value['jabatan']);
-            $activeSheet->setCellValue('U' . $index, $value['tipe_pegawai']);
-            $activeSheet->setCellValue('V' . $index, $value['jenis_nakes']);
-            $activeSheet->setCellValue('W' . $index, $value['pangkat_golongan']);
-            $activeSheet->setCellValue('X' . $index, $value['nama_instansi']);
-            $activeSheet->setCellValue('Y' . $index, $value['nama_jalan_instansi']);
-            $activeSheet->setCellValue('Z' . $index, $value['desa_instansi']);
-            $activeSheet->setCellValue('AA' . $index, $value['kecamatan_instansi']);
-            $activeSheet->setCellValue('AB' . $index, $value['kabupaten_instansi']);
-            $activeSheet->setCellValue('AC' . $index, $value['provinsi_instansi']);
-            switch ($value['status_pelatihan']) {
-                case 'register':
-                    $activeSheet->setCellValue('AD' . $index, 'Mendaftar');
-                    break;
-                case 'accept':
-                    $activeSheet->setCellValue('AD' . $index, 'Diterima');
-                    break;
-                case 'reject':
-                    $activeSheet->setCellValue('AD' . $index, 'Ditolak');
-                    break;
-                case 'revisi':
-                    $activeSheet->setCellValue('AD' . $index, 'Revisi');
-                    break;
-                case 'renew':
-                    $activeSheet->setCellValue('AD' . $index, 'Perbaikan');
-                    break;
-                case 'passed':
-                    $activeSheet->setCellValue('AD' . $index, 'Diterima');
-                    break;
-                default:
-                    $activeSheet->setCellValue('AD' . $index, '');
-                    break;
+        if (!empty($data_final)) {
+            foreach ($data_final as $dt => $value) {
+                $activeSheet->setCellValue('A' . $index, $index - 5);
+                $activeSheet->setCellValue('B' . $index,  $value['fullname']);
+                $activeSheet->setCellValueExplicit('C' . $index, (string) $value['nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $activeSheet->setCellValueExplicit('D' . $index, (string) $value['nip'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $activeSheet->setCellValueExplicit('E' . $index, (string) $value['nrp'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $activeSheet->setCellValueExplicit('F' . $index, (string) $value['nomor_str'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $activeSheet->setCellValue('G' . $index, $value['jenis_kelamin']);
+                $activeSheet->setCellValue('H' . $index, $value['tempat_lahir']);
+                $activeSheet->setCellValue('I' . $index, $value['tanggal_lahir']);
+                $activeSheet->setCellValue('J' . $index, $value['agama']);
+                $activeSheet->setCellValue('K' . $index, $value['email']);
+                $activeSheet->setCellValueExplicit('L' . $index, (string) $value['telepon'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $activeSheet->setCellValue('M' . $index, $value['nama_jalan_domisili']);
+                $activeSheet->setCellValue('N' . $index, $value['desa_domisili']);
+                $activeSheet->setCellValue('O' . $index, $value['kecamatan_domisili']);
+                $activeSheet->setCellValue('P' . $index, $value['kabupaten_domisili']);
+                $activeSheet->setCellValue('Q' . $index, $value['provinsi_domisili']);
+                $activeSheet->setCellValue('R' . $index, $value['pendidikan_terakhir']);
+                $activeSheet->setCellValue('S' . $index, $value['jurusan']);
+                $activeSheet->setCellValue('T' . $index, $value['jabatan']);
+                $activeSheet->setCellValue('U' . $index, $value['tipe_pegawai']);
+                $activeSheet->setCellValue('V' . $index, $value['jenis_nakes']);
+                $activeSheet->setCellValue('W' . $index, $value['pangkat_golongan']);
+                $activeSheet->setCellValue('X' . $index, $value['nama_instansi']);
+                $activeSheet->setCellValue('Y' . $index, $value['nama_jalan_instansi']);
+                $activeSheet->setCellValue('Z' . $index, $value['desa_instansi']);
+                $activeSheet->setCellValue('AA' . $index, $value['kecamatan_instansi']);
+                $activeSheet->setCellValue('AB' . $index, $value['kabupaten_instansi']);
+                $activeSheet->setCellValue('AC' . $index, $value['provinsi_instansi']);
+                switch ($value['status_pelatihan']) {
+                    case 'register':
+                        $activeSheet->setCellValue('AD' . $index, 'Mendaftar');
+                        break;
+                    case 'accept':
+                        $activeSheet->setCellValue('AD' . $index, 'Diterima');
+                        break;
+                    case 'reject':
+                        $activeSheet->setCellValue('AD' . $index, 'Ditolak');
+                        break;
+                    case 'revisi':
+                        $activeSheet->setCellValue('AD' . $index, 'Revisi');
+                        break;
+                    case 'renew':
+                        $activeSheet->setCellValue('AD' . $index, 'Perbaikan');
+                        break;
+                    case 'passed':
+                        $activeSheet->setCellValue('AD' . $index, 'Diterima');
+                        break;
+                    default:
+                        $activeSheet->setCellValue('AD' . $index, '');
+                        break;
+                }
             }
 
             $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
