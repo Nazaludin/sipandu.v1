@@ -147,6 +147,18 @@ class Evaluasi extends BaseController
         if (empty($data['data'])) {
             return redirect()->back()->to(base_url('epp-fill'))->withInput()->with('error', 'Terjadi kesalahan, Silahkan coba untuk menghubungi Admin!');
         } else {
+            $now = new Time('now', 'Asia/Jakarta');
+            if (isset($data['data'][0])) {
+
+                $startFill = !empty($data['data'][0]['start_fill']) ? Time::parse($data['data'][0]['start_fill'], 'Asia/Jakarta') : null;
+                $endFill = !empty($data['data'][0]['end_fill']) ? Time::parse($data['data'][0]['end_fill'], 'Asia/Jakarta') : null;
+
+                if (isset($startFill) && isset($endFill)) {
+                    if (!($now > $startFill && $now < $endFill)) {
+                        return redirect()->back()->to(base_url('epp-fill'))->withInput()->with('error', 'Anda belum memasuki waktu pengisian, harap tunggu sampai waktu pengisian dimulai!');
+                    }
+                }
+            }
             // dd($data);
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key]['start_fill'] = !empty($value['start_fill']) ? Time::parse($value['start_fill'], 'Asia/Jakarta')->toDateString('Y-m-d') : '';

@@ -192,6 +192,10 @@ class Pelatihan extends BaseController
         foreach ($user_course as $key => $value) {
             // Data Pelatihan API
             $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id_course'] . ''));
+            if (empty($dataPelatihan->courses)) {
+                // dd('yess');
+                continue;
+            }
             $courseLocal =  $this->CourseModel->find($dataPelatihan->courses[0]->id);
             // dd($dataPelatihan);
 
@@ -385,7 +389,10 @@ class Pelatihan extends BaseController
                 }
                 // Data Pelatihan API
                 $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
-
+                if (empty($dataPelatihan->courses)) {
+                    // dd('yess');
+                    continue;
+                }
                 $dataPelatihan->courses[0]->condition               = isset($value['condition']) ? $this->convertCondition(
                     $value['condition'],
                     $value['id'],

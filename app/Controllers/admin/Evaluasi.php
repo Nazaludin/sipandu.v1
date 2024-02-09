@@ -189,13 +189,18 @@ class Evaluasi extends BaseController
     }
     public function indexBasic()
     {
-        $user_course = model(UserCourseModel::class)->dataCourseUserByPage(user_id(), 'riwayat');
+        $user_course = model(UserCourseModel::class)->dataCourseUserByPage(user_id(), 'gab-riwayat-berlangsung');
         // dd($user_course);
         // $user_course = $this->UserCourseModel->where('id_user', user_id())->where('status', 'register')->findAll();
         // dd($user_course);
         foreach ($user_course as $key => $value) {
             // Data Pelatihan API
             $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id_course'] . ''));
+            //    dd($dataPelatihan);
+            if (empty($dataPelatihan->courses)) {
+                // dd('yess');
+                continue;
+            }
             $courseLocal =  model(CourseModel::class)->find($dataPelatihan->courses[0]->id);
             // dd($dataPelatihan);
 
