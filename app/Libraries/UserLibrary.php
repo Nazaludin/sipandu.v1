@@ -38,6 +38,7 @@ class UserLibrary
                     ];
                 } else {
                     $data = $result[0];
+                    // dd($data);
                     return [
                         "data" => [
                             "userid" => strval($data["id"]),

@@ -62,6 +62,61 @@ class Pelatihan extends BaseController
         return $tgl;
     }
 
+    function adjustTimeTo2359($timeString, $timezone = 'Asia/Jakarta')
+    {
+        // Convert the time string to a DateTime object
+        $dateTime = new \DateTime($timeString, new \DateTimeZone($timezone));
+
+        // Set the time to 23:59:59
+        $dateTime->setTime(23, 59, 59);
+
+        // Format the DateTime object back to string
+        return $dateTime->format('Y-m-d H:i:s');
+        // return $dateTime;
+    }
+    public function generateTo2359()
+    {
+        try {
+            // Load semua data pelatihan
+            $courseModel = model(CourseModel::class);
+            $allCourses = $courseModel->findAll();
+
+            // Loop melalui setiap data pelatihan
+            foreach ($allCourses as $course) {
+                // Mengubah endDate
+                $course['enddate'] = $this->adjustTimeTo2359($course['enddate']);
+
+                // Mengubah end_registration
+                $course['end_registration'] = $this->adjustTimeTo2359($course['end_registration']);
+
+                // Simpan perubahan ke dalam database
+                $courseModel->update($course['id'], $course);
+
+                try {
+                    // Update course menggunakan MoodyBest
+                    $dataBest = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' .   $course['id'] . ''));
+                    $MoodyEdit = $this->MoodyBest->updateCourse(
+                        $course['id'],
+                        $dataBest->courses[0]->shortname,
+                        $dataBest->courses[0]->fullname,
+                        $dataBest->courses[0]->categoryid,
+                        $dataBest->courses[0]->summary,
+                        new \DateTime($course['startdate']),
+                        new \DateTime($this->adjustTimeTo2359($course['enddate']))
+                    );
+                } catch (\Exception $e) {
+                    // Tangani pengecualian di sini untuk MoodyBest->updateCourse()
+                    // Contoh: Log pesan kesalahan
+                    log_message('error', 'MoodyBest->updateCourse Exception: ' . $e->getMessage());
+                    continue;
+                }
+            }
+        } catch (\Exception $e) {
+            // Tangani pengecualian di sini
+            // Contoh: Log pesan kesalahan
+            log_message('error', 'Exception: ' . $e->getMessage());
+        }
+    }
     public function deleteFileExists($filePath)
     {
         // Periksa apakah file ada
@@ -685,7 +740,7 @@ class Pelatihan extends BaseController
             12 => 'Desember',
         ];
         $pelatihan = model(CourseModel::class)->find($id_pelatihan);
-        $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
+        // $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
         // dd($pelatihan, $dataPelatihan);
         //judul
         $title = 'Rekap Pendaftar';
@@ -852,25 +907,25 @@ class Pelatihan extends BaseController
                 switch ($value['status_pelatihan']) {
                     case 'register':
                         $activeSheet->setCellValue('AD' . $index, 'Mendaftar');
-                        break;
+                        // break;
                     case 'accept':
                         $activeSheet->setCellValue('AD' . $index, 'Diterima');
-                        break;
+                        // break;
                     case 'reject':
                         $activeSheet->setCellValue('AD' . $index, 'Ditolak');
-                        break;
+                        // break;
                     case 'revisi':
                         $activeSheet->setCellValue('AD' . $index, 'Revisi');
-                        break;
+                        // break;
                     case 'renew':
                         $activeSheet->setCellValue('AD' . $index, 'Perbaikan');
-                        break;
+                        // break;
                     case 'passed':
                         $activeSheet->setCellValue('AD' . $index, 'Diterima');
-                        break;
+                        // break;
                     default:
                         $activeSheet->setCellValue('AD' . $index, '');
-                        break;
+                        // break;
                 }
             }
 
@@ -959,7 +1014,7 @@ class Pelatihan extends BaseController
     }
     public function pelatihan()
     {
-        // dd();
+        // dd($MoodyUser = $this->UserLibrary->getUserIdByEmail('ludinnaza344@gmail.com'));
         // $result = $this->MoodyBest->getUserByEmail("admsipandu@gmail.com");
         // var_dump($result);
         // $result = model(CourseModel::class)->getDataCourseYear();
@@ -1152,7 +1207,7 @@ class Pelatihan extends BaseController
             $data['categoryid'],
             $data['summary'],
             new \DateTime($data['startdate']),
-            new \DateTime($data['enddate'])
+            new \DateTime($this->adjustTimeTo2359($data['enddate']))
         );
 
         // dd($categoryPelatihan, $category);
@@ -1168,12 +1223,12 @@ class Pelatihan extends BaseController
                 'summary'             => $data['summary'],
 
                 'startdate'             => $data['startdate'],
-                'enddate'               => $data['enddate'],
+                'enddate'               => $this->adjustTimeTo2359($data['enddate']),
                 'id'                    => $result['data']['courseid'],
                 'condition'             => 'coming',
                 'place'                 => $data['place'],
                 'start_registration'    => $data['start_registration'],
-                'end_registration'      => $data['end_registration'],
+                'end_registration'      => $this->adjustTimeTo2359($data['end_registration']),
                 'target_participant'    => $data['target_participant'],
                 'batch'                 => intval($data['batch']),
                 'quota'                 => intval($data['quota']),
@@ -1540,6 +1595,13 @@ class Pelatihan extends BaseController
         $data =  $this->request->getPost();
         $file_schedule =  $this->request->getFile('jadwal');
 
+
+        // // Convert end_registration to a DateTime object
+        // $endRegistrationDateTime = new \DateTime($data['end_registration'], new \DateTimeZone('Asia/Jakarta'));
+
+        // // Set the time to 23:59:59
+        // $endRegistrationDateTime->setTime(23, 59, 59);
+        // dd($endRegistrationDateTime);
         $dataLokal = [
             'shortname'             => $data['shortname'],
             'fullname'             => $data['fullname'],
@@ -1548,10 +1610,12 @@ class Pelatihan extends BaseController
             'summary'             => $data['summary'],
 
 
+            'startdate'             => $data['startdate'],
+            'enddate'               => $this->adjustTimeTo2359($data['enddate']),
             'id'                    => $id_pelatihan,
             'place'                 => $data['place'],
             'start_registration'    => $data['start_registration'],
-            'end_registration'      => $data['end_registration'],
+            'end_registration'      => $this->adjustTimeTo2359($data['end_registration']),
             'target_participant'    => $data['target_participant'],
             'batch'                 => intval($data['batch']),
             'quota'                 => intval($data['quota']),
@@ -1572,7 +1636,7 @@ class Pelatihan extends BaseController
             $data['categoryid'],
             $data['summary'],
             new \DateTime($data['startdate']),
-            new \DateTime($data['enddate'])
+            new \DateTime($this->adjustTimeTo2359($data['enddate']))
         );
         if (!empty($MoodyEdit['error'])) {
             return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyEdit['error']['message']);

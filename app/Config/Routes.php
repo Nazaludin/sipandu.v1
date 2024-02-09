@@ -250,6 +250,7 @@ $routes->group('test', static function ($routes) {
 
 $routes->group('sync', static function ($routes) {
     $routes->get('simpeg',  'Admin\Pelatihan::singkronSimpeg');
+    $routes->get('pelatihan',  'Admin\Pelatihan::generateTo2359');
 });
 
 
