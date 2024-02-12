@@ -725,23 +725,9 @@ class Pelatihan extends BaseController
                 'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN] // Set border left dengan garis tipis
             ]
         ];
-        // $bulan = [
-        //     1 => 'Januari',
-        //     2 => 'Februari',
-        //     3 => 'Maret',
-        //     4 => 'April',
-        //     5 => 'Mei',
-        //     6 => 'Juni',
-        //     7 => 'Juli',
-        //     8 => 'Agustus',
-        //     9 => 'September',
-        //     10 => 'Oktober',
-        //     11 => 'November',
-        //     12 => 'Desember',
-        // ];
+
         $pelatihan = model(CourseModel::class)->find($id_pelatihan);
         // $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $id_pelatihan . ''));
-        // dd($pelatihan, $dataPelatihan);
         //judul
         $title = 'Rekap Pendaftar';
         if (isset($pelatihan['fullname'])) {
@@ -872,9 +858,10 @@ class Pelatihan extends BaseController
             }
         }
         $index = 6;
-        // dd($data_final);
+
         if (!empty($data_final)) {
             foreach ($data_final as $dt => $value) {
+
                 $activeSheet->setCellValue('A' . $index, $index - 5);
                 $activeSheet->setCellValue('B' . $index,  $value['fullname']);
                 $activeSheet->setCellValueExplicit('C' . $index, (string) $value['nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -883,7 +870,8 @@ class Pelatihan extends BaseController
                 $activeSheet->setCellValueExplicit('F' . $index, (string) $value['nomor_str'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
                 $activeSheet->setCellValue('G' . $index, $value['jenis_kelamin']);
                 $activeSheet->setCellValue('H' . $index, $value['tempat_lahir']);
-                $activeSheet->setCellValue('I' . $index, $value['tanggal_lahir']);
+                $tanggal_lahir = new \DateTime($value['tanggal_lahir']);
+                $activeSheet->setCellValue('I' . $index, $tanggal_lahir->format('d-m-Y'));
                 $activeSheet->setCellValue('J' . $index, $value['agama']);
                 $activeSheet->setCellValue('K' . $index, $value['email']);
                 $activeSheet->setCellValueExplicit('L' . $index, (string) $value['telepon'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -904,68 +892,69 @@ class Pelatihan extends BaseController
                 $activeSheet->setCellValue('AA' . $index, $value['kecamatan_instansi']);
                 $activeSheet->setCellValue('AB' . $index, $value['kabupaten_instansi']);
                 $activeSheet->setCellValue('AC' . $index, $value['provinsi_instansi']);
+                $activeSheet->setCellValue('AD' . $index, $value['status_pelatihan']);
+
                 switch ($value['status_pelatihan']) {
                     case 'register':
                         $activeSheet->setCellValue('AD' . $index, 'Mendaftar');
-                        // break;
-                    case 'accept':
+                        break;
+                    case $value['status_pelatihan'] == 'accept':
                         $activeSheet->setCellValue('AD' . $index, 'Diterima');
-                        // break;
+                        break;
                     case 'reject':
                         $activeSheet->setCellValue('AD' . $index, 'Ditolak');
-                        // break;
+                        break;
                     case 'revisi':
                         $activeSheet->setCellValue('AD' . $index, 'Revisi');
-                        // break;
+                        break;
                     case 'renew':
                         $activeSheet->setCellValue('AD' . $index, 'Perbaikan');
-                        // break;
+                        break;
                     case 'passed':
                         $activeSheet->setCellValue('AD' . $index, 'Diterima');
-                        // break;
+                        break;
                     default:
                         $activeSheet->setCellValue('AD' . $index, '');
-                        // break;
+                        break;
                 }
+                $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
+                $activeSheet->getStyle('C' . $index)->applyFromArray($style_row_left);
+                $activeSheet->getStyle('D' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('E' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('F' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('G' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('H' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('I' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('J' . $index)->applyFromArray($style_row_left);
+                $activeSheet->getStyle('K' . $index)->applyFromArray($style_row_left);
+                $activeSheet->getStyle('L' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('M' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('N' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('O' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('P' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('Q' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('R' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('S' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('T' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('U' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('V' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('W' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('X' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('Y' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('Z' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('AA' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('AB' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('AC' . $index)->applyFromArray($style_row_center);
+                $activeSheet->getStyle('AD' . $index)->applyFromArray($style_row_center);
+
+                $activeSheet->getCell('C' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+                $activeSheet->getCell('D' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+                $activeSheet->getCell('E' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+                $activeSheet->getCell('F' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+                $activeSheet->getCell('L' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
+                $index++;
             }
-
-            $activeSheet->getStyle('A' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('B' . $index)->applyFromArray($style_row_left);
-            $activeSheet->getStyle('C' . $index)->applyFromArray($style_row_left);
-            $activeSheet->getStyle('D' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('E' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('F' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('G' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('H' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('I' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('J' . $index)->applyFromArray($style_row_left);
-            $activeSheet->getStyle('K' . $index)->applyFromArray($style_row_left);
-            $activeSheet->getStyle('L' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('M' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('N' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('O' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('P' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('Q' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('R' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('S' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('T' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('U' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('V' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('W' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('X' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('Y' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('Z' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('AA' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('AB' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('AC' . $index)->applyFromArray($style_row_center);
-            $activeSheet->getStyle('AD' . $index)->applyFromArray($style_row_center);
-
-            $activeSheet->getCell('C' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
-            $activeSheet->getCell('D' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
-            $activeSheet->getCell('E' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
-            $activeSheet->getCell('F' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
-            $activeSheet->getCell('L' . $index)->getIgnoredErrors()->setNumberStoredAsText(true);
-            $index++;
         }
 
         //mengatur warptext disetiap kolom
