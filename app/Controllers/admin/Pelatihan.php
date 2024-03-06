@@ -39,7 +39,7 @@ class Pelatihan extends BaseController
     // FUNNCITON UMUM
     public function toLocalTime($timestamp)
     {
-        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
+        $time = Time::createFromTimestamp($timestamp);
         $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $tgl = $time->toLocalizedString('dd --- yyyy');
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
@@ -48,7 +48,7 @@ class Pelatihan extends BaseController
 
     public function dateToLocalTime($date)
     {
-        $time = Time::parse($date, 'Asia/Jakarta');
+        $time = Time::parse($date);
         $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $tgl = $time->toLocalizedString('dd --- yyyy');
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
@@ -57,7 +57,7 @@ class Pelatihan extends BaseController
 
     public function toDMY($timestamp)
     {
-        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
+        $time = Time::createFromTimestamp($timestamp);
         $tgl = $time->toDateString('Y-m-d');
         return $tgl;
     }
@@ -67,8 +67,20 @@ class Pelatihan extends BaseController
         // Convert the time string to a DateTime object
         $dateTime = new \DateTime($timeString, new \DateTimeZone($timezone));
 
-        // Set the time to 23:59:59
-        $dateTime->setTime(23, 59, 59);
+        // Set the time to 23:59:00
+        $dateTime->setTime(23, 59, 00);
+
+        // Format the DateTime object back to string
+        return $dateTime->format('Y-m-d H:i:s');
+        // return $dateTime;
+    }
+    function adjustTimeTo1659($timeString, $timezone = 'Asia/Jakarta')
+    {
+        // Convert the time string to a DateTime object
+        $dateTime = new \DateTime($timeString, new \DateTimeZone($timezone));
+
+        // Set the time to 23:59:00
+        $dateTime->setTime(16, 59, 00);
 
         // Format the DateTime object back to string
         return $dateTime->format('Y-m-d H:i:s');
@@ -102,7 +114,7 @@ class Pelatihan extends BaseController
                         $dataBest->courses[0]->categoryid,
                         $dataBest->courses[0]->summary,
                         new \DateTime($course['startdate']),
-                        new \DateTime($this->adjustTimeTo2359($course['enddate']))
+                        new \DateTime($this->adjustTimeTo1659($course['enddate']))
                     );
                 } catch (\Exception $e) {
                     // Tangani pengecualian di sini untuk MoodyBest->updateCourse()
@@ -1021,13 +1033,13 @@ class Pelatihan extends BaseController
         $pelatihan = $courseModel->orderBy('start_registration', 'desc')->paginate($perPage, 'group1'); // 'group1' is a named group
         $pager = $courseModel->pager;
 
-
         if (!empty($pelatihan)) {
             $now = new Time('now', 'Asia/Jakarta');
             // $now = Time::createFromFormat('j-M-Y', '1-Jul-2023', 'Asia/Jakarta');
             // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
             $dataPelatihan = [];
             foreach ($pelatihan as $key => $value) {
+                d($value['fullname'],  $this->toLocalTime(strtotime($value['enddate'])));
                 // Data Pelatihan API
                 // d($value['condition']);
                 // d($value, $dataPelatihan);
@@ -1055,6 +1067,7 @@ class Pelatihan extends BaseController
                 array_push($dataPelatihan, $value);
                 // $pelatihan['courses'][$key]   = $dataPelatihan->courses[0];
             }
+            // die;
             // dd($pelatihan);
             // $dataPelatihan = $this->controlAPI($this->moodleUrlAPI('&wsfunction=core_course_get_courses_by_field&field=id&value=' . $value['id'] . ''));
             // foreach ($pelatihan as $key => $value) {
@@ -1625,7 +1638,7 @@ class Pelatihan extends BaseController
             $data['categoryid'],
             $data['summary'],
             new \DateTime($data['startdate']),
-            new \DateTime($this->adjustTimeTo2359($data['enddate']))
+            new \DateTime($this->adjustTimeTo1659($data['enddate'], 'UTC'))
         );
         if (!empty($MoodyEdit['error'])) {
             return redirect()->to(base_url('pelatihan/detail/edit/' . $id_pelatihan))->withInput()->with('error', 'Pelatihan Moodle ' . $MoodyEdit['error']['message']);

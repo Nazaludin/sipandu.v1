@@ -47,28 +47,29 @@ class Pelatihan extends BaseController
         $this->UserLibrary = new UserLibrary($configBest);
     }
 
+    // FUNNCITON UMUM
     public function toLocalTime($timestamp)
     {
-        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
+        $time = Time::createFromTimestamp($timestamp);
         $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $tgl = $time->toLocalizedString('dd --- yyyy');
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
         return $tgl_formatted;
     }
+
     public function dateToLocalTime($date)
     {
-        $time = Time::parse($date, 'Asia/Jakarta');
+        $time = Time::parse($date);
         $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $tgl = $time->toLocalizedString('dd --- yyyy');
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
         return $tgl_formatted;
     }
+
     public function toDMY($timestamp)
     {
-        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
-        // $bulan = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+        $time = Time::createFromTimestamp($timestamp);
         $tgl = $time->toDateString('Y-m-d');
-        // $tgl_formatted = str_replace("+++", $bulan[$time->getMonth() - 1], $tgl);
         return $tgl;
     }
     public function convertCondition($condition, $id_pelatihan = null, $startregis = null, $endregis = null, $startdate = null, $enddate = null)

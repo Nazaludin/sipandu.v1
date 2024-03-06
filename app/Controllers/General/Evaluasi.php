@@ -18,9 +18,10 @@ class Evaluasi extends BaseController
     public function __construct()
     {
     }
+    // FUNNCITON UMUM
     public function toLocalTime($timestamp)
     {
-        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
+        $time = Time::createFromTimestamp($timestamp);
         $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $tgl = $time->toLocalizedString('dd --- yyyy');
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
@@ -29,7 +30,7 @@ class Evaluasi extends BaseController
 
     public function dateToLocalTime($date)
     {
-        $time = Time::parse($date, 'Asia/Jakarta');
+        $time = Time::parse($date);
         $bulan = ['Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $tgl = $time->toLocalizedString('dd --- yyyy');
         $tgl_formatted = str_replace("---", $bulan[$time->getMonth() - 1], $tgl);
@@ -38,7 +39,7 @@ class Evaluasi extends BaseController
 
     public function toDMY($timestamp)
     {
-        $time = Time::createFromTimestamp($timestamp, 'Asia/Jakarta');
+        $time = Time::createFromTimestamp($timestamp);
         $tgl = $time->toDateString('Y-m-d');
         return $tgl;
     }

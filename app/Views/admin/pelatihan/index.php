@@ -385,6 +385,11 @@
             },
             error: function(error) {
                 console.error('Error:', error);
+                updateTabel([]);
+                const pagerElement = document.getElementById('tabel-pager');
+                const pagerTemplate = ` `;
+                pagerElement.innerHTML = pagerTemplate;
+
             }
         });
     }
