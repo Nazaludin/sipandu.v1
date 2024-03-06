@@ -25,6 +25,7 @@ class Filters extends BaseConfig
         'role'       => \Myth\Auth\Filters\RoleFilter::class,
         'permission' => \Myth\Auth\Filters\PermissionFilter::class,
         'api' => \App\Middleware\ApiFilter::class,
+        'autoEscape' => \App\Filters\AutoEscape::class,
     ];
 
     /**
@@ -35,11 +36,13 @@ class Filters extends BaseConfig
         'before' => [
             'honeypot',
             'csrf' => ['except' => ['api/*']],
+            'autoEscape',
             'login' => ['except' => ['service/*', 'api/*', '/']],
             // 'invalidchars',
         ],
         'after' => [
             'toolbar',
+            'autoEscape',
             // 'honeypot',
             // 'secureheaders',
         ],

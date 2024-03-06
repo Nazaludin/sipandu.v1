@@ -45,6 +45,7 @@ class Autoload extends AutoloadConfig
         'App'         => APPPATH,
         'Myth\Auth'   => APPPATH . 'vendor/myth-auth/src',
         'Loncat\Moody'   => APPPATH . 'vendor/loncat-moody/src',
+        'CodeIgniter\Filters' => APPPATH . 'Filters',
     ];
 
     /**
