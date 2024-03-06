@@ -1039,7 +1039,7 @@ class Pelatihan extends BaseController
             // $year = Time::createFromFormat('j-M-Y', '1-Jan-' . $now->getYear(), 'Asia/Jakarta');
             $dataPelatihan = [];
             foreach ($pelatihan as $key => $value) {
-                d($value['fullname'],  $this->toLocalTime(strtotime($value['enddate'])));
+                // d($value['fullname'],  $this->toLocalTime(strtotime($value['enddate'])));
                 // Data Pelatihan API
                 // d($value['condition']);
                 // d($value, $dataPelatihan);
