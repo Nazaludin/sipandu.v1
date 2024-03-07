@@ -163,7 +163,7 @@ class Profil extends BaseController
         $rules = [
             'fullname'              => 'required|regex_match[/^[a-zA-Z \']+$/]',
             'nik'                   => 'required|numeric',
-            'pendidikan_terakhir'   => 'required|alpha',
+            'pendidikan_terakhir'   => 'required|alpha_numeric',
             'jurusan'               => 'required|regex_match[/^[a-zA-Z \']+$/]',
             'tempat_lahir'          => 'required|regex_match[/^[a-zA-Z \']+$/]',
             'tanggal_lahir'         => 'required|regex_match[/^[0-9 -]+$/]',
@@ -201,7 +201,7 @@ class Profil extends BaseController
             ],
             'pendidikan_terakhir' => [
                 'required'      => 'Mohon isikan pendidikan terakhir Anda!',
-                'alpha'         => 'Pendidikan terakhir hanya boleh diisi dengan huruf alfabet!',
+                'alpha_numeric' => 'HEY!? What are you doing?',
             ],
             'jurusan' => [
                 'required'      => 'Mohon isikan jurusan Anda!',
@@ -339,7 +339,7 @@ class Profil extends BaseController
         $rules = [
             'fullname'              => 'required|regex_match[/^[a-zA-Z \']+$/]',
             'nik'                   => 'required|numeric',
-            'pendidikan_terakhir'   => 'required|alpha',
+            'pendidikan_terakhir'   => 'required|alpha_numeric',
             'jurusan'               => 'required|regex_match[/^[a-zA-Z \']+$/]',
             'tempat_lahir'          => 'required|regex_match[/^[a-zA-Z \']+$/]',
             'tanggal_lahir'         => 'required|regex_match[/^[0-9 -]+$/]',
@@ -378,7 +378,7 @@ class Profil extends BaseController
             ],
             'pendidikan_terakhir' => [
                 'required'      => 'Mohon isikan pendidikan terakhir Anda!',
-                'alpha'         => 'Pendidikan terakhir hanya boleh diisi dengan huruf alfabet!',
+                'alpha_numeric' => 'HEY!? What are you doing?',
             ],
             'jurusan' => [
                 'required'      => 'Mohon isikan jurusan Anda!',
