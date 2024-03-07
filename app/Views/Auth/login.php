@@ -27,10 +27,9 @@
 						<div class="form-group mb-3">
 							<label for="login"><?= lang('Auth.email') ?></label>
 							<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" value="<?= old('login'); ?>" placeholder="<?= lang('Auth.email') ?>">
-							<!-- <div class="invalid-feedback"> -->
-
-							<?= session('errors.login') ?>
-							<!-- </div> -->
+							<div class="invalid-feedback">
+								<?= session('errors.login') ?>
+							</div>
 						</div>
 
 
@@ -48,9 +47,9 @@ else password_login.type = 'text';">
 										</svg>
 									</a>
 								</span>
-							</div>
-							<div class="invalid-feedback">
-								<?= session('errors.password') ?>
+								<div class="invalid-feedback">
+									<?= session('errors.password') ?>
+								</div>
 							</div>
 						</div>
 

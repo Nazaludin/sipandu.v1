@@ -84,8 +84,16 @@ class AuthController extends Controller
         if ($this->config->validFields === ['email']) {
             $rules['login'] .= '|valid_email';
         }
-
-        if (!$this->validate($rules)) {
+        $message = [
+            'login'    => [
+                'required'      => "Email harus diisi",
+                'valid_email'   => "Email tidak valid",
+            ],
+            'password' => [
+                'required'       => "Password harus diisi",
+            ],
+        ];
+        if (!$this->validate($rules, $message)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
