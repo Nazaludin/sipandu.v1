@@ -743,7 +743,7 @@ class Pelatihan extends BaseController
         //judul
         $title = 'Rekap Pendaftar';
         if (isset($pelatihan['fullname'])) {
-            $title = 'Rekap Pendaftar ' .   ucwords((string)$pelatihan['fullname']);
+            $title = 'Rekap Pendaftar ' .   ucwords(str_replace(',', '', (string)$pelatihan['fullname']));
         }
         $activeSheet->setCellValue('A2', $title); // Set kolom A1 dengan tulisan "DATA SISWA"
         $activeSheet->mergeCells('A2:AD2'); // Set Merge Cell pada kolom A1 sampai F1
